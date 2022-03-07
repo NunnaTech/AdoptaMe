@@ -43,7 +43,7 @@ public class Request implements Serializable{
     private Boolean isAccepted;
 
     @CreationTimestamp
-    @Column(name = "created_at", columnDefinition="TIMESTAMP")
+    @Column(name = "created_at",nullable = false, columnDefinition="TIMESTAMP")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp

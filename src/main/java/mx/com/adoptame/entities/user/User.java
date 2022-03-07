@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,7 +47,7 @@ public class User implements Serializable {
     @Column(name = "id_user")
     private Integer id;
 
-    @Column(nullable = false, columnDefinition = "varchar(50)")
+    @Column(unique = true, nullable = false, columnDefinition = "varchar(50)")
     private String email;
 
     @Column(nullable = false, columnDefinition = "varchar(50)")
@@ -58,12 +59,12 @@ public class User implements Serializable {
     @Column(name = "link_restore_password", columnDefinition = "varchar(150)")
     private String linkRestorePassword;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
 
     @CreationTimestamp
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP")
+    @Column(name = "created_at",nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp

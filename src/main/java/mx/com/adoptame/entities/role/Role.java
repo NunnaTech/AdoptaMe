@@ -30,7 +30,7 @@ public class Role implements Serializable{
     @Column(name = "id_role")
     private Integer id;
 
-    @Column(nullable = false, columnDefinition = "varchar(10)")
+    @Column(nullable = false, unique = true, columnDefinition = "varchar(10)")
     private String type;
 
     @Column(columnDefinition = "varchar(50)")
