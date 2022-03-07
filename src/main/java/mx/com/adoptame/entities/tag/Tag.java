@@ -1,6 +1,7 @@
-package mx.com.adoptame.entities.role;
+package mx.com.adoptame.entities.tag;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,37 +10,37 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import mx.com.adoptame.entities.user.User;
-
+import mx.com.adoptame.entities.news.News;
 
 @Entity
-@Table(name = "TBL_ROLES")
+@Table(name = "TBL_TAGS")
 @Data
 @NoArgsConstructor
 @ToString
-public class Role implements Serializable{
+public class Tag implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_role")
+    @Column(name = "id_tag")
     private Integer id;
 
-    @Column(nullable = false, columnDefinition = "varchar(10)")
-    private String type;
-
+    @Column(unique = true, nullable = false, columnDefinition = "varchar(20)")
+    private String name;
+    
     @Column(columnDefinition = "varchar(50)")
     private String description;
-
+    
     // Relationships
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.PERSIST)
-    private List<User> users;
-
+    @ManyToMany(mappedBy = "tags")
+    public List<News> news = new ArrayList<>();
 
 }
