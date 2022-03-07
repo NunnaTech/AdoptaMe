@@ -1,6 +1,5 @@
-package mx.com.adoptame.entities.donation;
+package mx.com.adoptame.entities.pet.entities;
 
-import mx.com.adoptame.entities.user.User;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -20,38 +19,40 @@ import org.hibernate.annotations.UpdateTimestamp;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import mx.com.adoptame.entities.user.User;
 
 @Entity
-@Table(name = "TBL_DONATIONS")
+@Table(name = "TBL_PETS_ADOPTED")
 @Data
 @NoArgsConstructor
 @ToString
-public class Donation implements Serializable{
+public class PetAdopted implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_donation")
+    @Column(name = "id_pet_adopted")
     private Integer id;
 
-    @Column(nullable = false, columnDefinition = "double(10,2)")
-    private Double quantity;
-    
-    @Column(name = "is_completed", nullable = false, columnDefinition = "TINYINT default 0")
-    private Boolean isCompleted;
-
-    @Column(columnDefinition = "TEXT")
-    private String authorization;
+    @Column(name = "is_canceled", nullable = false, columnDefinition = "tinyint default 0")
+    private Boolean isCanceled;
 
     @CreationTimestamp
-    @Column(name = "created_at", columnDefinition="TIMESTAMP")
+    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at", columnDefinition="TIMESTAMP")
+    @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name="pet_id")
+    private Pet pet;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
     private User user;
-}
 
+    // Relationships
+
+
+}

@@ -1,17 +1,15 @@
-package mx.com.adoptame.entities.donation;
-
-import mx.com.adoptame.entities.user.User;
+package mx.com.adoptame.entities.size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -20,27 +18,25 @@ import org.hibernate.annotations.UpdateTimestamp;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import mx.com.adoptame.entities.pet.entities.Pet;
 
 @Entity
-@Table(name = "TBL_DONATIONS")
+@Table(name = "TBL_SIZES")
 @Data
 @NoArgsConstructor
 @ToString
-public class Donation implements Serializable{
+public class Size implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_donation")
+    @Column(name = "id_sizes")
     private Integer id;
 
-    @Column(nullable = false, columnDefinition = "double(10,2)")
-    private Double quantity;
-    
-    @Column(name = "is_completed", nullable = false, columnDefinition = "TINYINT default 0")
-    private Boolean isCompleted;
+    @Column(nullable = false, unique = true, columnDefinition = "varchar(30)")
+    private String name;
 
-    @Column(columnDefinition = "TEXT")
-    private String authorization;
+    @Column(name="size_range",nullable = false, columnDefinition = "varchar(30)")
+    private String range;
 
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition="TIMESTAMP")
@@ -49,9 +45,9 @@ public class Donation implements Serializable{
     @UpdateTimestamp
     @Column(name = "updated_at", columnDefinition="TIMESTAMP")
     private LocalDateTime updatedAt;
+    
+    // Relationships
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable=false)
-    private User user;
+    @OneToMany(mappedBy="size", cascade = CascadeType.PERSIST)
+    private Set<Pet> pets;
 }
-
