@@ -49,7 +49,7 @@ public class News implements Serializable {
     private Boolean isPublished;
 
     @CreationTimestamp
-    @Column(name = "created_at", columnDefinition="TIMESTAMP")
+    @Column(name = "created_at",nullable = false, columnDefinition="TIMESTAMP")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
