@@ -1,4 +1,4 @@
-package mx.com.adoptame.entities.profile;
+package mx.com.adoptame.entities.request;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -18,35 +18,29 @@ import org.hibernate.annotations.UpdateTimestamp;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import mx.com.adoptame.entities.address.Address;
 import mx.com.adoptame.entities.user.User;
 
 @Entity
-@Table(name = "TBL_PROFILES")
+@Table(name = "TBL_REQUESTS")
 @Data
 @NoArgsConstructor
 @ToString
-public class Profile implements Serializable{
+public class Request implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_profile")
+    @Column(name = "id_request")
     private Integer id;
 
-    @Column(nullable = false, columnDefinition = "varchar(50)")
-    private String name;
-
-    @Column(name="last_name", nullable = false, columnDefinition = "varchar(50)")
-    private String lastName;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     
-    @Column(name="second_name", columnDefinition = "varchar(50)")
-    private String secondName;
+    @Column(nullable = false, columnDefinition = "varchar(140)")
+    private String reason;
 
-    @Column(columnDefinition = "varchar(17)")
-    private String phone;
-
-    @Column(columnDefinition = "varchar(150)")
-    private String image;
+    @Column(name = "is_accepted", nullable = false, columnDefinition = "tinyint default 0")
+    private Boolean isAccepted;
 
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition="TIMESTAMP")
@@ -55,16 +49,5 @@ public class Profile implements Serializable{
     @UpdateTimestamp
     @Column(name = "updated_at", columnDefinition="TIMESTAMP")
     private LocalDateTime updatedAt;
-
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @OneToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
-
-
-    // Relationships
-
+    
 }
