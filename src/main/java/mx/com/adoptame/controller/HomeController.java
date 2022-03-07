@@ -9,19 +9,20 @@ public class HomeController {
 
     @GetMapping(path = {"/"})
     public String index(Model model) {
-        model.addAttribute("landing", true);
+        model.addAttribute("navbar", "navbar-all");
+        model.addAttribute("fix", "fix");
         return "index";
     }
 
     @GetMapping("/login")
     public String login(Model model) {
-        model.addAttribute("landing", false);
+        model.addAttribute("navbar", "navbar-all");
         return "views/login";
     }
 
     @GetMapping("/admin")
     public String admin(Model model) {
-        model.addAttribute("landing", false);
-        return "views/admin";
+        model.addAttribute("navbar", "navbar-adoptador");
+        return "views/blank";
     }
 }

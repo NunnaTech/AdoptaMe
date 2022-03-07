@@ -2,8 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body>
-<header th:replace="components/navbars::navbar-all"/>
-
+<header th:replace="components/navbars:: ''+${navbar}"></header>
 <section class="home" id="home">
     <div class="container">
         <div class="row min-vh-100 align-items-center">
