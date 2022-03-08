@@ -10,9 +10,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ColorController {
     @Autowired
     private ColorService service;
-    @GetMapping("")
-    private String hello(){
-        service.fillInicialData();
-        return "entro";
-    }
+
 }
