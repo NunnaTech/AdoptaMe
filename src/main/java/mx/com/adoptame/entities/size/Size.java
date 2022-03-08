@@ -26,6 +26,7 @@ import mx.com.adoptame.entities.pet.entities.Pet;
 @NoArgsConstructor
 @ToString
 public class Size implements Serializable{
+   
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,4 +51,8 @@ public class Size implements Serializable{
 
     @OneToMany(mappedBy="size", cascade = CascadeType.PERSIST)
     private Set<Pet> pets;
+
+    public Size(String name) {
+        this.name = name;
+    }
 }

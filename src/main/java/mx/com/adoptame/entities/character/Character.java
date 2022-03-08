@@ -53,4 +53,8 @@ public class Character implements Serializable{
 
      @OneToMany(mappedBy="character", cascade = CascadeType.PERSIST)
      private Set<Pet> pets;
+
+     public Character(String name) {
+         this.name = name;
+    }
 }
