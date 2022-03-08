@@ -86,6 +86,10 @@ public class Pet implements Serializable {
     @JoinColumn(name = "type_id")
     private Type type;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "color_id")
+    private Color color;
+
     // Relationships
 
     @ManyToMany(mappedBy = "favoitesPets")
@@ -108,24 +112,4 @@ public class Pet implements Serializable {
         petImage.setPet(null);
     }
 
-    // Many to Many: COLORS
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(name = "TBL_COLORS_PETS", 
-        joinColumns = @JoinColumn(name = "id_pet"),
-        inverseJoinColumns = @JoinColumn(name = "id_color")
-    )
-    private List<Color> colors = new ArrayList<>();
-
-    public void addColor(Color color) {
-        colors.add(color);
-        color.getPets().add(this);
-    }
-
-    public void removeColor(Color color) {
-        colors.remove(color);
-        color.getPets().remove(this);
-    }
 }
