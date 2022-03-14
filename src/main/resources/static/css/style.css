@@ -1,22 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
 :root {
-    --orange: #F47A1F;
-    --orange-light: #F47A1F;
+    --orange: #f47a1f;
+    --orange-light: #f47a1f;
     --black: #393939;
     --white: #fff;
     --light-color: #666;
     --light-bg: #eef1f9;
-    --border: .2rem solid rgba(0, 0, 0, .1);
-    --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
-}
-
-html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 6.5rem;
+    --border: 0.2rem solid rgba(0, 0, 0, 0.1);
+    --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
 * {
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -25,34 +21,118 @@ html {
     text-decoration: none !important;
 }
 
+
+
+header .navbar a.active,
+header .navbar a:hover{
+    color:var(--orange);
+
+}
+
+header .navbar a{
+    font-size: 1.7rem;
+    border-radius: .5rem;
+    padding:.5rem 1.5rem;
+    color:var(--light-color);
+}
+
+
+*::-webkit-scrollbar {
+    height: 0rem;
+    width: 0rem;
+}
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6.5rem;
+}
+
 section {
     padding: 7rem 2rem;
 }
 
 .heading {
     text-align: center;
+    font-size: 4rem;
     color: var(--black);
     text-transform: uppercase;
     font-weight: bolder;
     margin-bottom: 3rem;
 }
 
+
+
+
 .link-btn {
     display: inline-block;
-    padding: 0.5em 2em;
-    border-radius: .5rem;
+    padding: 1rem 3rem;
+    border-radius: 0.5rem;
     background-color: var(--orange);
     cursor: pointer;
+    font-size: 1.7rem;
     color: var(--white);
+}
+.link-btn-error {
+    display: inline-block;
+    padding: 1rem 3rem;
+    border-radius: 0.5rem;
+    background-color: var(--orange);
+    cursor: pointer;
+    font-size: 2.5rem;
+    color: var(--white);
+    margin-left: 13rem;
+    margin-top: 3rem;
+}
+.link-btn-error405 {
+    display: inline-block;
+    padding: 1rem 3rem;
+    border-radius: 0.5rem;
+    background-color: var(--orange);
+    cursor: pointer;
+    font-size: 2.5rem;
+    color: var(--white);
+    margin-left: 13rem;
+    margin-top: 3rem;
+}
+.link-btn-error500 {
+    display: inline-block;
+    padding: 1rem 3rem;
+    border-radius: 0.5rem;
+    background-color: var(--orange);
+    cursor: pointer;
+    font-size: 2.5rem;
+    color: var(--white);
+    margin-left: 13rem;
+    margin-top: 3rem;
 }
 
 .link-btn:hover {
     background-color: var(--black);
     color: var(--white);
+    font-weight: bold;
+}
+.link-btn-error:hover {
+    background-color: var(--black);
+    color: var(--white);
+    font-weight: bold;
+}
+.link-btn-error405:hover {
+    background-color: var(--black);
+    color: var(--white);
+    font-weight: bold;
+}
+.link-btn-error500:hover {
+    background-color: var(--black);
+    color: var(--white);
+    font-weight: bold;
+
 }
 
+/* ------------------------------- Configuration Pags Ends  -------------------------------  */
+
 .header {
-    padding: 1rem;
+    padding: 2rem;
     border-bottom: var(--border);
 }
 
@@ -63,28 +143,34 @@ section {
 }
 
 .header .logo {
+    font-size: 2rem;
     color: var(--black);
-    font-weight: bold
+    font-weight: bold;
 }
 
 .header .logo span {
     color: var(--orange);
 }
 
-.header .nav a {
+.header .navbar a {
     margin: 0 1rem;
+    font-size: 1.7rem;
     color: var(--black);
 }
 
-.header .nav a:hover {
+.header .navbar a:hover {
     color: var(--orange);
 }
 
 #menu-btn {
+    font-size: 2.5rem;
     color: var(--black);
     cursor: pointer;
     display: none;
 }
+
+/* ------------------------------- Header Ends  -------------------------------  */
+/* ------------------------------- Home Starts  -------------------------------  */
 
 .home {
     background: url(../img/home-bg.jpg) no-repeat;
@@ -97,48 +183,232 @@ section {
     padding: 2rem;
 }
 
+.home .content h3 {
+    font-size: 6rem;
+    text-transform: uppercase;
+    color: var(--black);
+}
+
 .home .content p {
     line-height: 2;
+    font-size: 2rem;
     color: var(--light-color);
     padding: 1rem 0;
 }
 
-.carrusel {
+/* ------------------------------- Home Ends  -------------------------------  */
+/* ------------------------------- Donation Starts  -------------------------------  */
+
+.donation {
+    background: url(../images/mascotas-bg.jpg) no-repeat;
+    background-size: cover;
+    background-position: top;
+}
+
+.donation .content {
+    width: 55rem;
+    padding: 2rem;
+}
+
+.donation .content h3 {
+    font-size: 6rem;
+    text-transform: uppercase;
+    color: var(--black);
+}
+
+.donation .content p {
+    line-height: 2;
+    font-size: 2rem;
+    color: var(--light-color);
+    padding: 1rem 0;
+    width: 45rem;
+}
+
+/* ------------------------------- Donation Ends  -------------------------------  */
+
+/* ------------------------------- pets Starts  -------------------------------  */
+
+.pets {
+    background-color: var(--light-bg);
+}
+
+.pets .box-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    gap: 2rem;
+    border-bottom: var(--border);
+}
+
+.pets .box-container .box {
     background-color: var(--white);
+    text-align: center;
+    border-radius: 0.5rem;
+    box-shadow: var(--box-shadow);
+    padding: 2rem;
+    margin-bottom: 5rem;
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
 }
 
-.carrusel img {
-    border-radius: 10px;
+.pets .box-container .box .image {
+    height: 25rem;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
 }
 
-.carrusel .carousel-box {
-    border-radius: 10px;
-    box-shadow: 0 .5rem 3rem var(--orange)
+.pets .box-container .box .image img {
+    height: 100%;
+    width: 85%;
+    border-radius: 0.5rem;
+    object-fit: cover;
 }
+
+.pets .box-container .box .image .fa-heart {
+    position: absolute;
+    top: 1.5rem;
+    right: 3.5rem;
+    height: 5rem;
+    width: 5rem;
+    line-height: 5rem;
+    text-align: center;
+    font-size: 2rem;
+    background:  var(--orange);
+    border-radius: 50%;
+    color: var(--white);
+}
+
+.pets .box-container .box p {
+    line-height: 2;
+    font-size: 2rem;
+    color: var(--light-color);
+    margin-bottom: 0;
+}
+.pets .box-container .box .image .fa-heart:hover {
+    color: #ff5757;
+    background-color:  var(--black);
+    transition: all .2s linear;
+    transform: rotate(360deg);
+
+}
+
+
+
+.pets .box-container .box .stars {
+    padding: 2rem;
+    border-radius: 0.5rem;
+    background-color: var(--light-bg);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+
+.pets .box-container .box h3 {
+    font-size: 2.5rem;
+    color: var(--black);
+    margin-top: 2rem;
+    font-weight: bold;
+}
+
+.pets .box-container .box span {
+    color: var(--light-color);
+    font-size: 1.5rem;
+    margin-left: 0.6rem;
+}
+
+.pets .box-container .box .stars .badge {
+    color: var(--white);
+    font-size: 1.3rem;
+    /* y, x */
+    margin: 0.5rem 0px;
+}
+
+/* ------------------------------- pets Ends  -------------------------------  */
+/* ------------------------------- Carrusel Starts  -------------------------------  */
+
+.carrusel .home-slider .slide {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-left: 10rem;
+    padding-right: 10rem;
+}
+
+.carrusel .home-slider .slide .content {
+    flex: 1 1 45rem;
+    padding: 5rem;
+}
+
+.carrusel .home-slider .slide .content .date {
+    color: var(--light-color);
+}
+
+.carrusel .home-slider .slide .image {
+    flex: 1 1 45rem;
+}
+
+.carrusel .home-slider .slide .image img {
+    width: 100%;
+    border-radius: 2rem;
+    box-shadow: 0 0.5rem 1rem var(--light-color);
+}
+
+.carrusel .home-slider .slide .content span {
+    color: var(--orange);
+    font-size: 2rem;
+}
+
+.carrusel .home-slider .slide .content h3 {
+    color: var(--black);
+    font-size: 5rem;
+}
+
+.carrusel .home-slider .slide .content p {
+    color: var(--light-color);
+    font-size: 2rem;
+    padding: 0.5rem 0;
+    line-height: 1.5;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+    color: var(--orange);
+    font-weight: 900;
+    margin-top: 88rem;
+}
+
+/* ------------------------------- Carrusel Ends  -------------------------------  */
+/* ------------------------------- About Starts  -------------------------------  */
 
 .about .row {
     min-height: 50vh;
 }
 
 .about .content span {
+    font-size: 2rem;
     color: var(--orange);
 }
 
 .about .content h3 {
+    font-size: 3rem;
     color: var(--black);
     margin-top: 1rem;
 }
 
 .about .content p {
     padding: 1rem 0;
+    font-size: 2rem;
     color: var(--light-color);
     line-height: 2;
 }
 
 .about img {
-    border-radius: 5px;
-    box-shadow: 0 .5rem 1rem var(--light-color)
+    border-radius: 2rem;
+    box-shadow: 0 0.5rem 1rem var(--light-color);
 }
+
+/* ------------------------------- About Ends  -------------------------------  */
+/* ------------------------------- Adopt Starts  -------------------------------  */
 
 .adopt {
     background-color: var(--light-bg);
@@ -156,6 +426,7 @@ section {
     background-color: var(--white);
     box-shadow: var(--box-shadow);
     border-radius: 5px;
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
 }
 
 .adopt .box-container .box img {
@@ -164,14 +435,19 @@ section {
 }
 
 .adopt .box-container .box h3 {
+    font-size: 2rem;
     padding: 1rem 0;
     color: var(--black);
 }
 
 .adopt .box-container .box p {
+    font-size: 1.5rem;
     color: var(--light-color);
     line-height: 2;
 }
+
+/* ------------------------------- Adopt Ends  -------------------------------  */
+/* ------------------------------- Process Starts  -------------------------------  */
 
 .process .box-container {
     display: grid;
@@ -182,7 +458,7 @@ section {
 .process .box-container .box {
     background-color: var(--orange-light);
     padding: 2rem;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     text-align: center;
     box-shadow: var(--box-shadow);
 }
@@ -193,14 +469,187 @@ section {
 }
 
 .process .box-container .box h3 {
+    font-size: 2rem;
     color: var(--white);
     margin: 1.5rem 0;
 }
 
 .process .box-container .box p {
+    font-size: 1.5rem;
     color: var(--white);
     line-height: 2;
 }
+
+/* ------------------------------- Process Ends  -------------------------------  */
+/* ------------------------------- Footer Starts  -------------------------------  */
+
+.footer {
+    background-color: var(--light-bg);
+}
+
+.footer .box-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    gap: 3rem;
+    border-bottom: var(--border);
+}
+
+.footer .box-container .box {
+    text-align: center;
+}
+
+.footer .box-container .box i {
+    height: 5rem;
+    width: 5rem;
+    border-radius: 50%;
+    line-height: 5rem;
+    font-size: 2rem;
+    background-color: var(--orange);
+    color: var(--white);
+}
+
+.footer .box-container .box h3 {
+    font-size: 2rem;
+    margin: 2rem 0;
+    color: var(--black);
+}
+
+.footer .box-container .box p {
+    font-size: 1.5rem;
+    color: var(--light-color);
+    text-transform: none;
+}
+
+/* ------------------------------- Footer Ends  -------------------------------  */
+/* ------------------------------- Errors Pages Starts  -------------------------------  */
+
+.error404 img {
+    background-position: right;
+    width: 800px;
+    height: 700px;
+}
+
+.error404 .content {
+    width: 55rem;
+    padding: 2rem;
+    margin-top: 10rem;
+}
+
+.error404 .content h3 {
+    font-size: 8rem;
+    text-transform: uppercase;
+    color: var(--black);
+    text-align: center;
+}
+.error404 .content b {
+    font-size: 8rem;
+    text-transform: uppercase;
+    color: var(--orange);
+    text-align: center;
+}
+
+.error404 .content .main-text {
+    font-size: 4rem;
+    font-weight: bold;
+    line-height: 1.5;
+    color: var(--black);
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.error404 .content .secondary-text {
+    font-size: 2.5rem;
+    line-height: 1.5;
+    color: var(--black);
+    text-align: center;
+}
+
+.error403 img {
+    background-position: right;
+    width: 700px;
+    height: 600px;
+    margin-top: 100px;
+}
+
+.error403 .content {
+    width: 55rem;
+    padding: 2rem;
+    margin-top: 10rem;
+}
+
+.error403 .content h3 {
+    font-size: 8rem;
+    text-transform: uppercase;
+    color: var(--black);
+    text-align: center;
+}
+.error403 .content b {
+    font-size: 8rem;
+    text-transform: uppercase;
+    color: var(--orange);
+    text-align: center;
+}
+
+.error403 .content .main-text {
+    font-size: 4rem;
+    font-weight: bold;
+    line-height: 1.5;
+    color: var(--black);
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.error403 .content .secondary-text {
+    font-size: 2.5rem;
+    line-height: 1.5;
+    color: var(--black);
+    text-align: center;
+}
+
+.error500 img {
+    background-position: right;
+    width: 700px;
+    height: 600px;
+    margin-top: 100px;
+}
+
+.error500 .content {
+    width: 55rem;
+    padding: 2rem;
+    margin-top: 10rem;
+}
+
+.error500 .content h3 {
+    font-size: 8rem;
+    text-transform: uppercase;
+    color: var(--black);
+    text-align: center;
+}
+.error500 .content b {
+    font-size: 8rem;
+    text-transform: uppercase;
+    color: var(--orange);
+    text-align: center;
+}
+
+.error500 .content .main-text {
+    font-size: 4rem;
+    font-weight: bold;
+    line-height: 1.5;
+    color: var(--black);
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.error500 .content .secondary-text {
+    font-size: 2.5rem;
+    line-height: 1.5;
+    color: var(--black);
+    text-align: center;
+}
+
+/* ------------------------------- Donation Ends  -------------------------------  */
+/* ------------------------------- Footer Starts  -------------------------------  */
 
 .footer {
     background-color: var(--black);
@@ -238,7 +687,14 @@ section {
     text-transform: none;
 }
 
+/* ------------------------------- Footer Ends  -------------------------------  */
+/* ------------------------------- Media Queries Starts  -------------------------------  */
+
 @media (max-width: 991px) {
+    html {
+        font-size: 55%;
+    }
+
     section {
         padding: 5rem 2rem;
     }
@@ -251,14 +707,14 @@ section {
 
     #menu-btn {
         display: inline-block;
-        transition: .2s linear;
+        transition: 0.2s linear;
     }
 
     #menu-btn.fa-times {
         transform: rotate(180deg);
     }
 
-    .header .nav {
+    .header .navbar {
         position: absolute;
         top: 99%;
         left: 0;
@@ -270,15 +726,16 @@ section {
         text-align: center;
         flex-flow: column;
         clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-        transition: .2s linear;
+        transition: 0.2s linear;
     }
 
-    .header .nav.active {
+    .header .navbar.active {
         clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     }
 
-    .header .nav a {
+    .header .navbar a {
         margin: 1rem 0;
+        font-size: 2rem;
     }
 
     .home {
@@ -290,9 +747,18 @@ section {
     }
 }
 
+@media (max-width: 450px) {
+    html {
+        font-size: 50%;
+    }
 
-#sidebar a{
-    color: var(--black);
+    .home .content h3 {
+        font-size: 4rem;
+    }
+
+    .heading {
+        font-size: 3rem;
+    }
 }
 
 #sidebar {
@@ -309,60 +775,65 @@ section {
     white-space: nowrap;
 }
 
-/*@media (max-width:768px) {*/
-/*    #sidebar {*/
-/*        min-width: 35px;*/
-/*        max-width: 40px;*/
-/*        overflow-y: auto;*/
-/*        overflow-x: visible;*/
-/*        transition: all 0.25s ease;*/
-/*        transform: translateX(-45px);*/
-/*        position: fixed;*/
-/*    }*/
+@media (max-width: 768px) {
+    #sidebar {
+        min-width: 35px;
+        max-width: 40px;
+        overflow-y: auto;
+        overflow-x: visible;
+        transition: all 0.25s ease;
+        transform: translateX(-45px);
+        position: fixed;
+    }
 
-/*    #sidebar.show {*/
-/*        transform: translateX(0);*/
-/*    }*/
+    #sidebar.show {
+        transform: translateX(0);
+    }
 
-/*    #sidebar::-webkit-scrollbar{ width: 0px; }*/
+    #sidebar::-webkit-scrollbar {
+        width: 0px;
+    }
 
-/*    #sidebar, #sidebar .list-group {*/
-/*        min-width: 35px;*/
-/*        overflow: visible;*/
-/*    }*/
+    #sidebar,
+    #sidebar .list-group {
+        min-width: 35px;
+        overflow: visible;
+    }
+    /* overlay sub levels on small screens */
+    #sidebar .list-group .collapse.show,
+    #sidebar .list-group .collapsing {
+        position: relative;
+        z-index: 1;
+        width: 190px;
+        top: 0;
+    }
+    #sidebar .list-group > .list-group-item {
+        text-align: center;
+        padding: 0.75rem 0.5rem;
+    }
+    /* hide caret icons of top level when collapsed */
+    #sidebar .list-group > .list-group-item[aria-expanded="true"]::after,
+    #sidebar .list-group > .list-group-item[aria-expanded="false"]::after {
+        display: none;
+    }
+}
 
-/*    #sidebar .list-group .collapse.show, #sidebar .list-group .collapsing {*/
-/*        position: relative;*/
-/*        z-index: 1;*/
-/*        width: 190px;*/
-/*        top: 0;*/
-/*    }*/
-/*    #sidebar .list-group > .list-group-item {*/
-/*        text-align: center;*/
-/*        padding: .75rem .5rem;*/
-/*    }*/
-/*    #sidebar .list-group > .list-group-item[aria-expanded="true"]::after,*/
-/*    #sidebar .list-group > .list-group-item[aria-expanded="false"]::after {*/
-/*        display:none;*/
-/*    }*/
-/*}*/
-
-/*.collapse.show {*/
-/*    visibility: visible;*/
-/*}*/
-/*.collapsing {*/
-/*    visibility: visible;*/
-/*    height: 0;*/
-/*    -webkit-transition-property: height, visibility;*/
-/*    transition-property: height, visibility;*/
-/*    -webkit-transition-timing-function: ease-out;*/
-/*    transition-timing-function: ease-out;*/
-/*}*/
-/*.collapsing.width {*/
-/*    -webkit-transition-property: width, visibility;*/
-/*    transition-property: width, visibility;*/
-/*    width: 0;*/
-/*    height: 100%;*/
-/*    -webkit-transition-timing-function: ease-out;*/
-/*    transition-timing-function: ease-out;*/
-/*}*/
+.collapse.show {
+    visibility: visible;
+}
+.collapsing {
+    visibility: visible;
+    height: 0;
+    -webkit-transition-property: height, visibility;
+    transition-property: height, visibility;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+.collapsing.width {
+    -webkit-transition-property: width, visibility;
+    transition-property: width, visibility;
+    width: 0;
+    height: 100%;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
