@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body>
-<header th:replace="components/navbars::navbar-all"/>
+<header th:replace="components/navbars:: ''+${navbar}"></header>
 
 <div class="container">
     <div class="row mt-5">
@@ -59,6 +59,7 @@
                     <div id="passwordCreateHelp" class="valid-feedback">Obligatorio</div>
                 </div>
                 <div class="form-group">
+                    <label>¿Qué rol desempeñarias?</label> <br/>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
                         <label class="form-check-label" for="inlineRadio1">Voluntario</label>
@@ -70,7 +71,7 @@
                 </div>
                 <div class="form-group">
                     <label for="reason">Razón:</label>
-                    <input type="password" class="form-control" id="reason" aria-describedby="reasonHelp"
+                    <input type="text" class="form-control" id="reason" aria-describedby="reasonHelp"
                            placeholder="Ej: Me gusta ayudar a los perritos">
                     <div id="reasonHelp" class="valid-feedback">Obligatorio</div>
                 </div>

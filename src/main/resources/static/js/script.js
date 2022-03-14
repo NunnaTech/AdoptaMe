@@ -1,24 +1,18 @@
 
 
-let menu = document.querySelector('#menu-btn');
-let navbar = document.querySelector('.navbar');
 
-let header = document.querySelector('.header');
+let menu = document.querySelector('#menu-btn') || document.createElement('div');
+let navbar = document.querySelector('.nav')|| document.createElement('div');
+let header = document.querySelector('.header') || document.createElement('div');
 
-menu.onclick = () =>{
+menu.onclick = () => {
     menu.classList.toggle('fa-times');
     navbar.classList.toggle('active');
 }
 
 let section = document.querySelectorAll('section');
-console.log(section)
 
-let navLinks = document.querySelectorAll('header .navbar a');
-console.log(navLinks)
-
-
-
-
+let navLinks = document.querySelectorAll('header .nav a');
 
 window.onscroll = () =>{
     menu.classList.remove('fa-times');
@@ -34,7 +28,7 @@ window.onscroll = () =>{
         if(top >= offset && top < offset + height){
             navLinks.forEach(links =>{
                 links.classList.remove('active');
-                document.querySelector('header .navbar a[href*='+id+']').classList.add('active');
+                document.querySelector('header .nav a[href*='+id+']').classList.add('active');
             });
         };
 
@@ -72,9 +66,6 @@ window.onscroll = () =>{
 
 
 }
-
-
-
 
 
 
