@@ -18,6 +18,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -25,6 +28,9 @@ import mx.com.adoptame.entities.tag.Tag;
 import mx.com.adoptame.entities.user.User;
 
 @Entity
+@Data
+@NoArgsConstructor
+@ToString
 @Table(name = "TBL_NEWS")
 public class News implements Serializable {
     private static final long serialVersionUID = 1L;
