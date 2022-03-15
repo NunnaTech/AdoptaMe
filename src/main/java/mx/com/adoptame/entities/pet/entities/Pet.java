@@ -14,11 +14,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -44,12 +44,20 @@ public class Pet implements Serializable {
     @Column(name = "id_pet")
     private Integer id;
 
+    @NotNull
+    @NotBlank
+    @javax.validation.constraints.Size(min = 2, max = 30)
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(nullable = false, columnDefinition = "varchar(30)")
     private String name;
 
+    @Min(0)
+    @Max(99)
     @Column(columnDefinition = "int default 0")
     private Integer age;
 
+    @Min(1)
+    @Max(99)
     @Column(columnDefinition = "int default 1")
     private Integer month;
 

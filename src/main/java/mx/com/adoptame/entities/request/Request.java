@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -31,7 +35,11 @@ public class Request implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_request")
     private Integer id;
-    
+
+    @NotNull
+    @NotBlank
+    @Size(min = 10, max = 140)
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(nullable = false, columnDefinition = "varchar(140)")
     private String reason;
 

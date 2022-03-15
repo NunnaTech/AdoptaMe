@@ -11,6 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,9 +33,15 @@ public class Tag implements Serializable{
     @Column(name = "id_tag")
     private Integer id;
 
+    @NotNull
+    @NotBlank
+    @Size(min = 2, max = 20)
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(unique = true, nullable = false,columnDefinition = "varchar(20)")
     private String name;
-    
+
+    @Size(min = 2, max = 50)
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(columnDefinition = "varchar(50)")
     private String description;
 
