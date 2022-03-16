@@ -17,6 +17,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,12 +43,23 @@ public class News implements Serializable {
     @Column(name = "id_news")
     private Integer id;
 
+    @NotNull
+    @NotBlank
+    @Size(min = 2, max = 50)
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(nullable = false, columnDefinition = "varchar(50)")
     private String title;
 
+    @NotNull
+    @NotBlank
+    @Size(min = 10)
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    @NotNull
+    @NotBlank
+    @Size(min = 2, max = 150)
     @Column(columnDefinition = "varchar(150)")
     private String image;
 

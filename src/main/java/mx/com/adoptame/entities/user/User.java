@@ -20,6 +20,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import mx.com.adoptame.entities.boards.Board;
 import mx.com.adoptame.entities.log.Log;
@@ -49,9 +53,16 @@ public class User implements Serializable {
     @Column(name = "id_user")
     private Integer id;
 
+    @NotNull
+    @NotBlank
+    @Size(min = 5, max = 50)
+    @Email
     @Column(unique = true, nullable = false, columnDefinition = "varchar(50)")
     private String email;
 
+    @NotNull
+    @NotBlank
+    @Size(min = 5, max = 30)
     @Column(nullable = false, columnDefinition = "varchar(50)")
     private String password;
 

@@ -12,6 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -33,12 +37,21 @@ public class Character implements Serializable {
     @Column(name = "id_character")
     private Integer id;
 
+    @NotNull
+    @NotBlank
+    @Size(min = 2, max = 20)
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(nullable = false, unique = true, columnDefinition = "varchar(20)")
     private String name;
 
+    @Size(min = 2, max = 60)
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(columnDefinition = "varchar(60)")
     private String description;
 
+    @NotNull
+    @NotBlank
+    @Size(min = 2, max = 150)
     @Column(columnDefinition = "varchar(150)")
     private String icon;
 
