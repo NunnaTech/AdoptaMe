@@ -57,5 +57,11 @@ public class HomeController {
         return "views/resources/type/typeList";
     }
 
+    @GetMapping("/types/form")
+    public String typeForm(Model model) {
+        model.addAttribute("navbar", "navbar-admin");
+        return "views/resources/type/typeForm";
+
+    }
 
 }
