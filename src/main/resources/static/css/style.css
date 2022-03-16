@@ -2,11 +2,11 @@
 
 :root {
     --orange: #F47A1F;
-    --orange-light: #F47A1F;
+    --orange-light: rgba(245, 118, 21, 0.178);
     --black: #393939;
     --white: #fff;
     --light-color: #666;
-    --light-bg: #eef1f9;
+    --light-bg: #f2f7ff;
     --border: .2rem solid rgba(0, 0, 0, .1);
     --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
 }
@@ -15,8 +15,12 @@ html {
     scroll-behavior: smooth;
     scroll-padding-top: 6.5rem;
     overflow-x: hidden;
-
 }
+
+section {
+    padding: 7rem 2rem;
+}
+
 
 *::-webkit-scrollbar {
     height: 0rem;
@@ -33,9 +37,6 @@ html {
     text-decoration: none !important;
 }
 
-section {
-    padding: 7rem 2rem;
-}
 
 header .nav a.active,
 header .nav a:hover {
@@ -295,7 +296,7 @@ header .nav a {
 
 }.pets .box-container .box .stars .badge-danger{
      background-color: #78c2ad;
-}
+ }
 
 
 /* ------------------------------- pets Ends  -------------------------------  */
@@ -428,7 +429,7 @@ header .nav a {
 }
 
 .process .box-container .box {
-    background-color: var(--orange-light);
+    background-color: var(--orange);
     padding: 2rem;
     border-radius: .5rem;
     text-align: center;
@@ -452,6 +453,61 @@ header .nav a {
 }
 
 /* ------------------------------- Process Ends  -------------------------------  */
+/* ------------------------------- Admin Starts  -------------------------------  */
+main{
+    background-color: #f2f7ff;
+
+}
+
+.single-card .card{
+    box-shadow: var(--box-shadow);
+    margin: 0rem 0rem 2rem 0rem;
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+}
+
+
+.single-card .card{
+    box-shadow: var(--box-shadow);
+    margin: 0rem 0rem 2rem 0rem;
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+}
+
+.single-card .card .col-auto i{
+    font-size: 1.0rem;
+    color: var(--orange);
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    margin-right: 10px;
+    border-radius: 34px;
+    background: var(--orange-light);
+
+}
+
+
+
+.card .box-container{
+    box-shadow: var(--box-shadow);
+    margin-bottom: 2rem;
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+}
+
+.box-container .card-header{
+    background-color: var(--white);
+    border-width: 0;
+}
+
+.box-container .card-header h5{
+    color: var(--orange);
+    font-size: 1.5rem;
+
+
+}
+
+
+/* ------------------------------- Admin Ends  -------------------------------  */
 /* ------------------------------- Footer Starts  -------------------------------  */
 
 
