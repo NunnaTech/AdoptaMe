@@ -1,11 +1,16 @@
 package mx.com.adoptame.controller;
 
+import mx.com.adoptame.entities.type.TypeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller()
 public class HomeController {
+
+    @Autowired
+    private TypeService typeService;
 
     @GetMapping(path = {"/"})
     public String index(Model model) {
@@ -45,7 +50,12 @@ public class HomeController {
         return "views/mascotas";
     }
 
-
+    @GetMapping("/types")
+    public String type(Model model) {
+        model.addAttribute("navbar", "navbar-admin");
+        model.addAttribute("list", typeService.findAll());
+        return "views/resources/type/typeList";
+    }
 
 
 }
