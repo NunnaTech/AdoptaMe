@@ -229,7 +229,7 @@ header .nav a {
     line-height: 5rem;
     text-align: center;
     font-size: 2rem;
-    background:  var(--orange);
+    background: var(--orange);
     border-radius: 50%;
     color: var(--white);
 }
@@ -278,30 +278,36 @@ header .nav a {
     /* y, x */
     margin: 0.5rem 0px;
 }
-.pets .box-container .box .stars .badge-primary{
-    background-color:var(--orange);
+
+.pets .box-container .box .stars .badge-primary {
+    background-color: var(--orange);
 
 }
-.pets .box-container .box .stars .badge-secondary{
+
+.pets .box-container .box .stars .badge-secondary {
     background-color: #fe6666;
 }
-.pets .box-container .box .stars .badge-success{
+
+.pets .box-container .box .stars .badge-success {
     background-color: #56cc9d;
 }
-.pets .box-container .box .stars .badge-info{
+
+.pets .box-container .box .stars .badge-info {
     background-color: #57ccf2;
 }
-.pets .box-container .box .stars .badge-warning{
+
+.pets .box-container .box .stars .badge-warning {
     background-color: #c980ff;
 
-}.pets .box-container .box .stars .badge-danger{
-     background-color: #78c2ad;
- }
+}
+
+.pets .box-container .box .stars .badge-danger {
+    background-color: #78c2ad;
+}
 
 
 /* ------------------------------- pets Ends  -------------------------------  */
 /* ------------------------------- Carrusel Starts  -------------------------------  */
-
 
 .carrusel .home-slider .slide {
     display: flex;
@@ -454,25 +460,25 @@ header .nav a {
 
 /* ------------------------------- Process Ends  -------------------------------  */
 /* ------------------------------- Admin Starts  -------------------------------  */
-main{
+main {
     background-color: #f2f7ff;
 
 }
 
-.single-card .card{
+.single-card .card {
     box-shadow: var(--box-shadow);
     margin: 0rem 0rem 2rem 0rem;
     border: 0.1rem solid rgba(0, 0, 0, 0.2);
 }
 
 
-.single-card .card{
+.single-card .card {
     box-shadow: var(--box-shadow);
     margin: 0rem 0rem 2rem 0rem;
     border: 0.1rem solid rgba(0, 0, 0, 0.2);
 }
 
-.single-card .card .col-auto i{
+.single-card .card .col-auto i {
     font-size: 1.0rem;
     color: var(--orange);
     display: inline-block;
@@ -483,23 +489,20 @@ main{
     margin-right: 10px;
     border-radius: 34px;
     background: var(--orange-light);
-
 }
 
-
-
-.card .box-container{
+.card .box-container {
     box-shadow: var(--box-shadow);
     margin-bottom: 2rem;
     border: 0.1rem solid rgba(0, 0, 0, 0.2);
 }
 
-.box-container .card-header{
+.box-container .card-header {
     background-color: var(--white);
     border-width: 0;
 }
 
-.box-container .card-header h5{
+.box-container .card-header h5 {
     color: var(--orange);
     font-size: 1.5rem;
 
@@ -591,7 +594,7 @@ main{
 
 .error403 .content b,
 .error404 .content b,
-.error500 .content b{
+.error500 .content b {
     font-size: 4.5rem;
     text-transform: uppercase;
     color: var(--orange);
@@ -611,7 +614,7 @@ main{
 }
 
 .error403 .content .secondary-text,
-.error404 .content .secondary-text ,
+.error404 .content .secondary-text,
 .error500 .content .secondary-text {
     font-size: 1.3rem;
     line-height: 1.5;
@@ -677,7 +680,7 @@ main{
 
 @media (max-width: 450px) {
     html {
-        font-size: 50%;
+        /*font-size: 50%;*/
     }
 
     .home .content h3 {
