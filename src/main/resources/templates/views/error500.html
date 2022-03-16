@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AdoptaMe | Error 500</title>
+
+    <link rel="icon" th:href="@{/img/logo.svg}" type="image/x-icon"/>
+
+    <!-- font awesome cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+  </head>
+  <body>
+    <!-- donation section starts  -->
+    <section class="error500">
+      <div class="d-flex justify-content-center">
+        <div class="row min-vh-100">
+          <div class="content text-center text-md-left">
+            <h3>
+              ERROR
+                <br><b>500</b>
+            </h3>
+            <p class="main-text">
+              Opps, ha ocurrido un error con el servidor
+            </p>
+            <p class="secondary-text">
+                Necesitamos comprarle un juguete para nuestro perro... =(
+            </p>
+            <a th:href="@{/}" class="link-btn-error">Volver al Inicio</a>
+          </div>
+          <div class="img">
+            <img th:src="@{/img/error-500.svg}" alt="Error" class="img-fluid" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- custom js file link  -->
+    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{/js/jquery-3.2.1.slim.min.js}"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+  </body>
+</html>

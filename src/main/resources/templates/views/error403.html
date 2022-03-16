@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AdoptaMe | Error 403</title>
+
+    <link rel="icon" th:href="@{/img/logo.svg}" type="image/x-icon"/>
+
+    <!-- font awesome cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+  </head>
+  <body>
+    <!-- donation section starts  -->
+    <section class="error403">
+      <div class="d-flex justify-content-center">
+        <div class="row min-vh-100">
+          <div class="content text-center text-md-left">
+            <h3>
+              ERROR<br />
+              <b>403</b>
+            </h3>
+            <p class="main-text">
+              Acceso no <br />
+              autorizado.
+            </p>
+            <p class="secondary-text">
+              Lo siento gatito pero, <br> esta no es tu casa.
+            </p>
+            <a  th:href="@{/}" class="link-btn-error">Volver al Inicio</a>
+          </div>
+          <div class="img row">
+            <img th:src="@{/img/error-403.svg}" alt="Error" class="img-fluid" />
+            <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+            <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_Zz37yH.json"  background="transparent"  speed="1"  style="width: 200px; height: 200px; margin-top: 450px;"  loop  autoplay></lottie-player>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- custom js file link  -->
+    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{/js/jquery-3.2.1.slim.min.js}"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+  </body>
+</html>
