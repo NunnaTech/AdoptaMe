@@ -13,6 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -33,12 +37,16 @@ public class Donation implements Serializable{
     @Column(name = "id_donation")
     private Integer id;
 
+    @NotNull
+    @DecimalMin(value = "0.1")
+    @DecimalMax(value = "99999.9")
     @Column(nullable = false, columnDefinition = "double(10,2)")
     private Double quantity;
-    
+
     @Column(name = "is_completed", nullable = false, columnDefinition = "TINYINT default 0")
     private Boolean isCompleted;
 
+    @Size(min = 2)
     @Column(columnDefinition = "TEXT")
     private String authorization;
 
