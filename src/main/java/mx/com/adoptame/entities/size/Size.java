@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -33,9 +36,17 @@ public class Size implements Serializable{
     @Column(name = "id_size")
     private Integer id;
 
+    @NotNull
+    @NotBlank
+    @javax.validation.constraints.Size(min = 2, max = 30)
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(nullable = false, unique = true, columnDefinition = "varchar(30)")
     private String name;
 
+    @NotNull
+    @NotBlank
+    @javax.validation.constraints.Size(min = 2, max = 30)
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(name="size_range",nullable = false, columnDefinition = "varchar(30)")
     private String range;
 
