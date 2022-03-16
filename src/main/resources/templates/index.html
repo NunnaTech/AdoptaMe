@@ -1,314 +1,223 @@
 <!DOCTYPE html>
-<html
-  lang="es"
-  xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:th="http://www.thymeleaf.org"
->
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <title>AdoptaMe</title>
-
-    <link rel="icon" th:href="@{/img/logo.svg}" type="image/x-icon" />
-
-
-
-    <!-- font awesome cdn link  -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-  </head>
-  <body>
-    <!-- header section starts  -->
-    <header class="header fixed-top">
-      <div class="container">
-        <div class="row align-items-center d-flex justify-content-between">
-          <a href="#home" class="logo">
-            <img
-              class=""
-              th:src="@{/img/logo.svg}"
-              alt=""
-              style="height: 50px; width: 50px"
-            />
-            Adopta<span>Me.</span></a
-          >
-          <nav class="nav">
-            <a href="#home">Inicio</a>
-            <a href="#carrusel">Blog</a>
-            <a href="#about">Sobre Nosotros</a>
-            <a href="#adopt">¿Porque adoptar?</a>
-            <a href="#reviews">Mascotas</a>
-          </nav>
-
-          <a href="" class="link-btn"
-            >Acceder<i class="fa-solid fa-user ml-4"></i
-          ></a>
-          <div id="menu-btn" class="fas fa-bars"></div>
-        </div>
-      </div>
-    </header>
-
-    <!-- home section starts  -->
-    <section class="home" id="home">
-      <div class="container">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body>
+<header th:replace="components/navbars:: ''+${navbar}"></header>
+<section class="home" id="home">
+    <div class="container">
         <div class="row min-vh-100 align-items-center">
-          <div class="content text-center text-md-left">
-            <h3>
-              Los perros no son todo en nuestra vida pero ellos la
-              <b>hacen completa.</b>
-            </h3>
-            <p>
-              Adopta hoy mismo a una de las miles mascotas que se encuentran en
-              adopción y devuelvele la vida a un ser, que a comparación el te
-              devolvera la vida mil veces.
-            </p>
-            <a href="#contact" class="link-btn p-4"
-              >Ver animales en adopción<i class="fa-solid fa-paw ml-4"></i
-            ></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- carrusel section starts  -->
-    <section class="carrusel" id="carrusel">
-      <div class="container">
-        <h1 class="heading">NUESTRO BLOG</h1>
-        <div class="row align-items-center">
-          <div
-            id="carouselExampleCaptions"
-            class="carousel slide"
-            data-ride="carousel"
-          >
-            <ol class="carousel-indicators">
-              <li
-                data-target="#carouselExampleCaptions"
-                data-slide-to="0"
-                class="active"
-              ></li>
-              <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-              <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-            </ol>
-            <div class="carousel-inner carousel-box">
-              <div class="carousel-item active">
-                <img
-                  src="https://picsum.photos/1900/800?random=1"
-                  class="d-block w-100"
-                  alt="..."
-                />
-                <div class="carousel-caption d-none d-md-block">
-                  <h5>First slide label</h5>
-                  <p>
-                    Some representative placeholder content for the first slide.
-                  </p>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://picsum.photos/1900/800?random=2"
-                  class="d-block w-100"
-                  alt="..."
-                />
-                <div class="carousel-caption d-none d-md-block">
-                  <h5>Second slide label</h5>
-                  <p>
-                    Some representative placeholder content for the second
-                    slide.
-                  </p>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://picsum.photos/1900/800?random=3"
-                  class="d-block w-100"
-                  alt="..."
-                />
-                <div class="carousel-caption d-none d-md-block">
-                  <h5>Third slide label</h5>
-                  <p>
-                    Some representative placeholder content for the third slide.
-                  </p>
-                </div>
-              </div>
+            <div class="content text-center text-md-left">
+                <h1>ADOPTA A TU COMPAÑERO <strong>DE VIDA.</strong></h1>
+                <p>
+                    Adopta hoy mismo a una de las miles mascotas que se encuentran en adopción
+                    y devuelvele la vida a un ser, que a comparación...te devolvera la vida mil veces. =)
+                </p>
+                <a href="#" class="link-btn p-4">Ver animales en adopción<i class="fa-solid fa-paw ml-4"></i></a>
             </div>
-            <button
-              class="carousel-control-prev"
-              type="button"
-              data-target="#carouselExampleCaptions"
-              data-slide="prev"
-            >
-              <span
-                class="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="sr-only">Previous</span>
-            </button>
-            <button
-              class="carousel-control-next"
-              type="button"
-              data-target="#carouselExampleCaptions"
-              data-slide="next"
-            >
-              <span
-                class="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="sr-only">Next</span>
-            </button>
-          </div>
         </div>
-      </div>
-    </section>
+    </div>
+</section>
 
-    <!-- about section starts  -->
-    <section class="about" id="about">
-      <div class="container">
+<section class="carrusel" id="carrusel">
+    <h1 class="heading">¡Nuestro Blog!</h1>
+    <div class="swiper-container home-slider">
+        <div class="swiper-wrapper wrapper">
+            <div class="swiper-slide slide">
+                <div class="content">
+                    <div class="p-2">
+                <span class="mr-5"
+                ><i class="fa-solid fa-user-pen mr-3"></i>Por: Luis
+                  Álvarez</span
+                >
+                        <span class="ml-5 date"
+                        ><i class="fa-solid fa-calendar mr-4"></i>10/Mar/22</span
+                        >
+                    </div>
+                    <h3>La importancia de adoptar</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
+                        natus dolor cumque?
+                    </p>
+                    <a href="admin.html" class="link-btn"
+                    >Leer más<i class="fa-solid fa-book-open-reader ml-4"></i
+                    ></a>
+                </div>
+                <div class="image">
+                    <img src="https://picsum.photos/1980/1080?random=1" alt="" />
+                </div>
+            </div>
+            <div class="swiper-slide slide">
+                <div class="content">
+                    <div class="p-2">
+                <span class="mr-5"
+                ><i class="fa-solid fa-user-pen mr-3"></i>Por: Héctor
+                  Saldaña</span
+                >
+                        <span class="ml-5 date"
+                        ><i class="fa-solid fa-calendar mr-4"></i>24/Feb/22</span
+                        >
+                    </div>
+                    <h3>COVID en animales</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
+                        natus dolor cumque?
+                    </p>
+                    <a href="admin.html" class="link-btn"
+                    >Leer más<i class="fa-solid fa-book-open-reader ml-4"></i
+                    ></a>
+                </div>
+                <div class="image">
+                    <img src="https://picsum.photos/1980/1080?random=2" alt="" />
+                </div>
+            </div>
+            <div class="swiper-slide slide">
+                <div class="content">
+                    <div class="p-2">
+                <span class="mr-5"
+                ><i class="fa-solid fa-user-pen mr-3"></i>Por: Alexis
+                  Loya</span
+                >
+                        <span class="ml-5 date"
+                        ><i class="fa-solid fa-calendar mr-4"></i>12/Feb/22</span
+                        >
+                    </div>
+                    <h3>Como entrenar a tu mascota</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
+                        natus dolor cumque?
+                    </p>
+                    <a href="admin.html" class="link-btn"
+                    >Leer más<i class="fa-solid fa-book-open-reader ml-4"></i
+                    ></a>
+                </div>
+                <div class="image">
+                    <img src="https://picsum.photos/1980/1080?random=3" alt="" />
+                </div>
+            </div>
+        </div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+</section>
+
+<section class="about" id="about">
+    <div class="container">
+        <h2 class="heading">SOBRE NOSOTROS</h2>
         <div class="row align-items-center">
-          <div class="col-md-6 image">
-            <img
-              th:src="@{/img/about-img.jpg}"
-              class="w-100 mb-5 mb-md-0"
-              alt=""
-            />
-          </div>
-
-          <div class="col-md-6 content">
-            <span>Sobre Nosotros</span>
-            <h3>Nos duele ver ángeles ignorados, humillados y sufriendo.</h3>
-            <p>
-              AdoptaMe reúne protectores de animales y personas que buscan
-              adoptar una mascota.
-            </p>
-            <a href="#contact" class="link-btn">make appointment</a>
-          </div>
+            <div class="col-md-6 image">
+                <img th:src="@{/img/about-img.jpg}" class="w-100"/>
+            </div>
+            <div class="col-md-6 content">
+                <h3>Nos duele ver ángeles ignorados, humillados y sufriendo.</h3>
+                <p>
+                    AdoptaMe es una plataforma digital que reúne personas voluntarias como protectores de animales y
+                    adoptadores que buscan
+                    adoptar una mascota.
+                </p>
+            </div>
         </div>
-      </div>
-    </section>
+    </div>
+</section>
 
-    <!-- adopt section starts  -->
-    <section class="adopt" id="adopt">
-      <h1 class="heading">¿Porque adoptar?</h1>
-      <div class="box-container container">
-        <div class="box">
-          <img th:src="@{/img/icon-1.svg}" alt="" />
-          <h3>Experiencia única</h3>
-          <p>
-            Adoptar una mascota es una experiencia de vida única para cualquier
-            ser humano. Los animales son seres que saben amar sin medida y muy
-            bondadosos.
-          </p>
+<section class="adopt" id="adopt">
+    <h2 class="heading">¿POR QUÉ ADOPTAR?</h2>
+    <div class="box-container container">
+        <div class="row">
+            <div class="p-2 col-4 col-sm-12 col-md-6">
+                <div class="box">
+                    <img th:src="@{/img/icon-1.svg}"/>
+                    <h3>Experiencia única</h3>
+                    <p>
+                        Adoptar es una experiencia para cualquier ser humano, ya que son seres que saben amar sin medida
+                        y muy bondadosos.
+                    </p>
+                </div>
+            </div>
+            <div class="p-2 col-4  col-sm-12 col-md-6">
+                <div class="box">
+                    <img th:src="@{/img/icon-2.svg}"/>
+                    <h3>Felicidad infinita</h3>
+                    <p>
+                        Aporta un sentimiento de felicidad inexplicable, más aún cuando
+                        sabemos que ese acto de amor estará salvando a un angel.
+                    </p>
+                </div>
+            </div>
+            <div class="p-2 col-4  col-sm-12 col-md-6">
+                <div class="box">
+                    <img th:src="@{/img/icon-3.svg}"/>
+                    <h3>Hazlo por ellos</h3>
+                    <p>
+                        Existen más de 60 millones de animales en la calle en Latinoamérica,
+                        sufriendo hambre, frío y maltrato.
+                    </p>
+                </div>
+            </div>
+            <div class="p-2 col-4  col-sm-12 col-md-6">
+                <div class="box">
+                    <img th:src="@{/img/icon-4.svg}"/>
+                    <h3>No te juzgan</h3>
+                    <p>
+                        Los animales son seres que saben amar sin medida y muy bondadosos.
+                    </p>
+                </div>
+            </div>
+            <div class="p-2 col-4  col-sm-12 col-md-6">
+                <div class="box">
+                    <img th:src="@{/img/icon-5.svg}"/>
+                    <h3>Es saludable</h3>
+                    <p>
+                        Tener una mascota tiene un impacto positivo en tu salud física y
+                        emocional.
+                    </p>
+                </div>
+            </div>
+            <div class="p-2 col-4 col-sm-12 col-md-6">
+                <div class="box">
+                    <img th:src="@{/img/icon-6.svg}"/>
+                    <h3>Creces propiamente</h3>
+                    <p>Incentiva la confianza, empatía y motivación personal.</p>
+                </div>
+            </div>
         </div>
+    </div>
+</section>
 
-        <div class="box">
-          <img th:src="@{/img/icon-2.svg}" alt="" />
-          <h3>Felicidad infinita</h3>
-          <p>
-            Aporta un sentimiento de felicidad inexplicable, más aún cuando
-            sabemos que ese acto de amor estará salvando a un angel.
-          </p>
+<section class="process">
+    <h1 class="heading">PROCESO DE ADOPCIÓN</h1>
+    <div class="box-container container">
+        <div class="row">
+            <div class="p-2 col-12 col-sm-12  col-md-4">
+                <div class="box">
+                    <img class="img-fluid" th:src="@{/img/process-1.png}"/>
+                    <h3>1.- Encuentra a tu tipo</h3>
+                    <p>
+                        Realiza una visita al centro de adopción dónde podras conocer
+                        personalmente a tu nuevo amigo.
+                    </p>
+                </div>
+            </div>
+            <div class="p-2 col-12 col-sm-12  col-md-4">
+                <div class="box">
+                    <img class="img-fluid" th:src="@{/img/process-2.png}"/>
+                    <h3>2.- Inicien una gran aventura</h3>
+                    <p>Recibelo en su nuevo hogar con todo el amor</p>
+                </div>
+            </div>
+            <div class="p-2 col-12 col-sm-12  col-md-4">
+                <div class="box">
+                    <img class="img-fluid" th:src="@{/img/process-3.png}"/>
+                    <h3>3.- Dale todo tu amor</h3>
+                    <p>
+                        Recuerda hacer actividades con el, como ir al parque, jugar con el,
+                        enseñarle cosas nuevas y más.
+                    </p>
+                </div>
+            </div>
         </div>
+    </div>
+</section>
 
-        <div class="box">
-          <img th:src="@{/img/icon-3.svg}" alt="" />
-          <h3>Hazlo por ellos</h3>
-          <p>
-            Existen más de 60 millones de animales en la calle en Latinoamérica,
-            sufriendo hambre, frío y maltrato.
-          </p>
-        </div>
-
-        <div class="box">
-          <img th:src="@{/img/icon-4.svg}" alt="" />
-          <h3>No te juzgan</h3>
-          <p>
-            Los animales son seres que saben amar sin medida y muy bondadosos.
-          </p>
-        </div>
-
-        <div class="box">
-          <img th:src="@{/img/icon-5.svg}" alt="" />
-          <h3>Es saludable</h3>
-          <p>
-            Tener una mascota tiene un impacto positivo en tu salud física y
-            emocional.
-          </p>
-        </div>
-
-        <div class="box">
-          <img th:src="@{/img/icon-6.svg}" alt="" />
-          <h3>Creces propiamente</h3>
-          <p>Incentiva la confianza, empatía y motivación personal.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- process section starts  -->
-    <section class="process">
-      <h1 class="heading">PROCESO DE ADOPCIÓN</h1>
-
-      <div class="box-container container">
-        <div class="box">
-          <img th:src="@{/img/process-1.png}" alt="" />
-          <h3>Encuentra a tu tipo</h3>
-          <p>
-            Realiza una visita al centro de adopción dónde podras conocer
-            personalmente a tu nuevo amigo.
-          </p>
-        </div>
-
-        <div class="box">
-          <img th:src="@{/img/process-2.png}" alt="" />
-          <h3>Inicia una gran aventura</h3>
-          <p>Recibelo en su nuevo hogar con todo el amor</p>
-        </div>
-
-        <div class="box">
-          <img th:src="@{/img/process-3.png}" alt="" />
-          <h3>Dale todo tu amor</h3>
-          <p>
-            Recuerda hacer actividades con el, como ir al parque, jugar con el,
-            enseñarle cosas nuevas y más.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- footer section starts  -->
-    <section class="footer">
-      <div class="box-container container">
-        <div class="box">
-          <i class="fas fa-phone"></i>
-          <h3>Teléfono</h3>
-          <p>777 999 222 333</p>
-          <p>777 555 444 222</p>
-        </div>
-
-        <div class="box">
-          <i class="fas fa-map-marker-alt"></i>
-          <h3>Dirección</h3>
-          <p>Morelos, México.</p>
-        </div>
-
-        <div class="box">
-          <i class="fas fa-envelope"></i>
-          <h3>Correo electrónico</h3>
-          <p>contacto@adoptaMe.com</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- custom js file link  -->
-    <script th:src="@{/js/script.js}"></script>
-    <script th:src="@{/js/jquery-3.2.1.slim.min.js}"></script>
-    <script th:src="@{/js/popper.min.js}"></script>
-    <script th:src="@{/js/bootstrap.min.js}"></script>
-  </body>
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
 </html>
