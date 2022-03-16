@@ -4,27 +4,33 @@
 <body>
 <header th:replace="components/navbars:: ''+${navbar}"></header>
 <div class="container py-3">
-    <div th:replace="components/titles::titles ('Tipos', ${ {'Tipos','Lista'} })"></div>
+
+
+    <div th:replace="components/titles::titles ('Tipos', ${{'Tipos','Lista'}})"></div>
+
+    <a type="button" class="btn btn-success" th:href="@{/types/form}">
+        <i class="fa-solid fa-plus"></i>
+        Agregar nueva
+    </a>
+
     <table id="datatable" class="table table-striped">
         <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Nombre</th>
             <th scope="col">Descripción</th>
-            <th scope="col" colspan="2">Acciones</th>
+            <th scope="col">Acciones</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="i: ${list}">
-            <td th:text="${i.id}"/>
-            <td th:text="${i.name}"/>
-            <td th:text="${i.description}"/>
+            <td th:text="${i.id}">dfg</td>
+            <td th:text="${i.name}">dfg</td>
+            <td th:text="${i.description}">dfg</td>
             <td>
                 <button type="button" class="btn btn-warning">
                     <i class="fa-solid fa-pen"></i>
                 </button>
-            </td>
-            <td>
                 <button type="button" class="btn btn-danger">
                     <i class="fa-solid fa-trash"></i>
                 </button>

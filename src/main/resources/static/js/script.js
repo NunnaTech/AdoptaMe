@@ -30,11 +30,41 @@ window.onscroll = () => {
     } else {
         header.classList.remove('active');
     }
+
+    var swiper = new Swiper(".home-slider", {
+        spaceBetween: 20,
+        centeredSlides: true,
+
+        autoplay: {
+            delay: 30000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+
+        scrollbar: {
+            el: '.swiper-scrollbar',
+        },
+
+        loop:true,
+    });
+
 }
 
-// $(document).ready(function () {
-//     $('#datatable').DataTable({responsive: true});
-// });
+
+
+$(document).ready(function () {
+    $('#datatable').DataTable({
+        "autoWidth": true,
+        "responsive": true,
+    });
+});
 
 
 
