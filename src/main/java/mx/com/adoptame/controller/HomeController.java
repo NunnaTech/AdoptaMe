@@ -30,11 +30,13 @@ public class HomeController {
         model.addAttribute("navbar", "navbar-voluntario");
         return "views/blank";
     }
+
     @GetMapping("/adoptador")
     public String adoptador(Model model) {
         model.addAttribute("navbar", "navbar-adoptador");
         return "views/blank";
     }
+
     @GetMapping("/403")
     public String error403(Model model) {
         return "views/error403";
@@ -44,9 +46,4 @@ public class HomeController {
     public String mascotas(Model model) {
         return "views/mascotas";
     }
-
-
-
-
-
 }
