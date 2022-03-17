@@ -1,4 +1,4 @@
-package mx.com.adoptame.config;
+package mx.com.adoptame.config.email;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
