@@ -6,13 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/blog")
-public class NewsControlller {
+@RequestMapping("/blog/")
+public class Newscontroller {
 
-    @GetMapping(path = {"/"})
+    @GetMapping(path = {"/admin"})
     public String index(Model model) {
-        model.addAttribute("navbar", "navbar-all");
-        model.addAttribute("fix", "fix");
-        return "index";
+        model.addAttribute("navbar", "navbar-admin");
+        return "views/blog/blog-management";
     }
 }
