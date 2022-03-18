@@ -5,17 +5,15 @@
 <header th:replace="components/navbars:: navbar-admin"/>
 
 <div class="container py-3">
-
-    <div th:replace="components/titles::titles ('Tipos', ${ {'Tipos','Formulario'} })"/>
-
-    <form th:action="@{/type/save}" method="post" th:object="${type}">
+    <div th:replace="components/titles::titles ('Caracteres', ${ {'Caracteres','Formulario'} })"/>
+    <form th:action="@{/character/save}" method="post" th:object="${character}">
         <input type="hidden" id="id" name="id" th:field="*{id}"/>
         <div class="form-group">
             <label for="name">Nombre:</label>
             <input type="text" class="form-control"
                    id="name" name="name"
                    aria-describedby="nameHelp"
-                   placeholder="Ej: Tortuga"
+                   placeholder="Ej: Juguetón"
                    th:classappend="${#fields.hasErrors('name')?'is-invalid':''}"
                    th:field="*{name}"
                    autofocus
@@ -23,7 +21,7 @@
                    minlength="2"
                    maxlength="20"
                    pattern="[A-Za-zÀ-ÿ '-.]*"
-                   />
+            />
             <div id="nameHelp"
                  th:classappend="${#fields.hasErrors('name')?'invalid-feedback':''}"
                  th:errors="*{name}">
@@ -34,22 +32,36 @@
             <input type="text" class="form-control"
                    id="description" name="description"
                    aria-describedby="descriptionHelp"
-                   placeholder="Ej: Mamífero de la familia..."
+                   placeholder="Ej: Le gusta estár con las personas"
                    th:classappend="${#fields.hasErrors('description')?'is-invalid':''}"
                    th:field="*{description}"
                    pattern="[A-Za-zÀ-ÿ '-.]*"
-                   />
+            />
             <div id="descriptionHelp"
                  th:classappend="${#fields.hasErrors('description')?'invalid-feedback':''}"
                  th:errors="*{description}">
             </div>
         </div>
+
+        <!-- IMPLEMENTAR AWS ICONO-->
+        <div class="form-group">
+            <label for="icon">Icono:</label>
+            <input type="text" class="form-control"
+                   id="icon" name="icon"
+                   aria-describedby="iconHelp"
+                   placeholder="Ej: http://www..."
+                   th:classappend="${#fields.hasErrors('icon')?'is-invalid':''}"
+                   th:field="*{icon}"
+            />
+            <div id="iconHelp"
+                 th:classappend="${#fields.hasErrors('icon')?'invalid-feedback':''}"
+                 th:errors="*{icon}">
+            </div>
+        </div>
         <button type="submit" class="btn btn-success">Guardar</button>
     </form>
 </div>
+
 <footer th:replace="components/htmlComponents::htmlFooter"/>
-
-
-
 </body>
 </html>
