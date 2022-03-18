@@ -57,12 +57,26 @@ window.onscroll = () => {
 
 }
 
-
-
 $(document).ready(function () {
     $('#datatable').DataTable({
         "autoWidth": true,
         "responsive": true,
+        "language": {
+            "sProcessing":     "Procesando/Procesing...",
+            "sLengthMenu":     "Mostrar/Show: _MENU_",
+            "sZeroRecords":    "Sin resultados / Not results",
+            "sEmptyTable":     "Ningún dato / No data",
+            "sInfo":           "Registros / Records: _START_ al _END_",
+            "sInfoEmpty":      "Sin registros / No records: ",
+            "sSearch":         "Buscar / Search: ",
+            "sLoadingRecords": "Cargando / Loading...",
+            "oPaginate": {
+                "sFirst":    "Primero / First",
+                "sLast":     "Último / Last",
+                "sNext":     "Siguiente / Next",
+                "sPrevious": "Anterior / Previous"
+            },
+        }
     });
 });
 
