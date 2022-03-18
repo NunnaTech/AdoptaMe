@@ -3,19 +3,16 @@
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body>
 <header th:replace="components/navbars:: navbar-admin"/>
-
 <div class="container py-3">
-
-    <div th:replace="components/titles::titles ('Tipos', ${ {'Tipos','Formulario'} })"/>
-
-    <form th:action="@{/type/save}" method="post" th:object="${type}">
+    <div th:replace="components/titles::titles ('Etiquetas', ${ {'Etiquetas','Formulario'} })"/>
+    <form th:action="@{/tag/save}" method="post" th:object="${tag}">
         <input type="hidden" id="id" name="id" th:field="*{id}"/>
         <div class="form-group">
             <label for="name">Nombre:</label>
             <input type="text" class="form-control"
                    id="name" name="name"
                    aria-describedby="nameHelp"
-                   placeholder="Ej: Tortuga"
+                   placeholder="Ej: Consejos"
                    th:classappend="${#fields.hasErrors('name')?'is-invalid':''}"
                    th:field="*{name}"
                    autofocus
@@ -23,7 +20,7 @@
                    minlength="2"
                    maxlength="20"
                    pattern="[A-Za-zÀ-ÿ '-.]*"
-                   />
+            />
             <div id="nameHelp"
                  th:classappend="${#fields.hasErrors('name')?'invalid-feedback':''}"
                  th:errors="*{name}">
@@ -34,11 +31,11 @@
             <input type="text" class="form-control"
                    id="description" name="description"
                    aria-describedby="descriptionHelp"
-                   placeholder="Ej: Mamífero de la familia..."
+                   placeholder="Ej: Tips, consejos y demás"
                    th:classappend="${#fields.hasErrors('description')?'is-invalid':''}"
                    th:field="*{description}"
                    pattern="[A-Za-zÀ-ÿ '-.]*"
-                   />
+            />
             <div id="descriptionHelp"
                  th:classappend="${#fields.hasErrors('description')?'invalid-feedback':''}"
                  th:errors="*{description}">
@@ -48,8 +45,5 @@
     </form>
 </div>
 <footer th:replace="components/htmlComponents::htmlFooter"/>
-
-
-
 </body>
 </html>
