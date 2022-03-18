@@ -289,6 +289,33 @@ header .nav a {
     margin: 0.5rem 0px;
 }
 
+.pets .box-container .box .stars .badge-primary {
+    background-color: var(--orange);
+
+}
+
+.pets .box-container .box .stars .badge-secondary {
+    background-color: #fe6666;
+}
+
+.pets .box-container .box .stars .badge-success {
+    background-color: #56cc9d;
+}
+
+.pets .box-container .box .stars .badge-info {
+    background-color: #57ccf2;
+}
+
+.pets .box-container .box .stars .badge-warning {
+    background-color: #c980ff;
+
+}
+
+.pets .box-container .box .stars .badge-danger {
+    background-color: #78c2ad;
+}
+
+
 /* ------------------------------- pets Ends  -------------------------------  */
 /* ------------------------------- Carrusel Starts  -------------------------------  */
 
@@ -440,9 +467,11 @@ header .nav a {
 
 /* ------------------------------- Process Ends  -------------------------------  */
 /* ------------------------------- Admin Starts  -------------------------------  */
+main {
+    background-color: #f2f7ff;
 
-
-#admin-dashboard .single-card .card {
+}
+.single-card .card {
     box-shadow: var(--box-shadow);
     margin: 0rem 0rem 2rem 0rem;
     border: 0.1rem solid rgba(0, 0, 0, 0.2);
@@ -455,6 +484,16 @@ header .nav a {
 
 #admin-dashboard .single-card .card .col-auto i {
     font-size: 1rem;
+}
+.single-card .card {
+    box-shadow: var(--box-shadow);
+    margin: 0rem 0rem 2rem 0rem;
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+}
+
+.single-card .card .col-auto i {
+    font-size: 1.0rem;
+    color: var(--orange);
     display: inline-block;
     width: 34px;
     height: 34px;
@@ -469,23 +508,7 @@ header .nav a {
     background: var(--orange-light);
 }
 
-#admin-dashboard .single-card .card .col-auto .second-cart {
-    color: #008af3;
-    background: #008af32d;
-}
-
-#admin-dashboard .single-card .card .col-auto .third-cart {
-    color: #54d37a;
-    background: #54d37a2f;
-
-}
-
-#admin-dashboard .single-card .card .col-auto .four-cart {
-    color: #ff5b5b;
-    background: #ff5b5b2d;
-}
-
-#admin-dashboard .card .box-container {
+.card .box-container {
     box-shadow: var(--box-shadow);
     margin-bottom: 2rem;
     border: 0.1rem solid rgba(0, 0, 0, 0.2);
@@ -752,7 +775,7 @@ hr {
 
 @media (max-width: 450px) {
     html {
-        font-size: 50%;
+        /*font-size: 50%;*/
     }
 
     .home .content h3 {
