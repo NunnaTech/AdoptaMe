@@ -46,10 +46,4 @@ public class HomeController {
     public String mascotas(Model model) {
         return "views/mascotas";
     }
-
-    @GetMapping("/blog")
-    public String blog(Model model) {
-        model.addAttribute("navbar", "navbar-all");
-        return "views/blog/blog";
-    }
 }
