@@ -289,6 +289,33 @@ header .nav a {
     margin: 0.5rem 0px;
 }
 
+.pets .box-container .box .stars .badge-primary {
+    background-color: var(--orange);
+
+}
+
+.pets .box-container .box .stars .badge-secondary {
+    background-color: #fe6666;
+}
+
+.pets .box-container .box .stars .badge-success {
+    background-color: #56cc9d;
+}
+
+.pets .box-container .box .stars .badge-info {
+    background-color: #57ccf2;
+}
+
+.pets .box-container .box .stars .badge-warning {
+    background-color: #c980ff;
+
+}
+
+.pets .box-container .box .stars .badge-danger {
+    background-color: #78c2ad;
+}
+
+
 /* ------------------------------- pets Ends  -------------------------------  */
 /* ------------------------------- Carrusel Starts  -------------------------------  */
 
@@ -438,8 +465,6 @@ header .nav a {
 
 /* ------------------------------- Process Ends  -------------------------------  */
 /* ------------------------------- Admin Starts  -------------------------------  */
-
-
 #admin-dashboard .single-card .card {
     box-shadow: var(--box-shadow);
     margin: 0rem 0rem 2rem 0rem;
@@ -761,7 +786,7 @@ header .nav a {
 
 @media (max-width: 450px) {
     html {
-        font-size: 50%;
+        /*font-size: 50%;*/
     }
 
     .home .content h3 {

@@ -12,7 +12,7 @@
             </a>
             <nav class="nav">
                 <a class="active" th:href="@{/#home}">Inicio</a>
-                <a th:href="@{/#carrusel}">Blog</a>
+                <a th:href="@{/blog}">Blog</a>
                 <a th:href="@{/#about}">Sobre Nosotros</a>
                 <a th:href="@{/#adopt}">¿Por qué adoptar?</a>
                 <a th:href="@{/mascotas}">Mascotas</a>
@@ -42,7 +42,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/}">
+                        <a class="nav-link" th:href="@{/blog}">
                             <i class="fa fa-newspaper"></i>
                             <span>Blog</span>
                         </a>
@@ -85,7 +85,7 @@
                             <span>Recursos</span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
-                            <a class="dropdown-item" th:href="@{/}">
+                            <a class="dropdown-item" th:href="@{/type/}">
                                 <i class="fa-solid fa-dog"></i>
                                 <span>Tipos</span>
                             </a>
@@ -120,7 +120,7 @@
                 </ul>
                 <a th:href="@{/}" class="link-btn p-0 m-0 p-2">
                     <i class="fa-solid fa-right-from-bracket"></i>
-                    Cerrar sesión
+                    Salir
                 </a>
             </div>
         </nav>
