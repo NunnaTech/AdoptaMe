@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body>
+<header th:replace="components/navbars:: ''+${navbar}"></header>
+
+
+
+<main id="admin-dashboard">
+    <!-- cards section starts  -->
+    <div class="container-fluid px-5 py-4">
+        <h1 class="h3 mb-3"><strong>Administrador</strong> Dashboard</h1>
+        <!-- CARDS MASCOTAS CONTAINER  -->
+        <div class="row">
+            <div class="col-xl-12 col-xxl-5 d-flex single-card">
+                <div class="w-100">
+                    <h1 class="h3 mb-3">Mascotas</h1>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Total:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-paw first-card"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1">86</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Activas:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-check second-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1">56</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Adoptadas:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-house third-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1">20</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Desactivadas:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-ban four-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1">10</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- CARDS USUARIOS CONTAINER  -->
+        <div class="row">
+            <div class="col-xl-12 col-xxl-5 d-flex single-card">
+                <div class="w-100">
+                    <h1 class="h3 mb-3">Usuarios</h1>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Total:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-user first-card"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1">15</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Voluntarios:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-user-shield second-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1">5</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Adoptadores:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-house-user third-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1">10</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Solicitudes Pendientes:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-clipboard-list four-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1">10</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- BLOGS USUARIOS CONTAINER  -->
+        <div class="row">
+            <div class="col-xl-12 col-xxl-5 d-flex single-card">
+                <div class="w-100">
+                    <h1 class="h3 mb-3">Blogs</h1>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-4 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Total:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-book-open first-card"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1">15</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-4 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Principales:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-star second-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1">5</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-4 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Publicados:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-check third-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1">10</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- DONACIONES USUARIOS CONTAINER  -->
+        <div class="row">
+            <div class="col-xl-12 col-xxl-5 d-flex single-card">
+                <div class="w-100">
+                    <h1 class="h3 mb-3">Donaciones</h1>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-4 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Total Recaudado:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-brands fa-paypal first-card"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1">$15,000</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- TABLE 1-->
+            <div class="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-3 box" style="margin-bottom: 2rem; display: grid;">
+                <div class="card flex-fill w-100 box-container">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Últimos 5 donadores</h5>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <div class="w-100">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Aprobada</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Raúl Adame</td>
+                                    <td>$1000 MXN</td>
+                                    <td>24/02/22</td>
+                                    <td>
+                                        <i
+                                                style="color: #54d37a"
+                                                class="fa-solid fa-check"
+                                        ></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>José Rodriguez</td>
+                                    <td>$500 MXN</td>
+                                    <td>24/02/22</td>
+                                    <td>
+                                        <i style="color: #ff5b5b" class="fa-solid fa-x"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Jair Rojas</td>
+                                    <td>$700 MXN</td>
+                                    <td>24/02/22</td>
+                                    <td>
+                                        <i
+                                                style="color: #54d37a"
+                                                class="fa-solid fa-check"
+                                        ></i>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- TABLE 2-->
+            <div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1 box" style="margin-bottom: 2rem; display: grid;">
+                <div class="card flex-fill box-container">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Últimas 5 mascotas registradas</h5>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <div class="w-100">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Edad</th>
+                                    <th scope="col">Genero</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Registrado por:</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Flash</td>
+                                    <td>1</td>
+                                    <td>Macho</td>
+                                    <td>24/02/22</td>
+                                    <td>Luis Álvarez</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Letie</td>
+                                    <td>4</td>
+                                    <td>Hembra</td>
+                                    <td>24/02/22</td>
+                                    <td>Luis Álvarez</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Max</td>
+                                    <td>3</td>
+                                    <td>Macho</td>
+                                    <td>24/02/22</td>
+                                    <td>Luis Álvarez</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
+</html>

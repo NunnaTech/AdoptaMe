@@ -1,14 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
 :root {
-    --orange: #F47A1F;
+    --orange: #f47a1f;
     --orange-light: rgba(245, 118, 21, 0.178);
     --black: #393939;
     --white: #fff;
     --light-color: #666;
     --light-bg: #f2f7ff;
-    --border: .2rem solid rgba(0, 0, 0, .1);
-    --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+    --border: 0.2rem solid rgba(0, 0, 0, 0.1);
+    --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.badge-primary {
+    background-color: var(--orange);
+}
+.badge-secondary {
+    background-color: #fe6666;
+}
+.badge-success {
+    background-color: #56cc9d;
+}
+.badge-info {
+    background-color: #57ccf2;
+}
+.badge-warning {
+    background-color: #c980ff;
+}
+.badge-danger {
+    background-color: #78c2ad;
 }
 
 html {
@@ -21,14 +40,13 @@ section {
     padding: 7rem 2rem;
 }
 
-
 *::-webkit-scrollbar {
     height: 0rem;
     width: 0rem;
 }
 
 * {
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -37,17 +55,14 @@ section {
     text-decoration: none !important;
 }
 
-
 header .nav a.active,
 header .nav a:hover {
     color: var(--orange);
-
 }
 
 header .nav a {
     color: var(--light-color);
 }
-
 
 .heading {
     text-align: center;
@@ -60,7 +75,7 @@ header .nav a {
 .link-btn {
     display: inline-block;
     padding: 0.5em 2em;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     background-color: var(--orange);
     cursor: pointer;
     color: var(--white);
@@ -77,7 +92,7 @@ header .nav a {
 .link-btn-error {
     display: inline-block;
     padding: 0.5em 2em;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     background-color: var(--orange);
     cursor: pointer;
     color: var(--white);
@@ -90,7 +105,6 @@ header .nav a {
     color: var(--white);
     font-weight: bold;
 }
-
 
 .header {
     padding: 1rem;
@@ -105,7 +119,7 @@ header .nav a {
 
 .header .logo {
     color: var(--black);
-    font-weight: bold
+    font-weight: bold;
 }
 
 .header .logo span {
@@ -130,7 +144,6 @@ header .nav a {
 /* ------------------------------- Header Ends  -------------------------------  */
 /* ------------------------------- Home Starts  -------------------------------  */
 
-
 .home {
     background: url(../img/home-bg.jpg) no-repeat;
     background-size: cover;
@@ -146,7 +159,6 @@ header .nav a {
     font-size: 4rem;
     text-transform: uppercase;
     color: var(--black);
-
 }
 
 .home .content p {
@@ -173,7 +185,6 @@ header .nav a {
     font-size: 4rem;
     text-transform: uppercase;
     color: var(--black);
-
 }
 
 .donation .content p {
@@ -229,7 +240,7 @@ header .nav a {
     line-height: 5rem;
     text-align: center;
     font-size: 2rem;
-    background:  var(--orange);
+    background: var(--orange);
     border-radius: 50%;
     color: var(--white);
 }
@@ -237,7 +248,7 @@ header .nav a {
 .pets .box-container .box .image .fa-heart:hover {
     color: #ff5757;
     background-color: var(--black);
-    transition: all .2s linear;
+    transition: all 0.2s linear;
     transform: rotate(360deg);
 }
 
@@ -248,7 +259,6 @@ header .nav a {
     margin-bottom: 0;
 }
 
-
 .pets .box-container .box h3 {
     font-size: 1.5rem;
     color: var(--black);
@@ -258,7 +268,7 @@ header .nav a {
 
 .pets .box-container .box span {
     color: var(--light-color);
-    font-size: 1.0rem;
+    font-size: 1rem;
     margin-left: 0.6rem;
 }
 
@@ -278,30 +288,9 @@ header .nav a {
     /* y, x */
     margin: 0.5rem 0px;
 }
-.pets .box-container .box .stars .badge-primary{
-    background-color:var(--orange);
-
-}
-.pets .box-container .box .stars .badge-secondary{
-    background-color: #fe6666;
-}
-.pets .box-container .box .stars .badge-success{
-    background-color: #56cc9d;
-}
-.pets .box-container .box .stars .badge-info{
-    background-color: #57ccf2;
-}
-.pets .box-container .box .stars .badge-warning{
-    background-color: #c980ff;
-
-}.pets .box-container .box .stars .badge-danger{
-     background-color: #78c2ad;
- }
-
 
 /* ------------------------------- pets Ends  -------------------------------  */
 /* ------------------------------- Carrusel Starts  -------------------------------  */
-
 
 .carrusel .home-slider .slide {
     display: flex;
@@ -358,7 +347,6 @@ header .nav a {
 /* ------------------------------- Carrusel Ends  -------------------------------  */
 /* ------------------------------- About Starts  -------------------------------  */
 
-
 .about .content span {
     color: var(--orange);
 }
@@ -376,12 +364,11 @@ header .nav a {
 
 .about img {
     border-radius: 2rem;
-    box-shadow: 0 .5rem 1rem var(--light-color)
+    box-shadow: 0 0.5rem 1rem var(--light-color);
 }
 
 /* ------------------------------- About Ends  -------------------------------  */
 /* ------------------------------- Adopt Starts  -------------------------------  */
-
 
 .adopt {
     background-color: var(--light-bg);
@@ -421,7 +408,6 @@ header .nav a {
 /* ------------------------------- Adopt Ends  -------------------------------  */
 /* ------------------------------- Process Starts  -------------------------------  */
 
-
 .process .box-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
@@ -431,7 +417,7 @@ header .nav a {
 .process .box-container .box {
     background-color: var(--orange);
     padding: 2rem;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     text-align: center;
     box-shadow: var(--box-shadow);
     height: 100%;
@@ -454,27 +440,21 @@ header .nav a {
 
 /* ------------------------------- Process Ends  -------------------------------  */
 /* ------------------------------- Admin Starts  -------------------------------  */
-main{
-    background-color: #f2f7ff;
 
-}
 
-.single-card .card{
+#admin-dashboard .single-card .card {
     box-shadow: var(--box-shadow);
     margin: 0rem 0rem 2rem 0rem;
     border: 0.1rem solid rgba(0, 0, 0, 0.2);
+
 }
 
-
-.single-card .card{
-    box-shadow: var(--box-shadow);
-    margin: 0rem 0rem 2rem 0rem;
-    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+#admin-dashboard .single-card .card-container{
+    display: grid;
 }
 
-.single-card .card .col-auto i{
-    font-size: 1.0rem;
-    color: var(--orange);
+#admin-dashboard .single-card .card .col-auto i {
+    font-size: 1rem;
     display: inline-block;
     width: 34px;
     height: 34px;
@@ -482,34 +462,117 @@ main{
     text-align: center;
     margin-right: 10px;
     border-radius: 34px;
+}
+
+#admin-dashboard .single-card .card .col-auto .first-card {
+    color: var(--orange);
     background: var(--orange-light);
+}
+
+#admin-dashboard .single-card .card .col-auto .second-cart {
+    color: #008af3;
+    background: #008af32d;
+}
+
+#admin-dashboard .single-card .card .col-auto .third-cart {
+    color: #54d37a;
+    background: #54d37a2f;
 
 }
 
+#admin-dashboard .single-card .card .col-auto .four-cart {
+    color: #ff5b5b;
+    background: #ff5b5b2d;
+}
 
-
-.card .box-container{
+#admin-dashboard .card .box-container {
     box-shadow: var(--box-shadow);
     margin-bottom: 2rem;
     border: 0.1rem solid rgba(0, 0, 0, 0.2);
 }
 
-.box-container .card-header{
+#admin-dashboard .box-container {
+    box-shadow: var(--box-shadow);
+
+
+}#admin-dashboard .box-container .card-header {
+     background-color: var(--white);
+     border-width: 0;
+
+ }
+
+#admin-dashboard .box-container .card-header h5 {
+    color: var(--orange);
+    font-size: 1.5rem;
+}
+
+/* ------------------------------- Admin Ends  -------------------------------  */
+/* ------------------------------- Blog Starts  -------------------------------  */
+#blog-main{
+    padding: 0rem 0rem 5rem 0rem;
+}
+
+#blog-main .blog-img {
+    width: 100%;
+    height: 20rem;
+    object-fit: cover;
+    border-radius: 0.2rem;
+}
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin-left: 4rem;
+}
+
+
+#blog-main .img-container {
+    padding: 2rem 0rem;
+}
+
+#blog-main .box-container {
+    box-shadow: var(--box-shadow);
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+}
+
+#blog-main .box-container .card-header {
     background-color: var(--white);
     border-width: 0;
 }
 
-.box-container .card-header h5{
+#blog-main .box-container .card-header h5 {
     color: var(--orange);
-    font-size: 1.5rem;
+    font-size: 2rem;
+    font-weight: bolder;
+}
 
+#blog-main .box-container i,
+#blog-main .box-container span {
+    color: var(--black);
+    font-size: .8rem;
+    font-weight: bolder;
+}
+
+#blog-main .box-container .card-header .fa-book-open-reader{
+    color: var(--orange);
+    font-size: 2rem;
+}
+
+#blog-main .nav-container {
+    background-color: var(--white);
+    box-shadow: var(--box-shadow);
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+    padding: 2rem 1rem;
 
 }
 
 
-/* ------------------------------- Admin Ends  -------------------------------  */
-/* ------------------------------- Footer Starts  -------------------------------  */
 
+
+
+/* ------------------------------- Blog Ends  -------------------------------  */
+/* ------------------------------- Footer Starts  -------------------------------  */
 
 .footer {
     background-color: var(--black);
@@ -520,7 +583,6 @@ main{
     grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
     gap: 3rem;
     border-bottom: var(--border);
-
 }
 
 .footer .box-container .box {
@@ -556,14 +618,12 @@ main{
     height: 700px;
 }
 
-
 .error403 img {
     background-position: right;
     width: 700px;
     height: 600px;
     margin-top: 100px;
 }
-
 
 .error500 img {
     background-position: right;
@@ -589,9 +649,25 @@ main{
     text-align: center;
 }
 
+.media {
+    align-items: center;
+    display: flex;
+}
+.media .media-body {
+    flex: 1;
+    padding-left: 1rem;
+}
+.email-application .content-area-wrapper {
+    border: 1px solid #dfe3e7;
+    border-radius: 0.267rem;
+    display: flex;
+    height: calc(100% - 5rem);
+    position: relative;
+}
+
 .error403 .content b,
 .error404 .content b,
-.error500 .content b{
+.error500 .content b {
     font-size: 4.5rem;
     text-transform: uppercase;
     color: var(--orange);
@@ -611,7 +687,7 @@ main{
 }
 
 .error403 .content .secondary-text,
-.error404 .content .secondary-text ,
+.error404 .content .secondary-text,
 .error500 .content .secondary-text {
     font-size: 1.3rem;
     line-height: 1.5;
@@ -621,7 +697,6 @@ main{
 
 /* ------------------------------- Error Pages Ends  -------------------------------  */
 /* ------------------------------- Media Queries Starts  -------------------------------  */
-
 
 @media (max-width: 991px) {
     section {
@@ -636,7 +711,7 @@ main{
 
     #menu-btn {
         display: inline-block;
-        transition: .2s linear;
+        transition: 0.2s linear;
     }
 
     #menu-btn.fa-times {
@@ -655,7 +730,7 @@ main{
         text-align: center;
         flex-flow: column;
         clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-        transition: .2s linear;
+        transition: 0.2s linear;
     }
 
     .header .nav.active {
@@ -771,5 +846,3 @@ main{
     -webkit-transition-timing-function: ease-out;
     transition-timing-function: ease-out;
 }
-
-

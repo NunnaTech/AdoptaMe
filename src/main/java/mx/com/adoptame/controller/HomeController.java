@@ -23,7 +23,7 @@ public class HomeController {
     @GetMapping("/admin")
     public String admin(Model model) {
         model.addAttribute("navbar", "navbar-admin");
-        return "views/administrator/dashboard-admin";
+        return "views/dashboard/dashboard-admin";
     }
     @GetMapping("/voluntario")
     public String voluntario(Model model) {
@@ -43,6 +43,12 @@ public class HomeController {
     @GetMapping("/mascotas")
     public String mascotas(Model model) {
         return "views/mascotas";
+    }
+
+    @GetMapping("/blog")
+    public String blog(Model model) {
+        model.addAttribute("navbar", "navbar-all");
+        return "views/blog/blog";
     }
 
 
