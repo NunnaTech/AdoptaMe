@@ -4,8 +4,8 @@
 <body>
 <header th:replace="components/navbars:: navbar-admin"/>
 <div class="container py-3">
-    <div th:replace="components/titles::titles ('Tipos', ${ {'Tipos','Lista'} })"/>
-    <a type="button" class="btn btn-success my-2" th:href="@{/type/form}">
+    <div th:replace="components/titles::titles ('Caracteres', ${ {'Caracteres','Lista'} })"></div>
+    <a type="button" class="btn btn-success my-2" th:href="@{/character/form}">
         <i class="fa-solid fa-plus"></i> Agregar nueva
     </a>
     <table id="datatable" class="table table-striped">
@@ -14,6 +14,7 @@
             <th scope="col">#</th>
             <th scope="col">Nombre</th>
             <th scope="col">Descripción</th>
+            <th scope="col">Icono</th>
             <th scope="col">Acciones</th>
         </tr>
         </thead>
@@ -22,11 +23,12 @@
             <td th:text="${c.count}"/>
             <td th:text="${i.name}"/>
             <td th:text="${i.description}"/>
+            <td>algo</td>
             <td class="d-flex justify-content-around">
-                <a th:href="@{/type/edit/{id} (id=${i.id})}" class="btn btn-warning">
+                <a th:href="@{/character/edit/{id} (id=${i.id})}" class="btn btn-warning">
                     <i class="fa-solid fa-pen"></i>
                 </a>
-                <form th:action="@{/type/delete/{id} (id=${i.id})}" onsubmit="return false">
+                <form th:action="@{/character/delete/{id} (id=${i.id})}" onsubmit="return false">
                     <button type="submit" class="btn btn-danger" onclick="confirmSweetAlert(this.parentElement)">
                         <i class="fa-solid fa-trash"></i>
                     </button>
@@ -38,6 +40,5 @@
 </div>
 <footer th:replace="components/htmlComponents::htmlFooter"/>
 <div th:replace="components/alerts::alerts" />
-
 </body>
 </html>
