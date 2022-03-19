@@ -53,13 +53,13 @@ public class News implements Serializable {
     @NotNull
     @NotBlank
     @Size(min = 10)
-    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
+    //@Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @NotNull
-    @NotBlank
-    @Size(min = 2, max = 150)
+    //@NotNull
+    //@NotBlank
+    //@Size(min = 2, max = 150)
     @Column(columnDefinition = "varchar(150)")
     private String image;
 
