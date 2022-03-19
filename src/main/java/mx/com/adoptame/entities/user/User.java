@@ -6,20 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -77,7 +64,7 @@ public class User implements Serializable {
     private Role role;
 
     @CreationTimestamp
-    @Column(name = "created_at",nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
@@ -86,10 +73,14 @@ public class User implements Serializable {
 
     // Relationships
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "user")
     private Profile profile;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "user")
     private Request request;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
@@ -100,7 +91,7 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private Set<News> news;
-    
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Donation> donations;
 
@@ -119,7 +110,7 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "id_user"))
     private List<Pet> favoitesPets = new ArrayList<>();
 
-    @OneToMany(mappedBy="user", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private Set<Log> logs;
 
     public void addToFavorite(Pet pet) {
