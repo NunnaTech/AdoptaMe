@@ -3,14 +3,7 @@ package mx.com.adoptame.entities.address;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -75,6 +68,8 @@ public class Address implements Serializable{
     @Column(name = "updated_at", columnDefinition="TIMESTAMP")
     private LocalDateTime updatedAt;
 
-    @OneToOne(mappedBy = "address")
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "address")
     private Profile profile;
 }

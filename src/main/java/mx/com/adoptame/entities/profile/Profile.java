@@ -3,14 +3,7 @@ package mx.com.adoptame.entities.profile;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -56,8 +49,6 @@ public class Profile implements Serializable{
     @Column(name="second_name", columnDefinition = "varchar(50)")
     private String secondName;
 
-    @NotNull
-    @NotBlank
     @Size(min = 10, max = 17)
     @Pattern(regexp = "^\\d{10}(?:[-\\s]\\d{4})?$")
     @Column(columnDefinition = "varchar(17)")
@@ -75,11 +66,11 @@ public class Profile implements Serializable{
     @Column(name = "updated_at", columnDefinition="TIMESTAMP")
     private LocalDateTime updatedAt;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "address_id")
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 }
