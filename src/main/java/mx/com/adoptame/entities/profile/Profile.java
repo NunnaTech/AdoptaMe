@@ -49,7 +49,7 @@ public class Profile implements Serializable{
     @Column(name="second_name", columnDefinition = "varchar(50)")
     private String secondName;
 
-    @Size(min = 10, max = 17)
+    @Size(min = 10, max = 10)
     @Pattern(regexp = "^\\d{10}(?:[-\\s]\\d{4})?$")
     @Column(columnDefinition = "varchar(17)")
     private String phone;

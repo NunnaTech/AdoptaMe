@@ -55,7 +55,6 @@ public class Address implements Serializable{
     @Column(name="zip_code", nullable = false, columnDefinition = "varchar(50)")
     private String zipCode;
 
-    @Size(min = 1, max = 128)
     @Pattern(regexp = "[A-Za-zÀ-ÿ '-./#]*")
     @Column(name="references_street", columnDefinition = "varchar(128)")
     private String references;

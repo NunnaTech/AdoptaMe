@@ -3,7 +3,8 @@
 
 <head th:fragment="htmlHead">
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
     <link rel="stylesheet" th:href="@{/css/swiper-bundle.min.css}"/>
@@ -14,29 +15,31 @@
     <title>AdoptaMe</title>
 </head>
 
-<footer th:fragment="htmlFooter" class="footer text-white mt-5 p-4">
+<footer th:fragment="htmlFooter" class="mt-auto footer text-white  py-3">
     <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 text-center">
+                <div>
+                    <img th:src="@{/img/logo.svg}" width="50" height="auto"/>
+                    <span class="font-weight-bold">AdoptaMe</span>
+                </div>
+                <p>AdoptaMe es una plataforma digital que reúne personas voluntarias como
+                    protectores de animales y
+                    adoptadores que buscan adoptar una mascota.
+                </p>
+            </div>
+        </div>
         <div class="row">
-            <div class="col-12 col-md-4">
-                <img th:src="@{/img/logo.svg}" style="height: 50px; width: 50px"/> AdoptaMe. 2022
-                <p>AdoptaMe es una plataforma digital que reúne personas voluntarias como protectores de animales y
-                    adoptadores que buscan adoptar una mascota. </p>
-            </div>
-            <div class="col-12 col-md-4 pl-4 pr-4">
-                <strong>Integrantes</strong>
-                <ul>
-                    <li>Álvarez Ortiz Luis Enrique</li>
-                    <li>Castellanos Martínez Christopher Eduardo</li>
-                    <li>López Domitilo Rubén</li>
-                    <li>Loya García Alexis</li>
-                    <li>Saldaña Espinoza Héctor</li>
-                </ul>
-            </div>
-            <div class="col-12 col-md-4">
-                <strong>Redes sociales</strong>
+            <div class="col-12 text-center">
+                <p>
+                    Copyright ©
+                    <script>document.write(new Date().getFullYear().toString());</script>
+                    . Todos los derechos reservados a <strong>AdoptaMe</strong>
+                </p>
             </div>
         </div>
     </div>
+
     <script th:src="@{/js/jquery-3.2.1.slim.min.js}"></script>
     <script th:src="@{/js/popper.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>

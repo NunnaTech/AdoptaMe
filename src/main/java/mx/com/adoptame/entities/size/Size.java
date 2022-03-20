@@ -46,7 +46,7 @@ public class Size implements Serializable{
     @NotNull
     @NotBlank
     @javax.validation.constraints.Size(min = 2, max = 30)
-    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.0-9]*")
     @Column(name="size_range",nullable = false, columnDefinition = "varchar(30)")
     private String range;
 
