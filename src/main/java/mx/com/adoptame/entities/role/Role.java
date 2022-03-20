@@ -44,7 +44,6 @@ public class Role implements Serializable{
     @Column(nullable = false, unique = true, columnDefinition = "varchar(10)")
     private String type;
 
-    @Size(min = 2, max = 50)
     @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(columnDefinition = "varchar(50)")
     private String description;
