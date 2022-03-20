@@ -1,6 +1,6 @@
-package mx.com.adoptame.entities.profile;
+package mx.com.adoptame.entities.request;
 
-import lombok.extern.slf4j.Slf4j;
+import mx.com.adoptame.entities.role.RoleService;
 import mx.com.adoptame.entities.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,38 +14,37 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/profile")
-@Slf4j
-public class ProfileController {
+@RequestMapping("/request")
+public class RequestController {
 
     @Autowired
-    private ProfileService profileService;
+    private RequestService requestService;
 
-    @GetMapping("/")
-    public String type(Model model, Profile profile) {
-        try {
-          model.addAttribute("profile", profileService.findOne(1).get());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return "views/profile/profileForm";
+    @PostMapping("/login")
+    private String login() {
+        return "views/login";
+    }
+
+    @GetMapping("/login")
+    public String login(Model model, Request request) {
+        model.addAttribute("request", request);
+        return "views/login";
     }
 
     @PostMapping("/save")
-    public String save(Model model, @Valid Profile profile, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String save(Model model, @Valid Request request, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
+            System.out.println(request);
             if (bindingResult.hasErrors()) {
-                return "views/profile/profileForm";
+                return "views/login";
             } else {
-                profileService.save(profile);
+                requestService.save(request);
                 redirectAttributes.addFlashAttribute("msg_success", "Tipo guardada exitosamente");
             }
         } catch (Exception e) {
-            log.info(e.getMessage());
+            System.out.println(e.getMessage());
         }
-        return "redirect:/profile/";
+        return "redirect:/request/login";
     }
-
-
 
 }

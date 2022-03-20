@@ -14,12 +14,6 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/login")
-    public String login(Model model) {
-        model.addAttribute("navbar", "navbar-all");
-        return "views/login";
-    }
-
     @GetMapping("/admin")
     public String admin(Model model) {
         model.addAttribute("navbar", "navbar-admin");
@@ -35,15 +29,5 @@ public class HomeController {
     public String adoptador(Model model) {
         model.addAttribute("navbar", "navbar-adoptador");
         return "views/blank";
-    }
-
-    @GetMapping("/403")
-    public String error403(Model model) {
-        return "views/error403";
-    }
-
-    @GetMapping("/mascotas")
-    public String mascotas(Model model) {
-        return "views/mascotas";
     }
 }
