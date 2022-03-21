@@ -37,7 +37,7 @@ public class PetAdopted implements Serializable {
     private Boolean isCanceled;
 
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp

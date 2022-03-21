@@ -1,7 +1,6 @@
 package mx.com.adoptame.entities.profile;
 
 import lombok.extern.slf4j.Slf4j;
-import mx.com.adoptame.entities.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +23,8 @@ public class ProfileController {
     @GetMapping("/")
     public String type(Model model, Profile profile) {
         try {
-          model.addAttribute("profile", profileService.findOne(1).get());
+            profile = profileService.findOne(1).get();
+          model.addAttribute("profile", profile);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -45,7 +45,4 @@ public class ProfileController {
         }
         return "redirect:/profile/";
     }
-
-
-
 }

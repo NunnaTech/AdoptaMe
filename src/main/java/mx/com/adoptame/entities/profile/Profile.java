@@ -59,7 +59,7 @@ public class Profile implements Serializable{
     private String image;
 
     @CreationTimestamp
-    @Column(name = "created_at",nullable = false, columnDefinition="TIMESTAMP")
+    @Column(name = "created_at",nullable = false, columnDefinition="TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp

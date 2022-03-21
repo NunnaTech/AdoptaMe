@@ -51,7 +51,7 @@ public class Donation implements Serializable{
     private String authorization;
 
     @CreationTimestamp
-    @Column(name = "created_at",nullable = false, columnDefinition="TIMESTAMP")
+    @Column(name = "created_at",nullable = false, columnDefinition="TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp

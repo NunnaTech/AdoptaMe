@@ -64,7 +64,7 @@ public class User implements Serializable {
     private Role role;
 
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
