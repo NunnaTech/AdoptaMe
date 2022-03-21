@@ -71,7 +71,7 @@ public class Pet implements Serializable {
     private Boolean isActive;
 
     @CreationTimestamp
-    @Column(name = "created_at",nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "created_at",nullable = false, columnDefinition = "TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
