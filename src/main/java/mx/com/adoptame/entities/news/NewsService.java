@@ -1,9 +1,11 @@
 package mx.com.adoptame.entities.news;
+import mx.com.adoptame.entities.tag.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,6 +19,10 @@ public class NewsService {
         return (List<News>) newsRepository.findAll();
     }
 
+    public List<News> findLastFive() {
+        return (List<News>) newsRepository.findTop5ByOrderByCreatedAtAsc();
+    }
+
     public Optional<News> findOne(Integer id) {
         return newsRepository.findById(id);
     }
@@ -25,6 +31,16 @@ public class NewsService {
         return Optional.of(newsRepository.save(entity));
     }
 
+    public void saveTags(News news, List<Tag> tags) {
+        for (Tag tag:tags) {
+            saveTag(news,tag);
+        }
+    }
+
+    public Optional<News> saveTag(News news,Tag tag) {
+        news.addTag(tag);
+        return Optional.of(newsRepository.save(news));
+    }
     public Optional<News> update(News entity) {
         Optional<News> updatedEntity = Optional.empty();
         updatedEntity = newsRepository.findById(entity.getId());
