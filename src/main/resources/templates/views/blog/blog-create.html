@@ -32,10 +32,8 @@
                     </div>
                     <div class="col-6">
                         <label for="tags">Tags</label>
-                        <select id="tags" class="selectpicker" multiple data-live-search="true">
-                            <option>Mustard</option>
-                            <option>Ketchup</option>
-                            <option>Relish</option>
+                        <select id="tags" th:name="name" class="selectpicker" multiple data-live-search="true">
+                            <option th:each="tag: ${tagsList}" th:value="${tag.id}" th:text="${tag.name}"/>
                         </select>
                         <div id="tagsHelp"
                              th:classappend="${#fields.hasErrors('tags')?'invalid-feedback':''}"
@@ -54,6 +52,7 @@
                         </div>
                     </div>
                 </div>
+                <input type="hidden" th:name="tagValues" id="tagValues">
                 <div class="form-group">
                     <label for="content">Contenido</label>
                     <textarea id="content" name="content"  th:field="*{content}"></textarea>
@@ -98,6 +97,16 @@
 
     });
     $('select').selectpicker();
+
+    $('#tags').on("change", (e => {
+        const options = e.target.selectedOptions
+        if (!options || options.length < 0) return
+        let values = []
+        for (const option of options) {
+            values.push(option.value)
+        }
+        $('#tagValues').val(values.join(","))
+     }))
 
 </script>
 </body>
