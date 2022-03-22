@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 
 import mx.com.adoptame.entities.boards.Board;
 import mx.com.adoptame.entities.log.Log;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
