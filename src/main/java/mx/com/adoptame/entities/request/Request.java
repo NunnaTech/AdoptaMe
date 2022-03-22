@@ -29,9 +29,9 @@ public class Request implements Serializable{
     @Column(name = "id_request")
     private Integer id;
 
-    @NotNull
-    @NotBlank
-    @Size(min = 10, max = 140)
+//    @NotNull
+//    @NotBlank
+//    @Size(min = 10, max = 140)
     @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(nullable = false, columnDefinition = "varchar(140)")
     private String reason;
