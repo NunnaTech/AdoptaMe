@@ -26,6 +26,12 @@ public class UserService {
         return Optional.of(userRepository.save(entity));
     }
 
+    public Optional<User> saveWithoutPassword(User entity) {
+        Optional<User> user = findOne(entity.getId());
+        entity.setPassword(user.get().getPassword());
+        return Optional.of(userRepository.save(entity));
+    }
+
     public Optional<User> update(User entity) {
         Optional<User> updatedEntity = Optional.empty();
         updatedEntity = userRepository.findById(entity.getId());
