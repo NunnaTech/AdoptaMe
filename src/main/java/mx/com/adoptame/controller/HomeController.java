@@ -37,13 +37,21 @@ public class HomeController {
         return "views/blank";
     }
 
-    @GetMapping("/403")
-    public String error403(Model model) {
-        return "views/error403";
-    }
-
     @GetMapping("/mascotas")
     public String mascotas(Model model) {
-        return "views/mascotas";
+        return "views/pets/pets";
+    }
+
+    @GetMapping("/mascotas-filter")
+    public String mascotasFilter(Model model) {
+        model.addAttribute("navbar", "navbar-all");
+        return "views/pets/pets-filter";
+    }
+
+    @GetMapping("/blog")
+
+    public String blog(Model model) {
+        model.addAttribute("navbar", "navbar-all");
+        return "views/blog/blog";
     }
 }

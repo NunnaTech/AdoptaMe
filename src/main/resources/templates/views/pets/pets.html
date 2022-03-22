@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="pets">
+<!-- header section starts  -->
+<header class="header fixed-top">
+    <div class="container">
+        <div class="row align-items-center d-flex justify-content-between">
+            <a th:href="@{/}" class="logo">
+                <img
+                        class=""
+                        th:src="@{img/logo.svg}"
+                        alt=""
+                        style="height: 50px; width: 50px"
+                />
+                Adopta<span>Me.</span></a
+            >
+            <nav class="nav">
+                <a th:href="@{/}">Inicio</a>
+                <a hidden href="#donation"></a>
+                <a href="#">Adoptar</a>
+                <a href="pets.html">Nuestro Blog</a>
+            </nav>
+
+            <a href="admin.html" class="link-btn"
+            >Acceder<i class="fa-solid fa-user ml-4"></i
+            ></a>
+            <div id="menu-btn" class="fas fa-bars"></div>
+        </div>
+    </div>
+</header>
+
+<!-- donation section starts  -->
+<section class="donation" id="donation">
+    <div class="container">
+        <div class="row min-vh-100 align-items-center">
+            <div class="content">
+                <h3>
+                    Ayuda ahora a salvar
+                    <b>angeles.</b>
+                </h3>
+                <p>
+                    El monto de la donación irá 100% para el centro adoptivo 'AdoptaMe'
+                    el cual está destinado a salvar a animales de la calle.
+                </p>
+                <a href="#contact" class="link-btn p-4">Donar ahora con PayPal<i class="fa-brands fa-paypal ml-4"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pets">
+    <h1 class="heading">¡Nuevos Amigos!</h1>
+    <div class="box-container container">
+        <div class="box">
+            <div class="image">
+                <img src="https://picsum.photos/1980/1080?random=1" />
+                <a href="#" class="fas fa-heart"></a>
+            </div>
+            <h3>Gasparin</h3>
+            <div class="card-description my-2">
+                <p><i class="fa-solid fa-cake-candles mr-3"></i>2 años</p>
+                <span><i class="fa-solid fa-paw mr-2"></i>Cerdo</span>
+                <span><i class="fa-solid fa-mars mr-2"></i>Macho</span>
+                <br>
+                <span><i class="fa-solid fa-bone mr-2"></i>Grande</span>
+                <span><i class="fa-solid fa-palette mr-2"></i>Negro</span>
+            </div>
+            <div class="stars d-flex justify-content-center mx-3 mb-2">
+                <span class="badge  badge-secondary">Amoroso</span>
+            </div>
+            <h4><i class="fa-solid fa-calendar mr-3"></i>24/02/21</h4>
+        </div>
+        <div class="box">
+            <div class="image">
+                <img src="https://picsum.photos/1980/1080?random=1" />
+                <a href="#" class="fas fa-heart"></a>
+            </div>
+            <h3>Gasparin</h3>
+            <div class="card-description my-2">
+                <p><i class="fa-solid fa-cake-candles mr-3"></i>2 años</p>
+                <span><i class="fa-solid fa-paw mr-2"></i>Cerdo</span>
+                <span><i class="fa-solid fa-mars mr-2"></i>Macho</span>
+                <br>
+                <span><i class="fa-solid fa-bone mr-2"></i>Grande</span>
+                <span><i class="fa-solid fa-palette mr-2"></i>Negro</span>
+            </div>
+            <div class="stars d-flex justify-content-center mx-3 mb-2">
+                <span class="badge  badge-info">Sociable</span>
+            </div>
+            <h4><i class="fa-solid fa-calendar mr-3"></i>24/02/21</h4>
+        </div>
+        <div class="box">
+            <div class="image">
+                <img src="https://picsum.photos/1980/1080?random=1" />
+                <a href="#" class="fas fa-heart"></a>
+            </div>
+            <h3>Gasparin</h3>
+            <div class="card-description my-2">
+                <p><i class="fa-solid fa-cake-candles mr-3"></i>2 años</p>
+                <span><i class="fa-solid fa-paw mr-2"></i>Cerdo</span>
+                <span><i class="fa-solid fa-mars mr-2"></i>Macho</span>
+                <br>
+                <span><i class="fa-solid fa-bone mr-2"></i>Grande</span>
+                <span><i class="fa-solid fa-palette mr-2"></i>Negro</span>
+            </div>
+            <div class="stars d-flex justify-content-center mx-3 mb-2">
+                <span class="badge  badge-success">Inteligente</span>
+            </div>
+            <h4><i class="fa-solid fa-calendar mr-3"></i>24/02/21</h4>
+        </div>
+
+    </div>
+</section>
+
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+
+</body>
+</html>
