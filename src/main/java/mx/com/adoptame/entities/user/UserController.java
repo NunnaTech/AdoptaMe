@@ -33,15 +33,23 @@ public class UserController {
 
     @GetMapping("/form")
     public String form(Model model, Profile profile) {
-        model.addAttribute("listRoles",roleService.findAll());
+        model.addAttribute("listRoles", roleService.findAll());
         return "views/user/userForm";
     }
 
 
     @GetMapping("/request")
-    public String request(Model model){
+    public String request(Model model) {
         model.addAttribute("list", profileService.findAll());
         return "views/user/userRequest";
+    }
+
+
+    @GetMapping("/acept/{id}")
+    public String acept(Model model, @PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        // para aceptar a un voluntario
+        System.err.println(id);
+        return "redirect:/user/request/";
     }
 
     @GetMapping("/edit/{id}")
@@ -51,7 +59,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
             return "redirect:/user/";
         }
-        model.addAttribute("listRoles",roleService.findAll());
+        model.addAttribute("listRoles", roleService.findAll());
         model.addAttribute("profile", profile);
         return "views/user/userForm";
     }
@@ -84,7 +92,7 @@ public class UserController {
 
 
     @PostMapping("/changePassword")
-    private String changePassword(){
+    private String changePassword() {
         return "/";
     }
 }
