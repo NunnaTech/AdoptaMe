@@ -29,7 +29,6 @@ public class NewsController {
     //    Para todos
     @GetMapping("/")
     public String home(Model model, News news) {
-        model.addAttribute("navbar", "navbar-all");
         model.addAttribute("newsList", newsService.findLastFive());
         return "views/blog/blogs";
     }
