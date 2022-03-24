@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body>
+<header th:replace="components/navbars:: ''+${navbar}"></header>
+
+<main id="blog-main">
+    <div class="container py-4">
+        <h1 class="h3 mb-3 px-4">Últimas entradas de blog</h1>
+        <div class="d-flex justify-content-center row">
+            <div class="col-9">
+                <div th:each="news: ${newsList}" class="card bg-dark text-white mb-1">
+                    <img class="card-img card-img-top img-fluid blog-img" src="https://img2.rtve.es/i/?w=1600&i=1605279849026.jpg" alt="Unsplash">
+                    <div class="card-img-overlay">
+                        <h5 class="card-title" th:text="${news.title}"></h5>
+                        <p class="card-text" th:text="${#temporals.format(news.createdAt,'yyyy-MM-dd HH:mm:ss')}"></p>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-3 nav-container">
+                <h4>Blogs</h4>
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Consejos para dar en adopción</a>
+                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">¿Cómo puedo adoptar?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
+</html>

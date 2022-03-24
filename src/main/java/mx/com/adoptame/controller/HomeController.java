@@ -14,12 +14,6 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/login")
-    public String login(Model model) {
-        model.addAttribute("navbar", "navbar-all");
-        return "views/login";
-    }
-
     @GetMapping("/admin")
     public String admin(Model model) {
         model.addAttribute("navbar", "navbar-admin");

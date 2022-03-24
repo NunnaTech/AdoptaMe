@@ -3,33 +3,38 @@
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="components/navbars:: navbar-admin"/>
-
 <div class="container py-3">
-    <div th:replace="components/titles::titles ('Colores', ${ {'Colores','Lista'} })"/>
-    <a type="button" class="btn btn-success my-2" th:href="@{/color/form}">
+    <div th:replace="components/titles::titles ('Blog', ${ {'Blog','Lista'} })"></div>
+    <a type="button" class="btn btn-success my-2" th:href="@{/blog/admin/form}">
         <i class="fa-solid fa-plus"></i> Agregar nueva
     </a>
     <table id="datatable" class="table table-striped">
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Código hexadecimal</th>
+            <th scope="col">Título</th>
+            <th scope="col">Principal</th>
+            <th scope="col">Activa</th>
+            <th scope="col">Fecha de creación</th>
+            <th scope="col">Imagen</th>
             <th scope="col">Acciones</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="i,c: ${list}">
             <td th:text="${c.count}"/>
-            <td th:text="${i.name}"/>
-            <td th:style="|background-color:${i.hex_code}|">
-                <span class="bg-white" th:text="${i.hex_code}"/>
+            <td th:text="${i.title}"/>
+            <td><span class="badge" th:classappend="${i.isMain ? 'badge-success':'badge-warning'}" th:text="${i.isMain ? 'Si':'No'}"/></td>
+            <td><span class="badge" th:classappend="${i.isPublished ? 'badge-success':'badge-warning'}" th:text="${i.isPublished ? 'Si':'No'}"/></td>
+            <td th:text="${i.createdAt.toLocalDate()}"/>
+            <td class="text-center">
+                <img th:src="${i.image}" class="img-responsive" width="100" height="auto">
             </td>
             <td class="d-flex justify-content-around">
-                <a th:href="@{/color/edit/{id} (id=${i.id})}" class="btn btn-warning">
+                <a th:href="@{/blog/admin/edit/{id} (id=${i.id})}" class="btn btn-warning">
                     <i class="fa-solid fa-pen"></i>
                 </a>
-                <form th:action="@{/color/delete/{id} (id=${i.id})}" onsubmit="return false">
+                <form th:action="@{/blog/admin/delete/{id} (id=${i.id})}" onsubmit="return false">
                     <button type="submit" class="btn btn-danger" onclick="confirmSweetAlert(this.parentElement)">
                         <i class="fa-solid fa-trash"></i>
                     </button>
@@ -40,6 +45,6 @@
     </table>
 </div>
 <footer th:replace="components/htmlComponents::htmlFooter"/>
-<div th:replace="components/alerts::alerts" />
+<div th:replace="components/alerts::alerts"/>
 </body>
 </html>
