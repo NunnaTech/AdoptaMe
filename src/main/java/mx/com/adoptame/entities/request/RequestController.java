@@ -1,7 +1,5 @@
 package mx.com.adoptame.entities.request;
 
-import mx.com.adoptame.entities.role.RoleService;
-import mx.com.adoptame.entities.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +22,7 @@ public class RequestController {
     private String login() {
         return "views/login";
     }
+
 
     @GetMapping("/login")
     public String login(Model model, Request request) {
