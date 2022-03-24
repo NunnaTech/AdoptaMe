@@ -1,91 +1,174 @@
 <!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="components/htmlComponents::htmlHead"/>
-<body>
-<header th:replace="components/navbars:: ''+${navbar}"></header>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="components/navbars:: navbar-all"/>
 
-<section id="login">
-    <div class="container">
-        <div class="row mt-5">
-            <div class="col-12 col-md-6 mb-5">
-                <h2>INICIAR SESIÓN</h2>
-                <form>
-                    <div class="form-group">
-                        <label for="email">Correo electrónico:</label>
-                        <input type="email" class="form-control is-invalid" id="email" aria-describedby="emailHelp"
-                               placeholder="Ej: hector@gmail.com">
-                        <div id="emailHelp" class="invalid-feedback">Obligatorio</div>
+<div class="container mb-5">
+    <div class="row mt-5">
+        <div class="col-12 col-md-6">
+            <h2>Iniciar sesión</h2>
+            <form th:action="@{/profile/login}" method="post">
+                <div class="form-group">
+                    <label for="email">Correo electrónico:</label>
+                    <input type="email" class="form-control"
+                           id="email" name="email"
+                           aria-describedby="emailHelp"
+                           placeholder="Ej: hector@gmail.com"
+                           autofocus
+                           required
+                           minlength="5"
+                           maxlength="50"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña </label>
+                    <input type="password" class="form-control"
+                           id="password" name="password"
+                           placeholder="Ej: ************"
+                           autofocus
+                           required
+                           minlength="5"
+                           maxlength="30"
+                           pattern="[A-Za-zÀ-ÿ '-./#]*"
+                    />
+                </div>
+                <button type="submit" class="btn btn-outline-dark">Iniciar sesión</button>
+            </form>
+            <img th:src="@{/img/pomerania.png}" class="d-none d-md-block w-75"/>
+        </div>
+        <div class="col-12 col-md-6">
+            <h2>Crear una cuenta</h2>
+            <form th:action="@{/request/save}" method="post" th:object="${request}">
+                <div class="form-group">
+                    <label for="name">Nombre:</label>
+                    <input type="text" class="form-control"
+                           id="name" name="name"
+                           aria-describedby="nameHelp"
+                           placeholder="Ej: Hector"
+                           th:classappend="${#fields.hasErrors('user.profile.name')?'is-invalid':''}"
+                           th:field="*{user.profile.name}"
+                           required
+                           minlength="2"
+                           maxlength="30"
+                           pattern="[A-Za-zÀ-ÿ '-.]*"
+                    />
+                    <div id="nameHelp"
+                         th:classappend="${#fields.hasErrors('user.profile.name')?'invalid-feedback':''}"
+                         th:errors="*{user.profile.name}">
                     </div>
-                    <div class="form-group">
-                        <label for="password">Contraseña:</label>
-                        <input type="password" class="form-control is-valid" id="password"
-                               aria-describedby="passwordlHelp"
-                               placeholder="Ej: ********">
-                        <div id="passwordlHelp" class="valid-feedback">Obligatorio</div>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Primer apellido:</label>
+                    <input type="text" class="form-control"
+                           id="lastName" name="lastName"
+                           aria-describedby="lastNameHelp"
+                           placeholder="Ej: Sandarti"
+                           th:classappend="${#fields.hasErrors('user.profile.lastName')?'is-invalid':''}"
+                           th:field="*{user.profile.lastName}"
+                           required
+                           minlength="2"
+                           maxlength="30"
+                           pattern="[A-Za-zÀ-ÿ '-.]*"
+                    />
+                    <div id="lastNameHelp"
+                         th:classappend="${#fields.hasErrors('user.profile.lastName')?'invalid-feedback':''}"
+                         th:errors="*{user.profile.lastName}">
                     </div>
-                    <button type="submit" class="btn bg-light">Iniciar sesión</button>
-                </form>
-                <img th:src="@{/img/pomerania.png}" class="d-none d-md-block w-75"/>
-            </div>
-            <div class="col-12 col-md-6">
-                <h2>CREAR NUEVA CUENTA</h2>
-                <form>
-                    <div class="form-group">
-                        <label for="name">Nombre:</label>
-                        <input type="text" class="form-control" id="name" aria-describedby="nameHelp"
-                               placeholder="Ej: Hector">
-                        <div id="nameHelp" class="text-muted">Obligatorio</div>
+                </div>
+                <div class="form-group">
+                    <label for="secondName">Segundo apellido:</label>
+                    <input type="text" class="form-control"
+                           id="secondName" name="secondName"
+                           aria-describedby="secondNameHelp"
+                           placeholder="Ej: Saldaña"
+                           th:classappend="${#fields.hasErrors('user.profile.secondName')?'is-invalid':''}"
+                           th:field="*{user.profile.secondName}"
+                           minlength="2"
+                           maxlength="30"
+                           pattern="[A-Za-zÀ-ÿ '-.]*"
+                    />
+                    <div id="secondNameHelp"
+                         th:classappend="${#fields.hasErrors('user.profile.secondName')?'invalid-feedback':''}"
+                         th:errors="*{user.profile.secondName}">
                     </div>
-                    <div class="form-group">
-                        <label for="firstName">Primer apellido:</label>
-                        <input type="text" class="form-control" id="firstName" aria-describedby="firstNameHelp"
-                               placeholder="Ej: Saldaña">
-                        <div id="firstNameHelp" class="text-muted">Obligatorio</div>
+                </div>
+                <div class="form-group">
+                    <label for="emailNew">Correo electrónico:</label>
+                    <input type="email" class="form-control"
+                           id="emailNew" name="email"
+                           aria-describedby="emailHelp"
+                           placeholder="Ej: hector@gmail.com"
+                           th:classappend="${#fields.hasErrors('user.email')?'is-invalid':''}"
+                           th:field="*{user.email}"
+                           autofocus
+                           required
+                           minlength="5"
+                           maxlength="50"
+                    />
+                    <div id="emailHelp"
+                         th:classappend="${#fields.hasErrors('user.email')?'invalid-feedback':''}"
+                         th:errors="*{user.email}">
                     </div>
-                    <div class="form-group">
-                        <label for="secondName">Primer apellido:</label>
-                        <input type="text" class="form-control" id="secondName" aria-describedby="secondNameHelp"
-                               placeholder="Ej: Espinoza">
-                        <div id="secondNameHelp" class="text-muted"></div>
+                </div>
+                <div class="form-group">
+                    <label for="passwordNew">Contraseña:</label>
+                    <input type="password" class="form-control"
+                           id="passwordNew" name="password"
+                           aria-describedby="passwordHelp"
+                           placeholder="Ej: ************"
+                           th:classappend="${#fields.hasErrors('user.password')?'is-invalid':''}"
+                           th:field="*{user.password}"
+                           autofocus
+                           required
+                           minlength="5"
+                           maxlength="50"
+                    />
+                    <div id="passwordHelp"
+                         th:classappend="${#fields.hasErrors('user.password')?'invalid-feedback':''}"
+                         th:errors="*{user.password}">
                     </div>
-                    <div class="form-group">
-                        <label for="emailCreate">Correo electrónico:</label>
-                        <input type="email" class="form-control" id="emailCreate" aria-describedby="emailCreateHelp"
-                               placeholder="Ej: hector@gmail.com">
-                        <div id="emailCreateHelp" class="invalid-feedback">Obligatorio</div>
+                </div>
+                <div class="form-group">
+                    <label>¿Qué rol desempeñarias?</label> <br/>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio"
+                               name="role" id="voluntario"
+                               th:value="2" th:field="*{user.role.id}">
+                        <label class="form-check-label" for="voluntario">Voluntario</label>
                     </div>
-                    <div class="form-group">
-                        <label for="passwordCreate">Contraseña:</label>
-                        <input type="password" class="form-control" id="passwordCreate"
-                               aria-describedby="passwordCreateHelp"
-                               placeholder="Ej: ********">
-                        <div id="passwordCreateHelp" class="valid-feedback">Obligatorio</div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio"
+                               name="role" id="adoptador"
+                               th:value="3" th:field="*{user.role.id}" >
+                        <label class="form-check-label" for="adoptador">Adoptador</label>
                     </div>
-                    <div class="form-group">
-                        <label>¿Qué rol desempeñarias?</label> <br/>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                                   value="option1">
-                            <label class="form-check-label" for="inlineRadio1">Voluntario</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                                   value="option2" checked>
-                            <label class="form-check-label" for="inlineRadio2">Adoptador</label>
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label for="reason">Razón: (opcional)</label>
+                    <input type="text" class="form-control"
+                           id="reason" name="reason"
+                           aria-describedby="reasonHelp"
+                           placeholder="Ej: Me gustan las mascotas"
+                           th:classappend="${#fields.hasErrors('reason')?'is-invalid':''}"
+                           th:field="*{reason}"
+                           autofocus
+                           required
+                           minlength="5"
+                           maxlength="50"
+                    />
+                    <div id="reasonHelp"
+                         th:classappend="${#fields.hasErrors('reason')?'invalid-feedback':''}"
+                         th:errors="*{reason}">
                     </div>
-                    <div class="form-group">
-                        <label for="reason">Razón:</label>
-                        <input type="text" class="form-control" id="reason" aria-describedby="reasonHelp"
-                               placeholder="Ej: Me gusta ayudar a los perritos">
-                        <div id="reasonHelp" class="valid-feedback">Obligatorio</div>
-                    </div>
-                    <button type="submit" class="mt-2 btn bg-light">Crear cuenta</button>
-                </form>
-            </div>
+                </div>
+                <button type="submit" class="btn btn-outline-success">Crear cuenta</button>
+            </form>
         </div>
     </div>
-</section>
+</div>
+
+<script>document.querySelector("#adoptador").setAttribute("checked", true);</script>
 <footer th:replace="components/htmlComponents::htmlFooter"/>
 </body>
 </html>
