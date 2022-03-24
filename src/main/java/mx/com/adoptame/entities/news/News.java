@@ -53,13 +53,13 @@ public class News implements Serializable {
     @NotNull
     @NotBlank
     @Size(min = 10)
-    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
+    //@Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @NotNull
-    @NotBlank
-    @Size(min = 2, max = 150)
+    //@NotNull
+    //@NotBlank
+    //@Size(min = 2, max = 150)
     @Column(columnDefinition = "varchar(150)")
     private String image;
 
@@ -70,11 +70,11 @@ public class News implements Serializable {
     private Boolean isPublished;
 
     @CreationTimestamp
-    @Column(name = "created_at",nullable = false, columnDefinition="TIMESTAMP")
+    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at", columnDefinition="TIMESTAMP")
+    @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
     
     @ManyToOne(fetch = FetchType.LAZY)
