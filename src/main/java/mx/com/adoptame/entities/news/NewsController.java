@@ -34,6 +34,20 @@ public class NewsController {
         return "views/blog/blogs";
     }
 
+    // Individual
+    @GetMapping("/{id}")
+    public String view(@PathVariable("id") Integer id, Model model) {
+        Optional<News> news = newsService.findOne(id);
+        model.addAttribute("navbar", "navbar-all");
+
+        if (news.isEmpty()) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("news", news.get());
+        return "views/blog/blog";
+
+    }
     //    List admin
     @GetMapping("/admin")
     public String management(Model model, News news) {

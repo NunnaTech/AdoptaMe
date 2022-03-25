@@ -6,7 +6,6 @@
 
 <main id="blog-main">
     <div class="container py-4">
-        <h1 class="h3 mb-3 px-4">Últimas entradas de blog</h1>
         <div class="row">
             <div class="col-9">
                 <div class="tab-content container" id="v-pills-tabContent">
@@ -14,67 +13,36 @@
                         <div class="col-12">
                             <div class="card box-container px-4">
                                 <div class="card-header px-4 pt-5">
-                                    <h5 class="card-title mb-1">Consejos para dar en adopción<i  class="fa-solid fa-book-open-reader ml-3"></i></h5>
-                                    <div style="font-size:.9rem" class="badge badge-success mt-4 p-2">Principal</div>
-                                    <span class="ml-3"
-                                    ><i class="fa-solid fa-user-pen mr-2"></i>Por: Luis
-                                        Álvarez</span>
-                                    <span class="ml-3 date"
-                                    ><i class="fa-solid fa-calendar mr-2"></i>10/Mar/22</span>
+                                    <div class="row">
+                                        <h5 class="card-title mb-1" th:text="${news.title}"></h5>
+                                        <h5><i  class="fa-solid fa-book-open-reader ml-3"></i></h5>
 
+                                    </div>
+                                    <div class="row d-flex align-items-stretch  mt-4 ">
+                                        <spam style="font-size:.9rem" class="badge badge-success p-2">Principal</spam>
+                                        <div class="row ml-2 mt-1">
+                                            <span class="ml-3"><i class="fa-solid fa-user-pen mr-2"></i>Por:</span>
+                                            <!--<span class="ml-1"th:text="${news.user.profile.getPartialName()}" />-->
+                                            <span class="ml-3 date"><i class="fa-solid fa-calendar mr-2"></i></span>
+                                            <span class="date" th:text="${#temporals.format(news.createdAt,'yyyy-MM-dd')}"/>
+                                       </div>
+
+                                    </div>
                                 </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item px-4 pb-4">
-                                        <p class="mb-2 font-weight-bold">Tags</p>
-                                        <div class="badge badge-info p-2">Ayuda</div>
-                                        <div class="badge badge-info p-2">Primerizos</div>
-                                        <div class="badge badge-info p-2">Entrenamieneto</div>
-                                        <div class="badge badge-info p-2">Consejos</div>
 
-                                    </li>
-                                </ul>
                                 <div class="img-container px-4">
                                     <img class="card-img-top img-fluid blog-img" src="https://img2.rtve.es/i/?w=1600&i=1605279849026.jpg" alt="Unsplash">
                                 </div>
 
                                 <div class="card-body px-4">
-                                    <p class="text-justify">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum..</p>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                        <div class="col-12">
-                            <div class="card box-container px-4">
-                                <div class="card-header px-4 pt-5">
-                                    <h5 class="card-title mb-1">Consejos para dar en adopción<i  class="fa-solid fa-book-open-reader ml-3"></i></h5>
-                                    <div style="font-size:.9rem" class="badge badge-success mt-4 p-2">Principal</div>
-                                    <span class="ml-3"
-                                    ><i class="fa-solid fa-user-pen mr-2"></i>Por: Luis
-                                        Álvarez</span>
-                                    <span class="ml-3 date"
-                                    ><i class="fa-solid fa-calendar mr-2"></i>10/Mar/22</span>
-
+                                    <p class="text-justify" th:utext="${news.content}"/>
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item px-4 pb-4">
                                         <p class="mb-2 font-weight-bold">Tags</p>
-                                        <div class="badge badge-info p-2">Ayuda</div>
-                                        <div class="badge badge-info p-2">Primerizos</div>
-                                        <div class="badge badge-info p-2">Entrenamieneto</div>
-                                        <div class="badge badge-info p-2">Consejos</div>
-
+                                        <div class="badge badge-info p-2" th:each="tag: ${news.tags}" th:text="${tag.name}" />
                                     </li>
                                 </ul>
-                                <div class="img-container px-4">
-                                    <img class="card-img-top img-fluid blog-img" src="https://img2.rtve.es/i/?w=1600&i=1605279849026.jpg" alt="Unsplash">
-                                </div>
-
-                                <div class="card-body px-4">
-                                    <p class="text-justify">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum..</p>
-                                </div>
-
                             </div>
                         </div>
                     </div>
@@ -83,7 +51,7 @@
             <div class="col-3 nav-container">
                 <h4>Blogs</h4>
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Consejos para dar en adopción</a>
+                    <a class="nav-link" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"th:href="@{'/blog/' + ${top.id}}" th:each="top: ${topNews}" th:text="${top.title}"></a>
                     <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">¿Cómo puedo adoptar?</a>
                 </div>
             </div>
