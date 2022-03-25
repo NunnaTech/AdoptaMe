@@ -14,29 +14,6 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/login")
-    public String login(Model model) {
-        model.addAttribute("navbar", "navbar-all");
-        return "views/login";
-    }
-
-    @GetMapping("/admin")
-    public String admin(Model model) {
-        model.addAttribute("navbar", "navbar-admin");
-        return "views/dashboard/dashboard-admin";
-    }
-    @GetMapping("/voluntario")
-    public String voluntario(Model model) {
-        model.addAttribute("navbar", "navbar-voluntario");
-        return "views/blank";
-    }
-
-    @GetMapping("/adoptador")
-    public String adoptador(Model model) {
-        model.addAttribute("navbar", "navbar-adoptador");
-        return "views/blank";
-    }
-
     @GetMapping("/mascotas")
     public String mascotas(Model model) {
         return "views/pets/pets";
@@ -44,14 +21,6 @@ public class HomeController {
 
     @GetMapping("/mascotas-filter")
     public String mascotasFilter(Model model) {
-        model.addAttribute("navbar", "navbar-all");
-        return "views/pets/pets-filter";
-    }
-
-    @GetMapping("/blog")
-
-    public String blog(Model model) {
-        model.addAttribute("navbar", "navbar-all");
-        return "views/blog/blog";
+        return "views/pets/petsFilter";
     }
 }

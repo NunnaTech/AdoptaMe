@@ -3,19 +3,13 @@ package mx.com.adoptame.entities.address;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -62,19 +56,20 @@ public class Address implements Serializable{
     @Column(name="zip_code", nullable = false, columnDefinition = "varchar(50)")
     private String zipCode;
 
-    @Size(min = 1, max = 128)
     @Pattern(regexp = "[A-Za-zÀ-ÿ '-./#]*")
     @Column(name="references_street", columnDefinition = "varchar(128)")
     private String references;
 
     @CreationTimestamp
-    @Column(name = "created_at",nullable = false, columnDefinition="TIMESTAMP")
+    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at", columnDefinition="TIMESTAMP")
+    @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
-    @OneToOne(mappedBy = "address")
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "address")
     private Profile profile;
 }

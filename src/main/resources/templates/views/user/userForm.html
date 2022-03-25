@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="components/navbars:: navbar-admin"/>
+
+<div class="container py-3">
+
+    <div th:replace="components/titles::titles ('Usuarios', ${ {'Usuarios','Formulario'} })"/>
+
+    <form th:action="@{/user/save}" method="post" th:object="${profile}">
+
+
+        <input type="hidden" id="id" name="id" th:field="*{id}"/>
+
+
+        <div class="form-row">
+
+            <div class="form-group col-12 col-md-4">
+                <label for="name">Nombre:</label>
+                <input type="text" class="form-control"
+                       id="name" name="name"
+                       aria-describedby="nameHelp"
+                       placeholder="Ej: Alexis"
+                       th:classappend="${#fields.hasErrors('name')?'is-invalid':''}"
+                       th:field="*{name}"
+                       autofocus
+                       required
+                       minlength="2"
+                       maxlength="30"
+                       pattern="[A-Za-zÀ-ÿ '-.]*"
+                />
+                <div id="nameHelp"
+                     th:classappend="${#fields.hasErrors('name')?'invalid-feedback':''}"
+                     th:errors="*{name}">
+                </div>
+            </div>
+
+
+            <div class="form-group col-12 col-md-4">
+                <label for="lastName">Primer apellido:</label>
+                <input type="text" class="form-control"
+                       id="lastName" name="lastName"
+                       aria-describedby="lastNameHelp"
+                       placeholder="Ej: Loya"
+                       th:classappend="${#fields.hasErrors('lastName')?'is-invalid':''}"
+                       th:field="*{lastName}"
+                       required
+                       minlength="2"
+                       maxlength="30"
+                       pattern="[A-Za-zÀ-ÿ '-.]*"
+                />
+                <div id="lastNameHelp"
+                     th:classappend="${#fields.hasErrors('lastName')?'invalid-feedback':''}"
+                     th:errors="*{lastName}">
+                </div>
+            </div>
+
+
+            <div class="form-group col-12 col-md-4">
+                <label for="secondName">Segundo apellido:</label>
+                <input type="text" class="form-control"
+                       id="secondName" name="secondName"
+                       aria-describedby="secondNameHelp"
+                       placeholder="Ej: García"
+                       th:classappend="${#fields.hasErrors('secondName')?'is-invalid':''}"
+                       th:field="*{secondName}"
+                       minlength="2"
+                       maxlength="30"
+                       pattern="[A-Za-zÀ-ÿ '-.]*"
+                />
+                <div id="secondNameHelp"
+                     th:classappend="${#fields.hasErrors('secondName')?'invalid-feedback':''}"
+                     th:errors="*{secondName}">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-12 col-md-4">
+                <label for="phone">Teléfono:</label>
+                <input type="tel" class="form-control"
+                       id="phone" name="phone"
+                       aria-describedby="phoneHelp"
+                       placeholder="Ej: 7771478520"
+                       th:classappend="${#fields.hasErrors('phone')?'is-invalid':''}"
+                       th:field="*{phone}"
+                       minlength="10"
+                       maxlength="10"
+                       pattern="^\d{10}(?:[-\s]\d{4})?$"
+                />
+                <div id="phoneHelp"
+                     th:classappend="${#fields.hasErrors('phone')?'invalid-feedback':''}"
+                     th:errors="*{phone}">
+                </div>
+            </div>
+
+            <div class="form-group col-12 col-md-4">
+                <label for="image">Imagen:</label>
+                <input type="file" class="form-control-file" id="image">
+            </div>
+
+            <div class="form-group col-12 col-md-4">
+                <label>Rol:</label>
+                <select class="form-control"
+                        aria-describedby="roleHelp"
+                        th:field="*{user.role.id}"
+                        required>
+                    <option th:each="i: ${listRoles}" th:value="${i.id}"
+                            th:text="${i.type}"></option>
+                </select>
+                <div id="roleHelp"
+                     th:classappend="${#fields.hasErrors('user.role.id')?'invalid-feedback':''}"
+                     th:errors="*{user.role.id}">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-12 col-md-4">
+                <label for="email">Correo electrónico:</label>
+                <input type="email" class="form-control"
+                       id="email" name="email"
+                       aria-describedby="emailHelp"
+                       placeholder="Ej: alexisloya@gmail.com"
+                       th:classappend="${#fields.hasErrors('user.email')?'is-invalid':''}"
+                       th:field="*{user.email}"
+                       required
+                       minlength="5"
+                       maxlength="50"
+                />
+                <div id="emailHelp"
+                     th:classappend="${#fields.hasErrors('user.email')?'invalid-feedback':''}"
+                     th:errors="*{user.email}">
+                </div>
+            </div>
+
+            <div class="form-group col-12 col-md-4">
+                <label for="password">Contraseña:</label>
+                <input type="password" class="form-control"
+                       id="password" name="password"
+                       aria-describedby="passwordHelp"
+                       placeholder="Ej: ********"
+                       th:classappend="${#fields.hasErrors('user.password')?'is-invalid':''}"
+                       th:field="*{user.password}"
+                       required
+                       minlength="5"
+                       maxlength="30"
+                />
+                <div id="passwordHelp"
+                     th:classappend="${#fields.hasErrors('user.password')?'invalid-feedback':''}"
+                     th:errors="*{user.password}">
+                </div>
+            </div>
+
+            <div class="form-group col-12 col-md-4">
+                <label>Estado:</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="isActive" th:field="*{user.isActive}">
+                    <label class="form-check-label" for="isActive">
+                        Activo
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="street">Calle:</label>
+            <input type="text" class="form-control"
+                   id="street" name="street"
+                   aria-describedby="streetHelp"
+                   placeholder="Ej: Gumercindo Sanchez"
+                   th:classappend="${#fields.hasErrors('address.street')?'is-invalid':''}"
+                   th:field="*{address.street}"
+                   autofocus
+                   required
+                   minlength="2"
+                   maxlength="50"
+                   pattern="[A-Za-zÀ-ÿ '-./#]*"
+            />
+            <div id="streetHelp"
+                 th:classappend="${#fields.hasErrors('address.street')?'invalid-feedback':''}"
+                 th:errors="*{address.street}">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-12 col-md-4">
+                <label for="externalNumber">Número externo:</label>
+                <input type="text" class="form-control"
+                       id="externalNumber" name="externalNumber"
+                       aria-describedby="externalNumberHelp"
+                       placeholder="Ej: 84"
+                       th:classappend="${#fields.hasErrors('address.externalNumber')?'is-invalid':''}"
+                       th:field="*{address.externalNumber}"
+                       required
+                       minlength="1"
+                       maxlength="5"
+                       pattern="[0-9]*"
+                />
+                <div id="externalNumberHelp"
+                     th:classappend="${#fields.hasErrors('address.externalNumber')?'invalid-feedback':''}"
+                     th:errors="*{address.externalNumber}">
+                </div>
+            </div>
+            <div class="form-group col-12 col-md-4">
+                <label for="internalNumber">Número interno:</label>
+                <input type="text" class="form-control"
+                       id="internalNumber" name="internalNumber"
+                       aria-describedby="internalNumberHelp"
+                       placeholder="Ej: 2"
+                       th:classappend="${#fields.hasErrors('address.internalNumber')?'is-invalid':''}"
+                       th:field="*{address.internalNumber}"
+                       required
+                       minlength="1"
+                       maxlength="5"
+                       pattern="[0-9]*"
+                />
+                <div id="internalNumberHelp"
+                     th:classappend="${#fields.hasErrors('address.internalNumber')?'invalid-feedback':''}"
+                     th:errors="*{address.internalNumber}">
+                </div>
+            </div>
+            <div class="form-group col-12 col-md-4">
+                <label for="zipCode">Código postal:</label>
+                <input type="text" class="form-control"
+                       id="zipCode" name="zipCode"
+                       aria-describedby="zipCodeHelp"
+                       placeholder="Ej: 62588"
+                       th:classappend="${#fields.hasErrors('address.zipCode')?'is-invalid':''}"
+                       th:field="*{address.zipCode}"
+                       required
+                       minlength="1"
+                       maxlength="5"
+                       pattern="[0-9]*"
+                />
+                <div id="zipCodeHelp"
+                     th:classappend="${#fields.hasErrors('address.zipCode')?'invalid-feedback':''}"
+                     th:errors="*{address.zipCode}">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="references">Referencias:</label>
+            <input type="text" class="form-control"
+                   id="references" name="references"
+                   aria-describedby="referencesHelp"
+                   placeholder="Ej: Portón café y casa color rosa"
+                   th:classappend="${#fields.hasErrors('address.references')?'is-invalid':''}"
+                   th:field="*{address.references}"
+                   minlength="1"
+                   maxlength="128"
+                   pattern="[A-Za-zÀ-ÿ '-./#]*"
+                   multiple
+            />
+            <div id="referencesHelp"
+                 th:classappend="${#fields.hasErrors('address.references')?'invalid-feedback':''}"
+                 th:errors="*{address.references}">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+    </form>
+</div>
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
+</html>
