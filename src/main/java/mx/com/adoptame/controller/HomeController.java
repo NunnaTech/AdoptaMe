@@ -14,20 +14,13 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/admin")
-    public String admin(Model model) {
-        model.addAttribute("navbar", "navbar-admin");
-        return "views/dashboard/dashboard-admin";
-    }
-    @GetMapping("/voluntario")
-    public String voluntario(Model model) {
-        model.addAttribute("navbar", "navbar-voluntario");
-        return "views/blank";
+    @GetMapping("/mascotas")
+    public String mascotas(Model model) {
+        return "views/pets/pets";
     }
 
-    @GetMapping("/adoptador")
-    public String adoptador(Model model) {
-        model.addAttribute("navbar", "navbar-adoptador");
-        return "views/blank";
+    @GetMapping("/mascotas-filter")
+    public String mascotasFilter(Model model) {
+        return "views/pets/petsFilter";
     }
 }

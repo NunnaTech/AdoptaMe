@@ -9,26 +9,9 @@
     --light-bg: #f2f7ff;
     --border: 0.2rem solid rgba(0, 0, 0, 0.1);
     --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    --body-bg: #f8fbff;
 }
 
-.badge-primary {
-    background-color: var(--orange);
-}
-.badge-secondary {
-    background-color: #fe6666;
-}
-.badge-success {
-    background-color: #56cc9d;
-}
-.badge-info {
-    background-color: #57ccf2;
-}
-.badge-warning {
-    background-color: #c980ff;
-}
-.badge-danger {
-    background-color: #78c2ad;
-}
 
 html {
     scroll-behavior: smooth;
@@ -37,7 +20,7 @@ html {
 }
 
 section {
-    padding: 7rem 2rem;
+    padding: 3rem 2rem;
 }
 
 *::-webkit-scrollbar {
@@ -53,6 +36,14 @@ section {
     outline: none;
     border: none;
     text-decoration: none !important;
+}
+
+.header{
+    background-color: var(--white);
+}
+
+.header.fixed-top{
+    background-color: transparent;
 }
 
 header .nav a.active,
@@ -84,8 +75,6 @@ header .nav a {
 .link-btn:hover {
     background-color: var(--black);
     color: var(--white);
-    background-color: var(--black);
-    color: var(--white);
     font-weight: bold;
 }
 
@@ -110,6 +99,8 @@ header .nav a {
     padding: 1rem;
     border-bottom: var(--border);
 }
+
+
 
 .header.active {
     background-color: var(--white);
@@ -139,6 +130,7 @@ header .nav a {
     color: var(--black);
     cursor: pointer;
     display: none;
+    font-size: 2rem;
 }
 
 /* ------------------------------- Header Ends  -------------------------------  */
@@ -150,21 +142,33 @@ header .nav a {
     background-position: center;
 }
 
+.home img {
+    max-width: 100%;
+    height: auto;
+}
+
 .home .content {
     width: 35rem;
     padding: 0rem 2rem 0rem 2rem;
 }
 
-.home .content h1 {
+
+.home .content h3 {
     font-size: 4rem;
     text-transform: uppercase;
     color: var(--black);
+
+    text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.1),
+    0px 18px 23px rgba(0, 0, 0, 0.1);
 }
+
 
 .home .content p {
     line-height: 2;
     color: var(--light-color);
     padding: 1rem 0;
+    font-size: 1.3rem;
+
 }
 
 /* ------------------------------- Home Ends  -------------------------------  */
@@ -173,7 +177,11 @@ header .nav a {
 .donation {
     background: url(../img/mascotas-bg.jpg) no-repeat;
     background-size: cover;
-    background-position: top;
+}
+
+.donation img {
+    max-width: 100%;
+    height: auto;
 }
 
 .donation .content {
@@ -185,17 +193,42 @@ header .nav a {
     font-size: 4rem;
     text-transform: uppercase;
     color: var(--black);
+
+    text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.1),
+    0px 18px 23px rgba(0, 0, 0, 0.1);
 }
 
 .donation .content p {
     line-height: 2;
-    color: var(--light-color);
+    color: var(--black);
     padding: 1rem 0;
-    width: 35rem;
+    width: 25rem;
+    font-size: 1.3rem;
+
 }
 
 /* ------------------------------- Donation Ends  -------------------------------  */
 /* ------------------------------- Pets Starts  -------------------------------  */
+
+
+.pets .badge-primary {
+    background-color: var(--orange);
+}
+.pets .badge-secondary {
+    background-color: #fe6666;
+}
+.pets .badge-success {
+    background-color: #56cc9d;
+}
+.pets .badge-info {
+    background-color: #57ccf2;
+}
+.pets .badge-warning {
+    background-color: #c980ff;
+}
+.pets .badge-danger {
+    background-color: #78c2ad;
+}
 
 .pets {
     background-color: var(--light-bg);
@@ -213,7 +246,7 @@ header .nav a {
     text-align: center;
     border-radius: 0.5rem;
     box-shadow: var(--box-shadow);
-    padding: 2rem;
+    padding: 1rem 1rem;
     margin-bottom: 5rem;
     border: 0.1rem solid rgba(0, 0, 0, 0.2);
 }
@@ -227,7 +260,7 @@ header .nav a {
 
 .pets .box-container .box .image img {
     height: 100%;
-    width: 85%;
+    width: 100%;
     border-radius: 0.5rem;
     object-fit: cover;
 }
@@ -235,11 +268,12 @@ header .nav a {
 .pets .box-container .box .image .fa-heart {
     position: absolute;
     right: 0.5rem;
-    height: 5rem;
-    width: 5rem;
-    line-height: 5rem;
+    top: 0.5rem;
+    height: 3rem;
+    width: 3rem;
+    line-height: 3;
     text-align: center;
-    font-size: 2rem;
+    font-size: 1rem;
     background: var(--orange);
     border-radius: 50%;
     color: var(--white);
@@ -247,9 +281,11 @@ header .nav a {
 
 .pets .box-container .box .image .fa-heart:hover {
     color: #ff5757;
-    background-color: var(--black);
+    background-color: var(--white);
     transition: all 0.2s linear;
     transform: rotate(360deg);
+    border: 0.1rem solid #ff5757;
+    line-height: 2.8rem;
 }
 
 .pets .box-container .box p {
@@ -262,8 +298,14 @@ header .nav a {
 .pets .box-container .box h3 {
     font-size: 1.5rem;
     color: var(--black);
-    margin-top: 2rem;
+    margin-top: 1rem;
     font-weight: bold;
+}
+
+.pets .box-container .box h4 {
+    font-size: 1.2rem;
+    color: var(--black);
+    margin-top: 1rem;
 }
 
 .pets .box-container .box span {
@@ -273,50 +315,18 @@ header .nav a {
 }
 
 .pets .box-container .box .stars {
-    padding: 2rem;
     border-radius: 0.5rem;
-    background-color: var(--light-bg);
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    display: inline-block;
 }
 
 .pets .box-container .box .stars .badge {
     color: var(--white);
-    font-size: 0.8rem;
+    font-size: 1rem;
     padding: 0.5rem;
     /* y, x */
     margin: 0.5rem 0px;
 }
 
-.pets .box-container .box .stars .badge-primary {
-    background-color: var(--orange);
-
-}
-
-.pets .box-container .box .stars .badge-secondary {
-    background-color: #fe6666;
-}
-
-.pets .box-container .box .stars .badge-success {
-    background-color: #56cc9d;
-}
-
-.pets .box-container .box .stars .badge-info {
-    background-color: #57ccf2;
-}
-
-.pets .box-container .box .stars .badge-warning {
-    background-color: #c980ff;
-
-}
-
-.pets .box-container .box .stars .badge-danger {
-    background-color: #78c2ad;
-}
-
-
-/* ------------------------------- pets Ends  -------------------------------  */
+/* ------------------------------- Pets Ends  -------------------------------  */
 /* ------------------------------- Carrusel Starts  -------------------------------  */
 
 .carrusel .home-slider .slide {
@@ -335,6 +345,10 @@ header .nav a {
 
 .carrusel .home-slider .slide .content .date {
     color: var(--light-color);
+}
+
+.carrusel .home-slider .slide {
+    padding: 3rem;
 }
 
 .carrusel .home-slider .slide .image {
@@ -357,6 +371,10 @@ header .nav a {
     font-size: 2.5rem;
 }
 
+.carrusel .home-slider .slide .content {
+    padding: 0rem;
+}
+
 .carrusel .home-slider .slide .content p {
     color: var(--light-color);
     font-size: 1.3rem;
@@ -368,7 +386,7 @@ header .nav a {
 .swiper-button-next {
     color: var(--orange);
     font-weight: 900;
-    margin-top: 65rem;
+    margin-top: 60rem;
 }
 
 /* ------------------------------- Carrusel Ends  -------------------------------  */
@@ -403,8 +421,6 @@ header .nav a {
 
 .adopt .box-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-    gap: 3rem;
 }
 
 .adopt .box-container .box {
@@ -437,13 +453,11 @@ header .nav a {
 
 .process .box-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-    gap: 2rem;
 }
 
 .process .box-container .box {
     background-color: var(--orange);
-    padding: 2rem;
+    padding: 1rem;
     border-radius: 0.5rem;
     text-align: center;
     box-shadow: var(--box-shadow);
@@ -467,14 +481,18 @@ header .nav a {
 
 /* ------------------------------- Process Ends  -------------------------------  */
 /* ------------------------------- Admin Starts  -------------------------------  */
+
+#admin-dashboard {
+    background-color: var(--body-bg);
+}
+
 #admin-dashboard .single-card .card {
     box-shadow: var(--box-shadow);
     margin: 0rem 0rem 2rem 0rem;
     border: 0.1rem solid rgba(0, 0, 0, 0.2);
-
 }
 
-#admin-dashboard .single-card .card-container{
+#admin-dashboard .single-card .card-container {
     display: grid;
 }
 
@@ -502,7 +520,6 @@ header .nav a {
 #admin-dashboard .single-card .card .col-auto .third-cart {
     color: #54d37a;
     background: #54d37a2f;
-
 }
 
 #admin-dashboard .single-card .card .col-auto .four-cart {
@@ -518,13 +535,11 @@ header .nav a {
 
 #admin-dashboard .box-container {
     box-shadow: var(--box-shadow);
-
-
-}#admin-dashboard .box-container .card-header {
-     background-color: var(--white);
-     border-width: 0;
-
- }
+}
+#admin-dashboard .box-container .card-header {
+    background-color: var(--white);
+    border-width: 0;
+}
 
 #admin-dashboard .box-container .card-header h5 {
     color: var(--orange);
@@ -532,10 +547,187 @@ header .nav a {
 }
 
 /* ------------------------------- Admin Ends  -------------------------------  */
-/* ------------------------------- Blog Starts  -------------------------------  */
-#blog-main{
-    padding: 0rem 0rem 5rem 0rem;
+/* ------------------------------- Pets Starts  -------------------------------  */
+.pets-filter .badge-primary {
+    background-color: var(--orange);
 }
+.pets-filter .badge-secondary {
+    background-color: #fe6666;
+}
+.pets-filter .badge-success {
+    background-color: #56cc9d;
+}
+.pets-filter .badge-info {
+    background-color: #57ccf2;
+}
+.pets-filter .badge-warning {
+    background-color: #c980ff;
+}
+.pets-filter .badge-danger {
+    background-color: #78c2ad;
+}
+
+.pets-filter {
+    background-color: var(--body-bg);
+}
+
+#pets-filter .single-card {
+    display: grid;
+    margin-top: 1rem;
+}
+
+#pets-filter .card {
+    box-shadow: var(--box-shadow);
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+}
+
+#pets-filter .box-container {
+    border-radius: 0.5rem;
+    box-shadow: var(--box-shadow);
+    padding: 0.5rem;
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+    background-color: var(--white);
+}
+
+#pets-filter .card-body .single-card .card .fa-heart {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    height: 2.5rem;
+    width: 2.5rem;
+    line-height: 2.5rem;
+    text-align: center;
+    font-size: 1rem;
+    background: var(--orange);
+    border-radius: 50%;
+    color: var(--white);
+}
+
+#pets-filter .card-body .single-card .card .fa-heart:hover {
+    color: #ff5757;
+    background-color: var(--white);
+    transition: all 0.2s linear;
+    transform: rotate(360deg);
+    border: 0.1rem solid #ff5757;
+    line-height: 2.3rem;
+}
+
+#pets-filter .container .tab-content .card-header,
+#pets-filter .container .box-container .card-header {
+    background-color: var(--white);
+}
+
+#pets-filter .container .box-container .card-header h5,
+#pets-filter .container .tab-content .card-header h5 {
+    color: var(--orange);
+    font-size: 1.5rem;
+}
+#pets-filter .container .tab-content .card-header p {
+    color: var(--light-color);
+    font-size: 0.8rem;
+    margin-top: 0.4rem;
+}
+
+#pets-filter .box-container .card-body .card .card-description {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--light-color);
+}
+
+#pets-filter .box-container .card-body .card .card-description p {
+    color: var(--light-color);
+    margin-bottom: 0.1rem;
+}
+
+#pets-filter .box-container .card-body .card .stars {
+    border-radius: 0.35rem;
+}
+
+#pets-filter .box-container .card-body .card .stars .badge {
+    color: var(--white);
+    font-size: 0.8rem;
+    padding: 0.5rem;
+    margin: 0.5rem 0px;
+}
+
+#pets-filter .box-container .card-body .card .stars .badge {
+    color: var(--white);
+    font-size: 0.8rem;
+    padding: 0.5rem;
+    margin: 0.5rem 0px;
+}
+
+#pets-filter .btn-primary {
+    background-color: var(--orange);
+    border: 0;
+    padding: 0.7rem;
+    font-weight: bold;
+}
+#pets-filter .btn-primary:hover {
+    background-color: var(--black);
+}
+#pets-filter .btn-secondary {
+    background-color: #fe6666;
+}
+#pets-filter .btn-success {
+    background-color: #56cc9d;
+}
+#pets-filter .btn-info {
+    background-color: #57ccf2;
+    border: 0;
+    padding: 0.7rem;
+    font-weight: bold;
+}
+
+#pets-filter .btn-info:hover {
+    background-color: #10b9f1;
+}
+#pets-filter .badge-warning {
+    background-color: #c980ff;
+}
+#pets-filter .btn-danger {
+    background-color: #fe6666;
+    border: 0;
+    padding: 0.7rem;
+    font-weight: bold;
+}
+#pets-filter .btn-danger:hover {
+    background-color: #fd4242;
+}
+
+/* ------------------------------- Pets Ends  -------------------------------  */
+/* ------------------------------- Login Starts  -------------------------------  */
+
+#login .container .bg-light {
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+}
+
+/* ------------------------------- Login Ends  -------------------------------  */
+/* ------------------------------- Blog Starts  -------------------------------  */
+
+#blog-main .badge-primary {
+    background-color: var(--orange);
+}
+#blog-main .badge-secondary {
+    background-color: #fe6666;
+}
+#blog-main .badge-success {
+    background-color: #56cc9d;
+}
+#blog-main .badge-info {
+    background-color: #57ccf2;
+}
+#blog-main.badge-warning {
+    background-color: #c980ff;
+}
+#blog-main .badge-danger {
+    background-color: #78c2ad;
+}
+
+#blog-main {
+    background-color: var(--light-bg);
+}
+
 
 #blog-main .blog-img {
     width: 100%;
@@ -543,14 +735,27 @@ header .nav a {
     object-fit: cover;
     border-radius: 0.2rem;
 }
-hr {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+
+#blog-main .list-group,
+#blog-main .list-group-item {
     border: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    margin-left: 4rem;
+}
+#blog-main .list-group .active,
+#blog-main .list-group a:hover {
+    background-color: var(--orange);
+    color: white;
 }
 
+#blog-main .card {
+    box-shadow: var(--box-shadow);
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+}
+
+#blog-main .border {
+    border: 1px solid var(--orange) !important;
+    margin: 0rem 1rem;
+    background-color: var(--orange);
+}
 
 #blog-main .img-container {
     padding: 2rem 0rem;
@@ -559,11 +764,14 @@ hr {
 #blog-main .box-container {
     box-shadow: var(--box-shadow);
     border: 0.1rem solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
 }
 
-#blog-main .box-container .card-header {
+#blog-main .box-container .card-header,
+#blog-main .card-header {
     background-color: var(--white);
     border-width: 0;
+
 }
 
 #blog-main .box-container .card-header h5 {
@@ -575,11 +783,11 @@ hr {
 #blog-main .box-container i,
 #blog-main .box-container span {
     color: var(--black);
-    font-size: .8rem;
+    font-size: 0.8rem;
     font-weight: bolder;
 }
 
-#blog-main .box-container .card-header .fa-book-open-reader{
+#blog-main .box-container .card-header .fa-book-open-reader {
     color: var(--orange);
     font-size: 2rem;
 }
@@ -589,12 +797,7 @@ hr {
     box-shadow: var(--box-shadow);
     border: 0.1rem solid rgba(0, 0, 0, 0.2);
     padding: 2rem 1rem;
-
 }
-
-
-
-
 
 /* ------------------------------- Blog Ends  -------------------------------  */
 /* ------------------------------- Footer Starts  -------------------------------  */
@@ -775,19 +978,7 @@ hr {
     }
 }
 
-@media (max-width: 450px) {
-    html {
-        /*font-size: 50%;*/
-    }
 
-    .home .content h3 {
-        font-size: 4rem;
-    }
-
-    .heading {
-        font-size: 3rem;
-    }
-}
 
 #sidebar {
     overflow: hidden;
