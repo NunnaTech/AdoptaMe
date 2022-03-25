@@ -3,14 +3,7 @@ package mx.com.adoptame.entities.request;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -36,9 +29,9 @@ public class Request implements Serializable{
     @Column(name = "id_request")
     private Integer id;
 
-    @NotNull
-    @NotBlank
-    @Size(min = 10, max = 140)
+//    @NotNull
+//    @NotBlank
+//    @Size(min = 10, max = 140)
     @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(nullable = false, columnDefinition = "varchar(140)")
     private String reason;
@@ -47,14 +40,14 @@ public class Request implements Serializable{
     private Boolean isAccepted;
 
     @CreationTimestamp
-    @Column(name = "created_at",nullable = false, columnDefinition="TIMESTAMP")
+    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at", columnDefinition="TIMESTAMP")
+    @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }

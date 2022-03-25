@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="components/htmlComponents::htmlHead"/>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <header th:replace="components/navbars:: navbar-admin"/>
 <div class="container py-3">
     <div th:replace="components/titles::titles ('Roles', ${ {'Roles','Formulario'} })"/>
@@ -21,7 +21,7 @@
                    maxlength="10"
                    pattern="[A-Za-zÀ-ÿ '-.]*"
             />
-            <div id="nameHelp"
+            <div id="typeHelp"
                  th:classappend="${#fields.hasErrors('type')?'invalid-feedback':''}"
                  th:errors="*{type}">
             </div>
