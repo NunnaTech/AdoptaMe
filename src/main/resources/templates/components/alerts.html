@@ -39,6 +39,24 @@
                 }
             })
         }
+
+
+        function confirmSweetAlertAccept(e) {
+            Swal.fire({
+                title: '¿Aceptar usuario a voluntario?',
+                text: "Este usuario tendrá acciones sobre el sistema",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#F47A1F',
+                cancelButtonColor: '#666',
+                confirmButtonText: 'Sí, aceptar!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    e.submit();
+                }
+            })
+        }
     </script>
 </div>
 </body>

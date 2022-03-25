@@ -2,24 +2,17 @@
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="pets">
-<!-- header section starts  -->
 <header class="header fixed-top">
     <div class="container">
         <div class="row align-items-center d-flex justify-content-between">
             <a th:href="@{/}" class="logo">
-                <img
-                        class=""
-                        th:src="@{img/logo.svg}"
-                        alt=""
-                        style="height: 50px; width: 50px"
-                />
-                Adopta<span>Me.</span></a
-            >
+                <img class="" th:src="@{img/logo.svg}" style="height: 50px; width: 50px"/>
+                Adopta<span>Me.</span></a>
             <nav class="nav">
                 <a th:href="@{/}">Inicio</a>
-                <a hidden href="#donation"></a>
-                <a href="#">Adoptar</a>
-                <a href="pets.html">Nuestro Blog</a>
+                <a hidden href="#donation"/>
+                <a th:href="@{/mascotas-filter}">Adoptar</a>
+                <a th:href="@{/blog/}">Nuestro Blog</a>
             </nav>
 
             <a href="admin.html" class="link-btn"
@@ -30,7 +23,6 @@
     </div>
 </header>
 
-<!-- donation section starts  -->
 <section class="donation" id="donation">
     <div class="container">
         <div class="row min-vh-100 align-items-center">
@@ -43,7 +35,8 @@
                     El monto de la donación irá 100% para el centro adoptivo 'AdoptaMe'
                     el cual está destinado a salvar a animales de la calle.
                 </p>
-                <a href="#contact" class="link-btn p-4">Donar ahora con PayPal<i class="fa-brands fa-paypal ml-4"></i></a>
+                <a href="#contact" class="link-btn p-4">Donar ahora con PayPal<i
+                        class="fa-brands fa-paypal ml-4"></i></a>
             </div>
         </div>
     </div>
@@ -54,7 +47,7 @@
     <div class="box-container container">
         <div class="box">
             <div class="image">
-                <img src="https://picsum.photos/1980/1080?random=1" />
+                <img src="https://picsum.photos/1980/1080?random=1"/>
                 <a href="#" class="fas fa-heart"></a>
             </div>
             <h3>Gasparin</h3>
@@ -73,7 +66,7 @@
         </div>
         <div class="box">
             <div class="image">
-                <img src="https://picsum.photos/1980/1080?random=1" />
+                <img src="https://picsum.photos/1980/1080?random=1"/>
                 <a href="#" class="fas fa-heart"></a>
             </div>
             <h3>Gasparin</h3>
@@ -92,7 +85,7 @@
         </div>
         <div class="box">
             <div class="image">
-                <img src="https://picsum.photos/1980/1080?random=1" />
+                <img src="https://picsum.photos/1980/1080?random=1"/>
                 <a href="#" class="fas fa-heart"></a>
             </div>
             <h3>Gasparin</h3>

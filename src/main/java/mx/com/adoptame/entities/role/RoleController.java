@@ -37,7 +37,7 @@ public class RoleController {
     public String save(Model model, @Valid Role role, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
-                return "views/resources/role/roleList";
+                return "views/resources/role/roleForm";
             } else {
                 roleService.save(role);
                 redirectAttributes.addFlashAttribute("msg_success", "Rol guardado exitosamente");

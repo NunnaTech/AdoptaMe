@@ -40,7 +40,6 @@ public class Tag implements Serializable{
     @Column(unique = true, nullable = false,columnDefinition = "varchar(20)")
     private String name;
 
-    @Size(min = 2, max = 50)
     @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(columnDefinition = "varchar(50)")
     private String description;
