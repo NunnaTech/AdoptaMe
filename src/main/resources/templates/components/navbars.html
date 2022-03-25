@@ -12,10 +12,10 @@
             </a>
             <nav class="nav">
                 <a class="active" th:href="@{/#home}">Inicio</a>
-                <a th:href="@{/blog}">Blog</a>
+                <a th:href="@{/blog/}">Blog</a>
                 <a th:href="@{/#about}">Sobre Nosotros</a>
                 <a th:href="@{/#adopt}">¿Por qué adoptar?</a>
-                <a th:href="@{/mascotas}">Mascotas</a>
+                <a th:href="@{/pets/}">Mascotas</a>
             </nav>
             <a th:href="@{/request/login}" class="link-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
             <div id="menu-btn" class="fas fa-bars"></div>
@@ -57,7 +57,7 @@
                             <a class="dropdown-item" th:href="@{/}">Solicitudes nuevas mascotas</a>
                             <a class="dropdown-item" th:href="@{/}">Solicitudes de adopción</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" th:href="@{/}">Gestión</a>
+                            <a class="dropdown-item" th:href="@{/pets/admin}">Gestión</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
