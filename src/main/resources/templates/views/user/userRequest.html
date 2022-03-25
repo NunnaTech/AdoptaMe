@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="components/navbars:: navbar-admin"/>
+<div class="container py-3">
+    <div th:replace="components/titles::titles ('Solicitudes', ${ {'Solicitudes','Nuevas'} })"/>
+
+
+    <table id="datatable" class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Primer apellido</th>
+            <th scope="col">Correo electrónico</th>
+            <th scope="col">Para rol</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Aceptar</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i,c: ${list}">
+            <td th:text="${c.count}"/>
+            <td th:text="${i.name}"/>
+            <td th:text="${i.lastName}"/>
+            <td th:text="${i.user.email}"/>
+            <td th:text="${i.user.role.type}"/>
+            <td>
+                  <span class="badge" th:classappend="${i.user.isActive ? 'badge-success':'badge-warning'}"
+                        th:text="${i.user.isActive ? 'Activo':'Desactivo'}"/>
+            </td>
+            <td class="d-flex justify-content-around">
+                <form th:action="@{/user/acept/{id} (id=${i.id})}"  onsubmit="return false">
+                    <button type="submit" class="btn btn-info" onclick="confirmSweetAlertAccept(this.parentElement)">
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+<div th:replace="components/alerts::alerts" />
+
+</body>
+</html>
