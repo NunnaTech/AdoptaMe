@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="pets-filter">
+<!-- header section starts  -->
+<header th:replace="components/navbars:: navbar-all"></header>
+
+<main id="pets-filter" class="my-4" >
+    <div class="container p-0">
+        <h1 class="h3 mb-3">Adoptar una mascota</h1>
+        <div class="row">
+            <div class=" col-md-4 col-xl-3 mb-4">
+                <div class="box-container px-4">
+                    <div class="card-header pl-0">
+                        <h5 class="card-title mb-0">Filtros</h5>
+                    </div>
+                    <!-- end of sidebar -->
+                    <div>
+                        <nav class="py-2">
+                            <form>
+                                <div class="form-group">
+                                    <label for="label">Buscar por:</label>
+                                    <input type="label" class="form-control" id="label"
+                                           placeholder="Color, Carácter, Edad">
+                                </div>
+                                <div class="form-group">
+                                    <label for="types">Tipo de mascota:</label>
+                                    <select id="types" title="Seleccionar..." class="selectpicker col-12" multiple
+                                            data-hide-disabled="true">
+                                        <option>Perro</option>
+                                        <option>Gato</option>
+                                        <option>Cerdo</option>
+                                        <option>Conejo</option>
+                                        <option>Pájaro</option>
+                                    </select>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <label for="ages">Edad:</label>
+                                    <select id="ages" title="Seleccionar..." class="selectpicker col-12" multiple
+                                            data-hide-disabled="true">
+                                        <option>Cachorro/Cria</option>
+                                        <option>Joven</option>
+                                        <option>Adulto</option>
+                                    </select>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <label for="sizes">Tamaño:</label>
+                                    <select id="sizes" title="Seleccionar..." class="selectpicker col-12" multiple
+                                            data-hide-disabled="true">
+                                        <option>Pequeño</option>
+                                        <option>Mediano</option>
+                                        <option>Grande</option>
+                                    </select>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <label for="characters">Carácter:</label>
+                                    <select id="characters" title="Seleccionar..." class="selectpicker col-12"
+                                            data-hide-disabled="true">
+                                        <option>Fiestero</option>
+                                        <option>Independiente</option>
+                                        <option>Dinámico</option>
+                                        <option>Jugetón</option>
+                                        <option>Inteligente</option>
+                                        <option>Sociable</option>
+                                        <option>Timido</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary mt-4 col-12">Buscar</button>
+                            </form>
+                        </nav>
+                    </div>
+                    <!-- end of sidebar -->
+                </div>
+            </div>
+            <div class=" col-md-8 col-xl-9">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="account" role="tabpanel">
+                        <div class="box-container alert  alert-dismissible fade show mb-4">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Recuerda que antes de adoptar:</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="">A la hora de que comiences la búsqueda de tu adoptado soñado, es
+                                    importante saber cuáles son sus necesidades.</p>
+                                <p class="">Si necesitas más información, te invitamos a leer el sigueinte blog:</p>
+                                <button class="btn btn-primary  mt-0 mb-4">Antes de adoptar<i
+                                        class="fa-solid fa-book-open ml-2"></i></button>
+                                <h5 class="font-weight-bold">Elige la mascota correcta para ti y tu familia. <i
+                                        class="fa-solid fa-paw"></i></h5>
+                            </div>
+                        </div>
+                        <div class="box-container pb-4">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Mascotas en adopción</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 col-md-12 col-lg-6 col-xl-4 single-card">
+                                        <div class="card">
+                                            <img class="card-img-top" src="https://picsum.photos/1980/1080?random=1"
+                                                 alt="Unsplash">
+                                            <a href="#" class="fas fa-heart"></a>
+                                            <div class="card-header mb-0 pb-0">
+                                                <div class="row d-flex justify-content-around">
+                                                    <h5 class="card-title">Máximo</h5>
+                                                    <p><i class="fa-solid fa-calendar mr-2"></i>24/02/21</p>
+                                                </div>
+                                            </div>
+                                            <div class="card-description my-2">
+                                                <p><i class="fa-solid fa-cake-candles mr-3"></i>2 años</p>
+                                                <span><i class="fa-solid fa-dog mx-2"></i>Perro</span>
+                                                <span><i class="fa-solid fa-mars mx-2"></i>Macho</span>
+                                                <br>
+                                                <span><i class="fa-solid fa-bone mx-2"></i>Grande</span>
+                                                <span><i class="fa-solid fa-palette mx-2"></i>Negro</span>
+                                            </div>
+                                            <div class="stars d-flex justify-content-center mx-3 mb-2">
+                                                <span class="badge badge-warning">Amoroso</span>
+                                            </div>
+                                            <ul class="list-group list-group-flush p-4">
+                                                <button class="btn btn-danger">Adoptar<i
+                                                        class="fa-solid fa-paw ml-2"></i></button>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-6 col-xl-4 single-card">
+                                        <div class="card">
+                                            <img class="card-img-top" src="https://picsum.photos/1980/1080?random=1"
+                                                 alt="Unsplash">
+                                            <a href="#" class="fas fa-heart"></a>
+                                            <div class="card-header mb-0 pb-0">
+                                                <div class="row d-flex justify-content-around">
+                                                    <h5 class="card-title">Máximo</h5>
+                                                    <p><i class="fa-solid fa-calendar mr-2"></i>24/02/21</p>
+                                                </div>
+                                            </div>
+                                            <div class="card-description my-2">
+                                                <p><i class="fa-solid fa-cake-candles mr-3"></i>2 años</p>
+                                                <span><i class="fa-solid fa-cat mx-2"></i>Gato</span>
+                                                <span><i class="fa-solid fa-venus mx-2"></i>Hembra</span>
+                                                <br>
+                                                <span><i class="fa-solid fa-bone mx-2"></i>Grande</span>
+                                                <span><i class="fa-solid fa-palette mx-2"></i>Negro</span>
+                                            </div>
+                                            <div class="stars d-flex justify-content-center mx-3 mb-2">
+                                                <span class="badge badge-success">Inteligente</span>
+                                            </div>
+                                            <ul class="list-group list-group-flush p-4">
+                                                <button class="btn btn-danger">Adoptar<i
+                                                        class="fa-solid fa-paw ml-2"></i></button>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-6 col-xl-4 single-card">
+                                        <div class="card">
+                                            <img class="card-img-top" src="https://picsum.photos/1980/1080?random=1"
+                                                 alt="Unsplash">
+                                            <a href="#" class="fas fa-heart"></a>
+                                            <div class="card-header mb-0 pb-0">
+                                                <div class="row d-flex justify-content-around">
+                                                    <h5 class="card-title">Máximo</h5>
+                                                    <p><i class="fa-solid fa-calendar mr-2"></i>24/02/21</p>
+                                                </div>
+                                            </div>
+                                            <div class="card-description my-2">
+                                                <p><i class="fa-solid fa-cake-candles mr-3"></i>2 años</p>
+                                                <span><i class="fa-solid fa-paw mx-2"></i>Cerdo</span>
+                                                <span><i class="fa-solid fa-mars mx-2"></i>Macho</span>
+                                                <br>
+                                                <span><i class="fa-solid fa-bone mx-2"></i>Grande</span>
+                                                <span><i class="fa-solid fa-palette mx-2"></i>Negro</span>
+                                            </div>
+                                            <div class="stars d-flex justify-content-center mx-3 mb-2">
+                                                <span class="badge badge-info">Sociable</span>
+                                            </div>
+                                            <ul class="list-group list-group-flush p-4">
+                                                <button class="btn btn-danger">Adoptar<i
+                                                        class="fa-solid fa-paw ml-2"></i></button>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</main>
+
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+
+
+</body>
+</html>

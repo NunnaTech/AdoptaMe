@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="components/htmlComponents::htmlHead"/>
-<body>
-<header th:replace="components/navbars:: ''+${navbar}"></header>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="components/navbars:: navbar-all"></header>
 
 <main id="blog-main">
     <div class="container py-4">
@@ -28,9 +28,9 @@
                 </div>
             </div>
         </div>
+
     </div>
 </main>
-
 
 <footer th:replace="components/htmlComponents::htmlFooter"/>
 </body>

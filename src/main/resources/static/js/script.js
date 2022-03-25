@@ -1,8 +1,8 @@
 let menu = document.querySelector('#menu-btn') || document.createElement('div');
 let navbar = document.querySelector('.nav') || document.createElement('div');
 let header = document.querySelector('.header') || document.createElement('div');
-let section = document.querySelectorAll('section');
-let navLinks = document.querySelectorAll('header .nav a');
+let section = document.querySelectorAll('section') || document.createElement('div');
+let navLinks = document.querySelectorAll('header .nav a') || document.createElement('div');
 
 menu.onclick = () => {
     menu.classList.toggle('fa-times');
@@ -23,7 +23,6 @@ window.onscroll = () => {
                 document.querySelector('header .nav a[href*=' + id + ']').classList.add('active');
             });
         }
-        ;
     });
     if (window.scrollY > 0) {
         header.classList.add('active');
@@ -34,7 +33,6 @@ window.onscroll = () => {
     var swiper = new Swiper(".home-slider", {
         spaceBetween: 20,
         centeredSlides: true,
-
         autoplay: {
             delay: 30000,
             disableOnInteraction: false,
@@ -51,8 +49,7 @@ window.onscroll = () => {
         scrollbar: {
             el: '.swiper-scrollbar',
         },
-
-        loop:true,
+        loop: true,
     });
 
 }
@@ -62,18 +59,18 @@ $(document).ready(function () {
         "autoWidth": true,
         "responsive": true,
         "language": {
-            "sProcessing":     "Procesando/Procesing...",
-            "sLengthMenu":     "Mostrar/Show: _MENU_",
-            "sZeroRecords":    "Sin resultados / Not results",
-            "sEmptyTable":     "Ningún dato / No data",
-            "sInfo":           "Registros / Records: _START_ al _END_",
-            "sInfoEmpty":      "Sin registros / No records: ",
-            "sSearch":         "Buscar / Search: ",
+            "sProcessing": "Procesando/Procesing...",
+            "sLengthMenu": "Mostrar/Show: _MENU_",
+            "sZeroRecords": "Sin resultados / Not results",
+            "sEmptyTable": "Ningún dato / No data",
+            "sInfo": "Registros / Records: _START_ al _END_",
+            "sInfoEmpty": "Sin registros / No records: ",
+            "sSearch": "Buscar / Search: ",
             "sLoadingRecords": "Cargando / Loading...",
             "oPaginate": {
-                "sFirst":    "Primero / First",
-                "sLast":     "Último / Last",
-                "sNext":     "Siguiente / Next",
+                "sFirst": "Primero / First",
+                "sLast": "Último / Last",
+                "sNext": "Siguiente / Next",
                 "sPrevious": "Anterior / Previous"
             },
         }
