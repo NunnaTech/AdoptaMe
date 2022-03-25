@@ -43,7 +43,6 @@ public class NewsController {
     //    Form admin
     @GetMapping("/admin/form")
     public String save(Model model, News news) {
-        model.addAttribute("navbar", "navbar-admin");
         model.addAttribute("tagsList", tagService.findAll());
         return "views/blog/blogForm";
     }
@@ -51,7 +50,6 @@ public class NewsController {
     //    Edit admin
     @GetMapping("/admin/edit/{id}")
     public String edit(@PathVariable("id") Integer id, Model model, News news, RedirectAttributes redirectAttributes) {
-
         news = newsService.findOne(id).orElse(null);
         if (news == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");

@@ -14,13 +14,4 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/mascotas")
-    public String mascotas(Model model) {
-        return "views/pets/pets";
-    }
-
-    @GetMapping("/mascotas-filter")
-    public String mascotasFilter(Model model) {
-        return "views/pets/petsFilter";
-    }
 }

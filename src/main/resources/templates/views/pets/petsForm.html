@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="components/navbars:: navbar-admin"/>
+
+<div class="container py-3">
+
+    <div th:replace="components/titles::titles ('Mascotas', ${ {'Mascotas','Formulario'} })"/>
+
+    <form th:action="@{/pets/admin/save}" method="post" th:object="${pet}">
+
+
+        <input type="hidden" id="id" name="id" th:field="*{id}"/>
+
+
+        <div class="form-row">
+            <div class="form-group col-12 col-md-4">
+                <label for="name">Nombre:</label>
+                <input type="text" class="form-control"
+                       id="name" name="name"
+                       aria-describedby="nameHelp"
+                       placeholder="Ej: Solovino"
+                       th:classappend="${#fields.hasErrors('name')?'is-invalid':''}"
+                       th:field="*{name}"
+                       autofocus
+                       required
+                       minlength="2"
+                       maxlength="30"
+                       pattern="[A-Za-zÀ-ÿ '-.]*"
+                />
+                <div id="nameHelp"
+                     th:classappend="${#fields.hasErrors('name')?'invalid-feedback':''}"
+                     th:errors="*{name}">
+                </div>
+            </div>
+            <div class="form-group col-12 col-md-4">
+                <label for="gender">Género</label>
+                <select class="form-control" id="gender" name="gender" th:field="*{gender}" required>
+                    <option value="1" text="Macho">Macho</option>
+                    <option value="0">Hembra</option>
+                </select>
+            </div>
+            <div class="form-group col-12 col-md-4">
+                <label>Estado:</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="isActive" th:field="*{isActive}">
+                    <label class="form-check-label" for="isActive">
+                        Activo
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group col-12 col-md-3">
+                <label for="character">Carácter:</label>
+                <select class="form-control" id="character" name="character" th:field="*{character.id}">
+                    <option th:each="i: ${listCharacters}" th:value="${i.id}" th:text="${i.name}"/>
+                </select>
+            </div>
+
+            <div class="form-group col-12 col-md-3">
+                <label for="color">Color:</label>
+                <select class="form-control" id="color" name="color" th:field="*{color.id}">
+                    <option th:each="i: ${listColors}" th:value="${i.id}" th:text="${i.name}"/>
+                </select>
+            </div>
+
+            <div class="form-group col-12 col-md-3">
+                <label for="size">Tamaño:</label>
+                <select class="form-control" id="size" name="size" th:field="*{size.id}">
+                    <option th:each="i: ${listSizes}" th:value="${i.id}" th:text="${i.name}"/>
+                </select>
+            </div>
+
+            <div class="form-group col-12 col-md-3">
+                <label for="type">Tamaño:</label>
+                <select class="form-control" id="type" name="type" th:field="*{type.id}">
+                    <option th:each="i: ${listTypes}" th:value="${i.id}" th:text="${i.name}"/>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+
+
+            <div class="form-group col-12 col-md-4">
+                <label>Estado:</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="isAdopted" th:field="*{isAdopted}">
+                    <label class="form-check-label" for="isAdopted">
+                        Adoptado
+                    </label>
+                </div>
+            </div>
+
+        </div>
+
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+    </form>
+</div>
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
+</html>

@@ -6,18 +6,16 @@
     <div class="container">
         <div class="row align-items-center d-flex justify-content-between">
             <a th:href="@{/}" class="logo">
-                <img class="" th:src="@{img/logo.svg}" style="height: 50px; width: 50px"/>
-                Adopta<span>Me.</span></a>
+                <img th:src="@{/img/logo.svg}" style="height: 50px; width: 50px"/>Adopta<span>Me.</span>
+            </a>
             <nav class="nav">
                 <a th:href="@{/}">Inicio</a>
                 <a hidden href="#donation"/>
-                <a th:href="@{/mascotas-filter}">Adoptar</a>
-                <a th:href="@{/blog/}">Nuestro Blog</a>
+                <a th:href="@{/pets/filter}">Adoptar</a>
+                <a th:href="@{/blog/}">Blog</a>
             </nav>
 
-            <a href="admin.html" class="link-btn"
-            >Acceder<i class="fa-solid fa-user ml-4"></i
-            ></a>
+            <a href="admin.html" class="link-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
             <div id="menu-btn" class="fas fa-bars"></div>
         </div>
     </div>
@@ -35,8 +33,7 @@
                     El monto de la donación irá 100% para el centro adoptivo 'AdoptaMe'
                     el cual está destinado a salvar a animales de la calle.
                 </p>
-                <a href="#contact" class="link-btn p-4">Donar ahora con PayPal<i
-                        class="fa-brands fa-paypal ml-4"></i></a>
+                <a href="#contact" class="link-btn p-4">Donar ahora con PayPal<i class="fa-brands fa-paypal ml-4"></i></a>
             </div>
         </div>
     </div>
