@@ -6,17 +6,17 @@
 <div class="container py-3">
 
     <div th:replace="components/titles::titles (${list.name}, ${ {'Mascotas','Lista','Imágenes'} })"/>
+
     <a type="button" class="btn btn-info my-2 mb-2" th:href="@{/pets/admin/}">
         <i class="fa-solid fa-arrow-left"></i> Regresar
     </a>
     <hr/>
-    <form action="" class="my-2">
-        <label>Imagen</label>
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="image" accept=".png, .jpg, .jpeg">
-            <label class="custom-file-label" for="image">Escoge una imagen para guardarla</label>
-        </div>
-        <button type="submit" class="btn btn-success mt-2">Guardar</button>
+    <form th:action="@{/petsImages/images/save}" class="my-2" method="post" onsubmit="return false">
+        <input type="hidden" name="idPet" id="idPet" th:value="${list.id}"/>
+        <input type="hidden" name="image" id="image" value=""/>
+        <label>Imagen:</label>
+        <input type="file" class="form-control-file" id="preImage" name="preImage" required accept=".png, .jpg, .jpeg">
+        <button type="submit" class="btn btn-success mt-2" onclick="uploadImage(this.parentElement)">Guardar</button>
     </form>
     <hr/>
     <table id="datatable" class="table table-striped">
@@ -34,8 +34,9 @@
                 <img th:src="${i.image}" class="img-responsive" width="200" height="auto">
             </td>
             <td class="d-flex justify-content-center">
-                <form th:action="@{/pets/admin/delete/{id} (id=${i.id})}" onsubmit="return false">
-                    <button type="submit" class="btn btn-danger col-12" onclick="confirmSweetAlert(this.parentElement)">
+                <form th:action="@{/petsImages/delete/{idPet}/{idImage} (idPet=${list.id}, idImage=${i.id})}"
+                      onsubmit="return false">
+                    <button type="submit" class="btn btn-danger col-12" onclick="confirmSweetAlert(this.form)">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </form>
@@ -46,6 +47,7 @@
 </div>
 <footer th:replace="components/htmlComponents::htmlFooter"/>
 <div th:replace="components/alerts::alerts"/>
+<script th:src="@{/js/uploadImages.js}"></script>
 
 </body>
 </html>
