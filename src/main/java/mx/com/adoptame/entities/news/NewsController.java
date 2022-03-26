@@ -27,12 +27,26 @@ public class NewsController {
     private UserService userService;
 
     //    Para todos
-    @GetMapping("/")
+    @GetMapping("")
     public String home(Model model, News news) {
         model.addAttribute("newsList", newsService.findLastFive());
         return "views/blog/blogs";
     }
 
+    // Individual
+    @GetMapping("/{id}")
+    public String view(@PathVariable("id") Integer id, Model model) {
+        Optional<News> news = newsService.findOne(id);
+        model.addAttribute("navbar", "navbar-all");
+
+        if (news.isEmpty()) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("news", news.get());
+        return "views/blog/blog";
+
+    }
     //    List admin
     @GetMapping("/admin")
     public String management(Model model, News news) {
