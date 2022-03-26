@@ -47,7 +47,7 @@ public class UserController {
 
     @GetMapping("/acept/{id}")
     public String acept(Model model, @PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
-        // para aceptar a un voluntario
+        // TODO metodo para implemantar y aceptar al usuario
         System.err.println(id);
         return "redirect:/user/request/";
     }
