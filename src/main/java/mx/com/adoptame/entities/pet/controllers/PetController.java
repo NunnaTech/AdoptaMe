@@ -64,6 +64,19 @@ public class PetController {
         return "views/pets/petsForm";
     }
 
+    @GetMapping("/admin/request")
+    public String request(Model model, Pet pet) {
+        model.addAttribute("list", petService.findAll());
+        return "views/pets/petsRequest";
+    }
+
+    @GetMapping("/admin/acept/{id}")
+    public String acept(@PathVariable("id") Integer id,Model model, Pet pet) {
+        // TODO implementar aceptar una mascota registrada por el voluntario
+        return "views/pets/petsRequest";
+    }
+
+
     @GetMapping("/admin/edit/{id}")
     public String edit(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
         pet = petService.findOne(id).orElse(null);
@@ -107,9 +120,4 @@ public class PetController {
         }
         return "redirect:/pets/admin";
     }
-
-
-
-
-
 }
