@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="components/navbars:: navbar-admin"/>
+<div class="container py-3">
+    <div th:replace="components/titles::titles ('Solicitudes de nuevas mascotas', ${ {'Mascotas','Solicitudes nuevas'} })"/>
+
+    <table id="datatable" class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Género</th>
+            <th scope="col">Edad</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Adoptada</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i,c: ${list}">
+            <td th:text="${c.count}"/>
+            <td th:text="${i.name}"/>
+            <td><span class="badge" th:classappend="${i.gender ? 'badge-success':'badge-primary'}" th:text="${i.gender ? 'Macho':'Hembra'}"/></td>
+            <td>sd</td>
+            <td><span class="badge" th:classappend="${i.isActive ? 'badge-success':'badge-danger'}" th:text="${i.isActive ? 'Activo':'Desactivo'}"/></td>
+            <td><span class="badge" th:classappend="${i.isAdopted ? 'badge-info':'badge-secondary'}" th:text="${i.isAdopted ? 'Si':'No'}"/></td>
+
+
+            <td class="d-flex justify-content-around">
+                <form th:action="@{/pets/admin/acept/{id} (id=${i.id})}"  onsubmit="return false">
+                    <button type="submit" class="btn btn-info"
+                            onclick="confirmSweetAlert(this.parentElement, '¿Aceptar mascota?', 'Esta mascota aparecerá en el sistema para ser adoptada', 'Sí, aceptar!')">
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+<div th:replace="components/alerts::alerts" />
+
+</body>
+</html>

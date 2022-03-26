@@ -4,9 +4,7 @@
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="components/navbars:: navbar-admin"/>
 <div class="container py-3">
-    <div th:replace="components/titles::titles ('Solicitudes', ${ {'Solicitudes','Nuevas'} })"/>
-
-
+    <div th:replace="components/titles::titles ('Solicitudes de nuevos usuarios', ${ {'Usuarios','Solicitudes nuevas'} })"/>
     <table id="datatable" class="table table-striped">
         <thead>
         <tr>
@@ -27,12 +25,13 @@
             <td th:text="${i.user.email}"/>
             <td th:text="${i.user.role.type}"/>
             <td>
-                  <span class="badge" th:classappend="${i.user.isActive ? 'badge-success':'badge-warning'}"
-                        th:text="${i.user.isActive ? 'Activo':'Desactivo'}"/>
+                    <span class="badge" th:classappend="${i.user.isActive ? 'badge-success':'badge-danger'}"
+                          th:text="${i.user.isActive ? 'Activo':'Desactivo'}"/>
             </td>
             <td class="d-flex justify-content-around">
-                <form th:action="@{/user/acept/{id} (id=${i.id})}"  onsubmit="return false">
-                    <button type="submit" class="btn btn-info" onclick="confirmSweetAlertAccept(this.parentElement)">
+                <form th:action="@{/user/acept/{id} (id=${i.id})}" onsubmit="return false">
+                    <button type="submit" class="btn btn-info"
+                            onclick="confirmSweetAlert(this.parentElement, '¿Aceptar usuario a ser voluntario?', 'Este usuario tendrá acciones sobre el sistema', 'Sí, aceptar!')">
                         <i class="fa-solid fa-check"></i>
                     </button>
                 </form>
@@ -42,7 +41,7 @@
     </table>
 </div>
 <footer th:replace="components/htmlComponents::htmlFooter"/>
-<div th:replace="components/alerts::alerts" />
+<div th:replace="components/alerts::alerts"/>
 
 </body>
 </html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="components/navbars:: navbar-admin"/>
+<div class="container py-3">
+    <div th:replace="components/titles::titles ('Solicitudes nuevas de adopción', ${ {'Mascotas','Solicitudes de adopción'} })"/>
+
+    <table id="datatable" class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Primer apellido</th>
+            <th scope="col">Segundo apellido</th>
+            <th scope="col">Mascota</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i,c: ${list}">
+            <td th:text="${c.count}"/>
+            <td th:text="${i.user.profile.name}"/>
+            <td th:text="${i.user.profile.lastName}"/>
+            <td th:text="${i.user.profile.secondName}"/>
+            <td th:text="${i.pet.name}"/>
+
+
+            <td class="d-flex justify-content-around">
+                <form th:action="@{/petsAdopted/acept/{id} (id=${i.id})}"  onsubmit="return false">
+                    <button type="submit" class="btn btn-info"
+                            onclick="confirmSweetAlert(this.parentElement, '¿Aceptar adopción a esta persona?', 'Esta mascota pertenecerá ahora a ella', 'Sí, aceptar!')">
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+<div th:replace="components/alerts::alerts" />
+
+</body>
+</html>

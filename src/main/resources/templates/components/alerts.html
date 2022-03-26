@@ -23,33 +23,20 @@
         })
     </script>
     <script>
-        function confirmSweetAlert(e) {
+        function confirmSweetAlert(
+            e,
+            title = '¿Estás seguro?',
+            text = 'Este elemento será removido para siempre',
+            confirmButtonText = 'Sí, eliminar!',
+        ) {
             Swal.fire({
-                title: '¿Estás seguro?',
-                text: "Este elemento será removido para siempre",
+                title,
+                text,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#F47A1F',
                 cancelButtonColor: '#666',
-                confirmButtonText: 'Sí, eliminar!',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    e.submit();
-                }
-            })
-        }
-
-
-        function confirmSweetAlertAccept(e) {
-            Swal.fire({
-                title: '¿Aceptar usuario a voluntario?',
-                text: "Este usuario tendrá acciones sobre el sistema",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#F47A1F',
-                cancelButtonColor: '#666',
-                confirmButtonText: 'Sí, aceptar!',
+                confirmButtonText,
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
