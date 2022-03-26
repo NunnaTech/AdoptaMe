@@ -74,7 +74,7 @@ public class User implements Serializable {
 
     // Relationships
 
-    @OneToOne(fetch = FetchType.LAZY,
+    @OneToOne(
             cascade = CascadeType.ALL,
             mappedBy = "user")
     private Profile profile;
