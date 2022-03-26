@@ -27,7 +27,7 @@ public class NewsController {
     private UserService userService;
 
     //    Para todos
-    @GetMapping("/")
+    @GetMapping("")
     public String home(Model model, News news) {
         model.addAttribute("newsList", newsService.findLastFive());
         return "views/blog/blogs";
