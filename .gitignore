@@ -6,6 +6,7 @@ target/
 
 ### Sensitive Data ###
 src/main/resources/application-dev.properties
+/src/main/resources/application-dev.properties
 
 ### STS ###
 .apt_generated
@@ -36,4 +37,3 @@ build/
 .vscode/
 .sql
 
-/src/main/resources/application-dev.properties
