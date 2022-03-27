@@ -39,6 +39,7 @@ public class CharacterController {
             if (bindingResult.hasErrors()) {
                 return "views/resources/character/characterForm";
             } else {
+                character.setStatus(true);
                 characterService.save(character);
                 redirectAttributes.addFlashAttribute("msg_success", "Carácter guardado exitosamente");
             }
