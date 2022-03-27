@@ -57,5 +57,6 @@ public class Color implements Serializable {
     public Color(String name, String hex_code) {
         this.name = name;
         this.hex_code = hex_code;
+        this.status = true;
     }
 }

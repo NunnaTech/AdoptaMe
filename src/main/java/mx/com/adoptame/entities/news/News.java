@@ -57,9 +57,6 @@ public class News implements Serializable {
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String content;
 
-    //@NotNull
-    //@NotBlank
-    //@Size(min = 2, max = 150)
     @Column(columnDefinition = "varchar(250)")
     private String image;
 

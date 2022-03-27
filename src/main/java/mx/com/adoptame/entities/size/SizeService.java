@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import mx.com.adoptame.entities.color.Color;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.stereotype.Service;
@@ -57,11 +58,13 @@ public class SizeService {
    }
 
     public Boolean delete(Integer id) {
-        boolean entity = sizeRepository.existsById(id);
-        if (entity) {
-            sizeRepository.deleteById(id);
+        Optional<Size> entity = sizeRepository.findById(id);
+        if (entity.isPresent()) {
+            entity.get().setStatus(false);
+            sizeRepository.save(entity.get());
+            return true;
         }
-        return entity;
+        return false;
     }
 
    public void fillInitialData() {
