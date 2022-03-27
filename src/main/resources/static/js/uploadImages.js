@@ -1,5 +1,14 @@
 let URL_BATCHE = 'https://allowingcors.herokuapp.com/https://api-upscaler-origin.icons8.com/api/frontend/v1/batches';
-async function uploadImage(e, img) {
+
+async function uploadImageBlog(e){
+    let preImage = e.elements['preImage'].files[0];
+    if(preImage){
+        await uploadImage(e)
+    }
+    e.submit();
+}
+
+async function uploadImage(e, img='image') {
     let image = e.elements['preImage'].files[0];
     if (image) {
         if (image.type === "image/png" || image.type === "image/jpg" || image.type === "image/jpeg") {
