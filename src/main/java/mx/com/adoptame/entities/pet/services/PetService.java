@@ -3,6 +3,7 @@ package mx.com.adoptame.entities.pet.services;
 
 import mx.com.adoptame.entities.pet.entities.Pet;
 import mx.com.adoptame.entities.pet.repositories.PetRepository;
+import mx.com.adoptame.entities.size.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -59,10 +60,11 @@ public class PetService {
     }
 
     public Boolean delete(Integer id) {
-        boolean entity = petRepository.existsById(id);
-        if (entity) {
-            petRepository.deleteById(id);
+        Optional<Pet> entity = petRepository.findById(id);
+        if (entity.isPresent()) {
+            entity.get().setIsActive(false);
+            return true;
         }
-        return entity;
+        return false;
     }
 }

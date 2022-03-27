@@ -71,5 +71,6 @@ public class Character implements Serializable {
     public Character(String name) {
         this.name = name;
         this.icon = "none";
+        this.status = true;
     }
 }

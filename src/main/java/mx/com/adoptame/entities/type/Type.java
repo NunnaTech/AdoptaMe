@@ -61,4 +61,5 @@ public class Type implements Serializable {
 
     @OneToMany(mappedBy = "type", cascade = CascadeType.PERSIST)
     private Set<Pet> pets;
+    
 }
