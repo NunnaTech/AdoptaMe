@@ -71,7 +71,16 @@ public class Profile implements Serializable{
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", nullable = true)
     private Address address;
+
+    public String getFullName(){
+        return getName() + " " +getLastName() + " "+getSecondName();
+    }
+
+    public String getPartialName(){
+        return getName() + " " +getLastName();
+    }
+
 }
