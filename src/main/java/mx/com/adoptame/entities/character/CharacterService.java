@@ -17,7 +17,7 @@ public class CharacterService {
    private CharacterRepository characterRepository;
    
    public List<Character> findAll() {
-       return (List<Character>) characterRepository.findAll();
+       return (List<Character>) characterRepository.findAllByStatus(true);
    }
 
    public Optional<Character> findOne(Integer id) {
@@ -65,7 +65,7 @@ public class CharacterService {
         return entity;
     }
 
-   public void fillInicialData() {
+   public void fillInitialData() {
        if (characterRepository.count() > 0)
            return;
 
