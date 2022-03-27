@@ -60,10 +60,6 @@ public class User implements Serializable {
     @Column(name = "link_restore_password", columnDefinition = "varchar(150)")
     private String linkRestorePassword;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id")
-    private Role role;
-
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
@@ -101,6 +97,9 @@ public class User implements Serializable {
         donation.setUser(this);
     }
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    private Set<Log> logs;
+
     // Many to Many: PETS
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
@@ -109,10 +108,7 @@ public class User implements Serializable {
     @JoinTable(name = "TBL_FAVORITES_PETS",
             joinColumns = @JoinColumn(name = "id_pet"),
             inverseJoinColumns = @JoinColumn(name = "id_user"))
-    private List<Pet> favoitesPets = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
-    private Set<Log> logs;
+    private List<Pet> favoitesPets;
 
     public void addToFavorite(Pet pet) {
         favoitesPets.add(pet);
@@ -123,4 +119,25 @@ public class User implements Serializable {
         favoitesPets.remove(pet);
         pet.getUsers().remove(this);
     }
+
+    // Many to Many: ROLES
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "authorities",
+            joinColumns = @JoinColumn(name = "username"),
+            inverseJoinColumns = @JoinColumn(name = "authority"))
+    private Set<Role> roles;
+
+    public void addRole(Role role) {
+        roles.add(role);
+        role.getUsers().add(this);
+    }
+
+    public void removeRole(Role role) {
+        roles.remove(role);
+        role.getUsers().remove(this);
+    }
+
 }
