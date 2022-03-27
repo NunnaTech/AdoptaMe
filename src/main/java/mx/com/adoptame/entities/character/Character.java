@@ -54,6 +54,9 @@ public class Character implements Serializable {
     @Column(columnDefinition = "varchar(150)")
     private String icon;
 
+    @Column(columnDefinition = "tinyint default 1")
+    private Boolean status;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
@@ -67,5 +70,6 @@ public class Character implements Serializable {
 
     public Character(String name) {
         this.name = name;
+        this.icon = "none";
     }
 }
