@@ -16,7 +16,7 @@ public class SizeService {
    private SizeRepository sizeRepository;
 
    public List<Size> findAll() {
-       return (List<Size>) sizeRepository.findAll();
+       return (List<Size>) sizeRepository.findAllByStatus(true);
    }
 
    public Optional<Size> findOne(Integer id) {
@@ -64,9 +64,8 @@ public class SizeService {
         return entity;
     }
 
-   public void fillInicialData() {
-       if (sizeRepository.count() > 0)
-           return;
+   public void fillInitialData() {
+       if (sizeRepository.count() > 0) return;
 
        List<Size> inicial = new ArrayList<>();
        inicial.add(new Size("Pequeño"));
