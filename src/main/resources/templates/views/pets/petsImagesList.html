@@ -11,7 +11,7 @@
         <i class="fa-solid fa-arrow-left"></i> Regresar
     </a>
     <hr/>
-    <form th:action="@{/petsImages/images/save}" class="my-2" method="post" onsubmit="return false">
+    <form th:action="@{/petsImages/images/save}" class="my-2" method="post" onsubmit="return false" enctype="multipart/form-data">
         <input type="hidden" name="idPet" id="idPet" th:value="${list.id}"/>
         <input type="hidden" name="image" id="image" value=""/>
         <label>Imagen:</label>
