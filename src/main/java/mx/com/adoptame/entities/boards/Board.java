@@ -13,13 +13,13 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
 
-@Entity
+/*@Entity
 @Table(name = "TBL_BOARDS")
 @Data
 @NoArgsConstructor
-@ToString
+@ToString*/
 public class Board implements Serializable {
-    private static final long serialVersionUID = 1L;
+   /* private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_board")
@@ -37,7 +37,7 @@ public class Board implements Serializable {
     @Size(min = 2, max = 150)
     @Column(columnDefinition = "varchar(150)")
     private String icon;
-
-    @OneToMany(mappedBy="board", cascade = CascadeType.PERSIST)
-    private Set<Log> logs;
+*/
+ /*   @OneToMany(mappedBy="board", cascade = CascadeType.PERSIST)
+    private Set<Log> logs;*/
 }

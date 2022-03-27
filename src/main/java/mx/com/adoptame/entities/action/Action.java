@@ -13,13 +13,13 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
 
-@Entity
+/*@Entity
 @Table(name = "TBL_ACTIONS")
 @Data
 @NoArgsConstructor
-@ToString
+@ToString*/
 public class Action implements Serializable {
-
+/*
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +39,7 @@ public class Action implements Serializable {
     @Column(columnDefinition = "varchar(150)")
     private String icon;
 
-    @OneToMany(mappedBy="action", cascade = CascadeType.PERSIST)
+    *//*@OneToMany(mappedBy="action", cascade = CascadeType.PERSIST)
     private Set<Log> logs;
+    */
 }
