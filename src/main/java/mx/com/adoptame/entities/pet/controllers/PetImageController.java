@@ -36,12 +36,12 @@ public class PetImageController {
 
     @PostMapping("/images/save")
     public String save(@RequestParam("idPet") Integer idPet, @RequestParam("image") String image, RedirectAttributes redirectAttributes) {
-        PetImage petImage = new PetImage();
-        Pet pet = new Pet();
-        pet.setId(idPet);
-        petImage.setPet(pet);
-        petImage.setImage(image);
         try {
+            PetImage petImage = new PetImage();
+            Pet pet = new Pet();
+            pet.setId(idPet);
+            petImage.setPet(pet);
+            petImage.setImage(image);
             petImageService.save(petImage);
             redirectAttributes.addFlashAttribute("msg_success", "Imagen guardada exitosamente");
         } catch (Exception e) {
