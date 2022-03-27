@@ -27,7 +27,7 @@ public class PetImage implements Serializable{
     @Column(name = "id_sizes")
     private Integer id;
     
-    @Column(nullable = false, columnDefinition = "varchar(150)")
+    @Column(nullable = false, columnDefinition = "varchar(250)")
     private String image;
 
     @ManyToOne(fetch = FetchType.LAZY)
