@@ -38,6 +38,7 @@ public class ColorController {
             if (bindingResult.hasErrors()) {
                 return "views/resources/color/colorForm";
             } else {
+                color.setStatus(true);
                 colorService.save(color);
                 redirectAttributes.addFlashAttribute("msg_success", "Color guardado exitosamente");
             }

@@ -10,12 +10,9 @@
 
     <form th:action="@{/user/save}" method="post" th:object="${profile}">
 
-
         <input type="hidden" id="id" name="id" th:field="*{id}"/>
 
-
         <div class="form-row">
-
             <div class="form-group col-12 col-md-4">
                 <label for="name">Nombre:</label>
                 <input type="text" class="form-control"
@@ -76,6 +73,8 @@
 
         </div>
 
+
+
         <div class="form-row">
             <div class="form-group col-12 col-md-6">
                 <label for="phone">Teléfono:</label>
@@ -98,7 +97,8 @@
 
             <div class="form-group col-12 col-md-6">
                 <label>Rol:</label>
-                <select class="form-control"
+              <!--  TODO implementar roles con selec estático
+                    <select class="form-control"
                         aria-describedby="roleHelp"
                         th:field="*{user.role.id}"
                         required>
@@ -108,7 +108,7 @@
                 <div id="roleHelp"
                      th:classappend="${#fields.hasErrors('user.role.id')?'invalid-feedback':''}"
                      th:errors="*{user.role.id}">
-                </div>
+                </div>-->
             </div>
         </div>
 
