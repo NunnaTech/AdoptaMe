@@ -1,10 +1,12 @@
 package mx.com.adoptame.entities.role;
 
+import mx.com.adoptame.entities.character.Character;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -61,5 +63,14 @@ public class RoleService {
             roleRepository.deleteById(id);
         }
         return entity;
+    }
+    public void fillInitialData() {
+        if (roleRepository.count() > 0) return;
+
+        List<Role> inicial = new ArrayList<>();
+        inicial.add(new Role("ROLE_ADMINISTRATOR"));
+        inicial.add(new Role("ROLE_VOLUNTEER"));
+        inicial.add(new Role("ROLE_ADOPTER"));
+        roleRepository.saveAll(inicial);
     }
 }

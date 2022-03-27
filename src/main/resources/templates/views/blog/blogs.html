@@ -8,30 +8,54 @@
     <div class="container py-4">
         <h1 class="h3 mb-3 px-4">Últimas entradas de blog</h1>
         <div class="d-flex justify-content-center row">
+            <div class="col-md-3 col-xl-3 mb-4">
+                <div class="card pb-4">
+                    <div class="card-header px-1">
+                        <h4 class="card-title mx-3 mt-3 mb-2">Blogs</h4>
+                    </div>
+                    <div class="border mb-4"></div>
+                    <div class="list-group list-group-flush" role="tablist">
+                        <a class="list-group-item list-group-item-action " th:href="@{'/blog/' + ${top.id}}" th:each="top: ${newsTop}" th:text="${top.title}" />
+                    </div>
+                </div>
+            </div>
             <div class="col-9">
                 <a th:each="news: ${newsList}" th:href="@{/blog/{id}(id=${news.id})}">
-                    <div class="card bg-dark text-white mb-1">
-                        <img class="card-img card-img-top img-fluid blog-img" src="https://img2.rtve.es/i/?w=1600&i=1605279849026.jpg" alt="Unsplash">
-                        <div class="card-img-overlay">
-                            <h5 class="card-title" th:text="${news.title}"></h5>
-                            <p class="card-text" th:text="${#temporals.format(news.createdAt,'yyyy-MM-dd')}"></p>
-                        </div>
+                    <div class="card bg-dark text-white mb-1 demo_wrap">
+                        <h5 th:text="${news.title}" />
+                        <img class="card-img-top img-fluid blog-img" th:src="${news.image}" alt="banner">
+                                <p class="card-text" th:text="${#temporals.format(news.createdAt,'yyyy-MMM-dd')}"></p>
                     </div>
                 </a>
 
             </div>
-            <div class="col-3 nav-container">
-                <h4>Blogs</h4>
-                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"th:href="@{'/blog/' + ${top.id}}" th:each="top: ${topNews}" th:text="${top.title}"></a>
-                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">¿Cómo puedo adoptar?</a>
-                </div>
-            </div>
+
         </div>
 
     </div>
 </main>
 
 <footer th:replace="components/htmlComponents::htmlFooter"/>
+<style>
+    .demo_wrap {
+        position: relative;
+        overflow: hidden;
+        padding: 16px;
+        border: 1px dashed green;
+    }
+    .demo_wrap h5 {
+        height: 100px;
+        position: relative;
+        z-index: 2;
+    }
+    .demo_wrap img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: auto;
+        opacity: 0.6;
+    }
+</style>
 </body>
 </html>

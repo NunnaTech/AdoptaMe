@@ -18,9 +18,12 @@ public class NewsService {
     public List<News> findAll() {
         return (List<News>) newsRepository.findAll();
     }
+    public List<News> findAllActives() {
+        return (List<News>) newsRepository.findAllByIsPublished(true);
+    }
 
     public List<News> findLastFive() {
-        return (List<News>) newsRepository.findTop5ByOrderByCreatedAtAsc();
+        return (List<News>) newsRepository.findTop5ByOrderByCreatedAtDesc();
     }
 
     public Optional<News> findOne(Integer id) {
