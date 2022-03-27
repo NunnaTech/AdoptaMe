@@ -4,6 +4,7 @@ import mx.com.adoptame.entities.character.CharacterService;
 import mx.com.adoptame.entities.color.ColorService;
 import mx.com.adoptame.entities.role.RoleService;
 import mx.com.adoptame.entities.size.SizeService;
+import mx.com.adoptame.entities.tag.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,8 @@ public class InitialDataBase implements CommandLineRunner {
     private CharacterService characterService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private TagService tagService;
 
     @Autowired
     private SizeService sizeService;
@@ -26,5 +29,6 @@ public class InitialDataBase implements CommandLineRunner {
         characterService.fillInitialData();
         roleService.fillInitialData();
         sizeService.fillInitialData();
+        tagService.fillInitialData();
     }
 }
