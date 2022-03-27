@@ -63,7 +63,6 @@ public class CharacterService {
         if (entity.isPresent()) {
             entity.get().setStatus(false);
             characterRepository.save(entity.get());
-
             return true;
         }
         return false;

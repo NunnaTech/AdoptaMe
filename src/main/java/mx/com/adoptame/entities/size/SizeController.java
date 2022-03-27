@@ -38,6 +38,7 @@ public class SizeController {
             if (bindingResult.hasErrors()) {
                 return "views/resources/size/sizeForm";
             } else {
+                size.setStatus(true);
                 sizeService.save(size);
                 redirectAttributes.addFlashAttribute("msg_success", "Tamaño guardado exitosamente");
             }
