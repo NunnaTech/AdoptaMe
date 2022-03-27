@@ -15,7 +15,7 @@ public class TypeService {
     private TypeRepository typeRepository;
 
     public List<Type> findAll() {
-        return (List<Type>) typeRepository.findAll();
+        return (List<Type>) typeRepository.findAllByStatus(true);
     }
 
     public Optional<Type> findOne(Integer id) {

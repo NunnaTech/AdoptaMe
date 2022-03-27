@@ -15,7 +15,7 @@ public class ColorService {
    private ColorRepository colorRepository;
 
    public List<Color> findAll() {
-       return (List<Color>) colorRepository.findAll();
+       return (List<Color>) colorRepository.findAllByStatus(true);
    }
 
    public Optional<Color> findOne(Integer id) {
@@ -63,7 +63,7 @@ public class ColorService {
         return entity;
     }
 
-   public void fillInicialData() {
+   public void fillInitialData() {
        if (colorRepository.count() > 0)
            return;
 
