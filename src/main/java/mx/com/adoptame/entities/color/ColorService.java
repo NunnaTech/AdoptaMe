@@ -56,11 +56,14 @@ public class ColorService {
    }
 
     public Boolean delete(Integer id) {
-        boolean entity = colorRepository.existsById(id);
-        if (entity) {
-            colorRepository.deleteById(id);
+        Optional<Color> entity = colorRepository.findById(id);
+        if (entity.isPresent()) {
+            entity.get().setStatus(false);
+            colorRepository.save(entity.get());
+
+            return true;
         }
-        return entity;
+        return false;
     }
 
    public void fillInitialData() {

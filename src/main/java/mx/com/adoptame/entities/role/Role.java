@@ -55,5 +55,6 @@ public class Role implements Serializable{
 
     public Role(String type) {
         this.type = type;
+
     }
 }
