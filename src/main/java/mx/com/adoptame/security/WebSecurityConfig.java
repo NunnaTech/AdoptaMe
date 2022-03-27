@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
-    final private String[] URL_AVAILABLES_FOR_ALL = {"/", "/blog","/blog/**" };
+    final private String[] URL_AVAILABLES_FOR_ALL = {"/**", "/blog","/blog/**" };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
