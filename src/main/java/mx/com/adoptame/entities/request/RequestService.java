@@ -1,5 +1,6 @@
 package mx.com.adoptame.entities.request;
 
+import mx.com.adoptame.entities.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -15,7 +16,7 @@ public class RequestService {
     private RequestRepository requestRepository;
 
     public List<Request> findAll() {
-        return (List<Request>) requestRepository.findAll();
+        return (List<Request>) requestRepository.findAllByIsAccepted(false);
     }
 
     public Optional<Request> findOne(Integer id) {
@@ -55,11 +56,13 @@ public class RequestService {
         }
     }
 
-    public Boolean delete(Integer id) {
-        boolean entity = requestRepository.existsById(id);
-        if (entity) {
-            requestRepository.deleteById(id);
+    public Boolean accept(Integer id) {
+        Optional<Request> entity = requestRepository.findById(id);
+        if (entity.isPresent()) {
+            entity.get().setIsAccepted(true);
+            requestRepository.save(entity.get());
+            return true;
         }
-        return entity;
+        return false;
     }
 }

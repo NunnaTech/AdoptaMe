@@ -26,6 +26,10 @@ public class NewsService {
         return (List<News>) newsRepository.findTop5ByOrderByCreatedAtDesc();
     }
 
+    public List<News> findMainNews() {
+        return (List<News>) newsRepository.findAllByIsMainAndIsPublishedOrderByCreatedAtDesc(true,true);
+    }
+
     public Optional<News> findOne(Integer id) {
         return newsRepository.findById(id);
     }
