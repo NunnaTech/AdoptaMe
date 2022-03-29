@@ -48,6 +48,9 @@ public class Type implements Serializable {
     @Column(columnDefinition = "varchar(60)")
     private String description;
 
+    @Column(columnDefinition = "tinyint default 1")
+    private Boolean status;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
@@ -58,4 +61,5 @@ public class Type implements Serializable {
 
     @OneToMany(mappedBy = "type", cascade = CascadeType.PERSIST)
     private Set<Pet> pets;
+    
 }

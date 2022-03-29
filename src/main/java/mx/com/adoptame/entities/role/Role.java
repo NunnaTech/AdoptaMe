@@ -4,14 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -39,16 +32,17 @@ public class Role implements Serializable{
 
     @NotNull
     @NotBlank
-    @Size(min = 2, max = 10)
-    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
-    @Column(nullable = false, unique = true, columnDefinition = "varchar(10)")
+    @Size(min = 2, max = 20)
+    //@Pattern(regexp = "[A-Za-zÀ-ÿ '-._]*")
+    @Column(nullable = false, unique = true, columnDefinition = "varchar(20)")
     private String type;
 
     @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(columnDefinition = "varchar(50)")
     private String description;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.PERSIST)
+    @ManyToMany
+    @JoinColumn(name = "roles")
     private List<User> users;
 
     @CreationTimestamp
@@ -58,4 +52,9 @@ public class Role implements Serializable{
     @UpdateTimestamp
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
+
+    public Role(String type) {
+        this.type = type;
+
+    }
 }

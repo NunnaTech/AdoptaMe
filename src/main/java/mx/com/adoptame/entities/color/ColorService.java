@@ -15,7 +15,7 @@ public class ColorService {
    private ColorRepository colorRepository;
 
    public List<Color> findAll() {
-       return (List<Color>) colorRepository.findAll();
+       return (List<Color>) colorRepository.findAllByStatus(true);
    }
 
    public Optional<Color> findOne(Integer id) {
@@ -56,14 +56,17 @@ public class ColorService {
    }
 
     public Boolean delete(Integer id) {
-        boolean entity = colorRepository.existsById(id);
-        if (entity) {
-            colorRepository.deleteById(id);
+        Optional<Color> entity = colorRepository.findById(id);
+        if (entity.isPresent()) {
+            entity.get().setStatus(false);
+            colorRepository.save(entity.get());
+
+            return true;
         }
-        return entity;
+        return false;
     }
 
-   public void fillInicialData() {
+   public void fillInitialData() {
        if (colorRepository.count() > 0)
            return;
 

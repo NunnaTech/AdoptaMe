@@ -1,6 +1,7 @@
 package mx.com.adoptame.entities.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -9,10 +10,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<User> findAll() {
         return (List<User>) userRepository.findAll();
@@ -67,5 +72,15 @@ public class UserService {
             userRepository.deleteById(id);
         }
         return entity;
+    }
+
+    public Boolean updatePassword(User user,String currentPassword, String newPassword, String repitedPassword){
+        if(!passwordEncoder.matches(user.getPassword(), currentPassword)) return false;
+
+        if(!newPassword.equals(repitedPassword)) return false;
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        return true;
     }
 }

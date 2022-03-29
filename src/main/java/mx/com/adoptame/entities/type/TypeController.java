@@ -38,6 +38,7 @@ public class TypeController {
             if (bindingResult.hasErrors()) {
                 return "views/resources/type/typeForm";
             } else {
+                type.setStatus(true);
                 typeService.save(type);
                 redirectAttributes.addFlashAttribute("msg_success", "Tipo guardada exitosamente");
             }

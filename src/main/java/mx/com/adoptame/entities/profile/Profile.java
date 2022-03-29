@@ -55,8 +55,8 @@ public class Profile implements Serializable{
     @Column(columnDefinition = "varchar(17)")
     private String phone;
 
-    @Size(min = 2, max = 150)
-    @Column(columnDefinition = "varchar(150)")
+    @Size(min = 2, max = 250)
+    @Column(columnDefinition = "varchar(250) default 'https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/662/3e95009c-7c93-4580-a764-5a32f1648a0d.jpg'")
     private String image;
 
     @CreationTimestamp
@@ -71,7 +71,16 @@ public class Profile implements Serializable{
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", nullable = true)
     private Address address;
+
+    public String getFullName(){
+        return getName() + " " +getLastName() + " "+getSecondName();
+    }
+
+    public String getPartialName(){
+        return getName() + " " +getLastName();
+    }
+
 }

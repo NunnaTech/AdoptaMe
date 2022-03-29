@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import mx.com.adoptame.entities.size.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.ReflectionUtils;
@@ -17,7 +18,7 @@ public class CharacterService {
    private CharacterRepository characterRepository;
    
    public List<Character> findAll() {
-       return (List<Character>) characterRepository.findAll();
+       return (List<Character>) characterRepository.findAllByStatus(true);
    }
 
    public Optional<Character> findOne(Integer id) {
@@ -58,14 +59,17 @@ public class CharacterService {
    }
 
     public Boolean delete(Integer id) {
-        boolean entity = characterRepository.existsById(id);
-        if (entity) {
-            characterRepository.deleteById(id);
+        Optional<Character> entity = characterRepository.findById(id);
+        if (entity.isPresent()) {
+            entity.get().setStatus(false);
+            characterRepository.save(entity.get());
+
+            return true;
         }
-        return entity;
+        return false;
     }
 
-   public void fillInicialData() {
+   public void fillInitialData() {
        if (characterRepository.count() > 0)
            return;
 

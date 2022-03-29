@@ -51,18 +51,14 @@ public class Pet implements Serializable {
     @Column(nullable = false, columnDefinition = "varchar(30)")
     private String name;
 
-    @Min(0)
-    @Max(99)
-    @Column(columnDefinition = "int default 0")
-    private Integer age;
-
-    @Min(1)
-    @Max(99)
-    @Column(columnDefinition = "int default 1")
-    private Integer month;
+    @Column(columnDefinition = "enum ('Cachorro/Cria', 'Joven', 'Adulto') default 'Cachorro/Cria'")
+    private String age;
 
     @Column(nullable = false, columnDefinition = "tinyint")
     private Boolean gender;
+
+    @Column(columnDefinition = "varchar(60)")
+    private String breed;
 
     @Column(name = "is_adopted", nullable = false, columnDefinition = "tinyint default 0")
     private Boolean isAdopted;
