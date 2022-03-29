@@ -54,13 +54,10 @@ public class News implements Serializable {
     @NotBlank
     @Size(min = 10)
     //@Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String content;
 
-    //@NotNull
-    //@NotBlank
-    //@Size(min = 2, max = 150)
-    @Column(columnDefinition = "varchar(150)")
+    @Column(columnDefinition = "varchar(250)")
     private String image;
 
     @Column(name = "is_main", nullable = false, columnDefinition = "tinyint default 0")
@@ -77,7 +74,7 @@ public class News implements Serializable {
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
     
