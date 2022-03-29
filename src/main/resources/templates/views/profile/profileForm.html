@@ -19,7 +19,7 @@
                 <div class="tab-pane fade show active" id="list-profile" role="tabpanel"
                      aria-labelledby="list-profile-list">
                     <form th:action="@{/profile/save}" method="post" th:object="${profile}">
-                        <h2>Rol <span class="badge badge-secondary" th:text="${profile.user.role.type}"/></h2>
+<!--                        <h2>Rol <span class="badge badge-secondary" th:text="${profile.user.role.type}"/></h2>-->
                         <input type="hidden" id="id" name="id" th:field="*{id}"/>
                         <div class="row">
                             <div class="col-12 col-md-8">

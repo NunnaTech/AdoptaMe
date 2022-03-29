@@ -15,9 +15,7 @@ public class ProfileService {
     @Autowired
     private ProfileRepository profileRepository;
 
-    public List<Profile> findAll() {
-        return (List<Profile>) profileRepository.findAll();
-    }
+    public List<Profile> findAll() {return (List<Profile>) profileRepository.findAll();}
 
     public Optional<Profile> findOne(Integer id) {
         return profileRepository.findById(id);

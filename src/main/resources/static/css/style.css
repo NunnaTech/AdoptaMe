@@ -12,7 +12,6 @@
     --body-bg: #f8fbff;
 }
 
-
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 6.5rem;
@@ -38,11 +37,11 @@ section {
     text-decoration: none !important;
 }
 
-.header{
+.header {
     background-color: var(--white);
 }
 
-.header.fixed-top{
+.header.fixed-top {
     background-color: transparent;
 }
 
@@ -100,8 +99,6 @@ header .nav a {
     border-bottom: var(--border);
 }
 
-
-
 .header.active {
     background-color: var(--white);
     box-shadow: var(--box-shadow);
@@ -152,23 +149,28 @@ header .nav a {
     padding: 0rem 2rem 0rem 2rem;
 }
 
+@media (max-width: 500px) {
+    .home .content .head-text {
+        font-size: 2.5rem;
+    }
+    .home .content .p-text {
+        font-size: 1rem;
+    }
+}
 
 .home .content h3 {
     font-size: 4rem;
     text-transform: uppercase;
     color: var(--black);
-
     text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.1),
     0px 18px 23px rgba(0, 0, 0, 0.1);
 }
-
 
 .home .content p {
     line-height: 2;
     color: var(--light-color);
     padding: 1rem 0;
     font-size: 1.3rem;
-
 }
 
 /* ------------------------------- Home Ends  -------------------------------  */
@@ -193,7 +195,6 @@ header .nav a {
     font-size: 4rem;
     text-transform: uppercase;
     color: var(--black);
-
     text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.1),
     0px 18px 23px rgba(0, 0, 0, 0.1);
 }
@@ -202,14 +203,20 @@ header .nav a {
     line-height: 2;
     color: var(--black);
     padding: 1rem 0;
-    width: 25rem;
     font-size: 1.3rem;
+}
 
+@media (max-width: 500px) {
+    .donation .content .head-text {
+        font-size: 2.5rem;
+    }
+    .donation .content .p-text {
+        font-size: 1rem;
+    }
 }
 
 /* ------------------------------- Donation Ends  -------------------------------  */
 /* ------------------------------- Pets Starts  -------------------------------  */
-
 
 .pets .badge-primary {
     background-color: var(--orange);
@@ -728,7 +735,6 @@ header .nav a {
     background-color: var(--light-bg);
 }
 
-
 #blog-main .blog-img {
     width: 100%;
     height: 20rem;
@@ -771,7 +777,6 @@ header .nav a {
 #blog-main .card-header {
     background-color: var(--white);
     border-width: 0;
-
 }
 
 #blog-main .box-container .card-header h5 {
@@ -800,6 +805,57 @@ header .nav a {
 }
 
 /* ------------------------------- Blog Ends  -------------------------------  */
+/* ------------------------------- Email-style Starts  -------------------------------  */
+#email-style .card {
+    box-shadow: 0 0.5rem 4rem rgba(0, 0, 0, 0.2);
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+}
+
+#email-style .link-btn {
+    width: 100%;
+    border-radius: 0.3rem;
+}
+
+#email-style img {
+    width: 20%;
+}
+
+#email-style .text-logo {
+    font-size: 2rem;
+    color: var(--black);
+    font-weight: bold;
+}
+#email-style .text-logo-sec {
+
+    color: var(--orange);
+    font-weight: bold;
+}
+
+#email-style h1 {
+    font-size: 1.5rem;
+    color: var(--light-color);
+    font-weight: bold;
+}
+
+#email-style .lead {
+    font-size: 1rem;
+}
+#email-style .form-control {
+    font-size: 1rem;
+    border-color: var(--orange);
+}
+
+#email-style .btn-outline-primary {
+    border: 1px solid var(--orange);
+    color: var(--light-color);
+    border-left-color: white;
+}
+
+#email-style .btn-outline-primary :hover {
+    color: var(--white);
+}
+
+/* ------------------------------- Forgot Password Ends  -------------------------------  */
 /* ------------------------------- Footer Starts  -------------------------------  */
 
 .footer {
@@ -977,8 +1033,6 @@ header .nav a {
         width: auto;
     }
 }
-
-
 
 #sidebar {
     overflow: hidden;
