@@ -19,6 +19,7 @@
             <th scope="col">Edad</th>
             <th scope="col">Tipo</th>
             <th scope="col">Raza</th>
+            <th scope="col">Adoptada</th>
             <th scope="col">Acciones</th>
         </tr>
         </thead>
@@ -30,6 +31,7 @@
             <td th:text="${i.age}"/>
             <td th:text="${i.type.name}"/>
             <td th:text="${i.breed}"/>
+            <td><span class="badge" th:classappend="${i.isAdopted ? 'badge-success':'badge-danger'}" th:text="${i.isAdopted ? 'Si':'No'}"/></td>
             <td class="d-flex justify-content-around">
                 <a th:href="@{/pets/admin/edit/{id} (id=${i.id})}" class="btn btn-warning">
                     <i class="fa-solid fa-pen"></i>

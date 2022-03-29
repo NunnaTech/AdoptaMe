@@ -5,19 +5,16 @@
 <header th:replace="components/navbars:: navbar-admin"/>
 <div class="container py-3">
     <div th:replace="components/titles::titles ('Usuarios', ${ {'Usuarios','Lista'} })"/>
-
     <a type="button" class="btn btn-success my-2" th:href="@{/user/form}">
         <i class="fa-solid fa-plus"></i> Agregar nueva
     </a>
-
     <table id="datatable" class="table table-striped">
         <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Nombre</th>
-            <th scope="col">Primer apellido</th>
             <th scope="col">Correo electrónico</th>
-<!--            <th scope="col">Rol</th>-->
+            <th scope="col">Rol</th>
             <th scope="col">Estado</th>
             <th scope="col">Acciones</th>
         </tr>
@@ -25,13 +22,12 @@
         <tbody>
         <tr th:each="i,c: ${list}">
             <td th:text="${c.count}"/>
-            <td th:text="${i.name}"/>
-            <td th:text="${i.lastName}"/>
+            <td th:text="|${i.user.profile.name} ${i.user.profile.lastName} ${i.user.profile.secondName}|"/>
             <td th:text="${i.user.email}"/>
-<!--            <td th:text="${i.user.role.type}"/>-->
+            <td><ul><li th:each="r:${i.user.roles}" th:text="${r.type}"/></ul></td>
             <td>
                   <span class="badge" th:classappend="${i.user.isActive ? 'badge-success':'badge-danger'}"
-                        th:text="${i.user.isActive ? 'Activo':'Desactivo'}"/>
+                        th:text="${i.user.isActive ? 'Activo':'Inactivo'}"/>
             </td>
             <td class="d-flex justify-content-around">
                 <a th:href="@{/user/edit/{id} (id=${i.id})}" class="btn btn-warning">
