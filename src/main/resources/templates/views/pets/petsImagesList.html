@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="components/navbars:: navbar-admin"/>
+<div class="container py-3">
+
+    <div th:replace="components/titles::titles (${list.name}, ${ {'Mascotas','Lista','Imágenes'} })"/>
+
+    <a type="button" class="btn btn-info my-2 mb-2" th:href="@{/pets/admin/}">
+        <i class="fa-solid fa-arrow-left"></i> Regresar
+    </a>
+    <hr/>
+    <form th:action="@{/petsImages/images/save}" class="my-2" method="post" onsubmit="return false" enctype="multipart/form-data">
+        <input type="hidden" name="idPet" id="idPet" th:value="${list.id}"/>
+        <input type="hidden" name="image" id="image" value=""/>
+        <label>Imagen:</label>
+        <input type="file" class="form-control-file" id="preImage" name="preImage" required accept=".png, .jpg, .jpeg">
+        <button type="submit" class="btn btn-success mt-2" onclick="uploadImage(this.parentElement, 'image')">Guardar</button>
+    </form>
+    <hr/>
+    <table id="datatable" class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Imagen</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i,c: ${list.images}">
+            <td th:text="${c.count}"/>
+            <td class="text-center">
+                <img th:src="${i.image}" class="img-responsive" width="200" height="auto">
+            </td>
+            <td class="d-flex justify-content-center">
+                <form th:action="@{/petsImages/delete/{idPet}/{idImage} (idPet=${list.id}, idImage=${i.id})}"
+                      onsubmit="return false">
+                    <button type="submit" class="btn btn-danger col-12" onclick="confirmSweetAlert(this.form)">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+<div th:replace="components/alerts::alerts"/>
+<script th:src="@{/js/uploadImages.js}"></script>
+
+</body>
+</html>
