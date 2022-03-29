@@ -36,10 +36,10 @@
                         multiple data-live-search="true">
                     <option th:each="tag: ${tagsList}" th:value="${tag.id}" th:text="${tag.name}"/>
                 </select>
-                <div id="tagsHelp"
+                <!--<div id="tagsHelp"
                      th:classappend="${#fields.hasErrors('tags')?'invalid-feedback':''}"
                      th:errors="*{tags}">
-                </div>
+                </div>-->
                 <input type="hidden" th:name="tagValues" id="tagValues">
             </div>
         </div>

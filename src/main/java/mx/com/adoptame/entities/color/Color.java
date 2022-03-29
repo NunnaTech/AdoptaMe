@@ -48,11 +48,15 @@ public class Color implements Serializable {
     @Column(nullable = false, columnDefinition = "varchar(10)")
     private String hex_code;
 
+    @Column(columnDefinition = "tinyint default 1")
+    private Boolean status;
+
     @OneToMany(mappedBy="color", cascade = CascadeType.PERSIST)
     private Set<Pet> pets;
 
     public Color(String name, String hex_code) {
         this.name = name;
         this.hex_code = hex_code;
+        this.status = true;
     }
 }

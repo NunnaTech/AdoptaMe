@@ -1,5 +1,6 @@
 package mx.com.adoptame.entities.type;
 
+import mx.com.adoptame.entities.size.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -15,7 +16,7 @@ public class TypeService {
     private TypeRepository typeRepository;
 
     public List<Type> findAll() {
-        return (List<Type>) typeRepository.findAll();
+        return (List<Type>) typeRepository.findAllByStatus(true);
     }
 
     public Optional<Type> findOne(Integer id) {
@@ -56,10 +57,12 @@ public class TypeService {
     }
 
     public Boolean delete(Integer id) {
-        boolean entity = typeRepository.existsById(id);
-        if (entity) {
-            typeRepository.deleteById(id);
+        Optional<Type> entity = typeRepository.findById(id);
+        if (entity.isPresent()) {
+            entity.get().setStatus(false);
+            typeRepository.save(entity.get());
+            return true;
         }
-        return entity;
+        return false;
     }
 }
