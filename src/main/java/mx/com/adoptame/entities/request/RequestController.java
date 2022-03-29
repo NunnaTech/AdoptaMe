@@ -20,22 +20,24 @@ public class RequestController {
 
     @PostMapping("/login")
     private String login() {
-        return "views/login";
+        return "views/authentication/login";
     }
 
 
     @GetMapping("/login")
     public String login(Model model, Request request) {
         model.addAttribute("request", request);
-        return "views/login";
+        return "views/authentication/login";
     }
+
+    // TODO
 
     @PostMapping("/save")
     public String save(Model model, @Valid Request request, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             System.out.println(request);
             if (bindingResult.hasErrors()) {
-                return "views/login";
+                return "views/authentication/login";
             } else {
                 requestService.save(request);
                 redirectAttributes.addFlashAttribute("msg_success", "Tipo guardada exitosamente");

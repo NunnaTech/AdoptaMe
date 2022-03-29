@@ -1,6 +1,5 @@
 package mx.com.adoptame.entities.request;
 
-import mx.com.adoptame.entities.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -12,11 +11,12 @@ import java.util.Optional;
 
 @Service
 public class RequestService {
+
     @Autowired
     private RequestRepository requestRepository;
 
     public List<Request> findAll() {
-        return (List<Request>) requestRepository.findAllByIsAccepted(false);
+        return  requestRepository.findAllByIsAccepted(false);
     }
 
     public Optional<Request> findOne(Integer id) {
@@ -28,7 +28,7 @@ public class RequestService {
     }
 
     public Optional<Request> update(Request entity) {
-        Optional<Request> updatedEntity = Optional.empty();
+        Optional<Request> updatedEntity;
         updatedEntity = requestRepository.findById(entity.getId());
         if (!updatedEntity.isEmpty())
             requestRepository.save(entity);
@@ -41,7 +41,7 @@ public class RequestService {
             if (entity == null) {
                 return Optional.empty();
             }
-            Optional<Request> updatedEntity = Optional.empty();
+            Optional<Request> updatedEntity;
             fields.forEach((updatedField, value) -> {
                 Field field = ReflectionUtils.findField(Request.class, (String) updatedField);
                 field.setAccessible(true);
