@@ -1,10 +1,7 @@
 package mx.com.adoptame.entities.pet.services;
 
-
 import mx.com.adoptame.entities.pet.entities.Pet;
 import mx.com.adoptame.entities.pet.repositories.PetRepository;
-import mx.com.adoptame.entities.request.Request;
-import mx.com.adoptame.entities.size.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -19,8 +16,10 @@ public class PetService {
     @Autowired
     private PetRepository petRepository;
 
-    public List<Pet> findAll() {
-        return (List<Pet>) petRepository.findAllByIsActive(false);
+    public List<Pet> findAll() {return petRepository.findAllByIsActive(true);}
+
+    public List<Pet> findAllisActiveFalse() {
+        return  petRepository.findAllByIsActive(false);
     }
 
     public Optional<Pet> findOne(Integer id) {
@@ -70,7 +69,6 @@ public class PetService {
         return false;
     }
 
-    
     public Boolean delete(Integer id) {
         Optional<Pet> entity = petRepository.findById(id);
         if (entity.isPresent()) {

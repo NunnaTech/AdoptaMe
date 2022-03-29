@@ -5,7 +5,6 @@
 <header th:replace="components/navbars:: navbar-admin"/>
 <div class="container py-3">
     <div th:replace="components/titles::titles ('Solicitudes de nuevas mascotas', ${ {'Mascotas','Solicitudes nuevas'} })"/>
-
     <table id="datatable" class="table table-striped">
         <thead>
         <tr>
@@ -13,8 +12,8 @@
             <th scope="col">Nombre</th>
             <th scope="col">Género</th>
             <th scope="col">Edad</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Adoptada</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Raza</th>
             <th scope="col">Acciones</th>
         </tr>
         </thead>
@@ -23,11 +22,9 @@
             <td th:text="${c.count}"/>
             <td th:text="${i.name}"/>
             <td><span class="badge" th:classappend="${i.gender ? 'badge-success':'badge-primary'}" th:text="${i.gender ? 'Macho':'Hembra'}"/></td>
-            <td>sd</td>
-            <td><span class="badge" th:classappend="${i.isActive ? 'badge-success':'badge-danger'}" th:text="${i.isActive ? 'Activo':'Desactivo'}"/></td>
-            <td><span class="badge" th:classappend="${i.isAdopted ? 'badge-info':'badge-secondary'}" th:text="${i.isAdopted ? 'Si':'No'}"/></td>
-
-
+            <td th:text="${i.age}"/>
+            <td th:text="${i.type.name}"/>
+            <td th:text="${i.breed}"/>
             <td class="d-flex justify-content-around">
                 <form th:action="@{/pets/admin/acept/{id} (id=${i.id})}"  onsubmit="return false">
                     <button type="submit" class="btn btn-info"

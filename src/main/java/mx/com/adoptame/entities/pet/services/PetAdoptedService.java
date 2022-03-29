@@ -1,9 +1,7 @@
 package mx.com.adoptame.entities.pet.services;
 
-
 import mx.com.adoptame.entities.pet.entities.PetAdopted;
 import mx.com.adoptame.entities.pet.repositories.PetAdoptedRepository;
-import mx.com.adoptame.entities.request.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -15,6 +13,7 @@ import java.util.Optional;
 
 @Service
 public class PetAdoptedService {
+
     @Autowired
     private PetAdoptedRepository petAdoptedRepository;
 
