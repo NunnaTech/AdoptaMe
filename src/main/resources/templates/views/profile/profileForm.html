@@ -19,7 +19,7 @@
                 <div class="tab-pane fade show active" id="list-profile" role="tabpanel"
                      aria-labelledby="list-profile-list">
                     <form th:action="@{/profile/save}" method="post" th:object="${profile}">
-                        <h2>Rol <span class="badge badge-secondary" th:text="${profile.user.role.type}"/></h2>
+<!--                        <h2>Rol <span class="badge badge-secondary" th:text="${profile.user.role.type}"/></h2>-->
                         <input type="hidden" id="id" name="id" th:field="*{id}"/>
                         <div class="row">
                             <div class="col-12 col-md-8">
@@ -213,8 +213,8 @@
                                          class="rounded-circle img-responsive mt-2" width="160" height="auto">
                                     <div class="mt-2">
                                         <div class="form-group">
-                                            <label for="exampleFormControlFile1">Imagen</label>
-                                            <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                            <label for="imagen">Imagen</label>
+                                            <input type="file" class="form-control-file" id="imagen" accept=".png, .jpg, .jpeg">
                                         </div>
                                     </div>
                                 </div>

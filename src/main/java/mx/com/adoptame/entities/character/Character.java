@@ -48,9 +48,6 @@ public class Character implements Serializable {
     @Column(columnDefinition = "varchar(60)")
     private String description;
 
-    @NotNull
-    @NotBlank
-    @Size(min = 2, max = 150)
     @Column(columnDefinition = "varchar(150)")
     private String icon;
 
