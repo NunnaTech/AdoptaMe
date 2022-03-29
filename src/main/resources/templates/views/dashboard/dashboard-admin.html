@@ -2,15 +2,10 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100" id="admin-dashboard">
-<header th:replace="components/navbars:: ''+${navbar}"></header>
-
-
-
+<header th:replace="components/navbars::navbar-admin"/>
 <main>
-    <!-- cards section starts  -->
     <div class="container-fluid px-5 py-4">
-        <h1 class="h3 mb-3"><strong>Administrador</strong> Dashboard</h1>
-        <!-- CARDS MASCOTAS CONTAINER  -->
+        <div th:replace="components/titles::titles ('Panel de control', ${ {'Panel de control'} })"></div>
         <div class="row">
             <div class="col-xl-12 col-xxl-5 d-flex single-card">
                 <div class="w-100">

@@ -36,6 +36,7 @@
                    th:classappend="${#fields.hasErrors('description')?'is-invalid':''}"
                    th:field="*{description}"
                    pattern="[A-Za-zÀ-ÿ '-.]*"
+                   maxlength="50"
             />
             <div id="descriptionHelp"
                  th:classappend="${#fields.hasErrors('description')?'invalid-feedback':''}"
@@ -49,7 +50,7 @@
             <input type="text" class="form-control"
                    id="icon" name="icon"
                    aria-describedby="iconHelp"
-                   placeholder="Ej: http://www..."
+                   placeholder="Ej: 😄😃🤣😇"
                    th:classappend="${#fields.hasErrors('icon')?'is-invalid':''}"
                    th:field="*{icon}"
             />

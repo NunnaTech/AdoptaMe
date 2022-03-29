@@ -23,8 +23,10 @@ public class ProfileController {
     @GetMapping("/")
     public String type(Model model, Profile profile) {
         try {
+            // TODO obtener usuario
             profile = profileService.findOne(1).get();
-          model.addAttribute("profile", profile);
+            System.out.println(profile);
+            model.addAttribute("profile", profile);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

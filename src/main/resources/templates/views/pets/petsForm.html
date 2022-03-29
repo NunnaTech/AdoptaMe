@@ -5,15 +5,9 @@
 <header th:replace="components/navbars:: navbar-admin"/>
 
 <div class="container py-3">
-
     <div th:replace="components/titles::titles ('Mascotas', ${ {'Mascotas','Formulario'} })"/>
-
     <form th:action="@{/pets/admin/save}" method="post" th:object="${pet}">
-
-
         <input type="hidden" id="id" name="id" th:field="*{id}"/>
-
-
         <div class="form-row">
             <div class="form-group col-12 col-md-4">
                 <label for="name">Nombre:</label>
@@ -42,63 +36,61 @@
                 </select>
             </div>
             <div class="form-group col-12 col-md-4">
-                <label>Estado:</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="isActive" th:field="*{isActive}">
-                    <label class="form-check-label" for="isActive">
-                        Activo
-                    </label>
-                </div>
+                <label for="age">Edad:</label>
+                <select class="form-control" id="age" name="age" th:field="*{age}">
+                    <option value="Cachorro/Cria">Cachorro/Cria</option>
+                    <option value="Joven">Joven</option>
+                    <option value="Adulto">Adulto</option>
+                </select>
             </div>
         </div>
-
         <div class="form-row">
-
-            <div class="form-group col-12 col-md-3">
+            <div class="form-group col-12 col-md-6">
                 <label for="character">Carácter:</label>
                 <select class="form-control" id="character" name="character" th:field="*{character.id}">
                     <option th:each="i: ${listCharacters}" th:value="${i.id}" th:text="${i.name}"/>
                 </select>
             </div>
-
-            <div class="form-group col-12 col-md-3">
+            <div class="form-group col-12 col-md-6">
+                <label for="breed">Raza:</label>
+                <input type="text" class="form-control"
+                       id="breed" name="breed"
+                       aria-describedby="breedHelp"
+                       placeholder="Ej: Labrador, Persa, Pomerania"
+                       th:classappend="${#fields.hasErrors('breed')?'is-invalid':''}"
+                       th:field="*{breed}"
+                       minlength="2"
+                       maxlength="30"
+                       pattern="[A-Za-zÀ-ÿ '-.]*"
+                />
+                <div id="breedHelp"
+                     th:classappend="${#fields.hasErrors('breed')?'invalid-feedback':''}"
+                     th:errors="*{breed}">
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12 col-md-4">
                 <label for="color">Color:</label>
                 <select class="form-control" id="color" name="color" th:field="*{color.id}">
                     <option th:each="i: ${listColors}" th:value="${i.id}" th:text="${i.name}"/>
                 </select>
             </div>
 
-            <div class="form-group col-12 col-md-3">
+            <div class="form-group col-12 col-md-4">
                 <label for="size">Tamaño:</label>
                 <select class="form-control" id="size" name="size" th:field="*{size.id}">
                     <option th:each="i: ${listSizes}" th:value="${i.id}" th:text="${i.name}"/>
                 </select>
             </div>
 
-            <div class="form-group col-12 col-md-3">
-                <label for="type">Tamaño:</label>
+            <div class="form-group col-12 col-md-4">
+                <label for="type">Tipo:</label>
                 <select class="form-control" id="type" name="type" th:field="*{type.id}">
                     <option th:each="i: ${listTypes}" th:value="${i.id}" th:text="${i.name}"/>
                 </select>
             </div>
         </div>
-
-        <div class="form-row">
-
-
-            <div class="form-group col-12 col-md-4">
-                <label>Estado:</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="isAdopted" th:field="*{isAdopted}">
-                    <label class="form-check-label" for="isAdopted">
-                        Adoptado
-                    </label>
-                </div>
-            </div>
-
-        </div>
-
-
         <button type="submit" class="btn btn-success">Guardar</button>
     </form>
 </div>

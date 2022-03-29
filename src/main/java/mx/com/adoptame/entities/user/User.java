@@ -51,7 +51,7 @@ public class User implements Serializable {
     @NotNull
     @NotBlank
     @Size(min = 5, max = 30)
-    @Column(nullable = false, columnDefinition = "varchar(50)")
+    @Column(nullable = false, columnDefinition = "varchar(100)")
     private String password;
 
     @Column(name = "is_active", nullable = false, columnDefinition = "tinyint default 1")

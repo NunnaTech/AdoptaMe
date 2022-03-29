@@ -60,7 +60,6 @@ public class ColorService {
         if (entity.isPresent()) {
             entity.get().setStatus(false);
             colorRepository.save(entity.get());
-
             return true;
         }
         return false;

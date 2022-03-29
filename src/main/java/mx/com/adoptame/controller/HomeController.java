@@ -8,15 +8,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller()
 public class HomeController {
+
     @Autowired
     private NewsService newsService;
-    @GetMapping(path = {"/"})
+
+    @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("navbar", "navbar-all");
         model.addAttribute("fix", "fix");
         model.addAttribute("mainNews", newsService.findMainNews());
-
         return "index";
     }
 
+    @GetMapping("/dashboard")
+    public String dashboard(Model model){
+        return "views/dashboard/dashboard-admin";
+    }
 }

@@ -95,6 +95,8 @@ public class PetController {
     @PostMapping("/admin/save")
     public String save(Model model, @Valid Pet pet, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
+            pet.setIsActive(false);
+            pet.setIsAdopted(false);
             if (bindingResult.hasErrors()) {
                 model.addAttribute("listCharacters", characterService.findAll());
                 model.addAttribute("listColors", colorService.findAll());

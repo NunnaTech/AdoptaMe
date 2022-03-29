@@ -38,6 +38,7 @@
                    th:classappend="${#fields.hasErrors('description')?'is-invalid':''}"
                    th:field="*{description}"
                    pattern="[A-Za-zÀ-ÿ '-.]*"
+                   maxlength="50"
                    />
             <div id="descriptionHelp"
                  th:classappend="${#fields.hasErrors('description')?'invalid-feedback':''}"
