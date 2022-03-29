@@ -10,19 +10,16 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import mx.com.adoptame.entities.user.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "TBL_ROLES")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@ToString
 public class Role implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,8 +38,7 @@ public class Role implements Serializable{
     @Column(columnDefinition = "varchar(50)")
     private String description;
 
-    @ManyToMany
-    @JoinColumn(name = "roles")
+    @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
     @CreationTimestamp
@@ -55,6 +51,5 @@ public class Role implements Serializable{
 
     public Role(String type) {
         this.type = type;
-
     }
 }
