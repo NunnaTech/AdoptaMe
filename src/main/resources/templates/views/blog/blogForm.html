@@ -6,8 +6,9 @@
 
 <div class="container py-3">
     <div th:replace="components/titles::titles ('Blog', ${ {'Blog','Formulario'} })"/>
-    <form th:action="@{/blog/admin/save}" method="post" th:object="${news}">
+    <form th:action="@{/blog/admin/save}" method="post" th:object="${news}" onsubmit="return false" >
         <input type="hidden" id="id" name="id" th:field="*{id}"/>
+        <input type="hidden" name="image" id="image" th:field="*{image}"/>
 
         <div class="form-row">
             <div class="form-group col-12 col-md-8">
@@ -45,13 +46,16 @@
         </div>
 
         <div class="form-row">
-            <div class="form-group col-12 col-md-6">
+            <div class="form-group col-12 col-md-4">
                 <div class="form-group">
-                    <label for="image">Imagen:</label>
-                    <input type="file" class="form-control-file" id="image" name="image">
+                    <label for="preImage">Imagen:</label>
+                    <input type="file" class="form-control-file" id="preImage" name="preImage" accept=".png, .jpg, .jpeg">
                 </div>
             </div>
-            <div class="form-group col-12 col-md-6">
+            <div class="form-group col-12 col-md-4 text-center">
+                <img th:src="${news.image}" width="150" height="auto">
+            </div>
+            <div class="form-group col-12 col-md-4">
                 <div>Opciones de publicado:</div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="isMail" id="isMain" th:field="*{isMain}">
@@ -67,6 +71,7 @@
                 </div>
             </div>
         </div>
+
         <div class="form-group">
             <label for="content">Contenido:</label>
             <textarea id="content" name="content" th:field="*{content}" minlength="10" required/>
@@ -75,7 +80,8 @@
                  th:errors="*{content}">
             </div>
         </div>
-        <button type="submit" class="btn btn-success">Guardar</button>
+
+        <button type="submit" class="btn btn-success" onclick="uploadImageBlog(this.form)">Guardar</button>
     </form>
 </div>
 
@@ -99,6 +105,7 @@
         $('#tagValues').val(values.join(","))
     }))
 </script>
+<script th:src="@{/js/uploadImages.js}"></script>
 </body>
 </html>
 
