@@ -65,15 +65,19 @@ public class PetController {
     }
 
     @GetMapping("/admin/request")
-    public String request(Model model, Pet pet) {
-        model.addAttribute("list", petService.findAll());
+    public String request(Model model) {
+        model.addAttribute("list", petService.findAllisActiveFalse());
         return "views/pets/petsRequest";
     }
 
     @GetMapping("/admin/acept/{id}")
-    public String acept(@PathVariable("id") Integer id,Model model, Pet pet) {
-        // TODO implementar aceptar una mascota registrada por el voluntario
-        return "views/pets/petsRequest";
+    public String acept(@PathVariable("id") Integer id,Model model, Pet pet, RedirectAttributes redirectAttributes) {
+        if (petService.accept(id)) {
+            redirectAttributes.addFlashAttribute("msg_success", "Mascota aceptada exitosamente");
+        } else {
+            redirectAttributes.addFlashAttribute("msg_error", "Mascota no aceptada");
+        }
+        return "redirect:/pets/admin/request";
     }
 
 
