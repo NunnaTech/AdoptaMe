@@ -4,9 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import mx.com.adoptame.entities.character.CharacterService;
 import mx.com.adoptame.entities.color.ColorService;
 import mx.com.adoptame.entities.pet.entities.Pet;
-import mx.com.adoptame.entities.pet.services.PetImageService;
 import mx.com.adoptame.entities.pet.services.PetService;
-import mx.com.adoptame.entities.role.Role;
 import mx.com.adoptame.entities.size.SizeService;
 import mx.com.adoptame.entities.type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,6 @@ public class PetController {
 
     @Autowired private PetService petService;
 
-    @Autowired private PetImageService petImageService;
 
     @Autowired private CharacterService characterService;
 
@@ -119,7 +116,7 @@ public class PetController {
 
     @GetMapping("/admin/delete/{id}")
     public String delete(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
-        if (petService.delete(id)) {
+        if (Boolean.TRUE.equals(petService.delete(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Mascota eliminado exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Mascota no eliminado");

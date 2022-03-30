@@ -2,6 +2,7 @@ package mx.com.adoptame.entities.pet.services;
 
 import mx.com.adoptame.entities.pet.entities.PetAdopted;
 import mx.com.adoptame.entities.pet.repositories.PetAdoptedRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -18,7 +19,7 @@ public class PetAdoptedService {
     private PetAdoptedRepository petAdoptedRepository;
 
     public List<PetAdopted> findAll() {
-        return (List<PetAdopted>) petAdoptedRepository.findAllByIsCanceled(false);
+        return petAdoptedRepository.findAllByIsCanceled(false);
     }
 
     public Optional<PetAdopted> findOne(Integer id) {
@@ -30,7 +31,7 @@ public class PetAdoptedService {
     }
 
     public Optional<PetAdopted> update(PetAdopted entity) {
-        Optional<PetAdopted> updatedEntity = Optional.empty();
+        Optional<PetAdopted> updatedEntity;
         updatedEntity = petAdoptedRepository.findById(entity.getId());
         if (!updatedEntity.isEmpty())
             petAdoptedRepository.save(entity);
@@ -43,7 +44,7 @@ public class PetAdoptedService {
             if (entity == null) {
                 return Optional.empty();
             }
-            Optional<PetAdopted> updatedEntity = Optional.empty();
+            Optional<PetAdopted> updatedEntity;
             fields.forEach((updatedField, value) -> {
                 Field field = ReflectionUtils.findField(PetAdopted.class, (String) updatedField);
                 field.setAccessible(true);
@@ -62,6 +63,7 @@ public class PetAdoptedService {
         Optional<PetAdopted> entity = petAdoptedRepository.findById(id);
         if (entity.isPresent()) {
             entity.get().setIsCanceled(true);
+            entity.get().getPet().setIsAdopted(true);
             petAdoptedRepository.save(entity.get());
             return true;
         }
