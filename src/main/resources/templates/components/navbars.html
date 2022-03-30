@@ -8,7 +8,7 @@
     <div class="container">
         <div class="row align-items-center d-flex justify-content-between">
             <a th:href="@{/}" class="logo">
-                <img th:src="@{/img/logo.svg}" style="height: 50px; width: 50px"/>Adopta<span>Me.</span>
+                <img th:src="@{/img/logo.svg}" style="height: 50px; width: 50px" alt="logo"/>Adopta<span>Me.</span>
             </a>
             <nav class="nav">
                 <a class="active" th:href="@{/#home}">Inicio</a>
@@ -17,7 +17,7 @@
                 <a th:href="@{/#adopt}">¿Por qué adoptar?</a>
                 <a th:href="@{/pets/}">Mascotas</a>
             </nav>
-            <a th:href="@{/request/login}" class="link-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
+            <a th:href="@{/login}" class="link-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
             <div id="menu-btn" class="fas fa-bars"></div>
         </div>
     </div>
@@ -118,7 +118,7 @@
                         </a>
                     </li>
                 </ul>
-                <a th:href="@{/}" class="link-btn p-0 m-0 p-2">
+                <a th:href="@{/logout}" class="link-btn p-0 m-0 p-2">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     Salir
                 </a>
@@ -170,7 +170,7 @@
                         </a>
                     </li>
                 </ul>
-                <a th:href="@{/}" class="link-btn p-0 m-0 p-2">
+                <a th:href="@{/logout}" class="link-btn p-0 m-0 p-2">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     Cerrar sesión
                 </a>
@@ -215,7 +215,7 @@
                         </a>
                     </li>
                 </ul>
-                <a th:href="@{/}" class="link-btn p-0 m-0 p-2">
+                <a th:href="@{/logout}" class="link-btn p-0 m-0 p-2">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     Cerrar sesión
                 </a>
