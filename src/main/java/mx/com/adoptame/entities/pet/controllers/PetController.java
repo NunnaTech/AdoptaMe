@@ -26,7 +26,6 @@ public class PetController {
 
     @Autowired private PetService petService;
 
-
     @Autowired private CharacterService characterService;
 
     @Autowired private ColorService colorService;
