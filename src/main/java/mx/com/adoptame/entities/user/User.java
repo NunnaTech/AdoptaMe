@@ -55,7 +55,7 @@ public class User implements Serializable {
     @Column(name = "is_active", nullable = false, columnDefinition = "tinyint default 1")
     private Boolean isActive;
 
-    @Column(name = "link_restore_password", columnDefinition = "varchar(150)")
+    @Column(name = "link_restore_password",unique = true, columnDefinition = "varchar(150)")
     private String linkRestorePassword;
 
     @CreationTimestamp
@@ -68,10 +68,9 @@ public class User implements Serializable {
 
     // Relationships
 
-    @OneToOne(
-            cascade = CascadeType.ALL,
-            mappedBy = "user")
+    @OneToOne(mappedBy = "user")
     private Profile profile;
+
 
     @OneToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
