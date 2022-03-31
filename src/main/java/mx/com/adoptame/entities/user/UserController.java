@@ -1,16 +1,22 @@
 package mx.com.adoptame.entities.user;
 
+import mx.com.adoptame.config.email.EmailService;
 import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.profile.ProfileService;
 import mx.com.adoptame.entities.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.servlet.ServletContext;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
@@ -24,6 +30,11 @@ public class UserController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private ServletContext context;
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping("/")
     public String type(Model model) {
@@ -89,10 +100,39 @@ public class UserController {
         }
         return "redirect:/user/";
     }
+    @PostMapping("/forgotPassword")
+    public String sendEmail(@RequestParam String email){
+        String path = context.getContextPath();
+        userService.sedEmail(email, path);
+        return "redirect:/login";
+    }
 
+    @GetMapping("/link_restore_password")
+    public String restorePassword(@Param(value = "token") String token, Model model, RedirectAttributes redirectAttributes){
+        Optional<User> user = userService.findByLinkRestorePassword(token);
+        if (!user.isPresent()) {
+            redirectAttributes.addFlashAttribute("msg_success", "Usuario guardada exitosamente");
+            return "redirect:/login"; //404 template
+        }
+        model.addAttribute("token", token);
+        return "views/authentication/resetPassword";
+    }
 
-    @PostMapping("/changePassword")
-    private String changePassword() {
-        return "/";
+    @PostMapping("/reset_password_submit")
+    public String processResetPassword(HttpServletRequest request, Model model,RedirectAttributes redirectAttributes) {
+        String token = request.getParameter("token");
+        String newPassword = request.getParameter("newPassword");
+        String repeatedPassword = request.getParameter("repeatedPassword");
+
+        Boolean completed = userService.updatePassword(token, newPassword, repeatedPassword);
+
+        if (!completed) {
+            redirectAttributes.addFlashAttribute("msg_warning", "Token no valida");
+
+            return "views/authentication/resetPassword";
+        }
+        redirectAttributes.addFlashAttribute("msg_success", "cambio de contraseña exitoso");
+
+        return "redirect:/login";
     }
 }
