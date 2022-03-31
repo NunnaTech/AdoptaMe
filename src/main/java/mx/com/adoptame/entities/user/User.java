@@ -12,15 +12,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import lombok.*;
 import mx.com.adoptame.entities.boards.Board;
 import mx.com.adoptame.entities.log.Log;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import mx.com.adoptame.entities.donation.Donation;
 import mx.com.adoptame.entities.news.News;
 import mx.com.adoptame.entities.pet.entities.Pet;
@@ -31,9 +29,9 @@ import mx.com.adoptame.entities.request.Request;
 
 @Entity
 @Table(name = "TBL_USERS")
-@Data
 @NoArgsConstructor
-@ToString
+@Getter
+@Setter
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,14 +48,14 @@ public class User implements Serializable {
 
     @NotNull
     @NotBlank
-    @Size(min = 5, max = 30)
+    @Size(min = 5, max = 100)
     @Column(nullable = false, columnDefinition = "varchar(100)")
     private String password;
 
     @Column(name = "is_active", nullable = false, columnDefinition = "tinyint default 1")
     private Boolean isActive;
 
-    @Column(name = "link_restore_password", columnDefinition = "varchar(150)")
+    @Column(name = "link_restore_password",unique = true, columnDefinition = "varchar(150)")
     private String linkRestorePassword;
 
     @CreationTimestamp
@@ -70,10 +68,9 @@ public class User implements Serializable {
 
     // Relationships
 
-    @OneToOne(
-            cascade = CascadeType.ALL,
-            mappedBy = "user")
+    @OneToOne(mappedBy = "user")
     private Profile profile;
+
 
     @OneToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,

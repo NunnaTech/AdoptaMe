@@ -1,5 +1,7 @@
 package mx.com.adoptame.entities.address;
 
+import mx.com.adoptame.entities.profile.Profile;
+import mx.com.adoptame.entities.profile.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -13,6 +15,8 @@ import java.util.Optional;
 public class AddressService {
     @Autowired
     private AdressRepository addressRepository;
+    @Autowired
+    private ProfileRepository profileRepository;
 
         public List<Address> findAll() {
             return (List<Address>) addressRepository.findAll();
@@ -23,6 +27,12 @@ public class AddressService {
         }
 
         public Optional<Address> save(Address entity) {
+            return Optional.of(addressRepository.save(entity));
+        }
+
+        public Optional<Address> saveJustAddres(Address entity) {
+            Optional<Profile> profile = profileRepository.findByAddress(entity);
+            entity.setProfile(profile.get());
             return Optional.of(addressRepository.save(entity));
         }
 

@@ -16,16 +16,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import mx.com.adoptame.entities.news.News;
 
 @Entity
 @Table(name = "TBL_TAGS")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@ToString
 public class Tag implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
