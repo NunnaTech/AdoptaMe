@@ -62,12 +62,12 @@ public class NewsController {
     //    Form admin
     @GetMapping("/admin/form")
     public String save(Model model, News news) {
-        model.addAttribute("tagsList", tagService.findAll());
         model.addAttribute("news", news);
+        model.addAttribute("tags", tagService.findAll());
         return "views/blog/blogForm";
     }
 
-    //    Edit admin
+    //    Edit blog
     @GetMapping("/admin/edit/{id}")
     public String edit(@PathVariable("id") Integer id, Model model, News news, RedirectAttributes redirectAttributes) {
         news = newsService.findOne(id).orElse(null);
@@ -75,6 +75,7 @@ public class NewsController {
             redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
             return "redirect:/blog/admin";
         }
+        model.addAttribute("tags", tagService.findAll());
         model.addAttribute("news", news);
         return "views/blog/blogForm";
 
@@ -92,7 +93,7 @@ public class NewsController {
 
     //    Save admin
     @PostMapping("/admin/save")
-    public String save(Model model, @Valid News news, BindingResult bindingResult, @ModelAttribute("tagValues") String tagValues, RedirectAttributes redirectAttributes) {
+    public String save(Model model, @Valid News news, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         news.setUser(userService.findOne(1).get());
         try {
             if (bindingResult.hasErrors()) {
@@ -101,13 +102,13 @@ public class NewsController {
             }
             news = newsService.save(news).get();
             redirectAttributes.addFlashAttribute("msg_success", "Blog guardado exitosamente");
-            String[] tags = tagValues.split(",");
+            /*String[] tags = tagValues.split(",");
             for (String tag : tags) {
                 Optional<Tag> tagItem = tagService.findOne(Integer.valueOf(tag));
                 if (tagItem.isPresent()) {
                     newsService.saveTag(news, tagItem.get());
                 }
-            }
+            }*/
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

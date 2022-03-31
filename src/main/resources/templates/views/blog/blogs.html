@@ -24,7 +24,7 @@
                     <div class="card bg-dark text-white mb-1 demo_wrap">
                         <h5 th:text="${news.title}" />
                         <img class="card-img-top img-fluid blog-img" th:src="${news.image}" alt="banner">
-                                <p class="card-text" th:text="${#temporals.format(news.createdAt,'yyyy-MMM-dd')}"></p>
+                                <p class="card-text" th:text="${#temporals.format(news.createdAt,'dd-MMM-yyyy')}"></p>
                     </div>
                 </a>
 
