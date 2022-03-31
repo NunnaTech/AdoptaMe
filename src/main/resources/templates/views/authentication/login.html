@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
@@ -32,6 +33,9 @@
                            maxlength="30"
                            pattern="[A-Za-zÀ-ÿ '-./#]*"
                     />
+                </div>
+                <div class="form-group">
+                    <a th:href="@{/forgot-password}">¿Olvidate tu contraseña?</a>
                 </div>
                 <button type="submit" class="btn btn-dark">Iniciar sesión</button>
             </form>
@@ -132,17 +136,17 @@
                 <div class="form-group">
                    <!-- <label>¿Qué rol desempeñarias?</label> <br/>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio"
+                       <!-- <input class="form-check-input" type="radio"
                                name="role" id="voluntario"
                                th:value="2" th:field="*{user.role.id}">
-                        <label class="form-check-label" for="voluntario">Voluntario</label>
+                        <label class="form-check-label" for="voluntario">Voluntario</label>-->
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio"
+                      <!--  <input class="form-check-input" type="radio"
                                name="role" id="adoptador"
                                th:value="3" th:field="*{user.role.id}" >
-                        <label class="form-check-label" for="adoptador">Adoptador</label>
-                    </div>-->
+                        <label class="form-check-label" for="adoptador">Adoptador</label>-->
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="reason">Razón: (opcional)</label>
