@@ -37,7 +37,7 @@
                                                 <span class="ml-3"><i class="fa-solid fa-user-pen mr-2"></i>Por:</span>
                                                 <span class="ml-1"th:text="${news.user.profile.getPartialName()}" />
                                                 <span class="ml-3 date"><i class="fa-solid fa-calendar mr-2"></i></span>
-                                                <span class="date" th:text="${#temporals.format(news.createdAt,'yyyy-MM-dd')}"/>
+                                                <span class="date" th:text="${#temporals.format(news.createdAt,'dd-MMM-yyyy')}"/>
                                             </div>
 
                                         </div>
