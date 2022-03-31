@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -111,37 +112,10 @@ public class UserService {
         userRepository.save(user);
         return true;
     }
-
-    /**
-     * sets value for the field linkRestorePassword of
-     * a user found by the given email – and persist
-     * change to the database.
-     */
-    public void updateResetPasswordToken(String token, String email)  {
-        Optional<User> user = userRepository.findByEmailAndIsActive(email, true);
-        if (user.isPresent()) {
-            user.get().setLinkRestorePassword(token);
-            save(user.get());
-        }
-    }
-    /**
-     *
-     * sets new password for the user
-     * (using BCrypt password encoding) and
-     * nullifies the reset password token.
-     */
-    public Boolean updatePassword(User user, String newPassword, String repeatedPassword){
-
-        if(!newPassword.equals(repeatedPassword)) return false;
-
-        user.setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(user);
-        return true;
-    }
-
     public void sedEmail(String email, String path){
         //We create a token
         String token  = RandomString.make(100);
+        token += LocalDateTime.now();
         String host = "http://localhost:8090";
         //we try to send the email
         try {
@@ -152,9 +126,58 @@ public class UserService {
             exception.printStackTrace();
         }
     }
+    /**
+     * sets value for the field linkRestorePassword of
+     * a user found by the given email – and persist
+     * change to the database.
+     */
+    public void updateResetPasswordToken(String token, String email)  {
+        Optional<User> user = findByEmailAndIsActive(email);
+        if (user.isPresent()) {
+            user.get().setLinkRestorePassword(token);
+            save(user.get());
+        }
+    }
+
+    /**
+     *
+     * sets new password for the user
+     * (using BCrypt password encoding) and
+     * nullifies the reset password token.
+     */
+    public Boolean updatePassword(String token, String newPassword, String repeatedPassword){
+        Optional<User> user = findByLinkRestorePassword(token);
+        if (user.isEmpty()) return false;
+        if(!checkToken(token)) return false;
+        if(!newPassword.equals(repeatedPassword)) return false;
+
+        user.get().setPassword(passwordEncoder.encode(newPassword));
+        user.get().setLinkRestorePassword(null);
+        userRepository.save(user.get());
+        return true;
+    }
+    /**
+     *
+     * Check if the Token is already active
+     */
+    public Boolean checkToken(String token){
+       try {
+           String code = token.substring(0,100);
+           LocalDateTime tokenDate = LocalDateTime.parse(token.substring(100, token.length()));
+           LocalDateTime now = LocalDateTime.now();
+
+           return true;
+       }catch (Exception e){
+           e.printStackTrace();
+       }
+        return false;
+    }
 
     public Optional<User> findByLinkRestorePassword(String token) {
         return userRepository.findByLinkRestorePassword(token);
+    }
+    public Optional<User> findByEmailAndIsActive(String email) {
+        return userRepository.findByEmailAndIsActive(email,true);
     }
 
 }
