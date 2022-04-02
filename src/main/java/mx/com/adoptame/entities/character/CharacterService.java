@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import mx.com.adoptame.entities.size.Size;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.stereotype.Service;
 
