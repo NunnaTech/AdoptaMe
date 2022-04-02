@@ -13,6 +13,8 @@ import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -148,7 +150,7 @@ public class UserService {
     public Boolean updatePassword(String token, String newPassword, String repeatedPassword){
         Optional<User> user = findByLinkRestorePassword(token);
         if (user.isEmpty()) return false;
-        if(!checkToken(token)) return false;
+        if(!checkTokenDate(token)) return false;
         if(!newPassword.equals(repeatedPassword)) return false;
 
         user.get().setPassword(passwordEncoder.encode(newPassword));
@@ -160,13 +162,11 @@ public class UserService {
      *
      * Check if the Token is already active
      */
-    public Boolean checkToken(String token){
+    public Boolean checkTokenDate(String token){
        try {
-           String code = token.substring(0,100);
            LocalDateTime tokenDate = LocalDateTime.parse(token.substring(100, token.length()));
-           LocalDateTime now = LocalDateTime.now();
-
-           return true;
+           long hours = ChronoUnit.HOURS.between(tokenDate, LocalDateTime.now());
+           if(hours < 24) return true;
        }catch (Exception e){
            e.printStackTrace();
        }
