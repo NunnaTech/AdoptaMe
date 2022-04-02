@@ -6,56 +6,64 @@
 
 <div class="container py-3">
     <div th:replace="components/titles::titles ('Blog', ${ {'Blog','Formulario'} })"/>
-    <form th:action="@{/blog/admin/save}" method="post" th:object="${news}" onsubmit="event.preventDefault(); uploadImageConfirm(event.target)" >
+    <form th:action="@{/blog/admin/save}" method="post" th:object="${news}"
+          onsubmit="event.preventDefault(); uploadImageConfirm(event.target)">
         <input type="hidden" id="id" name="id" th:field="*{id}"/>
         <input type="hidden" name="image" id="image" th:field="*{image}"/>
+        <div class="row">
+            <div class="col-12 col-md-7">
+                <div class="form-row form-group">
+                    <label for="title">Título:</label>
+                    <input type="text" class="form-control"
+                           id="title" name="title"
+                           aria-describedby="titleHelp"
+                           placeholder="Ej: La vida de las mascotas"
+                           th:classappend="${#fields.hasErrors('title')?'is-invalid':''}"
+                           th:field="*{title}"
+                           autofocus
+                           required
+                           minlength="2"
+                           maxlength="50"
+                           pattern="[A-Za-zÀ-ÿ '-.0-9]*"
+                    />
+                    <div id="titleHelp"
+                         th:classappend="${#fields.hasErrors('title')?'invalid-feedback':''}"
+                         th:errors="*{title}">
+                    </div>
+                </div>
 
-        <div class="form-row">
-            <div class="form-group col-12 col-md-8">
-                <label for="title">Título:</label>
-                <input type="text" class="form-control"
-                       id="title" name="title"
-                       aria-describedby="titleHelp"
-                       placeholder="Ej: La vida de las mascotas"
-                       th:classappend="${#fields.hasErrors('title')?'is-invalid':''}"
-                       th:field="*{title}"
-                       autofocus
-                       required
-                       minlength="2"
-                       maxlength="50"
-                       pattern="[A-Za-zÀ-ÿ '-.]*"
-                />
-                <div id="titleHelp"
-                     th:classappend="${#fields.hasErrors('title')?'invalid-feedback':''}"
-                     th:errors="*{title}">
-                </div>
-            </div>
-        </div>
+                <div class="form-row">
+                    <div class="form-group col-12 col-md-6">
+                        <div>Opciones de publicado:</div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="isMail" id="isMain"
+                                   th:field="*{isMain}">
+                            <label class="form-check-label" for="isMain">
+                                Mostrar en el menú inicial
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="isPublished" id="isPublished"
+                                   th:field="*{isPublished}">
+                            <label class="form-check-label" for="isPublished">
+                                Publicar
+                            </label>
+                        </div>
+                    </div>
 
-        <div class="form-row">
-            <div class="form-group col-12 col-md-4">
-                <div class="form-group">
-                    <label for="preImage">Imagen:</label>
-                    <input type="file" class="form-control-file" id="preImage" name="preImage" accept=".png, .jpg, .jpeg">
+                    <div class="form-group col-12 col-md-6">
+                        <div class="form-group">
+                            <label for="preImage">Imagen:</label>
+                            <input type="file" class="form-control-file" id="preImage" name="preImage"
+                                   accept=".png, .jpg, .jpeg">
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="form-group col-12 col-md-4 text-center">
-                <img th:src="${news.image}" width="150" height="auto">
-            </div>
-            <div class="form-group col-12 col-md-4">
-                <div>Opciones de publicado:</div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="isMail" id="isMain" th:field="*{isMain}">
-                    <label class="form-check-label" for="isMain">
-                        Mostrar en el menú inicial
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="isPublished" id="isPublished" th:field="*{isPublished}">
-                    <label class="form-check-label" for="isPublished">
-                        Publicar
-                    </label>
-                </div>
+
+            <div class="col-12 col-md-5 text-center">
+                <div>Prevista de la imagen:</div>
+                <img th:src="${news.image}" class="img-fluid rounded">
             </div>
         </div>
 
@@ -67,23 +75,22 @@
                  th:errors="*{content}">
             </div>
         </div>
+
         <div class="form-group">
-
-            <h5 class="m-2">Tag Asociados</h5>
-
-            <div class="col-12" th:each="tag : ${tags}">
+            <div class="mb-2">Etiquetas:</div>
+            <div class="form-row">
+                <div class="col-6 col-md-3 mb-1" th:each="tag : ${tags}">
                     <input type="checkbox" name="tags"
-                           class="col-2"
                            th:value="${tag.id}"
                            th:field="*{tags}"
                            th:id="${tag.id}"
                     />
-                <label th:for="${tag.id}" th:text="${tag.name}"></label>
+                    <label th:for="${tag.id}" th:text="${tag.name}"></label>
+                </div>
             </div>
-
         </div>
-        <button type="submit" class="btn btn-success btn-lg btn-block">Guardar</button>
 
+        <button type="submit" class="btn btn-success">Guardar</button>
     </form>
 </div>
 

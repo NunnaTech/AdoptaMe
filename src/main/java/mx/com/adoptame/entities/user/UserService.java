@@ -105,9 +105,7 @@ public class UserService {
 
     public Boolean updatePassword(User user,String currentPassword, String newPassword, String repeatedPassword){
         if(!passwordEncoder.matches(user.getPassword(), currentPassword)) return false;
-
         if(!newPassword.equals(repeatedPassword)) return false;
-
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
         return true;
