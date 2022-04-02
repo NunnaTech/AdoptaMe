@@ -1,7 +1,5 @@
 package mx.com.adoptame.entities.character;
 
-import lombok.extern.slf4j.Slf4j;
-import mx.com.adoptame.entities.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +14,6 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/character")
-@Slf4j
 public class CharacterController {
 
     @Autowired
@@ -44,7 +41,6 @@ public class CharacterController {
                 redirectAttributes.addFlashAttribute("msg_success", "Carácter guardado exitosamente");
             }
         } catch (Exception e) {
-            log.info(e.getMessage());
         }
         return "redirect:/character/";
     }
