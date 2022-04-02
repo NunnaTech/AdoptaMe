@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,7 +43,7 @@ public class News implements Serializable {
     @NotNull
     @NotBlank
     @Size(min = 2, max = 50)
-    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.0-9]*")
     @Column(nullable = false, columnDefinition = "varchar(50)")
     private String title;
 
