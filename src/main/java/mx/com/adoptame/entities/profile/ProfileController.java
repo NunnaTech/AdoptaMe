@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/profile")
@@ -34,14 +35,16 @@ public class ProfileController {
     @PostMapping("/save")
     public String save(Model model, @Valid Profile profile, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
+            profile = profileService.findAndSetPerfil(profile);
             if (bindingResult.hasErrors()) {
                 return "views/profile/profileForm";
             } else {
                 profileService.save(profile);
-                redirectAttributes.addFlashAttribute("msg_success", "Tipo guardada exitosamente");
+                redirectAttributes.addFlashAttribute("msg_success", "Perfil guardado exitosamente");
             }
         } catch (Exception e) {
-            log.info(e.getMessage());
+            System.err.println(e.getMessage());
+            redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al almacenar los datos, intente nuevamente");
         }
         return "redirect:/profile/";
     }

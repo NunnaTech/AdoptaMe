@@ -54,6 +54,28 @@ public class ProfileService {
         }
     }
 
+    public Profile findAndSetPerfil(Profile entity){
+        try{
+            Optional<Profile> updateEntity = findOne(entity.getId());
+            if (updateEntity.isPresent()){
+                updateEntity.get().setName(entity.getName());
+                updateEntity.get().setLastName(entity.getLastName());
+                updateEntity.get().setSecondName(entity.getSecondName());
+                updateEntity.get().setPhone(entity.getPhone());
+                updateEntity.get().setImage(entity.getImage());
+                updateEntity.get().getAddress().setStreet(entity.getAddress().getStreet());
+                updateEntity.get().getAddress().setInternalNumber(entity.getAddress().getInternalNumber());
+                updateEntity.get().getAddress().setExternalNumber(entity.getAddress().getExternalNumber());
+                updateEntity.get().getAddress().setZipCode(entity.getAddress().getZipCode());
+                updateEntity.get().getAddress().setReferences(entity.getAddress().getReferences());
+            }
+            return updateEntity.get();
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
     public Boolean delete(Integer id) {
         boolean entity = profileRepository.existsById(id);
         if (entity) {
