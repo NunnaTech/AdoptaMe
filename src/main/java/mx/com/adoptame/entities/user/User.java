@@ -30,8 +30,8 @@ import mx.com.adoptame.entities.request.Request;
 @Entity
 @Table(name = "TBL_USERS")
 @NoArgsConstructor
-@Getter
 @Setter
+@Getter
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

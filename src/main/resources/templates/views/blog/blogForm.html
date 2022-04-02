@@ -6,7 +6,7 @@
 
 <div class="container py-3">
     <div th:replace="components/titles::titles ('Blog', ${ {'Blog','Formulario'} })"/>
-    <form th:action="@{/blog/admin/save}" method="post" th:object="${news}" onsubmit="return false" >
+    <form th:action="@{/blog/admin/save}" method="post" th:object="${news}" onsubmit="event.preventDefault(); uploadImageConfirm(event.target)" >
         <input type="hidden" id="id" name="id" th:field="*{id}"/>
         <input type="hidden" name="image" id="image" th:field="*{image}"/>
 
@@ -82,7 +82,7 @@
             </div>
 
         </div>
-        <button type="submit" class="btn btn-success btn-lg btn-block" onclick="uploadImageBlog(this.form)">Guardar</button>
+        <button type="submit" class="btn btn-success btn-lg btn-block">Guardar</button>
 
     </form>
 </div>
