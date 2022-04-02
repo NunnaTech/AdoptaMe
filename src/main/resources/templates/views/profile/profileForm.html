@@ -212,17 +212,16 @@
                     </form>
                 </div>
                 <div class="tab-pane fade" id="list-password" role="tabpanel" aria-labelledby="list-password-list">
-                    <form th:action="@{/profile/changePassword}" method="post">
+                    <form th:action="@{/profile/change-password}" method="post" onsubmit="event.preventDefault(); checkPasswords(event.target)">
+                        <input hidden type="text" id="idUser" name="idUser" th:value="${profile.user.id}">
                         <div class="form-group">
                             <label for="currentPassword">Contraseña actual:</label>
                             <input type="password" class="form-control"
                                    id="currentPassword" name="currentPassword"
                                    placeholder="Ej: ************"
-                                   autofocus
                                    required
                                    minlength="5"
                                    maxlength="30"
-                                   pattern="[A-Za-zÀ-ÿ '-./#]*"
                             />
                         </div>
                         <div class="form-group">
@@ -233,7 +232,6 @@
                                    required
                                    minlength="5"
                                    maxlength="30"
-                                   pattern="[A-Za-zÀ-ÿ '-./#]*"
                             />
                         </div>
                         <div class="form-group">
@@ -244,7 +242,6 @@
                                    required
                                    minlength="5"
                                    maxlength="30"
-                                   pattern="[A-Za-zÀ-ÿ '-./#]*"
                             />
                         </div>
                         <button type="submit" class="btn btn-warning mt-3">Actualizar</button>
@@ -258,5 +255,6 @@
 <footer th:replace="components/htmlComponents::htmlFooter"/>
 <div th:replace="components/alerts::alerts" />
 <script th:src="@{/js/uploadImages.js}"></script>
+<script th:src="@{/js/validations.js}"></script>
 </body>
 </html>
