@@ -9,18 +9,17 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import mx.com.adoptame.entities.address.Address;
 import mx.com.adoptame.entities.user.User;
 
 @Entity
 @Table(name = "TBL_PROFILES")
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @ToString
 public class Profile implements Serializable{
@@ -44,7 +43,6 @@ public class Profile implements Serializable{
     @Column(name="last_name", nullable = false, columnDefinition = "varchar(50)")
     private String lastName;
 
-    @Size(min = 2, max = 30)
     @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(name="second_name", columnDefinition = "varchar(50)")
     private String secondName;
