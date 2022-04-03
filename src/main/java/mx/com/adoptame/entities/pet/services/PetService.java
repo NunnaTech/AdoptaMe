@@ -25,6 +25,8 @@ public class PetService {
 
     public List<Pet> findLastThreePets(){return petRepository.findLastThreePets();}
 
+    public List<Pet> findPetsForAdopted(){return petRepository.findPetsForAdopted();}
+
     public Optional<Pet> findOne(Integer id) {
         return petRepository.findById(id);
     }
