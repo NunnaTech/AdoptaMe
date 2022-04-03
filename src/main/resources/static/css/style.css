@@ -237,10 +237,6 @@ header .nav a {
     background-color: #78c2ad;
 }
 
-.pets {
-    background-color: var(--light-bg);
-}
-
 .pets .box-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(21rem, 1fr));
@@ -326,7 +322,7 @@ header .nav a {
 }
 
 .pets .box-container .box .stars .badge {
-    color: var(--white);
+    /*color: var(--white);*/
     font-size: 1rem;
     padding: 0.5rem;
     /* y, x */
@@ -712,24 +708,6 @@ header .nav a {
 /* ------------------------------- Login Ends  -------------------------------  */
 /* ------------------------------- Blog Starts  -------------------------------  */
 
-#blog-main .badge-primary {
-    background-color: var(--orange);
-}
-#blog-main .badge-secondary {
-    background-color: #fe6666;
-}
-#blog-main .badge-success {
-    background-color: #56cc9d;
-}
-#blog-main .badge-info {
-    background-color: #57ccf2;
-}
-#blog-main.badge-warning {
-    background-color: #c980ff;
-}
-#blog-main .badge-danger {
-    background-color: #78c2ad;
-}
 
 #blog-main {
     background-color: var(--light-bg);
