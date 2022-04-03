@@ -254,7 +254,7 @@ header .nav a {
     border-radius: 0.5rem;
     box-shadow: var(--box-shadow);
     padding: 1rem 1rem;
-    margin-bottom: 5rem;
+    margin-bottom: 1rem;
     border: 0.1rem solid rgba(0, 0, 0, 0.2);
 }
 
@@ -334,6 +334,150 @@ header .nav a {
 }
 
 /* ------------------------------- Pets Ends  -------------------------------  */
+/* ------------------------------- Pets Detail Start  -------------------------------  */
+
+#pet-detail .text-primary-ad {
+    color: var(--light-color);
+}
+
+.text-orange-ad {
+    color: var(--orange);
+}
+
+.text-secondary-ad {
+    color: #fe6666;
+}
+.text-success-ad {
+    color: #56cc9d;
+}
+.text-info-ad {
+    color: #57ccf2;
+}
+.text-warning-ad {
+    color: #c980ff;
+}
+.text-danger-ad {
+    color: #fae187;
+}
+
+#pet-detail .badge-secondary {
+    background-color: #fe6666;
+}
+#pet-detail .badge-success {
+    background-color: #56cc9d;
+}
+#pet-detail .badge-info {
+    background-color: #57ccf2;
+}
+#pet-detail .badge-warning {
+    background-color: #c980ff;
+}
+#pet-detail .badge-danger {
+    background-color: #fae187;
+}
+
+#pet-detail {
+    background-color: var(--light-bg);
+}
+
+#pet-detail .card  img {
+    width: 100%;
+    height: auto;
+    max-height: 25rem;
+    border-radius: 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+
+}
+
+.carousel-control-next-icon{
+    filter: invert(47%) sepia(95%) saturate(1397%) hue-rotate(350deg) brightness(105%) contrast(91%);
+}
+
+.carousel-control-prev-icon{
+    filter: invert(47%) sepia(95%) saturate(1397%) hue-rotate(350deg) brightness(105%) contrast(91%);
+}
+
+.carousel-indicators{
+    filter: invert(47%) sepia(95%) saturate(1397%) hue-rotate(350deg) brightness(105%) contrast(91%);
+
+}
+
+#pet-detail .breadcrumb{
+    border-radius: 0.5rem;
+    border: 0;
+    background-color: var(--white);
+}
+
+#pet-detail .breadcrumb-item {
+    color: var(--black)
+}
+
+#pet-detail .breadcrumb-text {
+    color: var(--orange)
+}
+
+
+#pet-detail .card {
+    border-radius: 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+    border: 0;
+}
+
+
+#pet-detail h3 {
+    color: var(--orange);
+    font-weight: bolder;
+}
+
+
+
+#pet-detail h5,
+#pet-detail h4 {
+    color: var(--black);
+    font-weight: 600;
+}
+
+#pet-detail .small-text-ad {
+    font-size: 0.8em;
+    color: var(--light-color);
+}
+
+#pet-detail .card-text {
+    color: var(--light-color);
+    text-align: justify;
+}
+
+#pet-detail .btn-primary-ad {
+    display: inline-block;
+    padding: 0.5em 2em;
+    border-radius: 0.3rem;
+    background-color: var(--orange);
+    cursor: pointer;
+    color: var(--white);
+}
+
+#pet-detail .btn-primary-ad:hover {
+    background-color: var(--black);
+    color: var(--white);
+    font-weight: bold;
+}
+
+#pet-detail .btn-danger {
+    display: inline-block;
+    padding: 0.5em 2em;
+    border-radius: 0.3rem;
+    background-color: #fe6666;
+    border: 0;
+    color: var(--white);
+}
+
+#pet-detail .btn-danger:hover {
+    background-color: #fd4242;
+    font-weight: bold;
+
+}
+
+/* ------------------------------- Pets Detail Ends  -------------------------------  */
 /* ------------------------------- Carrusel Starts  -------------------------------  */
 
 .carrusel .home-slider .slide {
@@ -555,28 +699,6 @@ header .nav a {
 
 /* ------------------------------- Admin Ends  -------------------------------  */
 /* ------------------------------- Pets Starts  -------------------------------  */
-.pets-filter .badge-primary {
-    background-color: var(--orange);
-}
-.pets-filter .badge-secondary {
-    background-color: #fe6666;
-}
-.pets-filter .badge-success {
-    background-color: #56cc9d;
-}
-.pets-filter .badge-info {
-    background-color: #57ccf2;
-}
-.pets-filter .badge-warning {
-    background-color: #c980ff;
-}
-.pets-filter .badge-danger {
-    background-color: #78c2ad;
-}
-
-.pets-filter {
-    background-color: var(--body-bg);
-}
 
 #pets-filter .single-card {
     display: grid;
@@ -585,7 +707,6 @@ header .nav a {
 
 #pets-filter .card {
     box-shadow: var(--box-shadow);
-    border: 0.1rem solid rgba(0, 0, 0, 0.2);
 }
 
 #pets-filter .box-container {
@@ -710,7 +831,130 @@ header .nav a {
 }
 
 /* ------------------------------- Login Ends  -------------------------------  */
+/* ------------------------------- Blogs Starts  -------------------------------  */
+
+
+
+#blog-list .badge-primary {
+    background-color: var(--orange);
+}
+#blog-list .badge-secondary {
+    background-color: #fe6666;
+}
+#blog-list .badge-success {
+    background-color: #56cc9d;
+}
+#blog-list .badge-info {
+    background-color: #57ccf2;
+}
+#blog-list.badge-warning {
+    background-color: #c980ff;
+}
+#blog-list .badge-danger {
+    background-color: #78c2ad;
+}
+
+#blog-list {
+    background-color: var(--light-bg);
+}
+
+
+#blog-list .breadcrumb{
+    border-radius: 0.5rem;
+    border: 0;
+    background-color: var(--white);
+}
+
+
+
+
+#blog-list .breadcrumb-text {
+    color: var(--orange)
+}
+
+
+
+#blog-list .list-group,
+#blog-list .list-group-item {
+    border: 0;
+}
+#blog-list .list-group .active,
+#blog-list .list-group a:hover {
+    background-color: var(--orange);
+    color: white;
+}
+
+
+
+#blog-list .border {
+    border: 1px solid var(--orange) !important;
+    margin: 0rem 1rem;
+    background-color: var(--orange);
+}
+
+
+#blog-list .box-container {
+    display: flex
+}
+
+#blog-list .box-container :hover {
+    transform: scale(1.01);
+    transition: all 150ms ease-in-out;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+}
+
+#blog-list .card {
+    box-shadow: var(--box-shadow);
+
+}
+
+#blog-list .box-container .card-header,
+#blog-list .card-header {
+    background-color: var(--white);
+    border-width: 0;
+}
+
+#blog-list .box-container .card-title .blog-title {
+    color: var(--orange);
+    font-size: 1.5rem;
+}
+
+#blog-list .box-container .card-text {
+    color: var(--light-color);
+
+}
+
+#blog-list .box-container .read-more {
+    color: var(--light-color);
+    font-size: 1rem;
+}
+
+#blog-list .box-container .read-more:hover {
+    color: var(--orange);
+    font-weight: bold;
+}
+
+#blog-list .box-container .read-more:hover {
+    color: var(--orange);
+    font-weight: bold;
+}
+
+
+
+#blog-list .nav-container {
+    background-color: var(--white);
+    box-shadow: var(--box-shadow);
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+    padding: 2rem 1rem;
+}
+
+/* ------------------------------- Blogs Ends  -------------------------------  */
 /* ------------------------------- Blog Starts  -------------------------------  */
+
+
 
 #blog-main .badge-primary {
     background-color: var(--orange);
@@ -826,7 +1070,6 @@ header .nav a {
     font-weight: bold;
 }
 #email-style .text-logo-sec {
-
     color: var(--orange);
     font-weight: bold;
 }
