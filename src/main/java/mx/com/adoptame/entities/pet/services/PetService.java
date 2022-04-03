@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Service
 public class PetService {
+
     @Autowired
     private PetRepository petRepository;
 
@@ -21,6 +22,8 @@ public class PetService {
     public List<Pet> findAllisActiveFalse() {
         return  petRepository.findAllByIsActive(false);
     }
+
+    public List<Pet> findLastThreePets(){return petRepository.findLastThreePets();}
 
     public Optional<Pet> findOne(Integer id) {
         return petRepository.findById(id);

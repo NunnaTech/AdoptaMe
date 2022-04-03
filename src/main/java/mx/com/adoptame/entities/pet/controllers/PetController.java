@@ -37,6 +37,8 @@ public class PetController {
 
     @GetMapping("/")
     public String pets(Model model) {
+        model.addAttribute("fix", "fix");
+        model.addAttribute("list", petService.findLastThreePets());
         return "views/pets/pets";
     }
 
