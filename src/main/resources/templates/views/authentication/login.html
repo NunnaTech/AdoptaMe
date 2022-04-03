@@ -9,7 +9,7 @@
     <div class="row mt-5">
         <div class="col-12 col-md-6">
             <h2>Iniciar sesión</h2>
-            <form th:action="@{/profile/login}" method="post">
+            <form th:action="@{/login}" method="post">
                 <div class="form-group">
                     <label for="email">Correo electrónico:</label>
                     <input type="email" class="form-control"
@@ -26,12 +26,11 @@
                     <label for="password">Contraseña </label>
                     <input type="password" class="form-control"
                            id="password" name="password"
-                           placeholder="Ej: ************"
+
                            autofocus
                            required
                            minlength="5"
                            maxlength="30"
-                           pattern="[A-Za-zÀ-ÿ '-./#]*"
                     />
                 </div>
                 <div class="form-group">
@@ -103,16 +102,16 @@
                            id="emailNew" name="email"
                            aria-describedby="emailHelp"
                            placeholder="Ej: hector@gmail.com"
-                           th:classappend="${#fields.hasErrors('user.email')?'is-invalid':''}"
-                           th:field="*{user.email}"
+                           th:classappend="${#fields.hasErrors('user.username')?'is-invalid':''}"
+                           th:field="*{user.username}"
                            autofocus
                            required
                            minlength="5"
                            maxlength="50"
                     />
                     <div id="emailHelp"
-                         th:classappend="${#fields.hasErrors('user.email')?'invalid-feedback':''}"
-                         th:errors="*{user.email}">
+                         th:classappend="${#fields.hasErrors('user.username')?'invalid-feedback':''}"
+                         th:errors="*{user.username}">
                     </div>
                 </div>
                 <div class="form-group">

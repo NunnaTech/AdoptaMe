@@ -101,7 +101,7 @@
                                            aria-describedby="emailHelp"
                                            placeholder="Ej: hector@gmail.com"
                                            th:classappend="${#fields.hasErrors('user.email')?'is-invalid':''}"
-                                           th:field="*{user.email}"
+                                           th:field="*{user.getUsername}"
                                            autofocus
                                            required
                                            minlength="5"
@@ -109,7 +109,7 @@
                                     />
                                     <div id="emailHelp"
                                          th:classappend="${#fields.hasErrors('user.email')?'invalid-feedback':''}"
-                                         th:errors="*{user.email}">
+                                         th:errors="*{user.getUsername}">
                                     </div>
                                 </div>
 

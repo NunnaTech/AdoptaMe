@@ -24,6 +24,10 @@ public class RoleService {
         return roleRepository.findById(id);
     }
 
+    public Optional<Role> findByType(String type) {
+        return roleRepository.findByAuthority(type);
+    }
+
     public Optional<Role> save(Role entity) {
         return Optional.of(roleRepository.save(entity));
     }
@@ -68,9 +72,9 @@ public class RoleService {
         if (roleRepository.count() > 0) return;
 
         List<Role> inicial = new ArrayList<>();
-        inicial.add(new Role("ROLE_ADMINISTRATOR"));
-        inicial.add(new Role("ROLE_VOLUNTEER"));
-        inicial.add(new Role("ROLE_ADOPTER"));
+        inicial.add(new Role("ROL_ADMINISTRATOR"));
+        inicial.add(new Role("ROL_VOLUNTEER"));
+        inicial.add(new Role("ROL_ADOPTER"));
         roleRepository.saveAll(inicial);
     }
 }

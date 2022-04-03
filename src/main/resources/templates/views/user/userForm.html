@@ -120,14 +120,14 @@
                        aria-describedby="emailHelp"
                        placeholder="Ej: alexisloya@gmail.com"
                        th:classappend="${#fields.hasErrors('user.email')?'is-invalid':''}"
-                       th:field="*{user.email}"
+                       th:field="*{user.getUsername}"
                        required
                        minlength="5"
                        maxlength="50"
                 />
                 <div id="emailHelp"
                      th:classappend="${#fields.hasErrors('user.email')?'invalid-feedback':''}"
-                     th:errors="*{user.email}">
+                     th:errors="*{user.getUsername}">
                 </div>
             </div>
 
@@ -152,7 +152,7 @@
             <div class="form-group col-12 col-md-4">
                 <label>Estado:</label>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="isActive" th:field="*{user.isActive}">
+                    <input class="form-check-input" type="checkbox" id="isActive" th:field="*{user.getEnabled}">
                     <label class="form-check-label" for="isActive">
                         Activo
                     </label>
