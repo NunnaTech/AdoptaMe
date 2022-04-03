@@ -26,9 +26,10 @@
 <section class="pets container">
     <h1 class="heading">¡Nuevos Amigos!</h1>
     <div class="box-container">
+
         <div class="box" th:each="p:${list}">
             <div class="image">
-                <img th:src="${p.images.get(0).image}"/>
+                <img th:src="${p.images.get(0).image}" th:alt="${p.name}"/>
                 <a th:href="@{/pets/filter}" class="fas fa-heart"></a>
             </div>
             <h3 th:text="${p.name}"/>

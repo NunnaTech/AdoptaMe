@@ -14,4 +14,8 @@ public interface PetRepository extends JpaRepository<Pet,Integer> {
     @Query(value = "SELECT * FROM tbl_pets p WHERE p.is_active = 1 AND p.is_adopted = 0 ORDER BY created_at DESC LIMIT 3;",
             nativeQuery = true)
     List<Pet> findLastThreePets();
+
+    @Query(value = "SELECT * FROM tbl_pets p WHERE p.is_active = 1 AND p.is_adopted = 0;",
+            nativeQuery = true)
+    List<Pet> findPetsForAdopted();
 }
