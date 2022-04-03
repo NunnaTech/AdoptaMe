@@ -11,11 +11,12 @@
                 <img th:src="@{/img/logo.svg}" style="height: 50px; width: 50px" alt="logo"/>Adopta<span>Me.</span>
             </a>
             <nav class="nav">
-                <a class="active" th:href="@{/#home}">Inicio</a>
+                <a th:href="@{/}">Inicio</a>
                 <a th:href="@{/blog/}">Blog</a>
                 <a th:href="@{/#about}">Sobre Nosotros</a>
                 <a th:href="@{/#adopt}">¿Por qué adoptar?</a>
                 <a th:href="@{/pets/}">Mascotas</a>
+                <a th:href="@{/pets/filter}">Adoptar</a>
             </nav>
             <a th:href="@{/request/login}" class="link-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
             <div id="menu-btn" class="fas fa-bars"></div>

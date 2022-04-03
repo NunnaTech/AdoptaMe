@@ -70,14 +70,11 @@ public class ColorService {
            return;
 
        List<Color> inicialColors = new ArrayList<>();
-       inicialColors.add(new Color("Blanco", "#f1f1f1"));
-       inicialColors.add(new Color("Café", "#A54E3C"));
-       inicialColors.add(new Color("Gris", "#f1f1f1"));
-       inicialColors.add(new Color("Negro", "#f1f1f1"));
-       inicialColors.add(new Color("Atigrado", "#f1f1f1"));
-       inicialColors.add(new Color("Bicolor", "#f1f1f1"));
-       inicialColors.add(new Color("Con Manchas", "#f1f1f1"));
-       inicialColors.add(new Color("Varios Colores", "#f1f1f1"));
+       inicialColors.add(new Color("Naranja", "#f47a1f"));
+       inicialColors.add(new Color("Rojo pastel", "#fe6666"));
+       inicialColors.add(new Color("Verde pastel", "#56cc9d"));
+       inicialColors.add(new Color("Azul pastel", "#57ccf2"));
+       inicialColors.add(new Color("Morado pastel", "#c980ff"));
        colorRepository.saveAll(inicialColors);
    }
 
