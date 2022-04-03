@@ -33,16 +33,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
 
-    private final String[] resources = {"/css/**", "/js/**", "/image/**", "/img/**"};
-    private final String[] urlAvailableForAll = {"/", "/blog" };
+    private final String[] urlAvailableForAll = {"/", "/blog", "/pets"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                 .antMatchers("/login")
-                .permitAll()
-                .antMatchers(resources)
                 .permitAll()
                 .antMatchers(urlAvailableForAll)
                 .permitAll()
@@ -56,13 +53,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     @Override
                     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                                         AuthenticationException exception) throws IOException, ServletException {
-                        String email = request.getParameter("email");
                         String error = exception.getMessage();
-                        System.out.println("A failed login attempt with email: "
-                                + email + ". Reason: " + error);
-
                         String redirectUrl = request.getContextPath() + "/login?error";
                         response.sendRedirect(redirectUrl);
+
                     }
                 })
                 .and()
@@ -70,12 +64,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login?logout")
                 .permitAll();
     }
-   /* @Override
+
+
+    @Override
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**");
-    }*/
+    }
+
     /*
         Add configuration with AuthenticationManagerBuilder
         Set with auth.jdbcAuthentication and using datasource
