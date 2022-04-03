@@ -42,8 +42,14 @@ public class PetController {
         return "views/pets/pets";
     }
 
-    @GetMapping("/filter")
+    @GetMapping(value = {"/filter"})
     public String filter(Model model) {
+        model.addAttribute("typeList", typeService.findAll());
+        model.addAttribute("sizeList", sizeService.findAll());
+        model.addAttribute("characterList", characterService.findAll());
+        model.addAttribute("colorList", colorService.findAll());
+        model.addAttribute("petsList", petService.findPetsForAdopted());
+//         TODO realizar filtarado
         return "views/pets/petsFilter";
     }
 
