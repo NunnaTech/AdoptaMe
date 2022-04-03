@@ -23,4 +23,11 @@ public class HomeController {
     public String dashboard(Model model){
         return "views/dashboard/dashboard-admin";
     }
+
+    @GetMapping("/noscript")
+    public String noscript(){
+        return "views/errorpages/noscript";
+    }
+
+
 }
