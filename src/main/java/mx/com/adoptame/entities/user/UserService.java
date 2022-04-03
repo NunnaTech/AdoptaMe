@@ -5,6 +5,7 @@ import mx.com.adoptame.entities.address.Address;
 import mx.com.adoptame.entities.address.AdressRepository;
 import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.profile.ProfileRepository;
+import mx.com.adoptame.entities.role.RoleService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,11 +14,8 @@ import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -34,6 +32,8 @@ public class UserService {
     @Autowired
     private ProfileRepository profileRepository;
 
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private EmailService emailService;
@@ -91,7 +91,6 @@ public class UserService {
             updatedEntity = Optional.of(entity);
             return updatedEntity;
         } catch (Exception exception) {
-            System.err.println(exception);
             return Optional.empty();
         }
     }
@@ -114,6 +113,20 @@ public class UserService {
         userRepository.save(user);
         return true;
     }
+
+    public void fillInitialData() {
+        if (userRepository.count() > 0) return;
+        User superAdmin = new User("super@adoptame.com",passwordEncoder.encode("admin"),
+                Set.of(
+                        roleService.findByType("ROL_ADMINISTRATOR").get(),
+                        roleService.findByType("ROL_VOLUNTEER").get(),
+                        roleService.findByType("ROL_ADOPTER").get()
+                )
+        );
+
+        userRepository.save(superAdmin);
+    }
+
     public void sedEmail(String email, String path){
         //We create a token
         String token  = RandomString.make(100);
@@ -177,7 +190,7 @@ public class UserService {
         return userRepository.findByLinkRestorePassword(token);
     }
     public Optional<User> findByEmailAndIsActive(String email) {
-        return userRepository.findByEmailAndIsActive(email,true);
+        return userRepository.findByUsernameAndEnabled(email,true);
     }
 
 }

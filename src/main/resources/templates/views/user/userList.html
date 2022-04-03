@@ -27,11 +27,11 @@
             <td th:text="${c.count}"/>
             <td th:text="${i.name}"/>
             <td th:text="${i.lastName}"/>
-            <td th:text="${i.user.email}"/>
+            <td th:text="${i.user.getUsername}"/>
 <!--            <td th:text="${i.user.role.type}"/>-->
             <td>
-                  <span class="badge" th:classappend="${i.user.isActive ? 'badge-success':'badge-danger'}"
-                        th:text="${i.user.isActive ? 'Activo':'Desactivo'}"/>
+                  <span class="badge" th:classappend="${i.user.getEnabled ? 'badge-success':'badge-danger'}"
+                        th:text="${i.user.getEnabled ? 'Activo':'Desactivo'}"/>
             </td>
             <td class="d-flex justify-content-around">
                 <a th:href="@{/user/edit/{id} (id=${i.id})}" class="btn btn-warning">
