@@ -8,48 +8,47 @@
 <header th:replace="components/navbars:: navbar-all"></header>
 
 <main>
-    <div class="container pr-md-4  pt-4">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a class="breadcrumb-text" href="#">Inicio</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Blogs</li>
-            </ol>
-        </nav>
-    </div>
-    <div class="container pt-2 pb-5 ">
+    <div class="container mt-2 pt-2 pb-5 ">
         <h1 class="h3 mb-4">Últimas entradas de Blog</h1>
         <div class="row">
-            <div class="col-md-3 col-xl-3 mb-4 ">
+            <div class="col-12 col-md-3">
                 <div class="card pb-4">
                     <div class="card-header px-1">
                         <h4 class="card-title mx-3 mt-3 mb-2">Blogs</h4>
                     </div>
                     <div class="border mb-4"></div>
                     <div class="list-group list-group-flush" role="tablist">
-                        <a class="list-group-item list-group-item-action " data-bs-toggle="list" href="#password"
-                           role="tab">
-                            - Consejos para dar en adopción
-                        </a>
-                        <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#password"
-                           role="tab">
-                            - Antes de adoptar
-                        </a>
-                        <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#" role="tab">
-                            - Cuidados básicos
-                        </a>
+                        <a class="list-group-item list-group-item-action"
+                           data-toggle="list"
+                           role="tab"
+                           th:each="top,i: ${newsList}"
+                           th:classappend="${i.count==1?'active':''}"
+                           th:id="${top.id}"
+                           th:href="|#blog${top.id}|"
+                           th:aria-controls="|blog${top.id}|"
+                           th:text="${top.title}"/>
                     </div>
                 </div>
             </div>
-            <div class="col-9">
-                <a th:each="news: ${newsList}" th:href="@{/blog/{id}(id=${news.id})}">
-                    <div class="card bg-dark text-white mb-1 demo_wrap">
-                        <h5 th:text="${news.title}" />
-                        <img class="card-img-top img-fluid blog-img" th:src="${news.image}" alt="banner">
+            <div class="col-12 col-md-9">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show"
+                         role="tabpanel"
+                         th:each="news,i: ${newsList}"
+                         th:classappend="${i.count==1?'active':''}"
+                         th:id="|blog${news.id}|">
+                        <a th:href="@{/blog/{id}(id=${news.id})}">
+                            <div class="card bg-dark p-2 rounded text-white">
+                                <h5 th:text="${news.title}"/>
+                                <img class="card-img-top img-fluid blog-img" th:src="${news.image}" alt="banner">
                                 <p class="card-text" th:text="${#temporals.format(news.createdAt,'dd-MMM-yyyy')}"></p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
     </div>
 </main>
