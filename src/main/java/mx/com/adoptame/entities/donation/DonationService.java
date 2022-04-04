@@ -2,6 +2,7 @@ package mx.com.adoptame.entities.donation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -14,18 +15,22 @@ public class DonationService {
     @Autowired
     private DonationRepository donationRepository;
 
+    @Transactional(readOnly = true)
     public List<Donation> findAll() {
         return (List<Donation>) donationRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Optional<Donation> findOne(Integer id) {
         return donationRepository.findById(id);
     }
 
+    @Transactional
     public Optional<Donation> save(Donation entity) {
         return Optional.of(donationRepository.save(entity));
     }
 
+    @Transactional
     public Optional<Donation> update(Donation entity) {
         Optional<Donation> updatedEntity = Optional.empty();
         updatedEntity = donationRepository.findById(entity.getId());
@@ -34,6 +39,7 @@ public class DonationService {
         return updatedEntity;
     }
 
+    @Transactional
     public Optional<Donation> partialUpdate(Integer id, Map<Object, Object> fields) {
         try {
             Donation entity = findOne(id).get();
@@ -55,6 +61,7 @@ public class DonationService {
         }
     }
 
+    @Transactional
     public Boolean delete(Integer id) {
         boolean entity = donationRepository.existsById(id);
         if (entity) {

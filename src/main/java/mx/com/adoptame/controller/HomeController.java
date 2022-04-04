@@ -1,6 +1,7 @@
 package mx.com.adoptame.controller;
 
 import mx.com.adoptame.entities.news.NewsService;
+import mx.com.adoptame.entities.request.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +20,16 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping("/login")
+    public String login(Model model, Request request) {
+        model.addAttribute("request", request);
+        model.addAttribute("navbar", "navbar-all");
+        return "views/authentication/login";
+    }
+
     @GetMapping("/dashboard")
     public String dashboard(Model model){
-        return "views/dashboard/dashboard-admin";
+        return "views/dashboard";
     }
 
     @GetMapping("/noscript")

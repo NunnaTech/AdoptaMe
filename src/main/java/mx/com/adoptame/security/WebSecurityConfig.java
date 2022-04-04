@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
 
-    private final String[] urlAvailableForAll = {"/", "/blog", "/pets"};
+    private final String[] urlAvailableForAll = {"/", "/blog/", "/pets/", "/pets/filter"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -47,6 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .defaultSuccessUrl("/dashboard")
                 .usernameParameter("email")
                 .failureHandler(new AuthenticationFailureHandler() {
 
