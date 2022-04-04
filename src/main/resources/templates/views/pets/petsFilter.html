@@ -91,7 +91,7 @@
                             <div class="card-body">
                                 <p class="">A la hora de que comiences la búsqueda de tu adoptado soñado, es
                                     importante saber cuáles son sus necesidades.</p>
-                                <p class="">Si necesitas más información, te invitamos a leer el sigueinte blog:</p>
+                                <p class="">Si necesitas más información, te invitamos a leer el siguiente blog:</p>
                                 <button class="btn btn-primary  mt-0 mb-4">Antes de adoptar<i
                                         class="fa-solid fa-book-open ml-2"></i></button>
                                 <h5 class="font-weight-bold">Elige la mascota correcta para ti y tu familia. <i
@@ -114,7 +114,7 @@
                                                     <h5 class="card-title" th:text="${p.name}"/>
                                                     <p>
                                                         <i class="fa-solid fa-calendar mr-1"></i>
-                                                        <span th:text="${p.createdAt.toLocalDate()}"></span>
+                                                        <span th:text="${#temporals.format(p.createdAt,'dd-MMM-yyyy')}"></span>
                                                 </div>
                                             </div>
 

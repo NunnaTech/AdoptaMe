@@ -60,7 +60,7 @@
                 <span class="badge text-muted" th:style="|background-color: ${p.color.hex_code}; -webkit-text-stroke: 0.1px yellow;|" th:text="${p.character.name}"/>
             </div>
             <h4><i class="fa-solid fa-calendar mr-1"></i>
-                <span th:text="${p.createdAt.toLocalDate()}"/>
+                <span th:text="${#temporals.format(p.createdAt,'dd-MMM-yyyy')}"/>
             </h4>
         </div>
 
