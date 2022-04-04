@@ -2,7 +2,6 @@ package mx.com.adoptame.entities.user;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -13,9 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.*;
-import mx.com.adoptame.entities.boards.Board;
 import mx.com.adoptame.entities.log.Log;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -28,12 +25,11 @@ import mx.com.adoptame.entities.role.Role;
 import mx.com.adoptame.entities.request.Request;
 
 @Entity
-@Table(name = "TBL_USERS")
+@Table(name = "USERS")
 @NoArgsConstructor
 @Setter
 @Getter
-public class User implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
@@ -44,7 +40,7 @@ public class User implements Serializable {
     @Size(min = 5, max = 50)
     @Email
     @Column(unique = true, nullable = false, columnDefinition = "varchar(50)")
-    private String email;
+    private String username;
 
     @NotNull
     @NotBlank
@@ -52,8 +48,8 @@ public class User implements Serializable {
     @Column(nullable = false, columnDefinition = "varchar(100)")
     private String password;
 
-    @Column(name = "is_active", nullable = false, columnDefinition = "tinyint default 1")
-    private Boolean isActive;
+    @Column(nullable = false, columnDefinition = "tinyint default 1")
+    private Boolean enabled;
 
     @Column(name = "link_restore_password",unique = true, columnDefinition = "varchar(150)")
     private String linkRestorePassword;
@@ -118,23 +114,24 @@ public class User implements Serializable {
     }
 
     // Many to Many: ROLES
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "authorities",
-            joinColumns = @JoinColumn(name = "username"),
-            inverseJoinColumns = @JoinColumn(name = "authority"))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id"))
     private Set<Role> roles;
 
-    public void addRole(Role role) {
-        roles.add(role);
-        role.getUsers().add(this);
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public void removeRole(Role role) {
         roles.remove(role);
-        role.getUsers().remove(this);
     }
 
+    public User(String username, String password, Set<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.enabled = true;
+        this.roles = roles;
+    }
 }

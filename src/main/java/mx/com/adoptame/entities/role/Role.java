@@ -3,6 +3,7 @@ package mx.com.adoptame.entities.role;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -16,15 +17,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "TBL_ROLES")
+@Table(name = "roles")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Role implements Serializable{
-    private static final long serialVersionUID = 1L;
+public class Role{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_role")
+    @Column(name = "id_rol")
     private Integer id;
 
     @NotNull
@@ -32,15 +32,15 @@ public class Role implements Serializable{
     @Size(min = 2, max = 20)
     //@Pattern(regexp = "[A-Za-zÀ-ÿ '-._]*")
     @Column(nullable = false, unique = true, columnDefinition = "varchar(20)")
-    private String type;
+    private String authority;
 
     @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(columnDefinition = "varchar(50)")
     private String description;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users;
-
+  /*  @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
+*/
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
@@ -50,6 +50,6 @@ public class Role implements Serializable{
     private LocalDateTime updatedAt;
 
     public Role(String type) {
-        this.type = type;
+        this.authority = type;
     }
 }
