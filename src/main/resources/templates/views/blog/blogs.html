@@ -23,17 +23,10 @@
                     </div>
                     <div class="border mb-4"></div>
                     <div class="list-group list-group-flush" role="tablist">
-                        <a class="list-group-item list-group-item-action " data-bs-toggle="list" href="#password"
-                           role="tab">
-                            - Consejos para dar en adopción
-                        </a>
-                        <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#password"
-                           role="tab">
-                            - Antes de adoptar
-                        </a>
-                        <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#" role="tab">
-                            - Cuidados básicos
-                        </a>
+                        <a class="list-group-item list-group-item-action "
+                           th:each="top: ${newsTop}"
+                           th:href="@{'/blog/' + ${top.id}}"
+                           th:text="${top.title}"></a>
                     </div>
                 </div>
             </div>
@@ -44,16 +37,14 @@
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-md-6 box-container ">
-                                        <article class="card ">
+                                        <article class="card"  th:each="top: ${newsList}" th:href="@{'/blog/' + ${news.id}}" >
                                             <a href="/adopt.html">
                                                 <img src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/img/02.f1d48d72.jpg"
                                                      alt="" class="card-img-top">
                                             </a>
                                             <div class="card-body">
                                                 <h4 class="card-title">
-                                                    <a href="/adopt.html" class="blog-title">
-                                                        Latest Quirky Opening Sentence or Paragraph
-                                                    </a>
+                                                    <a href="/adopt.html" class="blog-title" th:text="${news.title}"></a>
                                                 </h4>
 
                                                 <div class="media">
@@ -67,7 +58,7 @@
                                                         </a>
                                                     </div>
                                                     <div class="media-body pl-2">
-                                                        <small class="text-muted mr-1">by</small>
+                                                        <small class="text-muted mr-1">Por</small>
                                                         <small>
                                                             <a class="text-body">
                                                                 Jorge
