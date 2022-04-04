@@ -1,6 +1,5 @@
 package mx.com.adoptame.entities.user;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -68,8 +67,7 @@ public class User{
     private Profile profile;
 
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
+    @OneToOne(cascade = CascadeType.ALL,
             mappedBy = "user")
     private Request request;
 

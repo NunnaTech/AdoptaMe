@@ -20,7 +20,7 @@
         <tr th:each="i,c: ${list}">
             <td th:text="${c.count}"/>
             <td th:text="|${i.user.profile.name} ${i.user.profile.lastName} ${i.user.profile.secondName}|"/>
-            <td th:text="${i.user.email}"/>
+            <td th:text="${i.user.username}"/>
             <td>
                 <ul><li th:each="r:${i.user.roles}" th:text="${r.type}"/></ul>
             </td>

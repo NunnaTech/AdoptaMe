@@ -18,7 +18,7 @@
                 <a th:href="@{/pets/}">Mascotas</a>
                 <a th:href="@{/pets/filter}">Adoptar</a>
             </nav>
-            <a th:href="@{/request/login}" class="link-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
+            <a th:href="@{/login}" class="link-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
             <div id="menu-btn" class="fas fa-bars"></div>
         </div>
     </div>
@@ -108,10 +108,12 @@
                     <li class="nav-item"><a class="nav-link" th:href="@{/profile/}"><i class="fa-solid fa-address-card"></i><span>Perfil</span></a></li>
 
                 </ul>
-
-                <a th:href="@{/logout}" class="link-btn p-0 m-0 p-2"><i class="fa-solid fa-right-from-bracket"></i>Salir</a>
-
-
+                <form th:action="@{/logout}" method="post" >
+                    <button class="link-btn p-0 m-0 p-2" type="submit">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Salir
+                    </button>
+                </form>
             </div>
         </nav>
     </div>
@@ -155,10 +157,12 @@
                         </a>
                     </li>
                 </ul>
-                <a th:href="@{/logout}" class="link-btn p-0 m-0 p-2">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Cerrar sesión
-                </a>
+                <form th:action="@{/logout}" method="post" >
+                    <button class="link-btn p-0 m-0 p-2" type="submit">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Salir
+                    </button>
+                </form>
             </div>
         </nav>
     </div>
@@ -200,10 +204,12 @@
                         </a>
                     </li>
                 </ul>
-                <a th:href="@{/logout}" class="link-btn p-0 m-0 p-2">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Cerrar sesión
-                </a>
+                <form th:action="@{/logout}" method="post" >
+                    <button class="link-btn p-0 m-0 p-2" type="submit">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Salir
+                    </button>
+                </form>
             </div>
         </nav>
     </div>

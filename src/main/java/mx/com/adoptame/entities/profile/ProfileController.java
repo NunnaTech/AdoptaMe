@@ -66,7 +66,7 @@ public class ProfileController {
             if(user.isPresent()){
                 if(userService.updatePassword(user.get(),currentPassword,newPassword,repeatPassword)){
                     // TODO si es exitoso el cambio, tiene que salir la sesión y deberá volver a iniciar sesión
-                    return "redirect:/request/login";
+                    return "redirect:/login";
                 }else{
                     redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al actualizar la contraseña, intente nuevamente");
                     return "redirect:/profile/";
