@@ -1,7 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
 <header th:fragment="navbar-all" class="header" th:classappend="${fix=='fix'?'fixed-top':''}">
@@ -18,7 +19,8 @@
                 <a th:href="@{/pets/}">Mascotas</a>
                 <a th:href="@{/pets/filter}">Adoptar</a>
             </nav>
-            <a th:href="@{/login}" class="link-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
+            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="link-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/dashboard}" class="link-btn">Mi cuenta<i class="fa-solid fa-user ml-4"></i></a>
             <div id="menu-btn" class="fas fa-bars"></div>
         </div>
     </div>
