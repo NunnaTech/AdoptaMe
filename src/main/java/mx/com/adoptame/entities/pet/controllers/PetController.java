@@ -4,9 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import mx.com.adoptame.entities.character.CharacterService;
 import mx.com.adoptame.entities.color.ColorService;
 import mx.com.adoptame.entities.pet.entities.Pet;
-import mx.com.adoptame.entities.pet.services.PetImageService;
 import mx.com.adoptame.entities.pet.services.PetService;
-import mx.com.adoptame.entities.role.Role;
 import mx.com.adoptame.entities.size.SizeService;
 import mx.com.adoptame.entities.type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +26,6 @@ public class PetController {
 
     @Autowired private PetService petService;
 
-    @Autowired private PetImageService petImageService;
-
     @Autowired private CharacterService characterService;
 
     @Autowired private ColorService colorService;
@@ -41,11 +37,19 @@ public class PetController {
 
     @GetMapping("/")
     public String pets(Model model) {
+        model.addAttribute("fix", "fix");
+        model.addAttribute("list", petService.findLastThreePets());
         return "views/pets/pets";
     }
 
-    @GetMapping("/filter")
+    @GetMapping(value = {"/filter"})
     public String filter(Model model) {
+        model.addAttribute("typeList", typeService.findAll());
+        model.addAttribute("sizeList", sizeService.findAll());
+        model.addAttribute("characterList", characterService.findAll());
+        model.addAttribute("colorList", colorService.findAll());
+        model.addAttribute("petsList", petService.findPetsForAdopted());
+//         TODO realizar filtarado
         return "views/pets/petsFilter";
     }
 
@@ -65,15 +69,19 @@ public class PetController {
     }
 
     @GetMapping("/admin/request")
-    public String request(Model model, Pet pet) {
-        model.addAttribute("list", petService.findAll());
+    public String request(Model model) {
+        model.addAttribute("list", petService.findAllisActiveFalse());
         return "views/pets/petsRequest";
     }
 
     @GetMapping("/admin/acept/{id}")
-    public String acept(@PathVariable("id") Integer id,Model model, Pet pet) {
-        // TODO implementar aceptar una mascota registrada por el voluntario
-        return "views/pets/petsRequest";
+    public String acept(@PathVariable("id") Integer id,Model model, Pet pet, RedirectAttributes redirectAttributes) {
+        if (petService.accept(id)) {
+            redirectAttributes.addFlashAttribute("msg_success", "Mascota aceptada exitosamente");
+        } else {
+            redirectAttributes.addFlashAttribute("msg_error", "Mascota no aceptada");
+        }
+        return "redirect:/pets/admin/request";
     }
 
 
@@ -115,7 +123,7 @@ public class PetController {
 
     @GetMapping("/admin/delete/{id}")
     public String delete(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
-        if (petService.delete(id)) {
+        if (Boolean.TRUE.equals(petService.delete(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Mascota eliminado exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Mascota no eliminado");

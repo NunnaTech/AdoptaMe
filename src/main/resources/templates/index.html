@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="components/navbars::navbar-all"></header>
@@ -23,7 +26,6 @@
     </div>
 </section>
 
-<!-- carrusel section starts  -->
 <section class="carrusel" id="carrusel">
     <h1 class="heading">¡Nuestro Blog!</h1>
     <div class="swiper-container home-slider">
@@ -33,68 +35,25 @@
                     <div class="p-2">
                         <div class="row ml-2 mt-1">
                             <span class="ml-3"><i class="fa-solid fa-user-pen mr-2"></i>Por:</span>
-                            <span class="ml-1"th:text="${news.user.profile.getPartialName()}" />
+                            <span class="ml-1"th:text="${news.user.profile.name}" />
                             <span class="ml-3 date"><i class="fa-solid fa-calendar mr-2"></i></span>
-                            <span class="date" th:text="${#temporals.format(news.createdAt,'yyyy-MM-dd')}"/>
+                            <span class="date" th:text="${#temporals.format(news.createdAt,'dd-MMM-yyyy')}"/>
                         </div>
                     </div>
                     <h3 th:text="${news.title}"></h3>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
-                        natus dolor cumque?
-                    </p>
-                    <a href="admin.html" class="link-btn">Leer más<i
+                    <a th:href="@{/blog/{id}(id=${news.id})}" class="link-btn">Leer más<i
                             class="fa-solid fa-book-open-reader ml-4"></i></a>
                 </div>
                 <div class="image">
                     <img class="card-img-top img-fluid blog-img" th:src="${news.image}" alt="banner">
                 </div>
             </div>
-           <!-- <div class="swiper-slide slide">
-                <div class="content">
-                    <div class="p-2">
-                            <span class="mr-5"><i class="fa-solid fa-user-pen mr-3"></i>Por: Héctor
-                                Saldaña</span>
-                        <span class="ml-5 date"><i class="fa-solid fa-calendar mr-4"></i>24/Feb/22</span>
-                    </div>
-                    <h3>COVID en animales</h3>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
-                        natus dolor cumque?
-                    </p>
-                    <a href="admin.html" class="link-btn">Leer más<i
-                            class="fa-solid fa-book-open-reader ml-4"></i></a>
-                </div>
-                <div class="image">
-                    <img src="https://picsum.photos/1980/1080?random=2" alt="" />
-                </div>
-            </div>
-            <div class="swiper-slide slide">
-                <div class="content">
-                    <div class="p-2">
-                            <span class="mr-5"><i class="fa-solid fa-user-pen mr-3"></i>Por: Alexis
-                                Loya</span>
-                        <span class="ml-5 date"><i class="fa-solid fa-calendar mr-4"></i>12/Feb/22</span>
-                    </div>
-                    <h3>Como entrenar a tu mascota</h3>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
-                        natus dolor cumque?
-                    </p>
-                    <a href="admin.html" class="link-btn">Leer más<i
-                            class="fa-solid fa-book-open-reader ml-4"></i></a>
-                </div>
-                <div class="image">
-                    <img src="https://picsum.photos/1980/1080?random=3" alt="" />
-                </div>
-            </div>-->
         </div>
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
     </div>
 </section>
 
-<!-- about section starts  -->
 <section class="about" id="about">
     <div class="container">
         <h2 class="heading">SOBRE NOSOTROS</h2>
@@ -114,7 +73,6 @@
     </div>
 </section>
 
-<!-- adopt section starts  -->
 <section class="adopt" id="adopt">
     <h1 class="heading mb-4">¿Porque adoptar?</h1>
     <div class="row">
@@ -186,7 +144,6 @@
     </div>
 </section>
 
-<!-- process section starts  -->
 <section class="process">
     <h1 class="heading">PROCESO DE ADOPCIÓN</h1>
     <div class="box-container container">

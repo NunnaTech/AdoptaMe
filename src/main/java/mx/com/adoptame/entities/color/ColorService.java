@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.lang.reflect.Field;
+
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,18 +16,22 @@ public class ColorService {
    @Autowired
    private ColorRepository colorRepository;
 
+    @Transactional(readOnly = true)
    public List<Color> findAll() {
-       return (List<Color>) colorRepository.findAllByStatus(true);
+       return colorRepository.findAllByStatus(true);
    }
 
+    @Transactional(readOnly = true)
    public Optional<Color> findOne(Integer id) {
        return colorRepository.findById(id);
    }
 
+    @Transactional
    public Optional<Color> save(Color color) {
        return Optional.of(colorRepository.save(color));
    }
 
+    @Transactional
    public Optional<Color> update(Color entity) {
        Optional<Color> updatedEntity = Optional.empty();
        updatedEntity = colorRepository.findById(entity.getId());
@@ -34,6 +40,7 @@ public class ColorService {
        return updatedEntity;
    }
 
+    @Transactional
    public Optional<Color> partialUpdate(Integer id, Map<Object, Object> fields) {
        try {
            Color entity = findOne(id).get();
@@ -55,6 +62,7 @@ public class ColorService {
        }
    }
 
+    @Transactional
     public Boolean delete(Integer id) {
         Optional<Color> entity = colorRepository.findById(id);
         if (entity.isPresent()) {
@@ -66,18 +74,13 @@ public class ColorService {
     }
 
    public void fillInitialData() {
-       if (colorRepository.count() > 0)
-           return;
-
+       if (colorRepository.count() > 0) return;
        List<Color> inicialColors = new ArrayList<>();
-       inicialColors.add(new Color("Blanco", "#f1f1f1"));
-       inicialColors.add(new Color("Café", "#A54E3C"));
-       inicialColors.add(new Color("Gris", "#f1f1f1"));
-       inicialColors.add(new Color("Negro", "#f1f1f1"));
-       inicialColors.add(new Color("Atigrado", "#f1f1f1"));
-       inicialColors.add(new Color("Bicolor", "#f1f1f1"));
-       inicialColors.add(new Color("Con Manchas", "#f1f1f1"));
-       inicialColors.add(new Color("Varios Colores", "#f1f1f1"));
+       inicialColors.add(new Color("Naranja", "#f47a1f"));
+       inicialColors.add(new Color("Rojo pastel", "#fe6666"));
+       inicialColors.add(new Color("Verde pastel", "#56cc9d"));
+       inicialColors.add(new Color("Azul pastel", "#57ccf2"));
+       inicialColors.add(new Color("Morado pastel", "#c980ff"));
        colorRepository.saveAll(inicialColors);
    }
 

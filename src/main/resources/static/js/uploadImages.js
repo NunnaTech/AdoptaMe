@@ -1,6 +1,6 @@
 let URL_BATCHE = 'https://allowingcors.herokuapp.com/https://api-upscaler-origin.icons8.com/api/frontend/v1/batches';
 
-async function uploadImageBlog(e){
+async function uploadImageConfirm(e){
     let preImage = e.elements['preImage'].files[0];
     if(preImage){
         await uploadImage(e)

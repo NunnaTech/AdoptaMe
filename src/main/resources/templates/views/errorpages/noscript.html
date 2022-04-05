@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>AdoptaMe | No JS</title>
+    <link rel="icon" th:href="@{/img/logo.svg}" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<main class="error d-flex w-100 h-100">
+    <div class="container">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="mt-5 mt-lg-0  px-2 p-lg-5  col-10 col-sm-12 col-lg-6">
+                <div class="pt-lg-5 p-lg-0 mx-auto col-sm-8 col-md-6 col-lg-12">
+                    <div class="text-center">
+
+                        <p class="main-text">
+                            Detectamos que JavaScript está desactivado en este navegador.
+                        </p>
+                        <p class="secondary-text">
+                            Activa JavaScript o cambia a un navegador compatible para seguir usando AdoptaMe <br> Puedes
+                            ver una lista de navegadores compatibles en el siguiente boton.
+                        </p>
+                        <a href="https://support.google.com/accounts/answer/7675428?hl=es-419&co=GENIE.Platform%3DAndroid#:~:text=Estos%20y%20otros%20navegadores%20son,Firefox"
+                           class="link-btn-error my-3">Centro de Ayuda</a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-0 mt-lg-5 d-lg-flex align-items-center col-10 col-sm-10 col-lg-6">
+                <div class="mt-0 mt-lg-5 w-100 d-lg-flex align-items-center justify-content-center">
+                    <img src="/img/error-noscript.svg" alt="error-noscript" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

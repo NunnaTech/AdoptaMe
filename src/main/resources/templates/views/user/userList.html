@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="components/navbars:: navbar-admin"/>
 <div class="container py-3">
     <div th:replace="components/titles::titles ('Usuarios', ${ {'Usuarios','Lista'} })"/>
-
     <a type="button" class="btn btn-success my-2" th:href="@{/user/form}">
-        <i class="fa-solid fa-plus"></i> Agregar nueva
+        <em class="fa-solid fa-plus"></em> Agregar nueva
     </a>
-
-    <table id="datatable" class="table table-striped">
+    <table id="datatable" class="table table-striped" aria-describedby="table">
         <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Nombre</th>
-            <th scope="col">Primer apellido</th>
             <th scope="col">Correo electrónico</th>
-<!--            <th scope="col">Rol</th>-->
+            <th scope="col">Rol</th>
             <th scope="col">Estado</th>
             <th scope="col">Acciones</th>
         </tr>
@@ -25,21 +25,20 @@
         <tbody>
         <tr th:each="i,c: ${list}">
             <td th:text="${c.count}"/>
-            <td th:text="${i.name}"/>
-            <td th:text="${i.lastName}"/>
-            <td th:text="${i.user.getUsername}"/>
-<!--            <td th:text="${i.user.role.type}"/>-->
+            <td th:text="|${i.user.profile.name} ${i.user.profile.lastName} ${i.user.profile.secondName}|"/>
+            <td th:text="${i.user.username}"/>
+            <td><ul><li th:each="r:${i.user.roles}" th:text="${r.authority}"/></ul></td>
             <td>
-                  <span class="badge" th:classappend="${i.user.getEnabled ? 'badge-success':'badge-danger'}"
-                        th:text="${i.user.getEnabled ? 'Activo':'Desactivo'}"/>
+                  <span class="badge" th:classappend="${i.user.enabled ? 'badge-success':'badge-danger'}"
+                        th:text="${i.user.enabled ? 'Activo':'Inactivo'}"/>
             </td>
             <td class="d-flex justify-content-around">
                 <a th:href="@{/user/edit/{id} (id=${i.id})}" class="btn btn-warning">
-                    <i class="fa-solid fa-pen"></i>
+                    <em class="fa-solid fa-pen"></em>
                 </a>
                 <form th:action="@{/user/delete/{id} (id=${i.id})}" onsubmit="return false">
                     <button type="submit" class="btn btn-danger" onclick="confirmSweetAlert(this.parentElement)">
-                        <i class="fa-solid fa-trash"></i>
+                        <em class="fa-solid fa-trash"></em>
                     </button>
                 </form>
             </td>

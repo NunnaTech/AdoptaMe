@@ -1,7 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
 <header th:fragment="navbar-all" class="header" th:classappend="${fix=='fix'?'fixed-top':''}">
@@ -11,13 +12,15 @@
                 <img th:src="@{/img/logo.svg}" style="height: 50px; width: 50px" alt="logo"/>Adopta<span>Me.</span>
             </a>
             <nav class="nav">
-                <a class="active" th:href="@{/#home}">Inicio</a>
+                <a th:href="@{/}">Inicio</a>
                 <a th:href="@{/blog/}">Blog</a>
                 <a th:href="@{/#about}">Sobre Nosotros</a>
                 <a th:href="@{/#adopt}">¿Por qué adoptar?</a>
                 <a th:href="@{/pets/}">Mascotas</a>
+                <a th:href="@{/pets/filter}">Adoptar</a>
             </nav>
-            <a th:href="@{/login}" class="link-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
+            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="link-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/dashboard}" class="link-btn">Mi cuenta<i class="fa-solid fa-user ml-4"></i></a>
             <div id="menu-btn" class="fas fa-bars"></div>
         </div>
     </div>
@@ -35,18 +38,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/dashboard}">
-                            <i class="fa fa-table-columns"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/blog/admin}">
-                            <i class="fa fa-newspaper"></i>
-                            <span>Blog</span>
-                        </a>
-                    </li>
+
+                    <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}"><i class="fa fa-table-columns"></i><span>Dashboard</span></a></li>
+
+                    <li class="nav-item"><a class="nav-link" th:href="@{/blog/admin}"><i class="fa fa-newspaper"></i><span>Blog</span></a></li>
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown1" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -60,6 +56,8 @@
                             <a class="dropdown-item" th:href="@{/pets/admin}">Gestión</a>
                         </div>
                     </li>
+
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -72,12 +70,9 @@
                             <a class="dropdown-item" th:href="@{/user/}">Gestión</a>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/donation/}">
-                            <i class="fa-brands fa-cc-paypal"></i>
-                            <span>Donativos</span>
-                        </a>
-                    </li>
+
+                    <li class="nav-item"><a class="nav-link" th:href="@{/donation/admin}"><i class="fa-brands fa-cc-paypal"></i><span>Donativos</span></a></li>
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown3" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -111,17 +106,16 @@
                             </a>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/profile/}">
-                            <i class="fa-solid fa-address-card"></i>
-                            <span>Perfil</span>
-                        </a>
-                    </li>
+
+                    <li class="nav-item"><a class="nav-link" th:href="@{/profile/}"><i class="fa-solid fa-address-card"></i><span>Perfil</span></a></li>
+
                 </ul>
-                <a th:href="@{/logout}" class="link-btn p-0 m-0 p-2">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Salir
-                </a>
+                <form th:action="@{/logout}" method="post" >
+                    <button class="link-btn p-0 m-0 p-2" type="submit">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Salir
+                    </button>
+                </form>
             </div>
         </nav>
     </div>
@@ -139,12 +133,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/}">
-                            <i class="fa fa-table-columns"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}"><i class="fa fa-table-columns"></i><span>Dashboard</span></a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" th:href="@{/}" id="navbarDropdown1" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -152,28 +141,30 @@
                             <span>Mascotas</span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                            <a class="dropdown-item" th:href="@{/}">Solicitudes de adopción</a>
+                            <a class="dropdown-item"th:href="@{/pets/admin/request}">Solicitudes de adopción</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" th:href="@{/}">Gestión</a>
+                            <a class="dropdown-item" th:href="@{/pets/admin}">Gestión</a>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/}">
+                        <a class="nav-link" th:href="@{/donation/}">
                             <i class="fa-brands fa-cc-paypal"></i>
                             <span>Donativos</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/}">
+                        <a class="nav-link" th:href="@{/profile/}">
                             <i class="fa-solid fa-address-card"></i>
                             <span>Perfil</span>
                         </a>
                     </li>
                 </ul>
-                <a th:href="@{/logout}" class="link-btn p-0 m-0 p-2">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Cerrar sesión
-                </a>
+                <form th:action="@{/logout}" method="post" >
+                    <button class="link-btn p-0 m-0 p-2" type="submit">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Salir
+                    </button>
+                </form>
             </div>
         </nav>
     </div>
@@ -192,7 +183,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" th:href="@{/}" id="navbarDropdown1" role="button"
+                        <a class="nav-link dropdown-toggle"  id="navbarDropdown1" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa-solid fa-paw"></i>
                             <span>Mascotas</span>
@@ -203,22 +194,24 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/}">
+                        <a class="nav-link" th:href="@{/donation/own}">
                             <i class="fa-brands fa-cc-paypal"></i>
                             <span>Mis donativos</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/}">
+                        <a class="nav-link" th:href="@{/profile}">
                             <i class="fa-solid fa-address-card"></i>
                             <span>Perfil</span>
                         </a>
                     </li>
                 </ul>
-                <a th:href="@{/logout}" class="link-btn p-0 m-0 p-2">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Cerrar sesión
-                </a>
+                <form th:action="@{/logout}" method="post" >
+                    <button class="link-btn p-0 m-0 p-2" type="submit">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Salir
+                    </button>
+                </form>
             </div>
         </nav>
     </div>
