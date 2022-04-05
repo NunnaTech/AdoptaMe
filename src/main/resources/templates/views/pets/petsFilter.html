@@ -106,7 +106,9 @@
                                 <div class="row">
                                     <div class="col-12 col-md-4 single-card" th:each="p:${petsList}">
                                         <div class="card">
-                                            <img th:src="${p.images.get(0).image}" th:alt="${p.name}"/>
+                                            <img th:src="${p.images.isEmpty() ? 'https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/876/fb45d6e2-dd35-4312-b57a-ba37bf30e97d.png':p.images.get(0).image }"
+                                                 th:alt="${p.name}"/>
+
                                             <a th:href="@{/pets/filter}" class="fas fa-heart"></a>
 
                                             <div class="card-header mb-0 pb-0">
@@ -140,11 +142,14 @@
                                                 </span>
 
                                                 <div class="stars d-flex justify-content-center mx-3 mb-2">
-                                                    <span class="badge text-muted"
-                                                          th:style="|background-color: ${p.color.hex_code}; -webkit-text-stroke: 0.1px yellow;|"
+                                                    <span class="badge text-white"
+                                                          th:style="|background-color: ${p.color.hex_code}; -webkit-text-stroke: 0.1px white;|"
                                                           th:text="${p.character.name}"></span>
                                                 </div>
                                                 <div class="list-group list-group-flush px-4 py-1">
+                                                    <a th:href="@{/pets/{id} (id=${p.id})}" class="btn bg-warning mb-2">Detalles
+                                                        <i class="fa-solid fa-eye ml-2"></i>
+                                                    </a>
                                                     <button class="btn btn-danger">Adoptar
                                                         <i class="fa-solid fa-paw ml-2"></i>
                                                     </button>

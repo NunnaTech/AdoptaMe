@@ -5,7 +5,9 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
-<header th:replace="components/navbars:: navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
 <div class="container py-3">
     <div th:replace="components/titles::titles ('Solicitudes de nuevas mascotas', ${ {'Mascotas','Solicitudes nuevas'} })"/>
     <table id="datatable" class="table table-striped">

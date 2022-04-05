@@ -27,7 +27,7 @@ public class ProfileController {
     @GetMapping("/")
     public String type(Model model, Profile profile) {
         try {
-            profile = profileService.findOne(1).get();
+            profile = profileService.findOne(3).get();
             model.addAttribute("profile", profile);
         } catch (Exception e) {
             System.out.println(e.getMessage());

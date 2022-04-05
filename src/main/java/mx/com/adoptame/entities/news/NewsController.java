@@ -1,9 +1,12 @@
 package mx.com.adoptame.entities.news;
 
 import lombok.extern.slf4j.Slf4j;
+import mx.com.adoptame.entities.pet.controllers.PetController;
 import mx.com.adoptame.entities.tag.Tag;
 import mx.com.adoptame.entities.tag.TagService;
 import mx.com.adoptame.entities.user.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -27,6 +30,8 @@ public class NewsController {
     @Autowired
     private UserService userService;
 
+    private Logger logger = LoggerFactory.getLogger(NewsController.class);
+
     //    Para todos
     @GetMapping("")
     public String home(Model model, News news) {
@@ -35,22 +40,22 @@ public class NewsController {
         return "views/blog/blogs";
     }
 
-    // Individual
     @GetMapping("/{id}")
-    public String view(@PathVariable("id") Integer id, Model model) {
-        Optional<News> news = newsService.findOne(id);
-        model.addAttribute("navbar", "navbar-all");
-        model.addAttribute("newsTop", newsService.findLastFive());
-        // Check if it's exist
-        if (news.isEmpty()){
-            return "redirect:/";
-        }
-        // Check if it's published
-        if (!news.get().getIsPublished()){
-            return "redirect:/";
-        }
-        model.addAttribute("news", news.get());
-        return "views/blog/blog";
+    public String view(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+       try {
+           Optional<News> news = newsService.findOne(id);
+           if (news.isPresent() && news.get().getIsMain()){
+               model.addAttribute("news", news.get());
+               return "views/blog/blog";
+           }else{
+               redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+               return "redirect:/blog/";
+           }
+       }catch (Exception e){
+           redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+           logger.error(e.getMessage());
+           return "redirect:/blog/";
+       }
 
     }
     //    List admin
