@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
 
-    private final String[] urlAvailableForAll = {"/", "/blog/**", "/pets/", "/pets/filter", "/noscript", "/request/forgot-password"};
+    private final String[] urlAvailableForAll = {"/", "/blog/**", "/pets/**", "/pets/filter", "/noscript", "/request/forgot-password"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
