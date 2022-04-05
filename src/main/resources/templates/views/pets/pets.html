@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="components/navbars::navbar-all"></header>
@@ -57,7 +60,7 @@
                 <span class="badge text-muted" th:style="|background-color: ${p.color.hex_code}; -webkit-text-stroke: 0.1px yellow;|" th:text="${p.character.name}"/>
             </div>
             <h4><i class="fa-solid fa-calendar mr-1"></i>
-                <span th:text="${p.createdAt.toLocalDate()}"/>
+                <span th:text="${#temporals.format(p.createdAt,'dd-MMM-yyyy')}"/>
             </h4>
         </div>
 
