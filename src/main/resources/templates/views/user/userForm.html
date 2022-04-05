@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="components/navbars:: navbar-admin"/>
-
 <div class="container py-3">
-
     <div th:replace="components/titles::titles ('Usuarios', ${ {'Usuarios','Formulario'} })"/>
-
     <form th:action="@{/user/save}" method="post" th:object="${profile}">
-
         <input type="hidden" id="id" name="id" th:field="*{id}"/>
-
         <div class="form-row">
             <div class="form-group col-12 col-md-4">
                 <label for="name">Nombre:</label>
@@ -32,8 +30,6 @@
                      th:errors="*{name}">
                 </div>
             </div>
-
-
             <div class="form-group col-12 col-md-4">
                 <label for="lastName">Primer apellido:</label>
                 <input type="text" class="form-control"
@@ -52,7 +48,6 @@
                      th:errors="*{lastName}">
                 </div>
             </div>
-
             <div class="form-group col-12 col-md-4">
                 <label for="secondName">Segundo apellido:</label>
                 <input type="text" class="form-control"
@@ -70,11 +65,7 @@
                      th:errors="*{secondName}">
                 </div>
             </div>
-
         </div>
-
-
-
         <div class="form-row">
             <div class="form-group col-12 col-md-6">
                 <label for="phone">Teléfono:</label>
@@ -93,25 +84,36 @@
                      th:errors="*{phone}">
                 </div>
             </div>
-
-
             <div class="form-group col-12 col-md-6">
-                <label>Rol:</label>
-              <!--  TODO implementar roles con selec estático
-                    <select class="form-control"
-                        aria-describedby="roleHelp"
-                        th:field="*{user.role.id}"
-                        required>
-                    <option th:each="i: ${listRoles}" th:value="${i.id}"
-                            th:text="${i.type}"></option>
-                </select>
-                <div id="roleHelp"
-                     th:classappend="${#fields.hasErrors('user.role.id')?'invalid-feedback':''}"
-                     th:errors="*{user.role.id}">
-                </div>-->
+                <label>Rol(es):</label>
+                <div class="form-row">
+                    <div class="form-group col-4">
+                        <input type="radio" name="roles"
+                               value="1"
+                               id="ROLE_ADMINISTRATOR"
+                               th:field="*{user.roles}"
+                        />
+                        <label for="ROLE_ADMINISTRATOR">Administrador</label>
+                    </div>
+                    <div class="form-group col-4">
+                        <input type="radio" name="roles"
+                               value="2"
+                               id="ROLE_VOLUNTEER"
+                               th:field="*{user.roles}"
+                        />
+                        <label for="ROLE_VOLUNTEER">Voluntario</label>
+                    </div>
+                    <div class="form-group col-4">
+                        <input type="radio" name="roles"
+                               value="3"
+                               id="ROLE_ADOPTER"
+                               th:field="*{user.roles}"
+                        />
+                        <label for="ROLE_ADOPTER">Adoptador</label>
+                    </div>
+                </div>
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group col-12 col-md-4">
                 <label for="email">Correo electrónico:</label>
@@ -119,18 +121,17 @@
                        id="email" name="email"
                        aria-describedby="emailHelp"
                        placeholder="Ej: alexisloya@gmail.com"
-                       th:classappend="${#fields.hasErrors('user.email')?'is-invalid':''}"
-                       th:field="*{user.getUsername}"
+                       th:classappend="${#fields.hasErrors('user.username')?'is-invalid':''}"
+                       th:field="*{user.username}"
                        required
                        minlength="5"
                        maxlength="50"
                 />
                 <div id="emailHelp"
-                     th:classappend="${#fields.hasErrors('user.email')?'invalid-feedback':''}"
-                     th:errors="*{user.getUsername}">
+                     th:classappend="${#fields.hasErrors('user.username')?'invalid-feedback':''}"
+                     th:errors="*{user.username}">
                 </div>
             </div>
-
             <div class="form-group col-12 col-md-4">
                 <label for="password">Contraseña:</label>
                 <input type="password" class="form-control"
@@ -148,18 +149,16 @@
                      th:errors="*{user.password}">
                 </div>
             </div>
-
             <div class="form-group col-12 col-md-4">
                 <label>Estado:</label>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="isActive" th:field="*{user.getEnabled}">
+                    <input class="form-check-input" type="checkbox" id="isActive" th:field="*{user.enabled}">
                     <label class="form-check-label" for="isActive">
                         Activo
                     </label>
                 </div>
             </div>
         </div>
-
         <div class="form-group">
             <label for="street">Calle:</label>
             <input type="text" class="form-control"
@@ -236,7 +235,6 @@
                 </div>
             </div>
         </div>
-
         <div class="form-group">
             <label for="references">Referencias:</label>
             <input type="text" class="form-control"
@@ -255,10 +253,10 @@
                  th:errors="*{address.references}">
             </div>
         </div>
-
         <button type="submit" class="btn btn-success">Guardar</button>
     </form>
 </div>
 <footer th:replace="components/htmlComponents::htmlFooter"/>
+<script th:src="@{/js/validations.js}"></script>
 </body>
 </html>

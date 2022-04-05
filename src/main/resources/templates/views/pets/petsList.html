@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="components/navbars:: navbar-admin"/>
@@ -7,10 +10,10 @@
     <div th:replace="components/titles::titles ('Mascotas', ${ {'Mascotas','Lista'} })"/>
 
     <a type="button" class="btn btn-success my-2" th:href="@{/pets/admin/form}">
-        <i class="fa-solid fa-plus"></i> Agregar nueva
+        <em class="fa-solid fa-plus"></em> Agregar nueva
     </a>
 
-    <table id="datatable" class="table table-striped">
+    <table id="datatable" class="table table-striped" aria-describedby="table">
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -19,6 +22,7 @@
             <th scope="col">Edad</th>
             <th scope="col">Tipo</th>
             <th scope="col">Raza</th>
+            <th scope="col">Adoptada</th>
             <th scope="col">Acciones</th>
         </tr>
         </thead>
@@ -30,16 +34,17 @@
             <td th:text="${i.age}"/>
             <td th:text="${i.type.name}"/>
             <td th:text="${i.breed}"/>
+            <td><span class="badge" th:classappend="${i.isAdopted ? 'badge-success':'badge-danger'}" th:text="${i.isAdopted ? 'Si':'No'}"/></td>
             <td class="d-flex justify-content-around">
                 <a th:href="@{/pets/admin/edit/{id} (id=${i.id})}" class="btn btn-warning">
-                    <i class="fa-solid fa-pen"></i>
+                    <em class="fa-solid fa-pen"></em>
                 </a>
                 <a th:href="@{/petsImages/images/{id} (id=${i.id})}" class="btn btn-info">
-                    <i class="fa-solid fa-images"></i>
+                    <em class="fa-solid fa-images"></em>
                 </a>
                 <form th:action="@{/pets/admin/delete/{id} (id=${i.id})}" onsubmit="return false">
                     <button type="submit" class="btn btn-danger" onclick="confirmSweetAlert(this.parentElement)">
-                        <i class="fa-solid fa-trash"></i>
+                        <em class="fa-solid fa-trash"></em>
                     </button>
                 </form>
             </td>

@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="components/navbars:: navbar-admin"/>
@@ -10,24 +13,21 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Nombre</th>
-            <th scope="col">Primer apellido</th>
             <th scope="col">Correo electrónico</th>
             <th scope="col">Para rol</th>
-            <th scope="col">Estado</th>
+            <th scope="col">Razón</th>
             <th scope="col">Aceptar</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="i,c: ${list}">
             <td th:text="${c.count}"/>
-            <td th:text="${i.name}"/>
-            <td th:text="${i.lastName}"/>
-            <td th:text="${i.user.getUsername}"/>
-            <td th:text="${i.user.role.type}"/>
+            <td th:text="|${i.user.profile.name} ${i.user.profile.lastName} ${i.user.profile.secondName}|"/>
+            <td th:text="${i.user.username}"/>
             <td>
-                    <span class="badge" th:classappend="${i.user.getEnabled ? 'badge-success':'badge-danger'}"
-                          th:text="${i.user.getEnabled ? 'Activo':'Desactivo'}"/>
+                <ul><li th:each="r:${i.user.roles}" th:text="${r.type}"/></ul>
             </td>
+            <td th:text="${i.reason}"/>
             <td class="d-flex justify-content-around">
                 <form th:action="@{/user/acept/{id} (id=${i.id})}" onsubmit="return false">
                     <button type="submit" class="btn btn-info"
