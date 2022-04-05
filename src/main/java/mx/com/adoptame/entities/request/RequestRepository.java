@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface RequestRepository extends CrudRepository<Request,Integer> {
     List<Request> findAllByIsAccepted(Boolean isAccepted);
+    Integer countByIsAcceptedIsFalse();
 }

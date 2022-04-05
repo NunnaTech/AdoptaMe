@@ -1,4 +1,5 @@
 package mx.com.adoptame.entities.news;
+import mx.com.adoptame.entities.donation.Donation;
 import mx.com.adoptame.entities.tag.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,4 +98,19 @@ public class NewsService {
         }
         return entity;
     }
+    @Transactional(readOnly = true)
+    public Integer countMainNews() {
+        return newsRepository.countByIsMainIsTrue();
+    }
+
+    @Transactional(readOnly = true)
+    public Long countNews() {
+        return newsRepository.count();
+    }
+
+    @Transactional(readOnly = true)
+    public Integer countPublishedNews() {
+        return newsRepository.countByIsPublishedIsTrue();
+    }
+
 }

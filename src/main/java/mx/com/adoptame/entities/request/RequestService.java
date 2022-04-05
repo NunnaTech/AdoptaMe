@@ -1,5 +1,6 @@
 package mx.com.adoptame.entities.request;
 
+import mx.com.adoptame.entities.donation.Donation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,4 +73,9 @@ public class RequestService {
         }
         return false;
     }
+    @Transactional(readOnly = true)
+    public Integer findPending() {
+        return requestRepository.countByIsAcceptedIsFalse();
+    }
+
 }

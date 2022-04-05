@@ -69,4 +69,14 @@ public class DonationService {
         }
         return entity;
     }
+
+    @Transactional(readOnly = true)
+    public Double sumCuantity() {
+        return donationRepository.sumCuantity();
+    }
+    @Transactional(readOnly = true)
+    public List<Donation> findTop5() {
+        return (List<Donation>) donationRepository.findTop5ByCreatedAtDesc();
+    }
+
 }
