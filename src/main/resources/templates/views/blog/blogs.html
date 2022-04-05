@@ -1,162 +1,54 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body id="blog-list" class="d-flex flex-column min-vh-100">
 <header th:replace="components/navbars:: navbar-all"></header>
 
 <main>
-    <div class="container pr-md-4  pt-4">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a class="breadcrumb-text" href="#">Inicio</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Blogs</li>
-            </ol>
-        </nav>
-    </div>
-    <div class="container pt-2 pb-5 ">
+    <div class="container mt-2 pt-2 pb-5 ">
         <h1 class="h3 mb-4">Últimas entradas de Blog</h1>
         <div class="row">
-            <div class="col-md-3 col-xl-3 mb-4 ">
+            <div class="col-12 col-md-3">
                 <div class="card pb-4">
                     <div class="card-header px-1">
                         <h4 class="card-title mx-3 mt-3 mb-2">Blogs</h4>
                     </div>
                     <div class="border mb-4"></div>
                     <div class="list-group list-group-flush" role="tablist">
-                        <a class="list-group-item list-group-item-action "
-                           th:each="top: ${newsTop}"
-                           th:href="@{'/blog/' + ${top.id}}"
-                           th:text="${top.title}"></a>
+                        <a class="list-group-item list-group-item-action"
+                           data-toggle="list"
+                           role="tab"
+                           th:each="top,i: ${newsList}"
+                           th:classappend="${i.count==1?'active':''}"
+                           th:id="${top.id}"
+                           th:href="|#blog${top.id}|"
+                           th:aria-controls="|blog${top.id}|"
+                           th:text="${top.title}"/>
                     </div>
                 </div>
             </div>
-            <div class="col-md-9 col-xl-9 p-0">
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="account" role="tabpanel">
-                        <div class="cardd box-cdontainer">
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-md-6 box-container ">
-                                        <article class="card"  th:each="top: ${newsList}" th:href="@{'/blog/' + ${news.id}}" >
-                                            <a href="/adopt.html">
-                                                <img src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/img/02.f1d48d72.jpg"
-                                                     alt="" class="card-img-top">
-                                            </a>
-                                            <div class="card-body">
-                                                <h4 class="card-title">
-                                                    <a href="/adopt.html" class="blog-title" th:text="${news.title}"></a>
-                                                </h4>
-
-                                                <div class="media">
-                                                    <div class="align-self-center">
-                                                        <a class="b-avatar badge-secondary rounded-circle">
-                                                                <span>
-                                                                    <img class="rounded-circle"
-                                                                         style="width: 24px; height: 24px;"
-                                                                         src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/img/avatar-s-7.cb1b1e65.jpg"
-                                                                         alt="avatar"></span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="media-body pl-2">
-                                                        <small class="text-muted mr-1">Por</small>
-                                                        <small>
-                                                            <a class="text-body">
-                                                                Jorge
-                                                                Griffin
-                                                            </a>
-                                                        </small>
-                                                        <span class="text-muted ml-1">|</span><small
-                                                            class="text-muted ml-2">Jan 10, 2020</small>
-                                                    </div>
-                                                </div>
-                                                <div class="my-3">
-                                                        <span class="badge badge-success p-1">
-                                                            Gaming
-                                                        </span>
-                                                    <span class="badge badge-info p-1">
-                                                            Video
-                                                        </span>
-                                                </div>
-                                                <hr>
-                                                <p class="card-text ">
-                                                    Apple pie caramels lemon
-                                                    drops halvah liquorice carrot cake. Tiramisu brownie lemon
-                                                    drops.
-                                                </p>
-                                                <hr>
-                                                <div class="d-flex justify-content-left align-items-center">
-                                                    <a href="/blog.html" class="read-more"> Leer más
-                                                        <i class="fa-solid fa-book-open ml-1"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </div>
-                                    <div class="col-md-6 box-container mt-sm-4 mt-md-0">
-                                        <article class="card ">
-                                            <a href="/adopt.html">
-                                                <img src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/img/06.95d1c509.jpg"
-                                                     alt="" class="card-img-top">
-                                            </a>
-                                            <div class="card-body">
-                                                <h4 class="card-title">
-                                                    <a href="/adopt.html" class="blog-title">
-                                                        Latest Quirky Opening Sentence or Paragraph
-                                                    </a>
-                                                </h4>
-
-                                                <div class="media">
-                                                    <div class="align-self-center">
-                                                        <a class="b-avatar badge-secondary rounded-circle">
-                                                                <span>
-                                                                    <img class="rounded-circle"
-                                                                         style="width: 24px; height: 24px;"
-                                                                         src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/img/avatar-s-7.cb1b1e65.jpg"
-                                                                         alt="avatar"></span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="media-body pl-2">
-                                                        <small class="text-muted mr-1">by</small>
-                                                        <small>
-                                                            <a class="text-body">
-                                                                Jorge
-                                                                Griffin
-                                                            </a>
-                                                        </small>
-                                                        <span class="text-muted ml-1">|</span><small
-                                                            class="text-muted ml-2">Jan 10, 2020</small>
-                                                    </div>
-                                                </div>
-                                                <div class="my-3">
-                                                        <span class="badge badge-success p-1">
-                                                            Gaming
-                                                        </span>
-                                                    <span class="badge badge-info p-1">
-                                                            Video
-                                                        </span>
-                                                </div>
-                                                <hr>
-                                                <p class="card-text ">
-                                                    Apple pie caramels lemon
-                                                    drops halvah liquorice carrot cake. Tiramisu brownie lemon
-                                                    drops.
-                                                </p>
-                                                <hr>
-                                                <div class="d-flex justify-content-left align-items-center">
-                                                    <a href="/blog.html" class="read-more"> Leer más
-                                                        <i class="fa-solid fa-book-open ml-1"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </div>
-                                </div>
+            <div class="col-12 col-md-9">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show"
+                         role="tabpanel"
+                         th:each="news,i: ${newsList}"
+                         th:classappend="${i.count==1?'active':''}"
+                         th:id="|blog${news.id}|">
+                        <a th:href="@{/blog/{id}(id=${news.id})}">
+                            <div class="card bg-dark p-2 rounded text-white">
+                                <h5 th:text="${news.title}"/>
+                                <img class="card-img-top img-fluid blog-img" th:src="${news.image}" alt="banner">
+                                <p class="card-text" th:text="${#temporals.format(news.createdAt,'dd-MMM-yyyy')}"></p>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
     </div>
 </main>

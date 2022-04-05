@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="components/navbars:: navbar-admin"/>
@@ -8,22 +11,22 @@
     <form th:action="@{/role/save}" method="post" th:object="${role}">
         <input type="hidden" id="id" name="id" th:field="*{id}"/>
         <div class="form-group">
-            <label for="type">Nombre:</label>
+            <label for="authority">Nombre:</label>
             <input type="text" class="form-control"
-                   id="type" name="type"
-                   aria-describedby="typeHelp"
+                   id="authority" name="authority"
+                   aria-describedby="authorityHelp"
                    placeholder="Ej: Voluntario"
-                   th:classappend="${#fields.hasErrors('type')?'is-invalid':''}"
-                   th:field="*{type}"
+                   th:classappend="${#fields.hasErrors('authority')?'is-invalid':''}"
+                   th:field="*{authority}"
                    autofocus
                    required
                    minlength="2"
-                   maxlength="10"
-                   pattern="[A-Za-zÀ-ÿ '-.]*"
+                   maxlength="20"
+                   pattern="[A-Za-zÀ-ÿ '-._]*"
             />
-            <div id="typeHelp"
-                 th:classappend="${#fields.hasErrors('type')?'invalid-feedback':''}"
-                 th:errors="*{type}">
+            <div id="authorityHelp"
+                 th:classappend="${#fields.hasErrors('authority')?'invalid-feedback':''}"
+                 th:errors="*{authority}">
             </div>
         </div>
         <div class="form-group">
@@ -46,5 +49,6 @@
     </form>
 </div>
 <footer th:replace="components/htmlComponents::htmlFooter"/>
+<script th:src="@{/js/validations.js}"></script>
 </body>
 </html>

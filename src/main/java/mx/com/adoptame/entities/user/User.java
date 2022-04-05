@@ -1,6 +1,5 @@
 package mx.com.adoptame.entities.user;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -27,8 +26,8 @@ import mx.com.adoptame.entities.request.Request;
 @Entity
 @Table(name = "USERS")
 @NoArgsConstructor
-@Getter
 @Setter
+@Getter
 public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,8 +67,7 @@ public class User{
     private Profile profile;
 
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
+    @OneToOne(cascade = CascadeType.ALL,
             mappedBy = "user")
     private Request request;
 

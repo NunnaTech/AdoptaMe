@@ -237,10 +237,6 @@ header .nav a {
     background-color: #78c2ad;
 }
 
-.pets {
-    background-color: var(--light-bg);
-}
-
 .pets .box-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(21rem, 1fr));
@@ -326,7 +322,7 @@ header .nav a {
 }
 
 .pets .box-container .box .stars .badge {
-    color: var(--white);
+    /*color: var(--white);*/
     font-size: 1rem;
     padding: 0.5rem;
     /* y, x */
@@ -955,26 +951,6 @@ header .nav a {
 /* ------------------------------- Blog Starts  -------------------------------  */
 
 
-
-#blog-main .badge-primary {
-    background-color: var(--orange);
-}
-#blog-main .badge-secondary {
-    background-color: #fe6666;
-}
-#blog-main .badge-success {
-    background-color: #56cc9d;
-}
-#blog-main .badge-info {
-    background-color: #57ccf2;
-}
-#blog-main.badge-warning {
-    background-color: #c980ff;
-}
-#blog-main .badge-danger {
-    background-color: #78c2ad;
-}
-
 #blog-main {
     background-color: var(--light-bg);
 }
@@ -1139,39 +1115,38 @@ header .nav a {
 /* ------------------------------- Footer Ends  -------------------------------  */
 /* ------------------------------- Errors Pages Starts  -------------------------------  */
 
-.error404 img {
-    background-position: right;
-    width: 800px;
-    height: 700px;
+.error img {
+    height: auto;
+
 }
 
-.error403 img {
-    background-position: right;
-    width: 700px;
-    height: 600px;
-    margin-top: 100px;
-}
-
-.error500 img {
-    background-position: right;
-    width: 700px;
-    height: 500px;
-    margin-top: 100px;
-}
-
-.error403 .content,
-.error404 .content,
-.error500 .content {
-    width: 35rem;
-    padding: 2rem;
-    margin-top: 10rem;
-}
-
-.error403 .content h3,
-.error404 .content h3,
-.error500 .content h3 {
+.error h3 {
     font-size: 4.5rem;
     text-transform: uppercase;
+    color: var(--black);
+    text-align: center;
+}
+
+.error b {
+    font-size: 4.5rem;
+    text-transform: uppercase;
+    color: var(--orange);
+    text-align: center;
+    font-weight: bolder;
+}
+
+.error .main-text {
+    font-size: 1.7rem;
+    font-weight: bold;
+    line-height: 1.5;
+    color: var(--black);
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.error .secondary-text {
+    font-size: 1.3rem;
+    line-height: 1.5;
     color: var(--black);
     text-align: center;
 }
@@ -1190,36 +1165,6 @@ header .nav a {
     display: flex;
     height: calc(100% - 5rem);
     position: relative;
-}
-
-.error403 .content b,
-.error404 .content b,
-.error500 .content b {
-    font-size: 4.5rem;
-    text-transform: uppercase;
-    color: var(--orange);
-    text-align: center;
-    font-weight: bolder;
-}
-
-.error403 .content .main-text,
-.error404 .content .main-text,
-.error500 .content .main-text {
-    font-size: 1.7rem;
-    font-weight: bold;
-    line-height: 1.5;
-    color: var(--black);
-    margin-top: 1rem;
-    text-align: center;
-}
-
-.error403 .content .secondary-text,
-.error404 .content .secondary-text,
-.error500 .content .secondary-text {
-    font-size: 1.3rem;
-    line-height: 1.5;
-    color: var(--black);
-    text-align: center;
 }
 
 /* ------------------------------- Error Pages Ends  -------------------------------  */

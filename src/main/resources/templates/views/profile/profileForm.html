@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="components/navbars:: navbar-admin"/>
@@ -18,9 +21,15 @@
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="list-profile" role="tabpanel"
                      aria-labelledby="list-profile-list">
-                    <form th:action="@{/profile/save}" method="post" th:object="${profile}">
-<!--                        <h2>Rol <span class="badge badge-secondary" th:text="${profile.user.role.type}"/></h2>-->
-                        <input type="hidden" id="id" name="id" th:field="*{id}"/>
+                    <form th:action="@{/profile/save}" method="post" th:object="${profile}" onsubmit="event.preventDefault(); uploadImageConfirm(event.target)">
+                        <input hidden type="text" th:field="*{id}" id="id">
+                        <input hidden type="text" th:field="*{user.id}" id="id-user">
+                        <input hidden type="text" th:field="*{address.id}" id="id-address">
+                        <h2>Rol(es):</h2>
+                        <ul>
+                            <li class="badge badge-secondary" th:each="r:${profile.user.roles}"
+                                th:text="${r.type}"/>
+                        </ul>
                         <div class="row">
                             <div class="col-12 col-md-8">
                                 <div class="form-group">
@@ -85,8 +94,8 @@
                                            placeholder="Ej: 7772003690"
                                            th:classappend="${#fields.hasErrors('phone')?'is-invalid':''}"
                                            th:field="*{phone}"
-                                           minlength="2"
-                                           maxlength="30"
+                                           minlength="10"
+                                           maxlength="10"
                                            pattern="^\d{10}(?:[-\s]\d{4})?$"
                                     />
                                     <div id="phoneNameHelp"
@@ -94,25 +103,6 @@
                                          th:errors="*{phone}">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="email">Correo electrónico:</label>
-                                    <input type="email" class="form-control"
-                                           id="email" name="email"
-                                           aria-describedby="emailHelp"
-                                           placeholder="Ej: hector@gmail.com"
-                                           th:classappend="${#fields.hasErrors('user.email')?'is-invalid':''}"
-                                           th:field="*{user.getUsername}"
-                                           autofocus
-                                           required
-                                           minlength="5"
-                                           maxlength="50"
-                                    />
-                                    <div id="emailHelp"
-                                         th:classappend="${#fields.hasErrors('user.email')?'invalid-feedback':''}"
-                                         th:errors="*{user.getUsername}">
-                                    </div>
-                                </div>
-
                                 <div class="form-group">
                                     <label for="street">Calle:</label>
                                     <input type="text" class="form-control"
@@ -209,12 +199,13 @@
                             </div>
                             <div class="col-12 col-md-4">
                                 <div class="text-center">
-                                    <img alt="image profile" src="https://i.pravatar.cc/"
+                                    <input type="hidden" name="image" id="image" th:value="${profile.image}"/>
+                                    <img alt="Imagen profile" th:src="${profile.image}"
                                          class="rounded-circle img-responsive mt-2" width="160" height="auto">
                                     <div class="mt-2">
                                         <div class="form-group">
-                                            <label for="imagen">Imagen</label>
-                                            <input type="file" class="form-control-file" id="imagen" accept=".png, .jpg, .jpeg">
+                                            <label for="preImage">Imagen</label>
+                                            <input type="file" class="form-control-file" id="preImage" name="preImage" accept=".png, .jpg, .jpeg">
                                         </div>
                                     </div>
                                 </div>
@@ -224,17 +215,16 @@
                     </form>
                 </div>
                 <div class="tab-pane fade" id="list-password" role="tabpanel" aria-labelledby="list-password-list">
-                    <form th:action="@{/profile/changePassword}" method="post">
+                    <form th:action="@{/profile/change-password}" method="post" onsubmit="event.preventDefault(); checkPasswords(event.target)">
+                        <input hidden type="text" id="idUser" name="idUser" th:value="${profile.user.id}">
                         <div class="form-group">
                             <label for="currentPassword">Contraseña actual:</label>
                             <input type="password" class="form-control"
                                    id="currentPassword" name="currentPassword"
                                    placeholder="Ej: ************"
-                                   autofocus
                                    required
                                    minlength="5"
                                    maxlength="30"
-                                   pattern="[A-Za-zÀ-ÿ '-./#]*"
                             />
                         </div>
                         <div class="form-group">
@@ -245,7 +235,6 @@
                                    required
                                    minlength="5"
                                    maxlength="30"
-                                   pattern="[A-Za-zÀ-ÿ '-./#]*"
                             />
                         </div>
                         <div class="form-group">
@@ -256,7 +245,6 @@
                                    required
                                    minlength="5"
                                    maxlength="30"
-                                   pattern="[A-Za-zÀ-ÿ '-./#]*"
                             />
                         </div>
                         <button type="submit" class="btn btn-warning mt-3">Actualizar</button>
@@ -268,5 +256,8 @@
 </div>
 
 <footer th:replace="components/htmlComponents::htmlFooter"/>
+<div th:replace="components/alerts::alerts" />
+<script th:src="@{/js/uploadImages.js}"></script>
+<script th:src="@{/js/validations.js}"></script>
 </body>
 </html>

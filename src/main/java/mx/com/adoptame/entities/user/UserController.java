@@ -3,6 +3,7 @@ package mx.com.adoptame.entities.user;
 import mx.com.adoptame.config.email.EmailService;
 import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.profile.ProfileService;
+import mx.com.adoptame.entities.request.RequestService;
 import mx.com.adoptame.entities.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -22,14 +23,13 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    @Autowired private RequestService requestService;
 
-    @Autowired
-    private ProfileService profileService;
+    @Autowired private ProfileService profileService;
 
-    @Autowired
-    private RoleService roleService;
+    @Autowired private RoleService roleService;
+
+    @Autowired private UserService userService;
 
     @Autowired
     private ServletContext context;
@@ -48,18 +48,20 @@ public class UserController {
         return "views/user/userForm";
     }
 
-
     @GetMapping("/request")
     public String request(Model model) {
-        model.addAttribute("list", profileService.findAll());
+        model.addAttribute("list", requestService.findAll());
         return "views/user/userRequest";
     }
 
 
     @GetMapping("/acept/{id}")
     public String acept(Model model, @PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
-        // TODO metodo para implemantar y aceptar al usuario
-        System.err.println(id);
+        if (requestService.accept(id)) {
+            redirectAttributes.addFlashAttribute("msg_success", "Usuario aceptado exitosamente");
+        } else {
+            redirectAttributes.addFlashAttribute("msg_error", "Usuario no aceptado");
+        }
         return "redirect:/user/request/";
     }
 
@@ -84,7 +86,6 @@ public class UserController {
         }
         return "redirect:/user/";
     }
-
 
     @PostMapping("/save")
     public String save(Model model, @Valid Profile profile, BindingResult bindingResult, RedirectAttributes redirectAttributes) {

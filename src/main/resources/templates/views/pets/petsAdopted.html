@@ -1,36 +1,35 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="components/navbars:: navbar-admin"/>
 <div class="container py-3">
     <div th:replace="components/titles::titles ('Solicitudes nuevas de adopción', ${ {'Mascotas','Solicitudes de adopción'} })"/>
 
-    <table id="datatable" class="table table-striped">
+    <table id="datatable" class="table table-striped" aria-describedby="table">
         <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Nombre</th>
-            <th scope="col">Primer apellido</th>
-            <th scope="col">Segundo apellido</th>
             <th scope="col">Mascota</th>
+            <th scope="col">Tipo</th>
             <th scope="col">Acciones</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="i,c: ${list}">
             <td th:text="${c.count}"/>
-            <td th:text="${i.user.profile.name}"/>
-            <td th:text="${i.user.profile.lastName}"/>
-            <td th:text="${i.user.profile.secondName}"/>
+            <td th:text="|${i.user.profile.name} ${i.user.profile.lastName} ${i.user.profile.secondName}|"/>
             <td th:text="${i.pet.name}"/>
-
-
+            <td th:text="${i.pet.type.name}"/>
             <td class="d-flex justify-content-around">
                 <form th:action="@{/petsAdopted/acept/{id} (id=${i.id})}"  onsubmit="return false">
                     <button type="submit" class="btn btn-info"
                             onclick="confirmSweetAlert(this.parentElement, '¿Aceptar adopción a esta persona?', 'Esta mascota pertenecerá ahora a ella', 'Sí, aceptar!')">
-                        <i class="fa-solid fa-check"></i>
+                        <em class="fa-solid fa-check"></em>
                     </button>
                 </form>
             </td>
