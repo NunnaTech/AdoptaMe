@@ -3,8 +3,10 @@ package mx.com.adoptame.entities.user;
 import mx.com.adoptame.config.email.EmailService;
 import mx.com.adoptame.entities.address.Address;
 import mx.com.adoptame.entities.address.AdressRepository;
+import mx.com.adoptame.entities.donation.Donation;
 import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.profile.ProfileRepository;
+import mx.com.adoptame.entities.role.Role;
 import mx.com.adoptame.entities.role.RoleService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -205,6 +207,25 @@ public class UserService {
     @Transactional(readOnly = true)
     public Optional<User> findByEmailAndIsActive(String email) {
         return userRepository.findByUsernameAndEnabled(email,true);
+    }
+
+    @Transactional(readOnly = true)
+    public Long countVolunteer() {
+            return userRepository.countVolunteers();
+    }
+
+    @Transactional(readOnly = true)
+    public Long countAdopter() {
+            return userRepository.countAdopteds();
+    }
+
+    @Transactional(readOnly = true)
+    public Long countTotal() {
+        return userRepository.count();
+    }
+    @Transactional(readOnly = true)
+    public Long countTotal(Role role) {
+        return userRepository.count();
     }
 
 }

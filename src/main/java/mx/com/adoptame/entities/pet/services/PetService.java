@@ -25,6 +25,10 @@ public class PetService {
     public List<Pet> findAllisActiveFalse() {
         return  petRepository.findAllByIsActive(false);
     }
+    @Transactional(readOnly = true)
+    public Long countTotal() {
+        return  petRepository.count();
+    }
 
     @Transactional(readOnly = true)
     public List<Pet> findLastThreePets(){return petRepository.findLastThreePets();}
@@ -93,4 +97,18 @@ public class PetService {
         }
         return false;
     }
+    @Transactional(readOnly = true)
+    public Integer coutnByIsActive(Boolean flag) {
+        return  petRepository.countByIsActive(flag);
+    }
+    @Transactional(readOnly = true)
+    public Integer coutnByIsAdopted(Boolean flag) {
+        return  petRepository.countByIsAdopted(flag);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Pet> findTopFive() {
+        return  petRepository.findTop5ByCreatedAtDesc();
+    }
+
 }
