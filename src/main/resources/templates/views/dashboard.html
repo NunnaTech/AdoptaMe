@@ -31,7 +31,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1">86</h1>
+                                    <h1 class="mt-1" th:text="${petsCount}"></h1>
                                 </div>
                             </div>
                         </div>
@@ -48,7 +48,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1">56</h1>
+                                    <h1 class="mt-1"  th:text="${petsActive}"></h1>
                                 </div>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1">20</h1>
+                                    <h1 class="mt-1"  th:text="${petsAdopted}"></h1>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1">10</h1>
+                                    <h1 class="mt-1"  th:text="${petsDeactivate}"></h1>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +109,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1">15</h1>
+                                    <h1 class="mt-1"  th:text="${usersCount}"></h1>
                                 </div>
                             </div>
                         </div>
@@ -126,7 +126,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1">5</h1>
+                                    <h1 class="mt-1" th:text="${usersVolunteer}"></h1>
                                 </div>
                             </div>
                         </div>
@@ -143,7 +143,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1">10</h1>
+                                    <h1 class="mt-1" th:text="${usersAdopter}"></h1>
                                 </div>
                             </div>
                         </div>
@@ -160,7 +160,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1">10</h1>
+                                    <h1 class="mt-1" th:text="${usersRequest}"></h1>
                                 </div>
                             </div>
                         </div>
@@ -187,7 +187,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1">15</h1>
+                                    <h1 class="mt-1" th:text="${blogCount}"></h1>
                                 </div>
                             </div>
                         </div>
@@ -204,7 +204,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1">5</h1>
+                                    <h1 class="mt-1" th:text="${blogMain}"></h1>
                                 </div>
                             </div>
                         </div>
@@ -221,7 +221,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1">10</h1>
+                                    <h1 class="mt-1" th:text="${blogPublished}"></h1>
                                 </div>
                             </div>
                         </div>
@@ -248,7 +248,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1">$15,000</h1>
+                                    <h1 class="mt-1" th:text="${donationCuantity}"></h1>
                                 </div>
                             </div>
                         </div>
@@ -276,10 +276,10 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Raúl Adame</td>
-                                    <td>$1000 MXN</td>
+                                <tr th:each="donation, c :${donationTop5}">
+                                    <th scope="row" th:text="${(c.index+1)}"></th>
+                                    <td th:text="${donation.id}"></td>
+                                    <td th:text="${donation.id}"></td>
                                     <td>24/02/22</td>
                                     <td>
                                         <i
@@ -295,18 +295,6 @@
                                     <td>24/02/22</td>
                                     <td>
                                         <i style="color: #ff5b5b" class="fa-solid fa-x"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Jair Rojas</td>
-                                    <td>$700 MXN</td>
-                                    <td>24/02/22</td>
-                                    <td>
-                                        <i
-                                                style="color: #54d37a"
-                                                class="fa-solid fa-check"
-                                        ></i>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -335,27 +323,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Flash</td>
-                                    <td>1</td>
-                                    <td>Macho</td>
-                                    <td>24/02/22</td>
-                                    <td>Luis Álvarez</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Letie</td>
-                                    <td>4</td>
-                                    <td>Hembra</td>
-                                    <td>24/02/22</td>
-                                    <td>Luis Álvarez</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Max</td>
-                                    <td>3</td>
-                                    <td>Macho</td>
+                                <tr th:each="pet, c :${petsTop}">
+                                    <th scope="row" th:text="${(c.index+1)}"></th>
+                                    <td th:text="${pet.name}"></td>
+                                    <td th:text="${pet.age}"></td>
+                                    <td th:text="${pet.gender}"></td>
                                     <td>24/02/22</td>
                                     <td>Luis Álvarez</td>
                                 </tr>
