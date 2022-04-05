@@ -1,12 +1,13 @@
 package mx.com.adoptame.entities.pet.controllers;
 
-import lombok.extern.slf4j.Slf4j;
 import mx.com.adoptame.entities.character.CharacterService;
 import mx.com.adoptame.entities.color.ColorService;
 import mx.com.adoptame.entities.pet.entities.Pet;
 import mx.com.adoptame.entities.pet.services.PetService;
 import mx.com.adoptame.entities.size.SizeService;
 import mx.com.adoptame.entities.type.TypeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/pets")
-@Slf4j
 public class PetController {
 
     @Autowired private PetService petService;
@@ -34,6 +35,7 @@ public class PetController {
 
     @Autowired private TypeService typeService;
 
+    private Logger logger = LoggerFactory.getLogger(PetController.class);
 
     @GetMapping("/")
     public String pets(Model model) {
@@ -41,6 +43,25 @@ public class PetController {
         model.addAttribute("list", petService.findLastThreePets());
         return "views/pets/pets";
     }
+
+    @GetMapping("/{id}")
+    public String pet(@PathVariable("id") Integer id ,Model model, RedirectAttributes redirectAttributes) {
+        try{
+            Optional<Pet> pet = petService.findOne(id);
+            if(pet.isPresent() && pet.get().getIsActive()){
+                model.addAttribute("pet", pet.get());
+                return "views/pets/pet";
+            }else{
+                redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+                return "redirect:/pets/";
+            }
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+            logger.error(e.getMessage());
+            return "redirect:/pets/";
+        }
+    }
+
 
     @GetMapping(value = {"/filter"})
     public String filter(Model model) {
@@ -116,7 +137,7 @@ public class PetController {
                 redirectAttributes.addFlashAttribute("msg_success", "Mascota guardado exitosamente");
             }
         } catch (Exception e) {
-            log.info(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return "redirect:/pets/admin";
     }

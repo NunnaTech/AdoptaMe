@@ -32,11 +32,14 @@
 
         <div class="box" th:each="p:${list}">
             <div class="image">
-                <img th:src="${p.images.get(0).image}" th:alt="${p.name}"/>
+                <a th:href="@{/pets/{id} (id=${p.id})}">
+                    <img th:src="${p.images.isEmpty() ? 'https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/876/fb45d6e2-dd35-4312-b57a-ba37bf30e97d.png':p.images.get(0).image}"
+                         th:alt="${p.name}"/>
+                </a>
                 <a th:href="@{/pets/filter}" class="fas fa-heart"></a>
             </div>
             <h3 th:text="${p.name}"/>
-            <h6 class="text-muted" th:text="|${p.type.name} - ${p.breed}|" />
+            <h6 class="text-muted" th:text="|${p.type.name} - ${p.breed}|"/>
             <div class="card-description mt-3 mb-2">
                 <span>
                     <i class="fa-solid fa-cake-candles mr-1"></i>
@@ -57,17 +60,23 @@
                 </span>
             </div>
             <div class="stars d-flex justify-content-center mx-3 mb-2">
-                <span class="badge text-muted" th:style="|background-color: ${p.color.hex_code}; -webkit-text-stroke: 0.1px yellow;|" th:text="${p.character.name}"/>
+                <span class="badge text-white"
+                      th:style="|background-color: ${p.color.hex_code}; -webkit-text-stroke: 0.1px white;|"
+                      th:text="${p.character.name}"/>
             </div>
+            <a th:href="@{/pets/{id} (id=${p.id})}" class="btn bg-warning">Detalles
+                <i class="fa-solid fa-eye ml-2"></i>
+            </a>
             <h4><i class="fa-solid fa-calendar mr-1"></i>
                 <span th:text="${#temporals.format(p.createdAt,'dd-MMM-yyyy')}"/>
             </h4>
+
         </div>
 
     </div>
 </section>
 
 <footer th:replace="components/htmlComponents::htmlFooter"/>
-
+<div th:replace="components/alerts::alerts"/>
 </body>
 </html>

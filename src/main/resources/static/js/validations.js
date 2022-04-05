@@ -49,6 +49,7 @@ function remove(value, inputName) {
         case 'hex_code':
         case 'user.password':
         case 'address.street':
+        case 'address.references':
             VALIDATE_TO = TEXT;
             break;
 
