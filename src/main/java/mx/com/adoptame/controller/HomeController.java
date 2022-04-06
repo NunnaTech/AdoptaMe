@@ -26,8 +26,13 @@ public class HomeController {
 
     @GetMapping("/noscript")
     public String noscript(){
-        return "views/errorpages/noscript";
+        return "views/errorpages/error405";
     }
 
+
+    @GetMapping("/test")
+    public String test(){
+        return "views/pets/pets";
+    }
 
 }
