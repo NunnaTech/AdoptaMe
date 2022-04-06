@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
 
-    private final String[] urlAvailableForAll = {"/", "/blog/", "/pets/", "/pets/filter"};
+    private final String[] urlAvailableForAll = {"/", "/blog/**", "/pets/", "/pets/filter", "/noscript", "/request/forgot-password"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -50,14 +50,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/dashboard")
                 .usernameParameter("email")
                 .failureHandler(new AuthenticationFailureHandler() {
-
                     @Override
                     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                                         AuthenticationException exception) throws IOException, ServletException {
                         String error = exception.getMessage();
                         String redirectUrl = request.getContextPath() + "/login?error";
                         response.sendRedirect(redirectUrl);
-
                     }
                 })
                 .and()
