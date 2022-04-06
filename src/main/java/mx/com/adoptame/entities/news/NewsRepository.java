@@ -17,5 +17,7 @@ public interface NewsRepository extends CrudRepository<News, Integer> {
 
     List<News> findAllByIsMainAndIsPublishedOrderByCreatedAtDesc(Boolean isMain, Boolean isPublished);
 
+    Integer countByIsMainIsTrue();
 
+    Integer countByIsPublishedIsTrue();
 }

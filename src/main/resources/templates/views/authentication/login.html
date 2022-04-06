@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="components/navbars:: navbar-all"/>
@@ -26,11 +28,10 @@
                     <label for="password">Contraseña </label>
                     <input type="password" class="form-control"
                            id="password" name="password"
-
-                           autofocus
+                           placeholder="Ej: *************"
                            required
                            minlength="5"
-                           maxlength="30"
+                           maxlength="70"
                     />
                 </div>
                 <div class="form-group">
@@ -43,6 +44,7 @@
         <div class="col-12 col-md-6">
             <h2>Crear una cuenta</h2>
             <form th:action="@{/request/save}" method="post" th:object="${request}">
+                <input hidden type="checkbox" id="enabled" name="enabled" th:field="*{user.enabled}">
                 <div class="form-group">
                     <label for="name">Nombre:</label>
                     <input type="text" class="form-control"
@@ -171,7 +173,16 @@
     </div>
 </div>
 
-<script>document.querySelector("#adoptador").setAttribute("checked", true);</script>
+<script>
+    let adotador = document.querySelector("#adoptador");
+    adotador.setAttribute("checked", true);
+    let enabled = document.querySelector("#enabled");
+    enabled.setAttribute("checked", true)
+    let voluntario = document.querySelector("#voluntario");
+    adotador.addEventListener('click', ()=> enabled.setAttribute("checked", true))
+    voluntario.addEventListener('click', ()=> enabled.removeAttribute("checked"))
+</script>
 <footer th:replace="components/htmlComponents::htmlFooter"/>
+<script th:src="@{/js/validations.js}"></script>
 </body>
 </html>
