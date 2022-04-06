@@ -5,6 +5,7 @@ import mx.com.adoptame.entities.tag.Tag;
 import mx.com.adoptame.entities.tag.TagService;
 import mx.com.adoptame.entities.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,6 +55,7 @@ public class NewsController {
     }
     //    List admin
     @GetMapping("/admin")
+//    @Secured("ROLE_ADMINISTRATOR")
     public String management(Model model, News news) {
         model.addAttribute("list", newsService.findAll());
         return "views/blog/blogList";

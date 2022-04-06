@@ -1,7 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
 <header th:fragment="navbar-all" class="header" th:classappend="${fix=='fix'?'fixed-top':''}">
@@ -18,7 +19,8 @@
                 <a th:href="@{/pets/}">Mascotas</a>
                 <a th:href="@{/pets/filter}">Adoptar</a>
             </nav>
-            <a th:href="@{/request/login}" class="link-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
+            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="link-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/dashboard}" class="link-btn">Mi cuenta<i class="fa-solid fa-user ml-4"></i></a>
             <div id="menu-btn" class="fas fa-bars"></div>
         </div>
     </div>
@@ -108,10 +110,12 @@
                     <li class="nav-item"><a class="nav-link" th:href="@{/profile/}"><i class="fa-solid fa-address-card"></i><span>Perfil</span></a></li>
 
                 </ul>
-
-                <a th:href="@{/logout}" class="link-btn p-0 m-0 p-2"><i class="fa-solid fa-right-from-bracket"></i>Salir</a>
-
-
+                <form th:action="@{/logout}" method="post" >
+                    <button class="link-btn p-0 m-0 p-2" type="submit">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Salir
+                    </button>
+                </form>
             </div>
         </nav>
     </div>
@@ -155,10 +159,12 @@
                         </a>
                     </li>
                 </ul>
-                <a th:href="@{/logout}" class="link-btn p-0 m-0 p-2">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Cerrar sesión
-                </a>
+                <form th:action="@{/logout}" method="post" >
+                    <button class="link-btn p-0 m-0 p-2" type="submit">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Salir
+                    </button>
+                </form>
             </div>
         </nav>
     </div>
@@ -200,10 +206,12 @@
                         </a>
                     </li>
                 </ul>
-                <a th:href="@{/logout}" class="link-btn p-0 m-0 p-2">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Cerrar sesión
-                </a>
+                <form th:action="@{/logout}" method="post" >
+                    <button class="link-btn p-0 m-0 p-2" type="submit">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Salir
+                    </button>
+                </form>
             </div>
         </nav>
     </div>
