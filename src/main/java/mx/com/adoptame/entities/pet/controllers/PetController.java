@@ -25,15 +25,20 @@ import java.util.Optional;
 @RequestMapping("/pets")
 public class PetController {
 
-    @Autowired private PetService petService;
+    @Autowired
+    private PetService petService;
 
-    @Autowired private CharacterService characterService;
+    @Autowired
+    private CharacterService characterService;
 
-    @Autowired private ColorService colorService;
+    @Autowired
+    private ColorService colorService;
 
-    @Autowired private SizeService sizeService;
+    @Autowired
+    private SizeService sizeService;
 
-    @Autowired private TypeService typeService;
+    @Autowired
+    private TypeService typeService;
 
     private Logger logger = LoggerFactory.getLogger(PetController.class);
 
@@ -45,23 +50,22 @@ public class PetController {
     }
 
     @GetMapping("/{id}")
-    public String pet(@PathVariable("id") Integer id ,Model model, RedirectAttributes redirectAttributes) {
-        try{
+    public String pet(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        try {
             Optional<Pet> pet = petService.findOne(id);
-            if(pet.isPresent() && pet.get().getIsActive()){
+            if (pet.isPresent() && pet.get().getIsActive()) {
                 model.addAttribute("pet", pet.get());
                 return "views/pets/pet";
-            }else{
+            } else {
                 redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
                 return "redirect:/pets/";
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
             logger.error(e.getMessage());
             return "redirect:/pets/";
         }
     }
-
 
     @GetMapping(value = {"/filter"})
     public String filter(Model model) {
@@ -96,7 +100,7 @@ public class PetController {
     }
 
     @GetMapping("/admin/acept/{id}")
-    public String acept(@PathVariable("id") Integer id,Model model, Pet pet, RedirectAttributes redirectAttributes) {
+    public String acept(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
         if (petService.accept(id)) {
             redirectAttributes.addFlashAttribute("msg_success", "Mascota aceptada exitosamente");
         } else {
@@ -104,7 +108,6 @@ public class PetController {
         }
         return "redirect:/pets/admin/request";
     }
-
 
     @GetMapping("/admin/edit/{id}")
     public String edit(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
@@ -150,5 +153,19 @@ public class PetController {
             redirectAttributes.addFlashAttribute("msg_error", "Mascota no eliminado");
         }
         return "redirect:/pets/admin";
+    }
+
+    @GetMapping("/my-requests")
+    public String myRequests(Model model) {
+//         TODO Obtener sesión del usuario para pintarle sus solicitudes
+
+        return "views/pets/petsMyRequest";
+    }
+
+    @GetMapping("/favorites")
+    public String favorites(Model model) {
+//         TODO Obtener sesión del usuario para pintarle sus favoritos
+
+        return "views/pets/petsFavorite";
     }
 }
