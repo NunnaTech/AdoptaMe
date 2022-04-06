@@ -157,7 +157,7 @@ public class UserService {
      * change to the database.
      */
     public void updateResetPasswordToken(String token, String email)  {
-        Optional<User> user = findByEmailAndIsActive(email);
+        Optional<User> user = findByEmail(email);
         if (user.isPresent()) {
             user.get().setLinkRestorePassword(token);
             save(user.get());
@@ -204,7 +204,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<User> findByEmailAndIsActive(String email) {
+    public Optional<User> findByEmail(String email) {
         return userRepository.findByUsernameAndEnabled(email,true);
     }
 

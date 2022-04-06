@@ -69,10 +69,6 @@ public class Pet implements Serializable {
     @Column(name = "is_active", nullable = false, columnDefinition = "tinyint default 0")
     private Boolean isActive;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recorder_by")
-    private User recorder;
-
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
