@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="components/navbars:: ''+${navbar}"></header>
@@ -8,42 +11,33 @@
     <div class="container py-4">
         <h1 class="h3 mb-4">Últimas entradas de Blog</h1>
         <div class="row">
-            <div class="col-md-3 col-xl-3 mb-4">
-                <div class="card pb-4">
-                    <div class="card-header px-1">
-                        <h4 class="card-title mx-3 mt-3 mb-2">Blogs</h4>
-                    </div>
-                    <div class="border mb-4"></div>
-                    <div class="list-group list-group-flush" role="tablist">
-                        <a class="list-group-item list-group-item-action " th:href="@{'/blog/' + ${top.id}}" th:each="top: ${newsTop}" th:text="${top.title}" />
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-9 col-xl-9">
+            <div class="col-12">
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="account" role="tabpanel">
-                        <div class="card box-container" >
+                        <div class="card box-container">
                             <div class="col-12">
                                 <div class="px-4">
                                     <div class="card-header px-4 pt-5">
                                         <div class="row">
                                             <h5 class="card-title mb-1" th:text="${news.title}"></h5>
-                                            <h5><i  class="fa-solid fa-book-open-reader ml-3"></i></h5>
-
+                                            <h5><i class="fa-solid fa-book-open-reader ml-3"></i></h5>
                                         </div>
                                         <div class="row d-flex align-items-stretch  mt-4 ">
-                                            <spam style="font-size:.9rem" class="badge badge-success p-2">Principal</spam>
+                                            <spam style="font-size:.9rem" class="badge badge-success p-2">Principal
+                                            </spam>
                                             <div class="row ml-2 mt-1">
                                                 <span class="ml-3"><i class="fa-solid fa-user-pen mr-2"></i>Por:</span>
-                                                <span class="ml-1"th:text="${news.user.profile.getPartialName()}" />
+                                                <span class="ml-1" th:text="${news.user.profile.getPartialName()}"/>
                                                 <span class="ml-3 date"><i class="fa-solid fa-calendar mr-2"></i></span>
-                                                <span class="date" th:text="${#temporals.format(news.createdAt,'dd-MMM-yyyy')}"/>
+                                                <span class="date"
+                                                      th:text="${#temporals.format(news.createdAt,'dd-MMM-yyyy')}"/>
                                             </div>
 
                                         </div>
                                     </div>
                                     <div class="img-container px-4">
-                                        <img class="card-img-top img-fluid blog-img" th:src="${news.image}" alt="banner">
+                                        <img class="card-img-top img-fluid blog-img" th:src="${news.image}"
+                                             alt="banner">
                                     </div>
 
                                     <div class="card-body px-4  w-100">
@@ -52,8 +46,8 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item px-4 pb-4">
                                             <p class="mb-2 font-weight-bold">Tags</p>
-                                            <div class="badge badge-info p-2" th:each="tag: ${news.tags}" th:text="${tag.name}"></div>
-
+                                            <div class="badge badge-info p-2" th:each="tag: ${news.tags}"
+                                                 th:text="${tag.name}"></div>
                                         </li>
                                     </ul>
                                 </div>
@@ -63,7 +57,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </main>
 

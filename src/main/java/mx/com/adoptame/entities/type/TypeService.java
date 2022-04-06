@@ -3,6 +3,7 @@ package mx.com.adoptame.entities.type;
 import mx.com.adoptame.entities.size.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -15,18 +16,22 @@ public class TypeService {
     @Autowired
     private TypeRepository typeRepository;
 
+    @Transactional(readOnly = true)
     public List<Type> findAll() {
         return (List<Type>) typeRepository.findAllByStatus(true);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Type> findOne(Integer id) {
         return typeRepository.findById(id);
     }
 
+    @Transactional
     public Optional<Type> save(Type entity) {
         return Optional.of(typeRepository.save(entity));
     }
 
+    @Transactional
     public Optional<Type> update(Type entity) {
         Optional<Type> updatedEntity = Optional.empty();
         updatedEntity = typeRepository.findById(entity.getId());
@@ -35,6 +40,7 @@ public class TypeService {
         return updatedEntity;
     }
 
+    @Transactional
     public Optional<Type> partialUpdate(Integer id, Map<Object, Object> fields) {
         try {
             Type entity = findOne(id).get();
@@ -56,6 +62,7 @@ public class TypeService {
         }
     }
 
+    @Transactional
     public Boolean delete(Integer id) {
         Optional<Type> entity = typeRepository.findById(id);
         if (entity.isPresent()) {
