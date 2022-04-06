@@ -5,11 +5,16 @@ import mx.com.adoptame.entities.news.NewsService;
 import mx.com.adoptame.entities.pet.services.PetService;
 import mx.com.adoptame.entities.request.Request;
 import mx.com.adoptame.entities.request.RequestService;
+import mx.com.adoptame.entities.user.User;
 import mx.com.adoptame.entities.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @Controller()
 public class HomeController {
@@ -40,7 +45,7 @@ public class HomeController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model){
+    public String dashboard(Model model, Authentication authentication, HttpSession httpSession){
         // Pets Attributes
         model.addAttribute("petsCount",petService.countTotal());
         model.addAttribute("petsActive",petService.coutnByIsActive(true));
@@ -63,6 +68,13 @@ public class HomeController {
         model.addAttribute("donationCuantity",donationService.sumCuantity());
         model.addAttribute("donationTop5",donationService.findTop5());
 
+        // GET user
+        String username = authentication.getName();
+        Optional<User> user = userService.findByEmail(username);
+        user.ifPresent(value -> {
+            value.setPassword(null);
+            httpSession.setAttribute("user", value);
+        });
         return "views/dashboard";
     }
 
