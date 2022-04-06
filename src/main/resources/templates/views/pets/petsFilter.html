@@ -104,13 +104,14 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-12 col-md-4 single-card" th:each="p:${petsList}">
+                                    <div class="col-12 col-md-12 col-lg-6 col-xl-4 single-card" th:each="p:${petsList}">
                                         <div class="card">
-                                            <img th:src="${p.images.isEmpty() ? 'https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/876/fb45d6e2-dd35-4312-b57a-ba37bf30e97d.png':p.images.get(0).image }"
-                                                 th:alt="${p.name}"/>
-
-                                            <a th:href="@{/pets/filter}" class="fas fa-heart"></a>
-
+                                            <div class="image">
+                                                <img class="card-img-top"
+                                                     th:src="${p.images.isEmpty() ? 'https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/876/fb45d6e2-dd35-4312-b57a-ba37bf30e97d.png':p.images.get(0).image }"
+                                                     th:alt="${p.name}"/>
+                                                <i class="fas fa-heart"></i>
+                                            </div>
                                             <div class="card-header mb-0 pb-0">
                                                 <div class="row d-flex justify-content-around">
                                                     <h5 class="card-title" th:text="${p.name}"/>

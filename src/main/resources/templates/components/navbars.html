@@ -14,8 +14,6 @@
             <nav class="nav">
                 <a th:href="@{/}">Inicio</a>
                 <a th:href="@{/blog/}">Blog</a>
-                <a th:href="@{/#about}">Sobre Nosotros</a>
-                <a th:href="@{/#adopt}">¿Por qué adoptar?</a>
                 <a th:href="@{/pets/}">Mascotas</a>
                 <a th:href="@{/pets/filter}">Adoptar</a>
             </nav>
@@ -182,6 +180,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}"><i class="fa fa-table-columns"></i><span>Dashboard</span></a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle"  id="navbarDropdown1" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -189,8 +188,8 @@
                             <span>Mascotas</span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                            <a class="dropdown-item" th:href="@{/}">Mis solicitudes de adopción</a>
-                            <a class="dropdown-item" th:href="@{/}">Mascotas favoritas</a>
+                            <a class="dropdown-item" th:href="@{/pets/my-requests}">Mis solicitudes de adopción</a>
+                            <a class="dropdown-item" th:href="@{/pets/favorites}">Mascotas favoritas</a>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -200,7 +199,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/profile}">
+                        <a class="nav-link" th:href="@{/profile/}">
                             <i class="fa-solid fa-address-card"></i>
                             <span>Perfil</span>
                         </a>

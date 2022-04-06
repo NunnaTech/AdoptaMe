@@ -727,14 +727,14 @@ header .nav a {
     color: var(--white);
 }
 
-#pets-filter .card-body .single-card .card .fa-heart:hover {
+/*#pets-filter .card-body .single-card .card .fa-heart:hover {
     color: #ff5757;
     background-color: var(--white);
     transition: all 0.2s linear;
     transform: rotate(360deg);
     border: 0.1rem solid #ff5757;
     line-height: 2.3rem;
-}
+}*/
 
 #pets-filter .container .tab-content .card-header,
 #pets-filter .container .box-container .card-header {
@@ -817,6 +817,19 @@ header .nav a {
 }
 #pets-filter .btn-danger:hover {
     background-color: #fd4242;
+}
+
+#pets-filter .box-container .card-body .image {
+    height: 10rem;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+#pets-filter .box-container .card-body .image img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 /* ------------------------------- Pets Ends  -------------------------------  */
