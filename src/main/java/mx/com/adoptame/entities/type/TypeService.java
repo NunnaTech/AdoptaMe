@@ -26,6 +26,11 @@ public class TypeService {
         return typeRepository.findById(id);
     }
 
+   @Transactional(readOnly = true)
+    public Optional<Type> findByName(String name) {
+        return typeRepository.findByName(name);
+    }
+
     @Transactional
     public Optional<Type> save(Type entity) {
         return Optional.of(typeRepository.save(entity));
