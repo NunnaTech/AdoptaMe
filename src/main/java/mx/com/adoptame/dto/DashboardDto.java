@@ -1,2 +1,4 @@
-package mx.com.adoptame.dto;public class DashboardDto {
+package mx.com.adoptame.dto;
+
+public class DashboardDto {
 }
