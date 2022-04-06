@@ -26,11 +26,15 @@ public class CharacterService {
    public Optional<Character> findOne(Integer id) {
        return characterRepository.findById(id);
    }
-
     @Transactional
    public Optional<Character> save(Character color) {
        return Optional.of(characterRepository.save(color));
    }
+
+    @Transactional(readOnly = true)
+    public Optional<Character> findByName(String name) {
+        return characterRepository.findByName(name);
+    }
 
     @Transactional
    public Optional<Character> update(Character entity) {
