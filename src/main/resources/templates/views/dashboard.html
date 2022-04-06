@@ -282,19 +282,13 @@
                                     <td th:text="${donation.id}"></td>
                                     <td>24/02/22</td>
                                     <td>
-                                        <i
-                                                style="color: #54d37a"
-                                                class="fa-solid fa-check"
-                                        ></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>José Rodriguez</td>
-                                    <td>$500 MXN</td>
-                                    <td>24/02/22</td>
-                                    <td>
-                                        <i style="color: #ff5b5b" class="fa-solid fa-x"></i>
+                                        <div th:if="${donation.isCompleted}">
+                                            <i style="color: #54d37a" class="fa-solid fa-check"></i>
+                                        </div>
+                                        <div th:unless="${donation.isCompleted}">
+                                            <i style="color: #ff5b5b" class="fa-solid fa-x"></i>
+                                        </div>
+
                                     </td>
                                 </tr>
                                 </tbody>
@@ -328,8 +322,8 @@
                                     <td th:text="${pet.name}"></td>
                                     <td th:text="${pet.age}"></td>
                                     <td th:text="${pet.gender}"></td>
-                                    <td>24/02/22</td>
-                                    <td>Luis Álvarez</td>
+                                    <td th:text="${#temporals.format(pet.createdAt,'dd-MMM-yyyy')}"></td>
+                                    <td th:text="${pet.recorder.profile.getPartialName()}"></td>
                                 </tr>
                                 </tbody>
                             </table>
