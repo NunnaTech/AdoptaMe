@@ -29,7 +29,6 @@
 <section class="pets container">
     <h1 class="heading">¡Nuevos Amigos!</h1>
     <div class="box-container">
-
         <div class="box" th:each="p:${list}">
             <div class="image">
                 <a th:href="@{/pets/{id} (id=${p.id})}">
@@ -70,9 +69,7 @@
             <h4><i class="fa-solid fa-calendar mr-1"></i>
                 <span th:text="${#temporals.format(p.createdAt,'dd-MMM-yyyy')}"/>
             </h4>
-
         </div>
-
     </div>
 </section>
 

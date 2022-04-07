@@ -4,8 +4,13 @@ import mx.com.adoptame.entities.character.CharacterService;
 import mx.com.adoptame.entities.color.ColorService;
 import mx.com.adoptame.entities.pet.entities.Pet;
 import mx.com.adoptame.entities.pet.services.PetService;
+import mx.com.adoptame.entities.profile.Profile;
+import mx.com.adoptame.entities.profile.ProfileService;
 import mx.com.adoptame.entities.size.SizeService;
 import mx.com.adoptame.entities.type.TypeService;
+import mx.com.adoptame.entities.user.User;
+import mx.com.adoptame.entities.user.UserService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,26 +24,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/pets")
 public class PetController {
 
-    @Autowired
-    private PetService petService;
+    @Autowired private PetService petService;
 
-    @Autowired
-    private CharacterService characterService;
+    @Autowired private CharacterService characterService;
 
-    @Autowired
-    private ColorService colorService;
+    @Autowired private ColorService colorService;
 
-    @Autowired
-    private SizeService sizeService;
+    @Autowired private SizeService sizeService;
 
-    @Autowired
-    private TypeService typeService;
+    @Autowired private TypeService typeService;
+
+    @Autowired private ProfileService profileService;
+
+    @Autowired private UserService userService;
 
     private Logger logger = LoggerFactory.getLogger(PetController.class);
 
@@ -65,6 +70,61 @@ public class PetController {
             logger.error(e.getMessage());
             return "redirect:/pets/";
         }
+    }
+
+    @GetMapping("/my-requests")
+    public String myRequests(Model model) {
+//         TODO Obtener sesión del usuario para pintarle sus solicitudes
+
+        return "views/pets/petsMyRequest";
+    }
+
+    @GetMapping("/favorites")
+    public String favorites(Model model) {
+//         TODO Obtener sesión del usuario para pintarle sus favoritos static: 1 profile
+        Optional<Profile> profile = profileService.findOne(1);
+        model.addAttribute("petList", profile.get().getUser().getFavoitesPets());
+        return "redirect:/pets/favorites";
+    }
+
+    @GetMapping("/like/{id}")
+    public String like(@PathVariable("id")Integer id, Model model, RedirectAttributes redirectAttributes){
+        // TODO obtener la sesión: static: 1 profile
+        try {
+            Optional<Profile> profile = profileService.findOne(1);
+            Optional<Pet> pet = petService.findOne(id);
+            if (pet.isPresent() && pet.get().getIsActive()) {
+                profile.get().getUser().addToFavorite(pet.get());
+                profileService.save(profile.get());
+                redirectAttributes.addFlashAttribute("msg_success", "Mascota guardada en favoritos");
+            }else{
+                redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al guardar en favoritos, intente nuevamente");
+            }
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al guardar en favoritos, intente nuevamente");
+            logger.error(e.getMessage());
+        }
+        return "redirect:/pets/filter";
+    }
+    
+    @GetMapping("/dislike/{id}")
+    public String dislike(@PathVariable("id")Integer id, Model model, RedirectAttributes redirectAttributes){
+        // TODO obtener la sesión: static: 1 profile
+        try {
+            Optional<Profile> profile = profileService.findOne(1);
+            Optional<Pet> pet = petService.findOne(id);
+            if (pet.isPresent() && pet.get().getIsActive()) {
+                profile.get().getUser().removeFromFavorite(pet.get());;
+                profileService.save(profile.get());
+                redirectAttributes.addFlashAttribute("msg_success", "Mascota removida de favoritos");
+            }else{
+                redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al guardar en favoritos, intente nuevamente");
+            }
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al guardar en favoritos, intente nuevamente");
+            logger.error(e.getMessage());
+        }
+        return "redirect:/pets/"+id;
     }
 
     @GetMapping(value = {"/filter"})
@@ -155,17 +215,4 @@ public class PetController {
         return "redirect:/pets/admin";
     }
 
-    @GetMapping("/my-requests")
-    public String myRequests(Model model) {
-//         TODO Obtener sesión del usuario para pintarle sus solicitudes
-
-        return "views/pets/petsMyRequest";
-    }
-
-    @GetMapping("/favorites")
-    public String favorites(Model model) {
-//         TODO Obtener sesión del usuario para pintarle sus favoritos
-
-        return "views/pets/petsFavorite";
-    }
 }
