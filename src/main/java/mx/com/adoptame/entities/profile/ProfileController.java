@@ -3,6 +3,7 @@ package mx.com.adoptame.entities.profile;
 import mx.com.adoptame.entities.user.User;
 import mx.com.adoptame.entities.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,10 +26,13 @@ public class ProfileController {
     @Autowired private UserService userService;
 
     @GetMapping("/")
-    public String type(Model model, Profile profile) {
+    public String type(Model model, Authentication authentication) {
         try {
-            profile = profileService.findOne(3).get();
-            model.addAttribute("profile", profile);
+            String username = authentication.getName();
+            Optional<User> user = userService.findByEmail(username);
+            if(user.isPresent()){
+                model.addAttribute("profile", user.get().getProfile());
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
