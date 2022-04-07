@@ -9,18 +9,16 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cascade;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import mx.com.adoptame.entities.profile.Profile;
 
 @Entity
 @Table(name = "TBL_ADDRESS")
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @ToString
 public class Address implements Serializable{
@@ -68,8 +66,6 @@ public class Address implements Serializable{
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            mappedBy = "address")
+    @OneToOne(mappedBy = "address")
     private Profile profile;
 }

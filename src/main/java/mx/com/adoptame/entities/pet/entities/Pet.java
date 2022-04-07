@@ -60,6 +60,10 @@ public class Pet implements Serializable {
     @Column(columnDefinition = "varchar(60)")
     private String breed;
 
+    @javax.validation.constraints.Size(min = 2, max = 160)
+    @Column(columnDefinition = "varchar(160)")
+    private String description;
+
     @Column(name = "is_adopted", nullable = false, columnDefinition = "tinyint default 0")
     private Boolean isAdopted;
 

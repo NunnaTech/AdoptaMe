@@ -2,6 +2,7 @@ package mx.com.adoptame.entities.pet.entities;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -48,4 +49,5 @@ public class PetAdopted implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
+
 }

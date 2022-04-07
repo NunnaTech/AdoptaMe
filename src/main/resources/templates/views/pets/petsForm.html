@@ -1,8 +1,13 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
-<header th:replace="components/navbars:: navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
 
 <div class="container py-3">
     <div th:replace="components/titles::titles ('Mascotas', ${ {'Mascotas','Formulario'} })"/>
@@ -69,6 +74,24 @@
                 </div>
             </div>
         </div>
+
+        <div class="form-group">
+            <label for="description">Descripción:</label>
+            <input type="text" class="form-control"
+                   id="description" name="description"
+                   aria-describedby="descriptionHelp"
+                   placeholder="Ej: La mejor mascota del mundo mundial"
+                   th:classappend="${#fields.hasErrors('description')?'is-invalid':''}"
+                   th:field="*{description}"
+                   pattern="[A-Za-zÀ-ÿ '-.]*"
+                   maxlength="50"
+            />
+            <div id="descriptionHelp"
+                 th:classappend="${#fields.hasErrors('description')?'invalid-feedback':''}"
+                 th:errors="*{description}">
+            </div>
+        </div>
+
         <div class="form-row">
             <div class="form-group col-12 col-md-4">
                 <label for="color">Color:</label>
@@ -95,5 +118,6 @@
     </form>
 </div>
 <footer th:replace="components/htmlComponents::htmlFooter"/>
+<script th:src="@{/js/validations.js}"></script>
 </body>
 </html>

@@ -48,12 +48,6 @@ public class Character implements Serializable {
     @Column(columnDefinition = "varchar(60)")
     private String description;
 
-    @NotNull
-    @NotBlank
-    @Size(min = 2, max = 150)
-    @Column(columnDefinition = "varchar(150)")
-    private String icon;
-
     @Column(columnDefinition = "tinyint default 1")
     private Boolean status;
 
@@ -70,7 +64,6 @@ public class Character implements Serializable {
 
     public Character(String name) {
         this.name = name;
-        this.icon = "none";
         this.status = true;
     }
 }

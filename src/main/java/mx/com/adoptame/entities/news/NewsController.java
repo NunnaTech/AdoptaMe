@@ -1,10 +1,14 @@
 package mx.com.adoptame.entities.news;
 
 import lombok.extern.slf4j.Slf4j;
+import mx.com.adoptame.entities.pet.controllers.PetController;
 import mx.com.adoptame.entities.tag.Tag;
 import mx.com.adoptame.entities.tag.TagService;
 import mx.com.adoptame.entities.user.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +30,8 @@ public class NewsController {
     @Autowired
     private UserService userService;
 
+    private Logger logger = LoggerFactory.getLogger(NewsController.class);
+
     //    Para todos
     @GetMapping("")
     public String home(Model model, News news) {
@@ -34,26 +40,27 @@ public class NewsController {
         return "views/blog/blogs";
     }
 
-    // Individual
     @GetMapping("/{id}")
-    public String view(@PathVariable("id") Integer id, Model model) {
-        Optional<News> news = newsService.findOne(id);
-        model.addAttribute("navbar", "navbar-all");
-        model.addAttribute("newsTop", newsService.findLastFive());
-        // Check if it's exist
-        if (news.isEmpty()){
-            return "redirect:/";
-        }
-        // Check if it's published
-        if (!news.get().getIsPublished()){
-            return "redirect:/";
-        }
-        model.addAttribute("news", news.get());
-        return "views/blog/blog";
+    public String view(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+       try {
+           Optional<News> news = newsService.findOne(id);
+           if (news.isPresent() && news.get().getIsMain()){
+               model.addAttribute("news", news.get());
+               return "views/blog/blog";
+           }else{
+               redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+               return "redirect:/blog/";
+           }
+       }catch (Exception e){
+           redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+           logger.error(e.getMessage());
+           return "redirect:/blog/";
+       }
 
     }
     //    List admin
     @GetMapping("/admin")
+//    @Secured("ROLE_ADMINISTRATOR")
     public String management(Model model, News news) {
         model.addAttribute("list", newsService.findAll());
         return "views/blog/blogList";
@@ -62,11 +69,12 @@ public class NewsController {
     //    Form admin
     @GetMapping("/admin/form")
     public String save(Model model, News news) {
-        model.addAttribute("tagsList", tagService.findAll());
+        model.addAttribute("news", news);
+        model.addAttribute("tags", tagService.findAll());
         return "views/blog/blogForm";
     }
 
-    //    Edit admin
+    //    Edit blog
     @GetMapping("/admin/edit/{id}")
     public String edit(@PathVariable("id") Integer id, Model model, News news, RedirectAttributes redirectAttributes) {
         news = newsService.findOne(id).orElse(null);
@@ -74,7 +82,7 @@ public class NewsController {
             redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
             return "redirect:/blog/admin";
         }
-        System.out.println(news.getTags().toArray().toString());
+        model.addAttribute("tags", tagService.findAll());
         model.addAttribute("news", news);
         return "views/blog/blogForm";
 
@@ -92,8 +100,7 @@ public class NewsController {
 
     //    Save admin
     @PostMapping("/admin/save")
-    public String save(Model model, @Valid News news, BindingResult bindingResult, RedirectAttributes redirectAttributes, @ModelAttribute("tagValues") String tagValues) {
-        news.setImage("http://thecatandthedog.com/wp-content/uploads/2020/11/5200.jpg");
+    public String save(Model model, @Valid News news, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         news.setUser(userService.findOne(1).get());
         try {
             if (bindingResult.hasErrors()) {
@@ -101,18 +108,16 @@ public class NewsController {
                 return "views/blog/blogForm";
             }
             news = newsService.save(news).get();
-            String[] tags = tagValues.split(",");
-            System.out.println(tags);
+            redirectAttributes.addFlashAttribute("msg_success", "Blog guardado exitosamente");
+            /*String[] tags = tagValues.split(",");
             for (String tag : tags) {
                 Optional<Tag> tagItem = tagService.findOne(Integer.valueOf(tag));
                 if (tagItem.isPresent()) {
                     newsService.saveTag(news, tagItem.get());
                 }
-            }
-            redirectAttributes.addFlashAttribute("msg_success", "Blog guardado exitosamente");
-
+            }*/
         } catch (Exception e) {
-            log.info(e.getMessage());
+            System.err.println(e.getMessage());
         }
         return "redirect:/blog/admin";
     }
