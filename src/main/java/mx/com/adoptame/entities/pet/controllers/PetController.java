@@ -7,6 +7,7 @@ import mx.com.adoptame.entities.pet.services.PetService;
 import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.profile.ProfileService;
 import mx.com.adoptame.entities.size.SizeService;
+import mx.com.adoptame.entities.type.Type;
 import mx.com.adoptame.entities.type.TypeService;
 import mx.com.adoptame.entities.user.User;
 import mx.com.adoptame.entities.user.UserService;
@@ -24,7 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -128,13 +130,42 @@ public class PetController {
     }
 
     @GetMapping(value = {"/filter"})
-    public String filter(Model model) {
-        model.addAttribute("typeList", typeService.findAll());
+    public String filter(Model model,
+                         Optional<String> search,
+                         Optional<String> types,
+                         Optional<String> ages,
+                         Optional<String> sizes,
+                         Optional<String> characters,
+                         Optional<String> colors) {
+        List<Pet> characterList = petService.findPetsForAdopted();
+        List<Type> typeList = typeService.findAll();
+
+        if(search.isPresent()){
+            characterList = petService.findByNameOrBreed(search.get());
+        }
+        if(types.isPresent()){
+            characterList = petService.findByType(types.get());
+        }
+
+        if(ages.isPresent()){
+            characterList = petService.findByAge(ages.get());
+        }
+
+        if(sizes.isPresent()){
+            characterList = petService.findBySize(sizes.get());
+        }
+
+        if(characters.isPresent()){
+            characterList = petService.findByCharacters(characters.get());
+        }
+        if(colors.isPresent()){
+            characterList = petService.findByColor(colors.get());
+        }
+        model.addAttribute("typeList", typeList);
         model.addAttribute("sizeList", sizeService.findAll());
-        model.addAttribute("characterList", characterService.findAll());
+        model.addAttribute("characterList",characterService.findAll());
         model.addAttribute("colorList", colorService.findAll());
-        model.addAttribute("petsList", petService.findPetsForAdopted());
-//         TODO realizar filtarado
+        model.addAttribute("petsList",  characterList);
         return "views/pets/petsFilter";
     }
 

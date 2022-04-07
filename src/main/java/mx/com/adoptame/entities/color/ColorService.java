@@ -25,6 +25,10 @@ public class ColorService {
    public Optional<Color> findOne(Integer id) {
        return colorRepository.findById(id);
    }
+  @Transactional(readOnly = true)
+   public Optional<Color> findByName(String name) {
+       return colorRepository.findByName(name);
+   }
 
     @Transactional
    public Optional<Color> save(Color color) {
