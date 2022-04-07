@@ -1,113 +1,164 @@
 <!DOCTYPE html>
-<html lang="es"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="components/htmlComponents::htmlHead"/>
-<body id="pet-detail" class="d-flex flex-column min-vh-100">
-<header th:replace="components/navbars:: navbar-all"></header>
+<html
+  lang="es"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+  <head th:replace="components/htmlComponents::htmlHead" />
+  <body id="pet-detail" class="d-flex flex-column min-vh-100">
+    <header th:replace="components/navbars:: navbar-all"></header>
 
-<main>
-    <div class="container my-4">
+    <main>
+      <div class="container my-4">
         <div class="card">
-            <div class="card-body">
-                <div class="row my-2">
-                    <div class="col-12 col-md-12 col-lg-5 d-flex align-items-center justify-content-center">
-                        <div id="carouselExampleIndicators"
-                             class="carousel slide d-flex align-items-center justify-content-center"
-                             data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                <li th:if="${pet.images.isEmpty()}"
-                                    data-target="#carouselExampleIndicators" class="active"></li>
-                                <li th:unless="${pet.images.isEmpty()}"
-                                    data-target="#carouselExampleIndicators"
-                                    th:each="m,i:${pet.images}"
-                                    th:data-slide-to="${i.count}"
-                                    th:classappend="${i.count==1?'active':''}"
-                                ></li>
-                            </ol>
-                            <div class="carousel-inner">
-                                <div class="carousel-item active" th:if="${pet.images.isEmpty()}">
-                                    <img src="https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/876/fb45d6e2-dd35-4312-b57a-ba37bf30e97d.png"
-                                         class="d-block w-100" alt="noimage">
-                                </div>
-                                <div th:unless="${pet.images.isEmpty()}"
-                                     class="carousel-item"
-                                     th:each="m,i:${pet.images}"
-                                     th:classappend="${i.count==1?'active':''}">
-                                    <img th:src="${m.image}"
-                                         class="d-block w-100" th:alt="${pet.name}">
-                                </div>
-                            </div>
-                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
-                               data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
-                               data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </div>
+          <div class="card-body">
+            <div class="row my-2">
+              <div
+                class="col-12 col-md-12 col-lg-5 d-flex align-items-center justify-content-center"
+              >
+                <div
+                  id="carouselExampleIndicators"
+                  class="carousel slide d-flex align-items-center justify-content-center"
+                  data-ride="carousel"
+                >
+                  <ol class="carousel-indicators">
+                    <li
+                      th:if="${pet.images.isEmpty()}"
+                      data-target="#carouselExampleIndicators"
+                      class="active"
+                    ></li>
+                    <li
+                      th:unless="${pet.images.isEmpty()}"
+                      data-target="#carouselExampleIndicators"
+                      th:each="m,i:${pet.images}"
+                      th:data-slide-to="${i.count}"
+                      th:classappend="${i.count==1?'active':''}"
+                    ></li>
+                  </ol>
+                  <div class="carousel-inner">
+                    <div
+                      class="carousel-item active"
+                      th:if="${pet.images.isEmpty()}"
+                    >
+                      <img
+                        src="https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/876/fb45d6e2-dd35-4312-b57a-ba37bf30e97d.png"
+                        class="d-block w-100"
+                        alt="noimage"
+                      />
                     </div>
-                    <div class="col-12 col-md-12 col-lg-7 px-4 mt-3">
-                        <h3 th:text="${pet.name}"/>
-                        <hr/>
-                        <h5 class="font-weight-normal">
-                            <i class="text-success-ad fa-solid fa-dna ml-2"></i>
-                            <span class="" th:text="|${pet.type.name} - ${pet.breed}|"/>
-                        </h5>
-                        <h5>
-                            <i class="fa-solid fa-calendar ml-2"></i>
-                            <span th:text="${#temporals.format(pet.createdAt,'dd-MMM-yyyy')}"/>
-                        </h5>
-                        <h5>
-                            <span class="badge text-white"
-                                  th:style="|background-color: ${pet.color.hex_code}; -webkit-text-stroke: 0.1px yellow;|"
-                                  th:text="${pet.character.name}"/>
-                        </h5>
-                        <hr/>
-                        <p class="card-text" th:text="${pet.description}"/>
-                        <hr/>
-                        <ul>
-                            <div class="d-flex justify-content-around">
-                                <div>
-                                    <i class="fa-solid fa-cake-candles mx-2 text-secondary-ad"></i>
-                                    <span th:text="${pet.age}"/>
-                                </div>
-                                <div><i class="fa-solid fa-dog mx-2 text-success-ad"></i>
-                                    <span th:text="${pet.type.name}"/>
-                                </div>
-                                <div>
-                                    <i class="mr-1 fa-solid" th:classappend="${pet.gender?'fa-mars':'fa-venus'}"></i>
-                                    <span th:text="${pet.gender ? 'Macho':'Hembra'}"/>
-                                </div>
-                                <div>
-                                    <i class="fa-solid fa-bone mx-2 text-warning-ad"></i>
-                                    <span th:text="${pet.size.name}"/>
-                                </div>
-                                <div><i class="fa-solid fa-palette mx-2 text-info-ad"></i>
-                                    <span th:text="${pet.color.name}"/>
-                                </div>
-                            </div>
-                            <hr/>
-                            <ul class="list-group list-group-flush px-0 px-md-5">
-                                <button class="btn btn-primary-ad p-2">¡Adóptame!<i
-                                        class="fa-solid fa-paw ml-2"></i></button>
-                                <button class="btn btn-danger mt-3  p-2">Agregar como favorito<i
-                                        class="fa-solid fa-heart ml-2"></i></button>
-                            </ul>
-                        </ul>
+                    <div
+                      th:unless="${pet.images.isEmpty()}"
+                      class="carousel-item"
+                      th:each="m,i:${pet.images}"
+                      th:classappend="${i.count==1?'active':''}"
+                    >
+                      <img
+                        th:src="${m.image}"
+                        class="d-block w-100"
+                        th:alt="${pet.name}"
+                      />
                     </div>
+                  </div>
+                  <a
+                    class="carousel-control-prev"
+                    href="#carouselExampleIndicators"
+                    role="button"
+                    data-slide="prev"
+                  >
+                    <span
+                      class="carousel-control-prev-icon"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a
+                    class="carousel-control-next"
+                    href="#carouselExampleIndicators"
+                    role="button"
+                    data-slide="next"
+                  >
+                    <span
+                      class="carousel-control-next-icon"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="sr-only">Next</span>
+                  </a>
                 </div>
+              </div>
+              <div class="col-12 col-md-12 col-lg-7 px-4 mt-3">
+                <h3 th:text="${pet.name}" />
+                <hr />
+                <h5 class="font-weight-normal">
+                  <i class="text-success-ad fa-solid fa-dna ml-2"></i>
+                  <span class="" th:text="|${pet.type.name} - ${pet.breed}|" />
+                </h5>
+                <h4>
+                  <i class="fa-solid fa-calendar ml-2"></i>
+                  <span
+                    th:text="${#temporals.format(pet.createdAt,'dd-MMM-yyyy')}"
+                  />
+                </h4>
+                <h5>
+                  <span
+                    class="badge text-white"
+                    th:style="|background-color: ${pet.color.hex_code}; -webkit-text-stroke: 0.1px yellow;|"
+                    th:text="${pet.character.name}"
+                  />
+                </h5>
+                <hr />
+                <p class="card-text" th:text="${pet.description}" />
+                <hr />
+                <ul>
+                  <div class="d-flex justify-content-around">
+                    <div>
+                      <i
+                        class="fa-solid fa-cake-candles mx-2 text-secondary-ad"
+                      ></i>
+                      <span th:text="${pet.age}" />
+                    </div>
+                    <div>
+                      <i class="fa-solid fa-dog mx-2 text-success-ad"></i>
+                      <span th:text="${pet.type.name}" />
+                    </div>
+                    <div>
+                      <i
+                        class="mr-1 fa-solid"
+                        th:classappend="${pet.gender?'fa-mars':'fa-venus'}"
+                      ></i>
+                      <span th:text="${pet.gender ? 'Macho':'Hembra'}" />
+                    </div>
+                    <div>
+                      <i class="fa-solid fa-bone mx-2 text-warning-ad"></i>
+                      <span th:text="${pet.size.name}" />
+                    </div>
+                    <div>
+                      <i class="fa-solid fa-palette mx-2 text-info-ad"></i>
+                      <span th:text="${pet.color.name}" />
+                    </div>
+                  </div>
+                  <hr />
+                  <ul class="list-group list-group-flush px-0 px-md-5">
+                    <a
+                      th:href="@{/pets/like/{id} (id=${pet.id})}"
+                      class="p-2 btn btn-danger"
+                    >
+                      Agregar como favorito
+                      <i class="fa-solid fa-heart ml-2"></i>
+                    </a>
+                    <a class="mt-3 p-2 btn btn-primary-ad p-2">
+                      ¡Adóptame!
+                      <i class="fa-solid fa-paw ml-2"></i>
+                    </a>
+                  </ul>
+                </ul>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-</main>
-
-<footer th:replace="components/htmlComponents::htmlFooter"/>
-
-
-</body>
+      </div>
+    </main>
+    <footer th:replace="components/htmlComponents::htmlFooter" />
+    <div th:replace="components/alerts::alerts" />
+  </body>
 </html>
