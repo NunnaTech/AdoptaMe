@@ -63,9 +63,6 @@ public class User{
 
     // Relationships
 
-    @OneToMany(mappedBy="recorder", cascade = CascadeType.PERSIST)
-    private Set<Pet> petsRecordered;
-
     @OneToOne(mappedBy = "user")
     private Profile profile;
 

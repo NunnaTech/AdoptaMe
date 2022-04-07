@@ -38,9 +38,6 @@ public class Role{
     @Column(columnDefinition = "varchar(50)")
     private String description;
 
-  /*  @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
-*/
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
