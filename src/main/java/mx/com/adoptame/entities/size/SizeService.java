@@ -27,6 +27,11 @@ public class SizeService {
         return sizeRepository.findById(id);
     }
 
+    @Transactional(readOnly = true)
+    public Optional<Size> findByName(String name) {
+        return sizeRepository.findByName(name);
+    }
+
     @Transactional
     public Optional<Size> save(Size size) {
         return Optional.of(sizeRepository.save(size));

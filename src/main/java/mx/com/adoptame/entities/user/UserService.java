@@ -3,7 +3,6 @@ package mx.com.adoptame.entities.user;
 import mx.com.adoptame.config.email.EmailService;
 import mx.com.adoptame.entities.address.Address;
 import mx.com.adoptame.entities.address.AdressRepository;
-import mx.com.adoptame.entities.donation.Donation;
 import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.profile.ProfileRepository;
 import mx.com.adoptame.entities.role.Role;
