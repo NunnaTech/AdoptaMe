@@ -22,11 +22,6 @@ section {
     padding: 3rem 2rem;
 }
 
-*::-webkit-scrollbar {
-    height: 0rem;
-    width: 0rem;
-}
-
 * {
     font-family: "Montserrat", sans-serif;
     margin: 0;

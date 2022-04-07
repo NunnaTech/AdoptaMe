@@ -1,22 +1,82 @@
 <!DOCTYPE html>
-<html lang="es"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html
+        lang="es"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
 <header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
 <header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
 <header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
-<div class="container py-3">
+<div class="container py-3" id="pets-filter">
     <div th:replace="components/titles::titles ('Mascotas', ${ {'Mascotas','Mis mascotas favoritas'} })"/>
 
+    <div class="box-container">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-6 col-xl-4 single-card" th:each="p:${petList}">
+                    <div class="card">
+                        <div class="image">
+                            <img class="card-img-top"
+                                 th:src="${p.images.isEmpty() ? 'https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/876/fb45d6e2-dd35-4312-b57a-ba37bf30e97d.png':p.images.get(0).image }"
+                                 th:alt="${p.name}"/>
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="card-header mb-0 pb-0">
+                            <div class="row d-flex justify-content-around">
+                                <h5 class="card-title" th:text="${p.name}"/>
+                                <p>
+                                    <i class="fa-solid fa-calendar mr-1"></i>
+                                    <span th:text="${#temporals.format(p.createdAt,'dd-MMM-yyyy')}"></span>
+                            </div>
+                        </div>
 
+                        <div class="card-description my-2">
+                            <h6 class="text-muted" th:text="|${p.type.name} - ${p.breed}|"/>
+                            <span>
+                                                    <i class="fa-solid fa-cake-candles mr-1"></i>
+                                                    <span th:text="${p.age}"></span>
+                                                </span>
+                            <span>
+                                                    <i class="fa-solid fa-bone mr-1"></i>
+                                                    <span th:text="${p.size.name}"></span>
+                                                </span>
+                            <br>
+                            <span>
+                                                    <i class="mr-1 fa-solid"
+                                                       th:classappend="${p.gender?'fa-mars':'fa-venus'}"></i>
+                                                    <span th:text="${p.gender ? 'Macho':'Hembra'}"></span>
+                                                </span>
+                            <span>
+                                                   <i class="fa-solid fa-palette mr-2"></i>
+                                                    <span th:text="${p.color.name}"></span>
+                                                </span>
 
-
+                            <div class="stars d-flex justify-content-center mx-3 mb-2">
+                                                    <span class="badge text-white"
+                                                          th:style="|background-color: ${p.color.hex_code}; -webkit-text-stroke: 0.1px white;|"
+                                                          th:text="${p.character.name}"></span>
+                            </div>
+                            <div class="list-group list-group-flush px-4 py-1">
+                                <a th:href="@{/pets/{id} (id=${p.id})}" class="btn bg-warning mb-2">Detalles
+                                    <i class="fa-solid fa-eye ml-2"></i>
+                                </a>
+                                <a th:href="@{/pets/dislike/{id} (id=${p.id})}" class="p-2 btn btn-danger">
+                                    Quitar de favoritos
+                                    <i class="fa-solid fa-heart-crack ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-
 <footer th:replace="components/htmlComponents::htmlFooter"/>
+<div th:replace="components/alerts::alerts"/>
 </body>
 </html>
