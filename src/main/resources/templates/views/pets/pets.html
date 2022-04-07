@@ -35,7 +35,6 @@
                     <img th:src="${p.images.isEmpty() ? 'https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/876/fb45d6e2-dd35-4312-b57a-ba37bf30e97d.png':p.images.get(0).image}"
                          th:alt="${p.name}"/>
                 </a>
-                <a th:href="@{/pets/filter}" class="fas fa-heart"></a>
             </div>
             <h3 th:text="${p.name}"/>
             <h6 class="text-muted" th:text="|${p.type.name} - ${p.breed}|"/>

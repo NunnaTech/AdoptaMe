@@ -39,14 +39,14 @@
             <td><span class="badge" th:classappend="${i.isAdopted ? 'badge-success':'badge-danger'}" th:text="${i.isAdopted ? 'Si':'No'}"/></td>
             <td class="d-flex justify-content-around">
                 <a th:href="@{/pets/admin/edit/{id} (id=${i.id})}" class="btn btn-warning">
-                    <em class="fa-solid fa-pen"></em>
+                    <i class="fa-solid fa-pen"></i>
                 </a>
                 <a th:href="@{/petsImages/images/{id} (id=${i.id})}" class="btn btn-info">
-                    <em class="fa-solid fa-images"></em>
+                    <i class="fa-solid fa-images"></i>
                 </a>
                 <form th:action="@{/pets/admin/delete/{id} (id=${i.id})}" onsubmit="return false">
                     <button type="submit" class="btn btn-danger" onclick="confirmSweetAlert(this.parentElement)">
-                        <em class="fa-solid fa-trash"></em>
+                        <i class="fa-solid fa-trash"></i>
                     </button>
                 </form>
             </td>

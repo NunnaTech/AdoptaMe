@@ -1,8 +1,11 @@
 package mx.com.adoptame.entities.pet.controllers;
 
+import jdk.swing.interop.SwingInterOpUtils;
 import mx.com.adoptame.entities.character.CharacterService;
 import mx.com.adoptame.entities.color.ColorService;
 import mx.com.adoptame.entities.pet.entities.Pet;
+import mx.com.adoptame.entities.pet.entities.PetAdopted;
+import mx.com.adoptame.entities.pet.services.PetAdoptedService;
 import mx.com.adoptame.entities.pet.services.PetService;
 import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.profile.ProfileService;
@@ -15,6 +18,8 @@ import mx.com.adoptame.entities.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +49,9 @@ public class PetController {
 
     @Autowired private TypeService typeService;
 
-    @Autowired private ProfileService profileService;
-
     @Autowired private UserService userService;
+
+    @Autowired private PetAdoptedService petAdoptedService;
 
     private Logger logger = LoggerFactory.getLogger(PetController.class);
 
@@ -74,62 +80,104 @@ public class PetController {
         }
     }
 
-    @GetMapping("/my-requests")
-    public String myRequests(Model model) {
-//         TODO Obtener sesión del usuario para pintarle sus solicitudes
-
+    @GetMapping("/adoptions")
+    public String adoptions(Model model, Authentication authentication) {
+        try {
+            String username = authentication.getName();
+            Optional<User> user = userService.findByEmail(username);
+            if (user.isPresent()) {
+                model.addAttribute("list", user.get().getAdoptedPets());
+            } else {
+                model.addAttribute("list", new ArrayList<>());
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            model.addAttribute("list", new ArrayList<>());
+        }
         return "views/pets/petsMyRequest";
     }
 
     @GetMapping("/favorites")
-    public String favorites(Model model) {
-//         TODO Obtener sesión del usuario para pintarle sus favoritos static: 1 profile
-        Optional<Profile> profile = profileService.findOne(1);
-        model.addAttribute("petList", profile.get().getUser().getFavoitesPets());
-        return "redirect:/pets/favorites";
+    public String favorites(Model model, Authentication authentication) {
+        try {
+            String username = authentication.getName();
+            Optional<User> user = userService.findByEmail(username);
+            if (user.isPresent()) {
+                model.addAttribute("petList", user.get().getFavoitesPets());
+            } else {
+                model.addAttribute("list", new ArrayList<>());
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            model.addAttribute("list", new ArrayList<>());
+        }
+        return "views/pets/petsFavorite";
     }
 
-    @GetMapping("/like/{id}")
-    public String like(@PathVariable("id")Integer id, Model model, RedirectAttributes redirectAttributes){
-        // TODO obtener la sesión: static: 1 profile
+    @GetMapping("/adopted/{id}")
+    public String adopted(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
-            Optional<Profile> profile = profileService.findOne(1);
+            String username = authentication.getName();
+            Optional<User> user = userService.findByEmail(username);
             Optional<Pet> pet = petService.findOne(id);
-            if (pet.isPresent() && pet.get().getIsActive()) {
-                profile.get().getUser().addToFavorite(pet.get());
-                profileService.save(profile.get());
-                redirectAttributes.addFlashAttribute("msg_success", "Mascota guardada en favoritos");
-            }else{
-                redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al guardar en favoritos, intente nuevamente");
+            if (pet.isPresent() && user.isPresent() && pet.get().getIsActive()) {
+                PetAdopted petAdopted= new PetAdopted();
+                petAdopted.setUser(user.get());
+                petAdopted.setPet(pet.get());
+                petAdopted.setIsCanceled(false);
+                petAdoptedService.save(petAdopted);
+                redirectAttributes.addFlashAttribute("msg_success", "Solicitud de adopción realizada");
+            } else {
+                redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al realizar la solicitud de adopción, intente nuevamente");
             }
-        }catch (Exception e){
-            redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al guardar en favoritos, intente nuevamente");
-            logger.error(e.getMessage());
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("msg_error", "Necesitas iniciar sesión para realizar esta acción");
+            return "redirect:/login";
         }
         return "redirect:/pets/filter";
     }
-    
-    @GetMapping("/dislike/{id}")
-    public String dislike(@PathVariable("id")Integer id, Model model, RedirectAttributes redirectAttributes){
-        // TODO obtener la sesión: static: 1 profile
+
+    @GetMapping("/like/{id}")
+    public String like(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
-            Optional<Profile> profile = profileService.findOne(1);
+            String username = authentication.getName();
+            Optional<User> user = userService.findByEmail(username);
             Optional<Pet> pet = petService.findOne(id);
-            if (pet.isPresent() && pet.get().getIsActive()) {
-                profile.get().getUser().removeFromFavorite(pet.get());;
-                profileService.save(profile.get());
-                redirectAttributes.addFlashAttribute("msg_success", "Mascota removida de favoritos");
-            }else{
+            if (pet.isPresent() && user.isPresent() && pet.get().getIsActive()) {
+                user.get().addToFavorite(pet.get());
+                userService.save(user.get());
+                redirectAttributes.addFlashAttribute("msg_success", "Mascota guardada en favoritos");
+            } else {
                 redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al guardar en favoritos, intente nuevamente");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("msg_error", "Necesitas iniciar sesión para realizar esta acción");
+            return "redirect:/login";
+        }
+        return "redirect:/pets/filter";
+    }
+
+    @GetMapping("/dislike/{id}")
+    public String dislike(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
+        try {
+            String username = authentication.getName();
+            Optional<User> user = userService.findByEmail(username);
+            Optional<Pet> pet = petService.findOne(id);
+            if (pet.isPresent() && user.isPresent() && pet.get().getIsActive()) {
+                user.get().removeFromFavorite(pet.get());
+                userService.save(user.get());
+                redirectAttributes.addFlashAttribute("msg_success", "Mascota removida de favoritos");
+            } else {
+                redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al guardar en favoritos, intente nuevamente");
+            }
+        } catch (Exception e) {
             redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al guardar en favoritos, intente nuevamente");
             logger.error(e.getMessage());
         }
-        return "redirect:/pets/"+id;
+        return "redirect:/pets/favorites";
     }
 
-    @GetMapping(value = {"/filter"})
+    @GetMapping("/filter")
     public String filter(Model model,
                          Optional<String> search,
                          Optional<String> types,
@@ -140,32 +188,32 @@ public class PetController {
         List<Pet> characterList = petService.findPetsForAdopted();
         List<Type> typeList = typeService.findAll();
 
-        if(search.isPresent()){
+        if (search.isPresent()) {
             characterList = petService.findByNameOrBreed(search.get());
         }
-        if(types.isPresent()){
+        if (types.isPresent()) {
             characterList = petService.findByType(types.get());
         }
 
-        if(ages.isPresent()){
+        if (ages.isPresent()) {
             characterList = petService.findByAge(ages.get());
         }
 
-        if(sizes.isPresent()){
+        if (sizes.isPresent()) {
             characterList = petService.findBySize(sizes.get());
         }
 
-        if(characters.isPresent()){
+        if (characters.isPresent()) {
             characterList = petService.findByCharacters(characters.get());
         }
-        if(colors.isPresent()){
+        if (colors.isPresent()) {
             characterList = petService.findByColor(colors.get());
         }
         model.addAttribute("typeList", typeList);
         model.addAttribute("sizeList", sizeService.findAll());
-        model.addAttribute("characterList",characterService.findAll());
+        model.addAttribute("characterList", characterService.findAll());
         model.addAttribute("colorList", colorService.findAll());
-        model.addAttribute("petsList",  characterList);
+        model.addAttribute("petsList", characterList);
         return "views/pets/petsFilter";
     }
 

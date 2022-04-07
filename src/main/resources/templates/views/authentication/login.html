@@ -179,10 +179,14 @@
     let enabled = document.querySelector("#enabled");
     enabled.setAttribute("checked", true)
     let voluntario = document.querySelector("#voluntario");
-    adotador.addEventListener('click', ()=> enabled.setAttribute("checked", true))
-    voluntario.addEventListener('click', ()=> enabled.removeAttribute("checked"))
+    adotador.addEventListener('click', () => enabled.setAttribute("checked", true))
+    voluntario.addEventListener('click', () => enabled.removeAttribute("checked"))
 </script>
+
 <footer th:replace="components/htmlComponents::htmlFooter"/>
-<script th:src="@{/js/validations.js}"></script>
+<div th:replace="components/alerts::alerts"/>
+<script th:src="@{/js/validations.js}"/>
+
+
 </body>
 </html>

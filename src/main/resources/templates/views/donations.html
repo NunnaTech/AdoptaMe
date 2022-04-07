@@ -35,7 +35,7 @@
                 <span class="badge" th:classappend="${i.isCompleted ? 'badge-success':'badge-warning'}"
                       th:text="${i.isCompleted ? 'Exitosa':'Pendiente'}"/>
             </td>
-            <td th:text="${i.createdAt.toLocalDate()}"/>
+            <td  th:text="${#temporals.format(i.createdAt,'dd-MMM-yyyy')}"/>
             <td class="d-flex justify-content-around">
                 <form>
                     <button type="submit" class="btn btn-success">

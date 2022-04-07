@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
@@ -38,9 +39,8 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String login(Model model, Request request) {
+    public String login(Model model, Request request, RedirectAttributes redirectAttributes) {
         model.addAttribute("request", request);
-        model.addAttribute("navbar", "navbar-all");
         return "views/authentication/login";
     }
 
