@@ -1,5 +1,14 @@
 let URL_BATCHE = 'https://allowingcors.herokuapp.com/https://api-upscaler-origin.icons8.com/api/frontend/v1/batches';
-async function uploadImage(e) {
+
+async function uploadImageConfirm(e){
+    let preImage = e.elements['preImage'].files[0];
+    if(preImage){
+        await uploadImage(e)
+    }
+    e.submit();
+}
+
+async function uploadImage(e, img='image') {
     let image = e.elements['preImage'].files[0];
     if (image) {
         if (image.type === "image/png" || image.type === "image/jpg" || image.type === "image/jpeg") {
@@ -9,7 +18,7 @@ async function uploadImage(e) {
             formData.append("image", image, image.name);
             let imageResponse = await uploadImageAws(getBatche.id, formData);
             if (imageResponse) {
-                e.elements['image'].value = imageResponse.source.url;
+                e.elements[img].value = imageResponse.source.url;
                 e.submit();
             }else{
                 sweetAlertNoty('Imagen corrompida')
@@ -41,7 +50,7 @@ function sweetAlertNoty(title) {
         icon: 'error',
         title,
         showConfirmButton: false,
-        timer: 1500
+        timer: 2000
     })
 }
 function sweetAlertWait() {

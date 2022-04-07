@@ -1,7 +1,9 @@
 package mx.com.adoptame.entities.news;
+import mx.com.adoptame.entities.donation.Donation;
 import mx.com.adoptame.entities.tag.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -15,21 +17,32 @@ public class NewsService {
     @Autowired
     private NewsRepository newsRepository;
 
+    @Transactional(readOnly = true)
     public List<News> findAll() {
         return (List<News>) newsRepository.findAll();
     }
+
+    @Transactional(readOnly = true)
     public List<News> findAllActives() {
-        return (List<News>) newsRepository.findAllByIsPublished(true);
+        return newsRepository.findAllByIsPublished(true);
     }
 
+    @Transactional(readOnly = true)
     public List<News> findLastFive() {
-        return (List<News>) newsRepository.findTop5ByOrderByCreatedAtDesc();
+        return newsRepository.findTop5ByOrderByCreatedAtDesc();
     }
 
+    @Transactional(readOnly = true)
+    public List<News> findMainNews() {
+        return newsRepository.findAllByIsMainAndIsPublishedOrderByCreatedAtDesc(true,true);
+    }
+
+    @Transactional
     public Optional<News> findOne(Integer id) {
         return newsRepository.findById(id);
     }
 
+    @Transactional
     public Optional<News> save(News entity) {
         return Optional.of(newsRepository.save(entity));
     }
@@ -40,10 +53,13 @@ public class NewsService {
         }
     }
 
+    @Transactional
     public Optional<News> saveTag(News news,Tag tag) {
         news.addTag(tag);
         return Optional.of(newsRepository.save(news));
     }
+
+    @Transactional
     public Optional<News> update(News entity) {
         Optional<News> updatedEntity = Optional.empty();
         updatedEntity = newsRepository.findById(entity.getId());
@@ -52,6 +68,7 @@ public class NewsService {
         return updatedEntity;
     }
 
+    @Transactional
     public Optional<News> partialUpdate(Integer id, Map<Object, Object> fields) {
         try {
             News entity = findOne(id).get();
@@ -73,6 +90,7 @@ public class NewsService {
         }
     }
 
+    @Transactional
     public Boolean delete(Integer id) {
         boolean entity = newsRepository.existsById(id);
         if (entity) {
@@ -80,4 +98,19 @@ public class NewsService {
         }
         return entity;
     }
+    @Transactional(readOnly = true)
+    public Integer countMainNews() {
+        return newsRepository.countByIsMainIsTrue();
+    }
+
+    @Transactional(readOnly = true)
+    public Long countNews() {
+        return newsRepository.count();
+    }
+
+    @Transactional(readOnly = true)
+    public Integer countPublishedNews() {
+        return newsRepository.countByIsPublishedIsTrue();
+    }
+
 }

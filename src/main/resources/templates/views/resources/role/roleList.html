@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
-<header th:replace="components/navbars:: navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
 
 <div class="container py-3">
     <div th:replace="components/titles::titles ('Roles', ${ {'Roles','Lista'} })"/>
-    <a type="button" class="btn btn-success my-2" th:href="@{/role/form}">
-        <i class="fa-solid fa-plus"></i> Agregar nueva
-    </a>
     <table id="datatable" class="table table-striped">
         <thead>
         <tr>
@@ -21,17 +23,12 @@
         <tbody>
         <tr th:each="i,c: ${list}">
             <td th:text="${c.count}"/>
-            <td th:text="${i.type}"/>
+            <td th:text="${i.authority}"/>
             <td th:text="${i.description}"/>
             <td class="d-flex justify-content-around">
                 <a th:href="@{/role/edit/{id} (id=${i.id})}" class="btn btn-warning">
                     <i class="fa-solid fa-pen"></i>
                 </a>
-               <!-- <form th:action="@{/role/delete/{id} (id=${i.id})}" onsubmit="return false">
-                    <button type="submit" class="btn btn-danger" onclick="confirmSweetAlert(this.parentElement)">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </form>-->
             </td>
         </tr>
         </tbody>

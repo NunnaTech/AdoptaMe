@@ -3,6 +3,7 @@ package mx.com.adoptame.entities.tag;
 import mx.com.adoptame.entities.color.Color;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -16,18 +17,22 @@ public class TagService {
     @Autowired
     private TagRepository tagRepository;
 
+    @Transactional(readOnly = true)
     public List<Tag> findAll() {
         return (List<Tag>) tagRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Optional<Tag> findOne(Integer id) {
         return tagRepository.findById(id);
     }
 
+    @Transactional
     public Optional<Tag> save(Tag entity) {
         return Optional.of(tagRepository.save(entity));
     }
 
+    @Transactional
     public Optional<Tag> update(Tag entity) {
         Optional<Tag> updatedEntity = Optional.empty();
         updatedEntity = tagRepository.findById(entity.getId());
@@ -36,6 +41,7 @@ public class TagService {
         return updatedEntity;
     }
 
+    @Transactional
     public Optional<Tag> partialUpdate(Integer id, Map<Object, Object> fields) {
         try {
             Tag entity = findOne(id).get();
@@ -57,6 +63,7 @@ public class TagService {
         }
     }
 
+    @Transactional
     public Boolean delete(Integer id) {
         boolean entity = tagRepository.existsById(id);
         if (entity) {
@@ -64,6 +71,7 @@ public class TagService {
         }
         return entity;
     }
+
     public void fillInitialData() {
         if (tagRepository.count() > 0) return;
 

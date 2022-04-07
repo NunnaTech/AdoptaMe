@@ -1,8 +1,13 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body class="d-flex flex-column min-vh-100">
-<header th:replace="components/navbars:: navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
 <div class="container py-3">
 
     <div th:replace="components/titles::titles (${list.name}, ${ {'Mascotas','Lista','Imágenes'} })"/>
@@ -11,12 +16,12 @@
         <i class="fa-solid fa-arrow-left"></i> Regresar
     </a>
     <hr/>
-    <form th:action="@{/petsImages/images/save}" class="my-2" method="post" onsubmit="return false" enctype="multipart/form-data">
+    <form th:action="@{/petsImages/images/save}" class="my-2" method="post" onsubmit="event.preventDefault(); uploadImage(event.target)" enctype="multipart/form-data">
         <input type="hidden" name="idPet" id="idPet" th:value="${list.id}"/>
         <input type="hidden" name="image" id="image" value=""/>
         <label>Imagen:</label>
         <input type="file" class="form-control-file" id="preImage" name="preImage" required accept=".png, .jpg, .jpeg">
-        <button type="submit" class="btn btn-success mt-2" onclick="uploadImage(this.parentElement)">Guardar</button>
+        <button type="submit" class="btn btn-success mt-2">Guardar</button>
     </form>
     <hr/>
     <table id="datatable" class="table table-striped">

@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,9 +21,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -32,9 +29,9 @@ import mx.com.adoptame.entities.tag.Tag;
 import mx.com.adoptame.entities.user.User;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@ToString
 @Table(name = "TBL_NEWS")
 public class News implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -46,7 +43,7 @@ public class News implements Serializable {
     @NotNull
     @NotBlank
     @Size(min = 2, max = 50)
-    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.0-9]*")
     @Column(nullable = false, columnDefinition = "varchar(50)")
     private String title;
 

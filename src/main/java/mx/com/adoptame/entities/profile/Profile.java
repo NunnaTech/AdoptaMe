@@ -9,19 +9,17 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cascade;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import mx.com.adoptame.entities.address.Address;
 import mx.com.adoptame.entities.user.User;
 
 @Entity
 @Table(name = "TBL_PROFILES")
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @ToString
 public class Profile implements Serializable{
@@ -45,7 +43,6 @@ public class Profile implements Serializable{
     @Column(name="last_name", nullable = false, columnDefinition = "varchar(50)")
     private String lastName;
 
-    @Size(min = 2, max = 30)
     @Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(name="second_name", columnDefinition = "varchar(50)")
     private String secondName;
@@ -67,12 +64,13 @@ public class Profile implements Serializable{
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id_user")
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", nullable = true)
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id_address")
     private Address address;
 
     public String getFullName(){
