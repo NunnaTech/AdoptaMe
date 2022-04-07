@@ -13,7 +13,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/petsImages")
-@Slf4j
 public class PetImageController {
 
     @Autowired
