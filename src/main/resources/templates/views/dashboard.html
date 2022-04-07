@@ -322,7 +322,7 @@
                                     <td th:text="${pet.age}"></td>
                                     <td th:text="${pet.gender}"></td>
                                     <td th:text="${#temporals.format(pet.createdAt,'dd-MMM-yyyy')}"></td>
-                                    <td th:text="${pet.recorder.profile.getPartialName()}"></td>
+                                    <td th:text="${pet.user.profile.getPartialName()}"></td>
                                 </tr>
                                 </tbody>
                             </table>
