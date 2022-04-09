@@ -68,4 +68,12 @@ public class Address implements Serializable{
 
     @OneToOne(mappedBy = "address")
     private Profile profile;
+
+    public Address(String street, String externalNumber, String internalNumber, String zipCode, String references) {
+        this.street = street;
+        this.externalNumber = externalNumber;
+        this.internalNumber = internalNumber;
+        this.zipCode = zipCode;
+        this.references = references;
+    }
 }

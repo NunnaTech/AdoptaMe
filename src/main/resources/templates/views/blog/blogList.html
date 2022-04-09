@@ -31,7 +31,7 @@
             <td th:text="${i.title}"/>
             <td><span class="badge" th:classappend="${i.isMain ? 'badge-success':'badge-warning'}" th:text="${i.isMain ? 'Si':'No'}"/></td>
             <td><span class="badge" th:classappend="${i.isPublished ? 'badge-success':'badge-warning'}" th:text="${i.isPublished ? 'Si':'No'}"/></td>
-            <td th:text="${i.createdAt.toLocalDate()}"/>
+            <td th:text="${#temporals.format(i.createdAt,'dd-MMM-yyyy')}"/>
             <td class="text-center">
                 <img th:src="${i.image}" class="img-responsive" width="100" height="auto">
             </td>
@@ -55,6 +55,5 @@
     </table>
 </div>
 <footer th:replace="components/htmlComponents::htmlFooter"/>
-<div th:replace="components/alerts::alerts"/>
 </body>
 </html>

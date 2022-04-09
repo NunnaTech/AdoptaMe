@@ -13,8 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/petsAdopted")
 public class PetAdoptedController {
 
-    @Autowired
-    PetAdoptedService petAdoptedService;
+    @Autowired private PetAdoptedService petAdoptedService;
 
 
     @GetMapping("/")
