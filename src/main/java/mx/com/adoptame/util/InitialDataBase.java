@@ -41,6 +41,5 @@ public class InitialDataBase implements CommandLineRunner {
         sizeService.fillInitialData();
         tagService.fillInitialData();
         userService.fillInitialData();
-        System.out.println(passwordEncoder.encode("admin"));
     }
 }

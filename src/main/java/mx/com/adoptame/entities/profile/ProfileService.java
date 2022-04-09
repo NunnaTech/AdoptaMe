@@ -1,11 +1,14 @@
 package mx.com.adoptame.entities.profile;
 
+import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -20,12 +23,20 @@ public class ProfileService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Transactional(readOnly = true)
-    public List<Profile> findAll() {return (List<Profile>) profileRepository.findAll();}
+    public List<Profile> findAll() {return profileRepository.findAll();}
 
     @Transactional(readOnly = true)
     public Optional<Profile> findOne(Integer id) {
         return profileRepository.findById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Profile> findByUser(User user) {
+        return profileRepository.findByUser(user);
     }
 
     @Transactional
@@ -35,7 +46,17 @@ public class ProfileService {
         }
         return Optional.of(profileRepository.save(entity));
     }
-
+    @Transactional
+    public Optional<Profile> addProfile(Profile profile) {
+        entityManager.createNativeQuery("INSERT INTO tbl_profiles (name,last_name,second_name,phone,address_id,user_id)VALUES (?,?,?,?,null,?);")
+                .setParameter(1, profile.getName())
+                .setParameter(2, profile.getLastName())
+                .setParameter(3, profile.getSecondName())
+                .setParameter(4, profile.getPhone())
+                .setParameter(5,profile.getUser().getId())
+                .executeUpdate();
+        return findByUser(profile.getUser());
+    }
     @Transactional
     public Optional<Profile> update(Profile entity) {
         Optional<Profile> updatedEntity = Optional.empty();
