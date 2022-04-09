@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -40,6 +42,9 @@ public class UserService {
     @Autowired
     private EmailService emailService;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Transactional(readOnly = true)
     public List<User> findAll() {
         return (List<User>) userRepository.findAll();
@@ -53,6 +58,22 @@ public class UserService {
     @Transactional
     public Optional<User> save(User entity) {
         return Optional.of(userRepository.save(entity));
+    }
+    @Transactional
+    public Optional<User> addUser(User user) {
+        entityManager.createNativeQuery("INSERT INTO users (enabled, password, username) VALUES (?,?,?);")
+                .setParameter(1, true)
+                .setParameter(2, passwordEncoder.encode(user.getPassword()))
+                .setParameter(3, user.getUsername())
+                .executeUpdate();
+        return findByEmail(user.getUsername());
+    }
+    @Transactional
+    public void addRole(User user, Role role) {
+        entityManager.createNativeQuery("INSERT INTO authorities (user_id, rol_id) VALUES (?,?);")
+                .setParameter(1, user.getId())
+                .setParameter(2, role.getId())
+                .executeUpdate();
     }
 
     @Transactional
@@ -115,9 +136,9 @@ public class UserService {
     }
 
     @Transactional
-    public Boolean updatePassword(User user,String currentPassword, String newPassword, String repeatedPassword){
-        if(!passwordEncoder.matches(user.getPassword(), currentPassword)) return false;
-        if(!newPassword.equals(repeatedPassword)) return false;
+    public Boolean updatePassword(User user, String currentPassword, String newPassword, String repeatedPassword) {
+        if (!passwordEncoder.matches(user.getPassword(), currentPassword)) return false;
+        if (!newPassword.equals(repeatedPassword)) return false;
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
         return true;
@@ -125,38 +146,44 @@ public class UserService {
 
     public void fillInitialData() {
         if (userRepository.count() > 0) return;
-        User superAdmin = new User("super@adoptame.com",passwordEncoder.encode("admin"),
-                Set.of(
-                        roleService.findByType("ROL_ADMINISTRATOR").get(),
-                        roleService.findByType("ROL_VOLUNTEER").get(),
-                        roleService.findByType("ROL_ADOPTER").get()
-                )
-        );
-
-        userRepository.save(superAdmin);
+        List<Profile> profiles = new ArrayList<>();
+        User superadmin = new User("super@adoptame.com", passwordEncoder.encode("admin"), Set.of(roleService.findByType("ROLE_ADMINISTRATOR").get()));
+        Address address1 = new Address("Alvaró Obregon", "7", "1", "69855", "Casa del superadmin");
+        Profile profile1 = new Profile("Alexis", "Álvarez", "Saldaña", "7778523699", superadmin, address1);
+        User volunter = new User("volun@adoptame.com", passwordEncoder.encode("admin"), Set.of(roleService.findByType("ROLE_VOLUNTEER").get()));
+        Address address2 = new Address("Avenida benito", "8", "7", "69858", "Casa del voluntario");
+        Profile profile2 = new Profile("Luis", "Saldaña", "García", "7778523696", volunter, address2);
+        User adopter = new User("adopt@adoptame.com", passwordEncoder.encode("admin"), Set.of(roleService.findByType("ROLE_ADOPTER").get()));
+        Address address3 = new Address("Calle fresno", "9", "1", "69874", "Casa del adoptador");
+        Profile profile3 = new Profile("Hector", "Ortiz", "Loya", "7778523698", adopter, address3);
+        profiles.add(profile1);
+        profiles.add(profile2);
+        profiles.add(profile3);
+        profileRepository.saveAll(profiles);
     }
 
     @Transactional
-    public void sedEmail(String email, String path){
+    public void sedEmail(String email, String path) {
         //We create a token
-        String token  = RandomString.make(100);
+        String token = RandomString.make(100);
         token += LocalDateTime.now();
         String host = "http://localhost:8090";
         //we try to send the email
         try {
             updateResetPasswordToken(token, email);
-            String resetPasswordLink = host +"/user/link_restore_password?token=" + token;
-            emailService.sendRecoverPasswordTemplate(email,resetPasswordLink);
-        }catch (Exception exception){
+            String resetPasswordLink = host + "/user/link_restore_password?token=" + token;
+            emailService.sendRecoverPasswordTemplate(email, resetPasswordLink);
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
+
     /**
      * sets value for the field linkRestorePassword of
      * a user found by the given email – and persist
      * change to the database.
      */
-    public void updateResetPasswordToken(String token, String email)  {
+    public void updateResetPasswordToken(String token, String email) {
         Optional<User> user = findByEmail(email);
         if (user.isPresent()) {
             user.get().setLinkRestorePassword(token);
@@ -165,36 +192,35 @@ public class UserService {
     }
 
     /**
-     *
      * sets new password for the user
      * (using BCrypt password encoding) and
      * nullifies the reset password token.
      */
-    public Boolean updatePassword(String token, String newPassword, String repeatedPassword){
+    public Boolean updatePassword(String token, String newPassword, String repeatedPassword) {
         Optional<User> user = findByLinkRestorePassword(token);
         if (user.isEmpty()) return false;
-        if(!checkTokenDate(token)) return false;
-        if(!newPassword.equals(repeatedPassword)) return false;
+        if (!checkTokenDate(token)) return false;
+        if (!newPassword.equals(repeatedPassword)) return false;
 
         user.get().setPassword(passwordEncoder.encode(newPassword));
         user.get().setLinkRestorePassword(null);
         userRepository.save(user.get());
         return true;
     }
+
     /**
-     *
      * Check if the Token is already active
      */
 
 
-    public Boolean checkTokenDate(String token){
-       try {
-           LocalDateTime tokenDate = LocalDateTime.parse(token.substring(100, token.length()));
-           long hours = ChronoUnit.HOURS.between(tokenDate, LocalDateTime.now());
-           if(hours < 24) return true;
-       }catch (Exception e){
-           e.printStackTrace();
-       }
+    public Boolean checkTokenDate(String token) {
+        try {
+            LocalDateTime tokenDate = LocalDateTime.parse(token.substring(100, token.length()));
+            long hours = ChronoUnit.HOURS.between(tokenDate, LocalDateTime.now());
+            if (hours < 24) return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -205,23 +231,24 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
-        return userRepository.findByUsernameAndEnabled(email,true);
+        return userRepository.findByUsernameAndEnabled(email, true);
     }
 
     @Transactional(readOnly = true)
     public Long countVolunteer() {
-            return userRepository.countVolunteers();
+        return userRepository.countVolunteers();
     }
 
     @Transactional(readOnly = true)
     public Long countAdopter() {
-            return userRepository.countAdopteds();
+            return userRepository.countAdopts();
     }
 
     @Transactional(readOnly = true)
     public Long countTotal() {
         return userRepository.count();
     }
+
     @Transactional(readOnly = true)
     public Long countTotal(Role role) {
         return userRepository.count();
