@@ -16,7 +16,12 @@
     <div class="box-container">
         <div class="card-body">
             <div class="row">
-                <div class="col-12 col-md-12 col-lg-6 col-xl-4 single-card" th:each="p:${petList}">
+                <div th:if="${petList.isEmpty()}" class="col-12 single-card text-center">
+                    <div style="font-size: 20px">No tienes ninguna mascota en favoritos, ¿por qué no vas y echas un vistazo a algunas?</div>
+                    <img src="/img/empty.png" class="col-4 mx-auto" alt="No pets">
+                    <a th:href="@{/pets/filter}" class="link-btn">Ver mascotas</a>
+                </div>
+                <div th:if="${!petList.isEmpty()}" class="col-12 col-md-12 col-lg-6 col-xl-4 single-card" th:each="p:${petList}">
                     <div class="card">
                         <div class="image">
                             <img class="card-img-top"
@@ -80,7 +85,6 @@
         </div>
     </div>
 </div>
-
 <footer th:replace="components/htmlComponents::htmlFooter"/>
 </body>
 </html>
