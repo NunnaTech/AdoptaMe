@@ -19,12 +19,10 @@
                                 <div class="px-4">
                                     <div class="card-header px-4 pt-5">
                                         <div class="row">
-                                            <h5 class="card-title mb-1" th:text="${news.title}"></h5>
-                                            <h5><i class="fa-solid fa-book-open-reader ml-3"></i></h5>
+                                            <h5 class="card-title mb-1 display-4" th:text="${news.title}"></h5>
                                         </div>
                                         <div class="row d-flex align-items-stretch  mt-4 ">
-                                            <spam style="font-size:.9rem" class="badge badge-success p-2">Principal
-                                            </spam>
+                                            <span class="badge badge-success p-2 text-white">Principal</span>
                                             <div class="row ml-2 mt-1">
                                                 <span class="ml-3"><i class="fa-solid fa-user-pen mr-2"></i>Por:</span>
                                                 <span class="ml-1" th:text="${news.user.profile.getPartialName()}"/>
@@ -32,7 +30,6 @@
                                                 <span class="date"
                                                       th:text="${#temporals.format(news.createdAt,'dd-MMM-yyyy')}"/>
                                             </div>
-
                                         </div>
                                     </div>
                                     <div class="img-container px-4">
@@ -40,8 +37,8 @@
                                              alt="banner">
                                     </div>
 
-                                    <div class="card-body px-4  w-100">
-                                        <p class="text-justify " th:utext="${news.content}"/>
+                                    <div class="card-body px-4">
+                                        <p th:utext="${news.content}"/>
                                     </div>
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item px-4 pb-4">
@@ -61,6 +58,5 @@
 </main>
 
 <footer th:replace="components/htmlComponents::htmlFooter"/>
-<div th:replace="components/alerts::alerts"/>
 </body>
 </html>

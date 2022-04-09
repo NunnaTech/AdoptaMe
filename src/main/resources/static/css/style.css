@@ -1009,20 +1009,18 @@ header .nav a {
 
 #blog-main .box-container .card-header h5 {
     color: var(--orange);
-    font-size: 2rem;
+    /*font-size: 2rem;*/
     font-weight: bolder;
 }
 
 #blog-main .box-container i,
 #blog-main .box-container span {
     color: var(--black);
-    font-size: 0.8rem;
     font-weight: bolder;
 }
 
 #blog-main .box-container .card-header .fa-book-open-reader {
     color: var(--orange);
-    font-size: 2rem;
 }
 
 #blog-main .nav-container {

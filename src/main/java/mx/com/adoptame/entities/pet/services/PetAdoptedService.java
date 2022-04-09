@@ -1,8 +1,10 @@
 package mx.com.adoptame.entities.pet.services;
 
+import mx.com.adoptame.entities.pet.entities.Pet;
 import mx.com.adoptame.entities.pet.entities.PetAdopted;
 import mx.com.adoptame.entities.pet.repositories.PetAdoptedRepository;
 
+import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,11 @@ public class PetAdoptedService {
     @Transactional(readOnly = true)
     public Optional<PetAdopted> findOne(Integer id) {
         return petAdoptedRepository.findById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PetAdopted> findUsername(Integer id) {
+        return petAdoptedRepository.findByUserId(id);
     }
 
     @Transactional
@@ -84,5 +91,17 @@ public class PetAdoptedService {
             petAdoptedRepository.deleteById(id);
         }
         return entity;
+    }
+
+    public Boolean checkIsPresentInAdoptions(Pet currentPet, User currentUser){
+        boolean flag = false;
+        List<PetAdopted> petUserAdopted = findUsername(currentUser.getId());
+        for (PetAdopted p:petUserAdopted) {
+            if(currentPet.getId() == p.getPet().getId()){
+                flag = true;
+                break;
+            }
+        }
+        return flag;
     }
 }
