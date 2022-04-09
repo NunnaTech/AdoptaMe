@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -40,6 +42,9 @@ public class UserService {
     @Autowired
     private EmailService emailService;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Transactional(readOnly = true)
     public List<User> findAll() {
         return (List<User>) userRepository.findAll();
@@ -53,6 +58,22 @@ public class UserService {
     @Transactional
     public Optional<User> save(User entity) {
         return Optional.of(userRepository.save(entity));
+    }
+    @Transactional
+    public Optional<User> addUser(User user) {
+        entityManager.createNativeQuery("INSERT INTO users (enabled, password, username) VALUES (?,?,?);")
+                .setParameter(1, true)
+                .setParameter(2, passwordEncoder.encode(user.getPassword()))
+                .setParameter(3, user.getUsername())
+                .executeUpdate();
+        return findByEmail(user.getUsername());
+    }
+    @Transactional
+    public void addRole(User user, Role role) {
+        entityManager.createNativeQuery("INSERT INTO authorities (user_id, rol_id) VALUES (?,?);")
+                .setParameter(1, user.getId())
+                .setParameter(2, role.getId())
+                .executeUpdate();
     }
 
     @Transactional
@@ -220,7 +241,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Long countAdopter() {
-        return userRepository.countAdopteds();
+            return userRepository.countAdopts();
     }
 
     @Transactional(readOnly = true)

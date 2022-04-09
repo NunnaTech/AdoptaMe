@@ -67,8 +67,7 @@ public class User{
     private Profile profile;
 
 
-    @OneToOne(cascade = CascadeType.ALL,
-            mappedBy = "user")
+    @OneToOne(mappedBy = "user")
     private Request request;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)

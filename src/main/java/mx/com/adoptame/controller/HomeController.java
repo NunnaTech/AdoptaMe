@@ -3,6 +3,7 @@ package mx.com.adoptame.controller;
 import mx.com.adoptame.entities.donation.DonationService;
 import mx.com.adoptame.entities.news.NewsService;
 import mx.com.adoptame.entities.pet.services.PetService;
+import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.request.Request;
 import mx.com.adoptame.entities.request.RequestService;
 import mx.com.adoptame.entities.user.User;
@@ -39,8 +40,8 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String login(Model model, Request request, RedirectAttributes redirectAttributes) {
-        model.addAttribute("request", request);
+    public String login(Model model, Profile profile, RedirectAttributes redirectAttributes) {
+        model.addAttribute("profile", profile);
         return "views/authentication/login";
     }
 
