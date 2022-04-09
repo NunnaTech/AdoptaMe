@@ -324,6 +324,12 @@ header .nav a {
     margin: 0.5rem 0px;
 }
 
+.pets .btn-info {
+    background-color: #57ccf2;
+    border: 0;
+    font-weight: bold;
+}
+
 /* ------------------------------- Pets Ends  -------------------------------  */
 /* ------------------------------- Pets Detail Start  -------------------------------  */
 
@@ -746,7 +752,7 @@ header .nav a {
 }
 
 /* ------------------------------- Admin Ends  -------------------------------  */
-/* ------------------------------- Pets Starts  -------------------------------  */
+/* ------------------------------- Pets Filtrer Starts  -------------------------------  */
 
 #pets-filter .single-card {
     display: grid;
@@ -847,7 +853,15 @@ header .nav a {
 }
 #pets-filter .btn-success {
     background-color: #56cc9d;
+    border: 0;
+    font-weight: bold;
 }
+
+#pets-filter .btn-warning {
+    border: 0;
+    font-weight: bold;
+}
+
 #pets-filter .btn-info {
     background-color: #57ccf2;
     border: 0;
@@ -865,6 +879,7 @@ header .nav a {
     border: 0;
     font-weight: bold;
 }
+
 #pets-filter .btn-danger:hover {
     background-color: #fd4242;
 }
