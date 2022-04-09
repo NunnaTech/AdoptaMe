@@ -1,11 +1,15 @@
 package mx.com.adoptame.entities.request;
 
-import mx.com.adoptame.entities.donation.Donation;
+
+import mx.com.adoptame.entities.profile.Profile;
+import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +21,10 @@ public class RequestService {
     @Autowired
     private RequestRepository requestRepository;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+
     @Transactional(readOnly = true)
     public List<Request> findAll() {
         return  requestRepository.findAllByIsAccepted(false);
@@ -26,12 +34,24 @@ public class RequestService {
     public Optional<Request> findOne(Integer id) {
         return requestRepository.findById(id);
     }
+     @Transactional(readOnly = true)
+    public Optional<Request> findByUser(User user) {
+        return requestRepository.findByUser(user);
+    }
 
     @Transactional
     public Optional<Request> save(Request entity) {
         return Optional.of(requestRepository.save(entity));
     }
 
+    @Transactional
+    public Optional<Request> addRequest(String reason, User user) {
+        entityManager.createNativeQuery("INSERT INTO tbl_requests (reason, user_id) VALUES (?,?);")
+                .setParameter(1, reason)
+                .setParameter(2, user)
+                .executeUpdate();
+        return findByUser(user);
+    }
     @Transactional
     public Optional<Request> update(Request entity) {
         Optional<Request> updatedEntity;

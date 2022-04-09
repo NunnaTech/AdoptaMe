@@ -43,7 +43,7 @@
         </div>
         <div class="col-12 col-md-6">
             <h2>Crear una cuenta</h2>
-            <form th:action="@{/request/save}" method="post" th:object="${request}">
+            <form th:action="@{/request/save}" method="post" th:object="${profile}">
                 <input hidden type="checkbox" id="enabled" name="enabled" th:field="*{user.enabled}">
                 <div class="form-group">
                     <label for="name">Nombre:</label>
@@ -51,16 +51,16 @@
                            id="name" name="name"
                            aria-describedby="nameHelp"
                            placeholder="Ej: Hector"
-                           th:classappend="${#fields.hasErrors('user.profile.name')?'is-invalid':''}"
-                           th:field="*{user.profile.name}"
+                           th:classappend="${#fields.hasErrors('name')?'is-invalid':''}"
+                           th:field="*{name}"
                            required
                            minlength="2"
                            maxlength="30"
                            pattern="[A-Za-zÀ-ÿ '-.]*"
                     />
                     <div id="nameHelp"
-                         th:classappend="${#fields.hasErrors('user.profile.name')?'invalid-feedback':''}"
-                         th:errors="*{user.profile.name}">
+                         th:classappend="${#fields.hasErrors('name')?'invalid-feedback':''}"
+                         th:errors="*{name}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -69,16 +69,16 @@
                            id="lastName" name="lastName"
                            aria-describedby="lastNameHelp"
                            placeholder="Ej: Sandarti"
-                           th:classappend="${#fields.hasErrors('user.profile.lastName')?'is-invalid':''}"
-                           th:field="*{user.profile.lastName}"
+                           th:classappend="${#fields.hasErrors('lastName')?'is-invalid':''}"
+                           th:field="*{lastName}"
                            required
                            minlength="2"
                            maxlength="30"
                            pattern="[A-Za-zÀ-ÿ '-.]*"
                     />
                     <div id="lastNameHelp"
-                         th:classappend="${#fields.hasErrors('user.profile.lastName')?'invalid-feedback':''}"
-                         th:errors="*{user.profile.lastName}">
+                         th:classappend="${#fields.hasErrors('lastName')?'invalid-feedback':''}"
+                         th:errors="*{lastName}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -87,15 +87,15 @@
                            id="secondName" name="secondName"
                            aria-describedby="secondNameHelp"
                            placeholder="Ej: Saldaña"
-                           th:classappend="${#fields.hasErrors('user.profile.secondName')?'is-invalid':''}"
-                           th:field="*{user.profile.secondName}"
+                           th:classappend="${#fields.hasErrors('secondName')?'is-invalid':''}"
+                           th:field="*{secondName}"
                            minlength="2"
                            maxlength="30"
                            pattern="[A-Za-zÀ-ÿ '-.]*"
                     />
                     <div id="secondNameHelp"
-                         th:classappend="${#fields.hasErrors('user.profile.secondName')?'invalid-feedback':''}"
-                         th:errors="*{user.profile.secondName}">
+                         th:classappend="${#fields.hasErrors('secondName')?'invalid-feedback':''}"
+                         th:errors="*{secondName}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -106,7 +106,6 @@
                            placeholder="Ej: hector@gmail.com"
                            th:classappend="${#fields.hasErrors('user.username')?'is-invalid':''}"
                            th:field="*{user.username}"
-                           autofocus
                            required
                            minlength="5"
                            maxlength="50"
@@ -124,7 +123,6 @@
                            placeholder="Ej: ************"
                            th:classappend="${#fields.hasErrors('user.password')?'is-invalid':''}"
                            th:field="*{user.password}"
-                           autofocus
                            required
                            minlength="5"
                            maxlength="50"
@@ -138,14 +136,14 @@
                     <label>¿Qué rol desempeñarias?</label> <br/>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio"
-                               name="role" id="voluntario"
-                               th:value="2" th:field="*{user.roles}">
+                               th:name="role" id="voluntario"
+                               th:value="Voluntario">
                         <label class="form-check-label" for="voluntario">Voluntario</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio"
-                               name="role" id="adoptador"
-                               th:value="3" th:field="*{user.roles}">
+                               th:name="role" id="adoptador"
+                               th:value="Adoptador">
                         <label class="form-check-label" for="adoptador">Adoptador</label>
                     </div>
                 </div>
@@ -155,17 +153,17 @@
                            id="reason" name="reason"
                            aria-describedby="reasonHelp"
                            placeholder="Ej: Me gustan las mascotas"
-                           th:classappend="${#fields.hasErrors('reason')?'is-invalid':''}"
-                           th:field="*{reason}"
+
+                           th:name="reason"
                            autofocus
                            required
                            minlength="5"
                            maxlength="50"
                     />
-                    <div id="reasonHelp"
+                    <!--<div id="reasonHelp"
                          th:classappend="${#fields.hasErrors('reason')?'invalid-feedback':''}"
                          th:errors="*{reason}">
-                    </div>
+                    </div>-->
                 </div>
                 <button type="submit" class="btn btn-success">Crear cuenta</button>
             </form>
@@ -173,20 +171,7 @@
     </div>
 </div>
 
-<script>
-    let adotador = document.querySelector("#adoptador");
-    adotador.setAttribute("checked", true);
-    let enabled = document.querySelector("#enabled");
-    enabled.setAttribute("checked", true)
-    let voluntario = document.querySelector("#voluntario");
-    adotador.addEventListener('click', () => enabled.setAttribute("checked", true))
-    voluntario.addEventListener('click', () => enabled.removeAttribute("checked"))
-</script>
-
 <footer th:replace="components/htmlComponents::htmlFooter"/>
-<div th:replace="components/alerts::alerts"/>
-<script th:src="@{/js/validations.js}"/>
-
-
+<script th:src="@{/js/login.js}"></script>
 </body>
 </html>

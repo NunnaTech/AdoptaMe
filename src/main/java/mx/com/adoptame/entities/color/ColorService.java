@@ -85,6 +85,10 @@ public class ColorService {
        inicialColors.add(new Color("Verde pastel", "#56cc9d"));
        inicialColors.add(new Color("Azul pastel", "#57ccf2"));
        inicialColors.add(new Color("Morado pastel", "#c980ff"));
+       inicialColors.add(new Color("Negro", "#292424"));
+       inicialColors.add(new Color("Cremita", "#d2a80f"));
+       inicialColors.add(new Color("Gris", "#3d3d3d"));
+       inicialColors.add(new Color("Blanco", "#b3b3b3"));
        colorRepository.saveAll(inicialColors);
    }
 

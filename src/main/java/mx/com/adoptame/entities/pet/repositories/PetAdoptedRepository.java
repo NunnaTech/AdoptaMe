@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface PetAdoptedRepository extends JpaRepository<PetAdopted, Integer> {
     List<PetAdopted> findAllByIsCanceled(Boolean isCanceled);
+    List<PetAdopted> findByUserId(Integer username);
 }

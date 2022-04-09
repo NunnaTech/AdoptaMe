@@ -10,12 +10,35 @@
 <header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
 <div class="container py-3">
     <div th:replace="components/titles::titles ('Mascotas', ${ {'Mascotas','Mis solicitudes de adopción'} })"/>
-
-
-
+    <table id="datatable" class="table table-striped" aria-describedby="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Mascota</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Edad</th>
+            <th scope="col">Género</th>
+            <th scope="col">Solicitud</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i,c: ${list}">
+            <td th:text="${c.count}"/>
+            <td th:text="${i.pet.name}"/>
+            <td th:text="${i.pet.type.name}"/>
+            <td th:text="${i.pet.age}"/>
+            <td><span class="badge" th:classappend="${i.pet.gender ? 'badge-success':'badge-primary'}" th:text="${i.pet.gender ? 'Macho':'Hembra'}"/></td>
+            <td><span class="badge" th:classappend="${i.isCanceled ? 'badge-success':'badge-warning'}" th:text="${i.isCanceled ? 'Aceptada':'Pendiente'}"/></td>
+            <td class="d-flex justify-content-around">
+                <a th:href="@{/pets/{id} (id=${i.pet.id})}" class="btn btn-warning">
+                    <i class="fa-solid fa-eye"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
-
-
 <footer th:replace="components/htmlComponents::htmlFooter"/>
 </body>
 </html>
