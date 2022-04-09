@@ -68,7 +68,7 @@
 
             <div class="col-12 col-md-5 text-center">
                 <div>Prevista de la imagen:</div>
-                <img th:src="${news.image}" class="img-fluid rounded">
+                <img id="previewImage" th:src="${news.image}" class="img-fluid rounded">
             </div>
         </div>
 
@@ -108,7 +108,6 @@
     });
 </script>
 <script th:src="@{/js/uploadImages.js}"></script>
-<script th:src="@{/js/validations.js}"></script>
 </body>
 </html>
 

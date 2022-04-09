@@ -74,7 +74,6 @@ public class TagService {
 
     public void fillInitialData() {
         if (tagRepository.count() > 0) return;
-
         List<Tag> inicialColors = new ArrayList<>();
         inicialColors.add(new Tag("Mundo animal","Relacionado con lo que pasa a nuestro alrededor"));
         inicialColors.add(new Tag("Higiene","Mantener limpio a las mascotas"));

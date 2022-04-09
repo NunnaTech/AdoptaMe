@@ -1,14 +1,11 @@
 package mx.com.adoptame.entities.pet.controllers;
 
-import jdk.swing.interop.SwingInterOpUtils;
 import mx.com.adoptame.entities.character.CharacterService;
 import mx.com.adoptame.entities.color.ColorService;
 import mx.com.adoptame.entities.pet.entities.Pet;
 import mx.com.adoptame.entities.pet.entities.PetAdopted;
 import mx.com.adoptame.entities.pet.services.PetAdoptedService;
 import mx.com.adoptame.entities.pet.services.PetService;
-import mx.com.adoptame.entities.profile.Profile;
-import mx.com.adoptame.entities.profile.ProfileService;
 import mx.com.adoptame.entities.size.SizeService;
 import mx.com.adoptame.entities.type.Type;
 import mx.com.adoptame.entities.type.TypeService;
@@ -19,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,7 +25,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,19 +34,26 @@ import java.util.Optional;
 @RequestMapping("/pets")
 public class PetController {
 
-    @Autowired private PetService petService;
+    @Autowired
+    private PetService petService;
 
-    @Autowired private CharacterService characterService;
+    @Autowired
+    private CharacterService characterService;
 
-    @Autowired private ColorService colorService;
+    @Autowired
+    private ColorService colorService;
 
-    @Autowired private SizeService sizeService;
+    @Autowired
+    private SizeService sizeService;
 
-    @Autowired private TypeService typeService;
+    @Autowired
+    private TypeService typeService;
 
-    @Autowired private UserService userService;
+    @Autowired
+    private UserService userService;
 
-    @Autowired private PetAdoptedService petAdoptedService;
+    @Autowired
+    private PetAdoptedService petAdoptedService;
 
     private Logger logger = LoggerFactory.getLogger(PetController.class);
 
@@ -86,7 +88,8 @@ public class PetController {
             String username = authentication.getName();
             Optional<User> user = userService.findByEmail(username);
             if (user.isPresent()) {
-                model.addAttribute("list", user.get().getAdoptedPets());
+                List<PetAdopted> petAdopted = petAdoptedService.findUsername(user.get().getId());
+                model.addAttribute("list", petAdopted);
             } else {
                 model.addAttribute("list", new ArrayList<>());
             }
@@ -121,12 +124,13 @@ public class PetController {
             Optional<User> user = userService.findByEmail(username);
             Optional<Pet> pet = petService.findOne(id);
             if (pet.isPresent() && user.isPresent() && pet.get().getIsActive()) {
-                PetAdopted petAdopted= new PetAdopted();
-                petAdopted.setUser(user.get());
-                petAdopted.setPet(pet.get());
-                petAdopted.setIsCanceled(false);
-                petAdoptedService.save(petAdopted);
-                redirectAttributes.addFlashAttribute("msg_success", "Solicitud de adopción realizada");
+                if(petAdoptedService.checkIsPresentInAdoptions(pet.get(), user.get())){
+                    redirectAttributes.addFlashAttribute("msg_error", "Esta mascota ya la solicitaste");
+                }else{
+                    PetAdopted petAdopted = new PetAdopted(pet.get(), user.get());
+                    petAdoptedService.save(petAdopted);
+                    redirectAttributes.addFlashAttribute("msg_success", "Solicitud de adopción realizada");
+                }
             } else {
                 redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al realizar la solicitud de adopción, intente nuevamente");
             }
@@ -144,9 +148,13 @@ public class PetController {
             Optional<User> user = userService.findByEmail(username);
             Optional<Pet> pet = petService.findOne(id);
             if (pet.isPresent() && user.isPresent() && pet.get().getIsActive()) {
-                user.get().addToFavorite(pet.get());
-                userService.save(user.get());
-                redirectAttributes.addFlashAttribute("msg_success", "Mascota guardada en favoritos");
+                if(petService.checkIsPresentInFavorites(pet.get(), user.get().getFavoitesPets())){
+                    redirectAttributes.addFlashAttribute("msg_error", "Esta mascota ya esta guardada en favoritos");
+                }else {
+                    user.get().addToFavorite(pet.get());
+                    userService.save(user.get());
+                    redirectAttributes.addFlashAttribute("msg_success", "Mascota guardada en favoritos");
+                }
             } else {
                 redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al guardar en favoritos, intente nuevamente");
             }

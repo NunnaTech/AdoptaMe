@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,7 +27,7 @@ public class TypeService {
         return typeRepository.findById(id);
     }
 
-   @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public Optional<Type> findByName(String name) {
         return typeRepository.findByName(name);
     }
@@ -76,5 +77,15 @@ public class TypeService {
             return true;
         }
         return false;
+    }
+
+    public void fillInitialData() {
+        if (typeRepository.count() > 0) return;
+        List<Type> types = new ArrayList<>();
+        types.add(new Type("Perro", "El mejor amigo del hombre", true));
+        types.add(new Type("Gato", "El animal con siete vidas", true));
+        types.add(new Type("Tortuga", "Los animales que viven muchos años", true));
+        types.add(new Type("Ave", "Los animales del aire", true));
+        typeRepository.saveAll(types);
     }
 }
