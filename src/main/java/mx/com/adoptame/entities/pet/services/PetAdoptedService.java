@@ -27,6 +27,21 @@ public class PetAdoptedService {
     }
 
     @Transactional(readOnly = true)
+    public Integer countByUserRequestAccepted(Integer id){
+        return petAdoptedRepository.countByUserIdAndIsAcceptedIsTrueAndAndIsCanceledIsFalse(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Integer countByUserRequestCanceled(Integer id){
+        return petAdoptedRepository.countByUserIdAndIsAcceptedIsFalseAndAndIsCanceledIsTrue(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Integer countByUserRequestPending(Integer id){
+        return petAdoptedRepository.countByUserIdAndIsAcceptedIsFalseAndAndIsCanceledIsFalse(id);
+    }
+
+    @Transactional(readOnly = true)
     public Optional<PetAdopted> findOne(Integer id) {
         return petAdoptedRepository.findById(id);
     }

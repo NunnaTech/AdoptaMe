@@ -2,9 +2,9 @@ package mx.com.adoptame.controller;
 
 import mx.com.adoptame.entities.donation.DonationService;
 import mx.com.adoptame.entities.news.NewsService;
+import mx.com.adoptame.entities.pet.services.PetAdoptedService;
 import mx.com.adoptame.entities.pet.services.PetService;
 import mx.com.adoptame.entities.profile.Profile;
-import mx.com.adoptame.entities.request.Request;
 import mx.com.adoptame.entities.request.RequestService;
 import mx.com.adoptame.entities.user.User;
 import mx.com.adoptame.entities.user.UserService;
@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @Controller()
 public class HomeController {
+
     @Autowired
     private NewsService newsService;
     @Autowired
@@ -30,6 +31,8 @@ public class HomeController {
     private RequestService requestService;
     @Autowired
     private PetService petService;
+    @Autowired
+    private PetAdoptedService petAdoptedService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -46,43 +49,43 @@ public class HomeController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model, Authentication authentication, HttpSession httpSession){
-        // Pets Attributes
-        model.addAttribute("petsCount",petService.countTotal());
-        model.addAttribute("petsActive",petService.coutnByIsActive(true));
-        model.addAttribute("petsDeactivate",petService.coutnByIsActive(false));
-        model.addAttribute("petsAdopted",petService.coutnByIsAdopted(true));
-        model.addAttribute("petsTop",petService.findTopFive());
-
-        // Users Attribute
-        model.addAttribute("usersCount",userService.countTotal());
-        model.addAttribute("usersVolunteer",userService.countVolunteer());
-        model.addAttribute("usersAdopter",userService.countAdopter());
-        model.addAttribute("usersRequest",requestService.findPending());
-
-        // Blogs Attribute
-        model.addAttribute("blogCount",newsService.countNews());
-        model.addAttribute("blogMain",newsService.countMainNews());
-        model.addAttribute("blogPublished",newsService.countPublishedNews());
-
-        // Donation Attribute
-        model.addAttribute("donationCuantity",donationService.sumCuantity());
-        model.addAttribute("donationTop5",donationService.findTop5());
-
-        // GET user
+    public String dashboard(Model model, Authentication authentication, HttpSession httpSession) {
         String username = authentication.getName();
         Optional<User> user = userService.findByEmail(username);
         user.ifPresent(value -> {
             value.setPassword(null);
             httpSession.setAttribute("user", value);
         });
+        if (user.isPresent()) {
+            boolean isAdopted = userService.isAdopter(username);
+            if (isAdopted) {
+                model.addAttribute("myPetsFavorites", user.get().getFavoitesPets().size());
+                model.addAttribute("myAcceptedRequests", petAdoptedService.countByUserRequestAccepted(user.get().getId()));
+                model.addAttribute("myPendingRequests", petAdoptedService.countByUserRequestPending(user.get().getId()));
+                model.addAttribute("myCancelledRequests", petAdoptedService.countByUserRequestCanceled(user.get().getId()));
+                model.addAttribute("myDonationQuantity", donationService.sumCuantitybyUserId(user.get().getId()));
+            } else {
+                model.addAttribute("petsCount", petService.countTotal());
+                model.addAttribute("petsActive", petService.coutnByIsActive(true));
+                model.addAttribute("petsDeactivate", petService.coutnByIsActive(false));
+                model.addAttribute("petsAdopted", petService.coutnByIsAdopted(true));
+                model.addAttribute("petsTop", petService.findTopFive());
+                model.addAttribute("usersCount", userService.countTotal());
+                model.addAttribute("usersVolunteer", userService.countVolunteer());
+                model.addAttribute("usersAdopter", userService.countAdopter());
+                model.addAttribute("usersRequest", requestService.findPending());
+                model.addAttribute("blogCount", newsService.countNews());
+                model.addAttribute("blogMain", newsService.countMainNews());
+                model.addAttribute("blogPublished", newsService.countPublishedNews());
+                model.addAttribute("donationCuantity", donationService.sumCuantity());
+                model.addAttribute("donationTop5", donationService.findTop5());
+            }
+        }
         return "views/dashboard";
     }
 
     @GetMapping("/noscript")
-    public String noscript(){
+    public String noscript() {
         return "views/errorpages/noscript";
     }
-
-
 }

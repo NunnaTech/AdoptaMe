@@ -59,6 +59,7 @@ public class UserService {
     public Optional<User> save(User entity) {
         return Optional.of(userRepository.save(entity));
     }
+
     @Transactional
     public Optional<User> addUser(User user) {
         entityManager.createNativeQuery("INSERT INTO users (enabled, password, username) VALUES (?,?,?);")
@@ -68,6 +69,7 @@ public class UserService {
                 .executeUpdate();
         return findByEmail(user.getUsername());
     }
+
     @Transactional
     public void addRole(User user, Role role) {
         entityManager.createNativeQuery("INSERT INTO authorities (user_id, rol_id) VALUES (?,?);")
@@ -241,7 +243,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Long countAdopter() {
-            return userRepository.countAdopts();
+        return userRepository.countAdopts();
     }
 
     @Transactional(readOnly = true)
@@ -254,4 +256,31 @@ public class UserService {
         return userRepository.count();
     }
 
+    public Boolean isAdmin(String username) {
+        boolean flag = false;
+        Optional<User> user = findByEmail(username);
+        if (user.isPresent()) {
+            for (Role r : user.get().getRoles()) {
+                if (r.getAuthority().equals("ROLE_ADMINISTRATOR")) {
+                    flag = true;
+                    break;
+                }
+            }
+        }
+        return flag;
+    }
+
+    public Boolean isAdopter(String username) {
+        boolean flag = false;
+        Optional<User> user = findByEmail(username);
+        if (user.isPresent()) {
+            for (Role r : user.get().getRoles()) {
+                if (r.getAuthority().equals("ROLE_ADOPTER")) {
+                    flag = true;
+                    break;
+                }
+            }
+        }
+        return flag;
+    }
 }
