@@ -112,5 +112,4 @@ public class NewsService {
     public Integer countPublishedNews() {
         return newsRepository.countByIsPublishedIsTrue();
     }
-
 }

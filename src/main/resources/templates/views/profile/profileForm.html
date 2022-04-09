@@ -202,8 +202,8 @@
                             <div class="col-12 col-md-4">
                                 <div class="text-center">
                                     <input type="hidden" name="image" id="image" th:value="${profile.image}"/>
-                                    <img alt="Imagen profile" th:src="${profile.image}"
-                                         class="rounded-circle img-responsive mt-2" width="160" height="auto">
+                                    <img alt="Imagen profile" width="160" height="auto" id="previewImage" th:src="${profile.image}"
+                                         class="img-responsive rounded">
                                     <div class="mt-2">
                                         <div class="form-group">
                                             <label for="preImage">Imagen</label>
@@ -256,10 +256,7 @@
         </div>
     </div>
 </div>
-
 <footer th:replace="components/htmlComponents::htmlFooter"/>
-<div th:replace="components/alerts::alerts" />
 <script th:src="@{/js/uploadImages.js}"></script>
-<script th:src="@{/js/validations.js}"></script>
 </body>
 </html>

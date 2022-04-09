@@ -11,7 +11,7 @@
 <header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
 <header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
 <div class="container py-3" id="pets-filter">
-    <div th:replace="components/titles::titles ('Mascotas', ${ {'Mascotas','Mis mascotas favoritas'} })"/>
+    <div th:replace="components/titles::titles ('Mascotas', ${ {'Mascotas','Favoritas'} })"/>
 
     <div class="box-container">
         <div class="card-body">
@@ -64,8 +64,8 @@
                                 <a th:href="@{/pets/{id} (id=${p.id})}" class="btn bg-warning mb-2">Detalles
                                     <i class="fa-solid fa-eye ml-2"></i>
                                 </a>
-                                <form th:action="@{/pets/dislike/{id} (id=${p.id})}" onsubmit="return false" class="p-2 btn btn-danger">
-                                    <button type="submit"
+                                <form th:action="@{/pets/dislike/{id} (id=${p.id})}" onsubmit="return false">
+                                    <button type="submit" class=" btn btn-danger"
                                             onclick="confirmSweetAlert(this.parentElement,'¿Remover?', 'Esta mascota se eliminará de tus mascotas favoritas', 'Sí, eliminar!')">
                                         Quitar de favoritos
                                         <i class="fa-solid fa-heart-crack ml-2"></i>
@@ -82,6 +82,5 @@
 </div>
 
 <footer th:replace="components/htmlComponents::htmlFooter"/>
-<div th:replace="components/alerts::alerts"/>
 </body>
 </html>

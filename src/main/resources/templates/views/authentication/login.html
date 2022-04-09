@@ -106,7 +106,6 @@
                            placeholder="Ej: hector@gmail.com"
                            th:classappend="${#fields.hasErrors('user.username')?'is-invalid':''}"
                            th:field="*{user.username}"
-                           autofocus
                            required
                            minlength="5"
                            maxlength="50"
@@ -124,7 +123,6 @@
                            placeholder="Ej: ************"
                            th:classappend="${#fields.hasErrors('user.password')?'is-invalid':''}"
                            th:field="*{user.password}"
-                           autofocus
                            required
                            minlength="5"
                            maxlength="50"
@@ -145,7 +143,7 @@
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio"
                                name="role" id="adoptador"
-                               th:value="3" th:field="*{user.roles}">
+                               th:value="3" th:field="*{user.roles}" checked>
                         <label class="form-check-label" for="adoptador">Adoptador</label>
                     </div>
                 </div>
@@ -157,7 +155,6 @@
                            placeholder="Ej: Me gustan las mascotas"
                            th:classappend="${#fields.hasErrors('reason')?'is-invalid':''}"
                            th:field="*{reason}"
-                           autofocus
                            required
                            minlength="5"
                            maxlength="50"
@@ -173,20 +170,7 @@
     </div>
 </div>
 
-<script>
-    let adotador = document.querySelector("#adoptador");
-    adotador.setAttribute("checked", true);
-    let enabled = document.querySelector("#enabled");
-    enabled.setAttribute("checked", true)
-    let voluntario = document.querySelector("#voluntario");
-    adotador.addEventListener('click', () => enabled.setAttribute("checked", true))
-    voluntario.addEventListener('click', () => enabled.removeAttribute("checked"))
-</script>
-
 <footer th:replace="components/htmlComponents::htmlFooter"/>
-<div th:replace="components/alerts::alerts"/>
-<script th:src="@{/js/validations.js}"/>
-
-
+<script th:src="@{/js/login.js}"></script>
 </body>
 </html>

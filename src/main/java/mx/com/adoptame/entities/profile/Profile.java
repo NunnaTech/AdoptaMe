@@ -81,4 +81,12 @@ public class Profile implements Serializable{
         return getName() + " " +getLastName();
     }
 
+    public Profile(String name, String lastName, String secondName, String phone, User user, Address address) {
+        this.name = name;
+        this.lastName = lastName;
+        this.secondName = secondName;
+        this.phone = phone;
+        this.user = user;
+        this.address = address;
+    }
 }

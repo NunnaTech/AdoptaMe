@@ -61,5 +61,10 @@ public class Type implements Serializable {
 
     @OneToMany(mappedBy = "type", cascade = CascadeType.PERSIST)
     private Set<Pet> pets;
-    
+
+    public Type(String name, String description, Boolean status) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+    }
 }
