@@ -33,22 +33,29 @@ public class PetService {
     private ColorService colorService;
 
     @Transactional(readOnly = true)
-    public List<Pet> findAll() {return petRepository.findAllByIsActive(true);}
+    public List<Pet> findAll() {
+        return petRepository.findAllByIsActive(true);
+    }
 
     @Transactional(readOnly = true)
     public List<Pet> findAllisActiveFalse() {
-        return  petRepository.findAllByIsActive(false);
+        return petRepository.findAllByIsActive(false);
     }
+
     @Transactional(readOnly = true)
     public Long countTotal() {
-        return  petRepository.count();
+        return petRepository.count();
     }
 
     @Transactional(readOnly = true)
-    public List<Pet> findLastThreePets(){return petRepository.findLastThreePets();}
+    public List<Pet> findLastThreePets() {
+        return petRepository.findLastThreePets();
+    }
 
     @Transactional(readOnly = true)
-    public List<Pet> findPetsForAdopted(){return petRepository.findPetsForAdopted();}
+    public List<Pet> findPetsForAdopted() {
+        return petRepository.findPetsForAdopted();
+    }
 
     @Transactional
     public Optional<Pet> findOne(Integer id) {
@@ -93,7 +100,7 @@ public class PetService {
 
     @Transactional
     public Boolean accept(Integer id) {
-        Optional<Pet> entity =petRepository.findById(id);
+        Optional<Pet> entity = petRepository.findById(id);
         if (entity.isPresent()) {
             entity.get().setIsActive(true);
             petRepository.save(entity.get());
@@ -111,18 +118,20 @@ public class PetService {
         }
         return false;
     }
+
     @Transactional(readOnly = true)
     public Integer coutnByIsActive(Boolean flag) {
-        return  petRepository.countByIsActive(flag);
+        return petRepository.countByIsActive(flag);
     }
+
     @Transactional(readOnly = true)
     public Integer coutnByIsAdopted(Boolean flag) {
-        return  petRepository.countByIsAdopted(flag);
+        return petRepository.countByIsAdopted(flag);
     }
 
     @Transactional(readOnly = true)
     public List<Pet> findTopFive() {
-        return  petRepository.findTop5ByCreatedAtDesc();
+        return petRepository.findTop5ByCreatedAtDesc();
     }
 
     @Transactional(readOnly = true)
@@ -137,6 +146,7 @@ public class PetService {
         Collection<String> collection = new ArrayList(agesList);
         return petRepository.findByAgeInAndIsActiveTrueAndIsAdoptedFalse(collection);
     }
+
     @Transactional(readOnly = true)
     public List<Pet> findBySize(String sizes) {
         String[] sizesNames = sizes.split(",");
@@ -148,6 +158,7 @@ public class PetService {
         Collection<Size> collection = new ArrayList<>(filterSizes);
         return petRepository.findBySizeInAndIsActiveTrueAndIsAdoptedFalse(collection);
     }
+
     @Transactional(readOnly = true)
     public List<Pet> findByCharacters(String characters) {
         String[] charactersNames = characters.split(",");
@@ -159,6 +170,7 @@ public class PetService {
         Collection<Character> collection = new ArrayList<>(filterCharacters);
         return petRepository.findByCharacterInAndIsActiveTrueAndIsAdoptedFalse(collection);
     }
+
     @Transactional(readOnly = true)
     public List<Pet> findByColor(String colors) {
         String[] colorsNames = colors.split(",");
@@ -181,5 +193,16 @@ public class PetService {
         }
         Collection<Type> collection = new ArrayList<>(filterTypes);
         return petRepository.findByTypeInAndIsActiveTrueAndIsAdoptedFalse(collection);
+    }
+
+    public Boolean checkIsPresentInFavorites(Pet currentPet, List<Pet> userPetsFavorites) {
+        boolean flag = false;
+        for (Pet p : userPetsFavorites) {
+            if (p.getId() == currentPet.getId()) {
+                flag = true;
+                break;
+            }
+        }
+        return flag;
     }
 }

@@ -16,8 +16,10 @@
     <link rel="icon" th:href="@{/img/logo.svg}" type="image/x-icon"/>
     <title>AdoptaMe</title>
     <noscript>
-        <style>body { display:none; }</style>
-        <meta http-equiv="refresh"  th:content="|0; url=@{/noscript}|">
+        <style>body {
+            display: none;
+        }</style>
+        <meta http-equiv="refresh" th:content="|0; url=@{/noscript}|">
     </noscript>
 </head>
 
@@ -45,6 +47,7 @@
             </div>
         </div>
     </div>
+    <script th:src="@{/js/validations.js}"></script>
     <script th:src="@{/js/jquery-3.2.1.slim.min.js}"></script>
     <script th:src="@{/js/popper.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
@@ -53,6 +56,7 @@
     <script th:src="@{/js/jquery.dataTables.min.js}"></script>
     <script th:src="@{/js/dataTables.bootstrap4.min.js}"></script>
     <script th:src="@{/js/script.js}"></script>
+    <div th:replace="components/alerts::alerts"></div>
 </footer>
 
 </html>
