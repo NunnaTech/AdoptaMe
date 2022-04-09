@@ -45,15 +45,16 @@ public class PetAdopted implements Serializable {
     private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="pet_id")
+    @JoinColumn(name = "pet_id")
     private Pet pet;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
-    public PetAdopted( Pet pet, User user) {
+    public PetAdopted(Pet pet, User user) {
         this.isCanceled = false;
+        this.isAccepted = false;
         this.pet = pet;
         this.user = user;
     }
