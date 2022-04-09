@@ -62,11 +62,11 @@ public class UserService {
     @Transactional
     public Optional<User> addUser(User user) {
         entityManager.createNativeQuery("INSERT INTO users (enabled, password, username) VALUES (?,?,?);")
-                .setParameter(1, true)
+                .setParameter(1, user.getEnabled())
                 .setParameter(2, passwordEncoder.encode(user.getPassword()))
                 .setParameter(3, user.getUsername())
                 .executeUpdate();
-        return findByEmail(user.getUsername());
+        return findByEmailAnyCase(user.getUsername());
     }
     @Transactional
     public void addRole(User user, Role role) {
@@ -232,6 +232,10 @@ public class UserService {
     @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
         return userRepository.findByUsernameAndEnabled(email, true);
+    }
+    @Transactional(readOnly = true)
+    public Optional<User> findByEmailAnyCase(String email) {
+        return userRepository.findByUsername(email);
     }
 
     @Transactional(readOnly = true)

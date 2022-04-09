@@ -55,8 +55,14 @@ public class RequestController {
                 redirectAttributes.addFlashAttribute("msg_error", "Intenta con otro correo electrónico");
                 return "redirect:/login";
             }
-
+            boolean success = false;
             if(role.equalsIgnoreCase("Voluntario")){
+                profile.getUser().addRole();
+                profile.getUser().setEnabled(false);
+                String phone = profile.getPhone().replaceAll("[\\s]", "").replaceAll("\\(", "").replaceAll("\\)", "")
+                        .replaceAll("-", "");
+                profile.setPhone(phone);
+
                 Optional<User> optionalUser = userService.addUser(profile.getUser());
                 if (optionalUser.isPresent()){
                     Optional<Role> volunteer = roleService.findByType("ROLE_VOLUNTEER");
@@ -64,15 +70,28 @@ public class RequestController {
                     profile.setUser(optionalUser.get());
                     profileService.addProfile(profile);
                     requestService.addRequest(reason, optionalUser.get());
-                    redirectAttributes.addFlashAttribute("msg_success", "Usuario registrado exitosamente");
-                }else{
-                    redirectAttributes.addFlashAttribute("msg_error", "Usuario no registrado exitosamente");
+                    success = true;
+                }
+            }else {
+                profile.getUser().addRole();
+                profile.getUser().setEnabled(true);
+                Optional<User> optionalUser = userService.addUser(profile.getUser());
+                if (optionalUser.isPresent()){
+                    Optional<Role> volunteer = roleService.findByType("ROLE_ADOPTER");
+                    volunteer.ifPresent(value -> userService.addRole(optionalUser.get(), value));
+                    profile.setUser(optionalUser.get());
+                    profileService.addProfile(profile);
+                    success = true;
                 }
             }
 
-
+            if(success){
+                redirectAttributes.addFlashAttribute("msg_success", "Usuario registrado exitosamente");
+            }else{
+                redirectAttributes.addFlashAttribute("msg_error", "Usuario no registrado exitosamente");
+            }
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
         return "redirect:/login";
     }
