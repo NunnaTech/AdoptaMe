@@ -2,7 +2,6 @@ package mx.com.adoptame.entities.pet.entities;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,16 +11,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import mx.com.adoptame.entities.user.User;
 
 @Entity
 @Table(name = "TBL_PETS_ADOPTED")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @ToString
 public class PetAdopted implements Serializable {
@@ -33,6 +32,9 @@ public class PetAdopted implements Serializable {
 
     @Column(name = "is_canceled", nullable = false, columnDefinition = "tinyint default 0")
     private Boolean isCanceled;
+
+    @Column(name = "is_accepted", nullable = false, columnDefinition = "tinyint default 0")
+    private Boolean isAccepted;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
@@ -50,4 +52,9 @@ public class PetAdopted implements Serializable {
     @JoinColumn(name="user_id")
     private User user;
 
+    public PetAdopted( Pet pet, User user) {
+        this.isCanceled = false;
+        this.pet = pet;
+        this.user = user;
+    }
 }

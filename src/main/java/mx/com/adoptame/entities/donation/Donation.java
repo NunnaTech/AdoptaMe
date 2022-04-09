@@ -46,8 +46,7 @@ public class Donation implements Serializable{
     @Column(name = "is_completed", nullable = false, columnDefinition = "TINYINT default 0")
     private Boolean isCompleted;
 
-    @Size(min = 2)
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "Varchar(100)")
     private String authorization;
 
     @CreationTimestamp
