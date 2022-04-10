@@ -25,7 +25,7 @@ public class PetImageController {
     public String images(@PathVariable("id") Integer id, Model model, PetImage petImage, RedirectAttributes redirectAttributes) {
         Pet pet = petService.findOne(id).orElse(null);
         if (pet == null) {
-            redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+            redirectAttributes.addFlashAttribute("msg_error", "Mascota no encontrado");
             return "redirect:/pets/admin";
         }
         model.addAttribute("list", pet);
