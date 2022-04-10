@@ -72,11 +72,11 @@ public class PetController {
                 model.addAttribute("pet", pet.get());
                 return "views/pets/pet";
             } else {
-                redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+                redirectAttributes.addFlashAttribute("msg_error", "Mascota no encontrada");
                 return "redirect:/pets/";
             }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+            redirectAttributes.addFlashAttribute("msg_error", "Mascota no encontrada");
             logger.error(e.getMessage());
             return "redirect:/pets/";
         }
@@ -260,7 +260,7 @@ public class PetController {
     public String edit(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
         pet = petService.findOne(id).orElse(null);
         if (pet == null) {
-            redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+            redirectAttributes.addFlashAttribute("msg_error", "Mascota no encontrada");
             return "redirect:/pets/admin";
         }
         model.addAttribute("listCharacters", characterService.findAll());

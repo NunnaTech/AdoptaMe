@@ -52,7 +52,7 @@ public class ColorController {
     public String edit(@PathVariable("id") Integer id, Model model, Color color, RedirectAttributes redirectAttributes) {
         color = colorService.findOne(id).orElse(null);
         if (color == null) {
-            redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+            redirectAttributes.addFlashAttribute("msg_error", "Color no encontrado");
             return "redirect:/color/";
         }
         model.addAttribute("color", color);
