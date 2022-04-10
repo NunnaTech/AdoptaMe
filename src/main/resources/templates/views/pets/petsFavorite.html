@@ -66,11 +66,11 @@
                                 </span>
                             </div>
                             <div class="list-group list-group-flush px-4 py-1">
-                                <a th:href="@{/pets/{id} (id=${p.id})}" class="btn bg-warning mb-2">Detalles
+                                <a th:href="@{/pets/{id} (id=${p.id})}" class="btn btn-warning mb-2">Detalles
                                     <i class="fa-solid fa-eye ml-2"></i>
                                 </a>
                                 <form th:action="@{/pets/dislike/{id} (id=${p.id})}" onsubmit="return false">
-                                    <button type="submit" class=" btn btn-danger"
+                                    <button type="submit" class="col-12 btn btn-danger"
                                             onclick="confirmSweetAlert(this.parentElement,'¿Remover?', 'Esta mascota se eliminará de tus mascotas favoritas', 'Sí, eliminar!')">
                                         Quitar de favoritos
                                         <i class="fa-solid fa-heart-crack ml-2"></i>
