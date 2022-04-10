@@ -26,6 +26,7 @@ function remove(value, inputName) {
         case 'query':
         case 'breed':
         case 'type':
+        case 'search':
             VALIDATE_TO = NAMES;
             break;
 
