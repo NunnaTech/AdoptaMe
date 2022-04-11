@@ -5,13 +5,13 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
 <body id="blog-list" class="d-flex flex-column min-vh-100">
-<header th:replace="components/navbars:: navbar-all"></header>
+<header th:replace="components/navbars:: navbar-all-aux"></header>
 
 <main>
-    <div class="container mt-2 pt-2 pb-5 ">
+    <div class="container mt-2 pt-2 pb-1">
         <h1 class="h3 mb-4">Últimas entradas de Blog</h1>
         <div class="row">
-            <div class="col-12 col-md-3">
+            <div class="col-md-3 col-xl-3 mb-4">
                 <div class="card pb-4">
                     <div class="card-header px-1">
                         <h4 class="card-title mx-3 mt-3 mb-2">Blogs</h4>
@@ -30,23 +30,26 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-9">
+            <div class="col-md-9 col-xl-9 p-0">
                 <div class="tab-content" id="nav-tabContent">
-                    <div th:if="${newsList.isEmpty()}" style="font-size: 20px">No hay blogs para mostrar</div>
+                    <div th:if="${newsList.isEmpty()}" class="col-12" style="font-size: 20px">
+                        <div class="card p-5 d-flex justify-content-center align-content-center">
+                            <p class="text-center m-0">No hay blogs para mostrar</p>
+                        </div>
+                    </div>
                     <div th:unless="${newsList.isEmpty()}" class="tab-pane fade show"
                          role="tabpanel"
                          th:each="news,i: ${newsList}"
                          th:classappend="${i.count==1?'active':''}"
                          th:id="|blog${news.id}|">
-                        <a th:href="@{/blog/{id}(id=${news.id})}">
-                            <div class="box-container">
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-12 box-container mt-sm-4 mt-md-0">
-                                            <article class="card">
+                            <div class="col-12">
+                                <div class="row">
+                                    <a th:href="@{/blog/{id}(id=${news.id})}">
+                                        <div class="col-md-12 box-container mt-sm-4 mt-md-0">
+                                            <div class="card">
                                                 <div class="img-container">
                                                     <img th:src="${news.image}"
-                                                         alt="banner" class="card-img-top">
+                                                         alt="banner" class="card-img-top main-image">
                                                 </div>
                                                 <div class="card-body">
                                                     <h4 class="card-title blog-title" th:text="${news.title}"></h4>
@@ -78,12 +81,11 @@
                                                     </div>
                                                     <hr>
                                                 </div>
-                                            </article>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </div>
                             </div>
-                        </a>
                     </div>
                 </div>
             </div>
