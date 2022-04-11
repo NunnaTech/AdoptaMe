@@ -48,8 +48,9 @@
                             <span>Mascotas</span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                            <a class="dropdown-item" th:href="@{/pets/admin/request}">Solicitudes nuevas mascotas</a>
+                            <a class="dropdown-item" th:href="@{/pets/admin/request}">Solicitudes de mascotas</a>
                             <a class="dropdown-item" th:href="@{/petsAdopted/}">Solicitudes de adopción</a>
+                            <a class="dropdown-item" th:href="@{/pets/favorites}">Mascotas favoritas</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" th:href="@{/pets/admin}">Gestión</a>
                         </div>
@@ -108,8 +109,8 @@
                     <li class="nav-item"><a class="nav-link" th:href="@{/profile/}"><i class="fa-solid fa-address-card"></i><span>Perfil</span></a></li>
 
                 </ul>
-                <form th:action="@{/logout}" method="post" >
-                    <button class="link-btn p-0 m-0 p-2" type="submit">
+                <form th:action="@{/logout}" method="post"  onsubmit="return false">
+                    <button class="link-btn p-0 m-0 p-2" type="submit" onclick="confirmSweetAlert(this.parentElement, '¿Cerrar sesión?', 'Tendrás que volver a iniciar sesión para realizar acciones', 'Sí, cerrar')">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         Salir
                     </button>
@@ -139,7 +140,8 @@
                             <span>Mascotas</span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                            <a class="dropdown-item"th:href="@{/pets/admin/request}">Solicitudes de adopción</a>
+                            <a class="dropdown-item" th:href="@{/petsAdopted/}">Solicitudes de adopción</a>
+                            <a class="dropdown-item" th:href="@{/pets/favorites}">Mascotas favoritas</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" th:href="@{/pets/admin}">Gestión</a>
                         </div>
@@ -157,8 +159,8 @@
                         </a>
                     </li>
                 </ul>
-                <form th:action="@{/logout}" method="post" >
-                    <button class="link-btn p-0 m-0 p-2" type="submit">
+                <form th:action="@{/logout}" method="post"  onsubmit="return false">
+                    <button class="link-btn p-0 m-0 p-2" type="submit" onclick="confirmSweetAlert(this.parentElement, '¿Cerrar sesión?', 'Tendrás que volver a iniciar sesión para realizar acciones', 'Sí, cerrar')">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         Salir
                     </button>
@@ -205,8 +207,8 @@
                         </a>
                     </li>
                 </ul>
-                <form th:action="@{/logout}" method="post" >
-                    <button class="link-btn p-0 m-0 p-2" type="submit">
+                <form th:action="@{/logout}" method="post"  onsubmit="return false">
+                    <button class="link-btn p-0 m-0 p-2" type="submit" onclick="confirmSweetAlert(this.parentElement, '¿Cerrar sesión?', 'Tendrás que volver a iniciar sesión para realizar acciones', 'Sí, cerrar')">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         Salir
                     </button>

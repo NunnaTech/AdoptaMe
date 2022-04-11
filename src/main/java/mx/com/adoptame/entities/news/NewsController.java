@@ -48,11 +48,11 @@ public class NewsController {
                model.addAttribute("news", news.get());
                return "views/blog/blog";
            }else{
-               redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+               redirectAttributes.addFlashAttribute("msg_error", "Blog no encontrado");
                return "redirect:/blog/";
            }
        }catch (Exception e){
-           redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+           redirectAttributes.addFlashAttribute("msg_error", "Blog no encontrado");
            logger.error(e.getMessage());
            return "redirect:/blog/";
        }
@@ -79,7 +79,7 @@ public class NewsController {
     public String edit(@PathVariable("id") Integer id, Model model, News news, RedirectAttributes redirectAttributes) {
         news = newsService.findOne(id).orElse(null);
         if (news == null) {
-            redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+            redirectAttributes.addFlashAttribute("msg_error", "Blog no encontrado");
             return "redirect:/blog/admin";
         }
         model.addAttribute("tags", tagService.findAll());

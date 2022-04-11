@@ -31,4 +31,14 @@ public class PetAdoptedController {
         }
         return "redirect:/petsAdopted/";
     }
+
+    @GetMapping("/cancel/{id}")
+    public String calcel(Model model, @PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        if (Boolean.TRUE.equals(petAdoptedService.cancel(id))) {
+            redirectAttributes.addFlashAttribute("msg_success", "Adopción rechazada exitosamente");
+        } else {
+            redirectAttributes.addFlashAttribute("msg_error", "Adopción no rechazada");
+        }
+        return "redirect:/petsAdopted/";
+    }
 }

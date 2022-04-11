@@ -51,7 +51,7 @@ public class TagController {
     public String edit(@PathVariable("id") Integer id, Model model, Tag tag, RedirectAttributes redirectAttributes) {
         tag = tagService.findOne(id).orElse(null);
         if (tag == null) {
-            redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+            redirectAttributes.addFlashAttribute("msg_error", "Etiqueta no encontrada");
             return "redirect:/tag/";
         }
         model.addAttribute("tag", tag);

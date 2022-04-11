@@ -32,7 +32,7 @@ public class DonationService {
 
     @Transactional
     public Optional<Donation> update(Donation entity) {
-        Optional<Donation> updatedEntity = Optional.empty();
+        Optional<Donation> updatedEntity;
         updatedEntity = donationRepository.findById(entity.getId());
         if (!updatedEntity.isEmpty())
             donationRepository.save(entity);
@@ -46,7 +46,7 @@ public class DonationService {
             if (entity == null) {
                 return Optional.empty();
             }
-            Optional<Donation> updatedEntity = Optional.empty();
+            Optional<Donation> updatedEntity;
             fields.forEach((updatedField, value) -> {
                 Field field = ReflectionUtils.findField(Donation.class, (String) updatedField);
                 field.setAccessible(true);
@@ -76,7 +76,11 @@ public class DonationService {
     }
     @Transactional(readOnly = true)
     public List<Donation> findTop5() {
-        return (List<Donation>) donationRepository.findTop5ByCreatedAtDesc();
+        return donationRepository.findTop5ByCreatedAtDesc();
     }
 
+    @Transactional(readOnly = true)
+    public Double sumCuantitybyUserId(Integer username) {
+        return donationRepository.sumCuantityByUserId(username);
+    }
 }

@@ -52,7 +52,7 @@ public class SizeController {
     public String edit(@PathVariable("id") Integer id, Model model, Size size, RedirectAttributes redirectAttributes) {
         size = sizeService.findOne(id).orElse(null);
         if (size == null) {
-            redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+            redirectAttributes.addFlashAttribute("msg_error", "Tamaño no encontrado");
             return "redirect:/size/";
         }
         model.addAttribute("size", size);

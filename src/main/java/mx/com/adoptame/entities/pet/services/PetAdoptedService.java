@@ -23,7 +23,22 @@ public class PetAdoptedService {
 
     @Transactional(readOnly = true)
     public List<PetAdopted> findAll() {
-        return petAdoptedRepository.findAllByIsCanceled(false);
+        return petAdoptedRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Integer countByUserRequestAccepted(Integer id){
+        return petAdoptedRepository.countByUserIdAndIsAcceptedIsTrueAndAndIsCanceledIsFalse(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Integer countByUserRequestCanceled(Integer id){
+        return petAdoptedRepository.countByUserIdAndIsAcceptedIsFalseAndAndIsCanceledIsTrue(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Integer countByUserRequestPending(Integer id){
+        return petAdoptedRepository.countByUserIdAndIsAcceptedIsFalseAndAndIsCanceledIsFalse(id);
     }
 
     @Transactional(readOnly = true)
@@ -76,8 +91,21 @@ public class PetAdoptedService {
     public Boolean accept(Integer id) {
         Optional<PetAdopted> entity = petAdoptedRepository.findById(id);
         if (entity.isPresent()) {
-            entity.get().setIsCanceled(true);
+            entity.get().setIsAccepted(true);
+            entity.get().setIsCanceled(false);
             entity.get().getPet().setIsAdopted(true);
+            petAdoptedRepository.save(entity.get());
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public Boolean cancel(Integer id) {
+        Optional<PetAdopted> entity = petAdoptedRepository.findById(id);
+        if (entity.isPresent()) {
+            entity.get().setIsCanceled(true);
+            entity.get().setIsAccepted(false);
             petAdoptedRepository.save(entity.get());
             return true;
         }
