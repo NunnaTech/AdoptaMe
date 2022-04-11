@@ -1004,7 +1004,7 @@ header .nav a {
     border-width: 0;
 }
 
-#blog-list .box-container .card-title .blog-title {
+#blog-list .box-container .blog-title {
     color: var(--orange);
     font-size: 1.5rem;
 }
