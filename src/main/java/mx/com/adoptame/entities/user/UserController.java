@@ -57,11 +57,22 @@ public class UserController {
     }
 
 
-    @GetMapping("/acept/{id}")
+    @PostMapping("/acept/{id}")
     @Secured("ROLE_ADMINISTRATOR")
     public String acept(Model model, @PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         if (requestService.accept(id)) {
             redirectAttributes.addFlashAttribute("msg_success", "Usuario aceptado exitosamente");
+        } else {
+            redirectAttributes.addFlashAttribute("msg_error", "Usuario no aceptado");
+        }
+        return "redirect:/user/request/";
+    }
+
+    @PostMapping("/delete/{id}")
+    @Secured("ROLE_ADMINISTRATOR")
+    public String delete(Model model, @PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        if (requestService.delete(id)) {
+            redirectAttributes.addFlashAttribute("msg_success", "Solicitud borrada exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Usuario no aceptado");
         }

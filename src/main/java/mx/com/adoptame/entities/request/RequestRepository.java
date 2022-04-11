@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface RequestRepository extends CrudRepository<Request,Integer> {
-    List<Request> findAllByIsAccepted(Boolean isAccepted);
+    List<Request> findAllByIsCanceledAndIsAcceptedFalse(Boolean isCanceled);
     Integer countByIsAcceptedIsFalse();
     Optional<Request> findByUser(User user);
 }
