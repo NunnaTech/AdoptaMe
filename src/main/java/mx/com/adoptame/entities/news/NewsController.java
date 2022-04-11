@@ -113,13 +113,6 @@ public class NewsController {
             }
             news = newsService.save(news).get();
             redirectAttributes.addFlashAttribute("msg_success", "Blog guardado exitosamente");
-            /*String[] tags = tagValues.split(",");
-            for (String tag : tags) {
-                Optional<Tag> tagItem = tagService.findOne(Integer.valueOf(tag));
-                if (tagItem.isPresent()) {
-                    newsService.saveTag(news, tagItem.get());
-                }
-            }*/
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

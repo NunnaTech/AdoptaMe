@@ -2,6 +2,7 @@ package mx.com.adoptame.entities.color;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,17 +23,20 @@ public class ColorController {
 
     
     @GetMapping("/")
+    @Secured("ROLE_ADMINISTRATOR")
     public String type(Model model) {
         model.addAttribute("list", colorService.findAll());
         return "views/resources/color/colorList";
     }
 
     @GetMapping("/form")
+    @Secured("ROLE_ADMINISTRATOR")
     public String form(Model model, Color color) {
         return "views/resources/color/colorForm";
     }
 
     @PostMapping("/save")
+    @Secured("ROLE_ADMINISTRATOR")
     public String save(Model model, @Valid Color color, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
@@ -49,6 +53,7 @@ public class ColorController {
     }
 
     @GetMapping("/edit/{id}")
+    @Secured("ROLE_ADMINISTRATOR")
     public String edit(@PathVariable("id") Integer id, Model model, Color color, RedirectAttributes redirectAttributes) {
         color = colorService.findOne(id).orElse(null);
         if (color == null) {
@@ -60,6 +65,7 @@ public class ColorController {
     }
 
     @GetMapping("/delete/{id}")
+    @Secured("ROLE_ADMINISTRATOR")
     public String delete(@PathVariable("id") Integer id, Model model, Color color, RedirectAttributes redirectAttributes) {
         if (colorService.delete(id)) {
             redirectAttributes.addFlashAttribute("msg_success", "Color eliminado exitosamente");

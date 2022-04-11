@@ -64,7 +64,6 @@ public class ProfileController {
             @RequestParam("repeatPassword") String repeatPassword,
             RedirectAttributes redirectAttributes
     ) {
-//         TODO  implementar el cambio de contraseñas
         try{
             Optional<User> user = userService.findOne(id);
             if(user.isPresent()){

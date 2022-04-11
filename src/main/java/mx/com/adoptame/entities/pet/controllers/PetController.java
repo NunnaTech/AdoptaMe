@@ -15,6 +15,7 @@ import mx.com.adoptame.entities.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -83,6 +84,7 @@ public class PetController {
     }
 
     @GetMapping("/adoptions")
+    @Secured("ROLE_ADMINISTRATOR")
     public String adoptions(Model model, Authentication authentication) {
         try {
             String username = authentication.getName();
@@ -117,7 +119,7 @@ public class PetController {
         return "views/pets/petsFavorite";
     }
 
-    @GetMapping("/adopted/{id}")
+    @PostMapping("/adopted/{id}")
     public String adopted(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
             String username = authentication.getName();
@@ -226,12 +228,14 @@ public class PetController {
     }
 
     @GetMapping("/admin")
+    @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
     public String admin(Model model) {
         model.addAttribute("list", petService.findAll());
         return "views/pets/petsList";
     }
 
     @GetMapping("/admin/form")
+    @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
     public String save(Model model, Pet pet) {
         model.addAttribute("listCharacters", characterService.findAll());
         model.addAttribute("listColors", colorService.findAll());
@@ -241,12 +245,14 @@ public class PetController {
     }
 
     @GetMapping("/admin/request")
+    @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
     public String request(Model model) {
         model.addAttribute("list", petService.findAllisActiveFalse());
         return "views/pets/petsRequest";
     }
 
     @GetMapping("/admin/acept/{id}")
+    @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
     public String acept(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
         if (petService.accept(id)) {
             redirectAttributes.addFlashAttribute("msg_success", "Mascota aceptada exitosamente");
@@ -257,6 +263,7 @@ public class PetController {
     }
 
     @GetMapping("/admin/edit/{id}")
+    @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
     public String edit(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
         pet = petService.findOne(id).orElse(null);
         if (pet == null) {
@@ -272,6 +279,7 @@ public class PetController {
     }
 
     @PostMapping("/admin/save")
+    @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
     public String save(Model model, @Valid Pet pet, BindingResult bindingResult, RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
             String username = authentication.getName();
@@ -301,6 +309,7 @@ public class PetController {
     }
 
     @GetMapping("/admin/delete/{id}")
+    @Secured("ROLE_ADMINISTRATOR")
     public String delete(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
         if (Boolean.TRUE.equals(petService.delete(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Mascota eliminado exitosamente");
