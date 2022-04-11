@@ -69,7 +69,7 @@ public class UserController {
     public String edit(@PathVariable("id") Integer id, Model model, Profile profile, RedirectAttributes redirectAttributes) {
         profile = profileService.findOne(id).orElse(null);
         if (profile == null) {
-            redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+            redirectAttributes.addFlashAttribute("msg_error", "Usuario no encontrado");
             return "redirect:/user/";
         }
         model.addAttribute("listRoles", roleService.findAll());

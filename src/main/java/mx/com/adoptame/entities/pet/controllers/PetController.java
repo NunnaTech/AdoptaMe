@@ -72,11 +72,11 @@ public class PetController {
                 model.addAttribute("pet", pet.get());
                 return "views/pets/pet";
             } else {
-                redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+                redirectAttributes.addFlashAttribute("msg_error", "Mascota no encontrada");
                 return "redirect:/pets/";
             }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+            redirectAttributes.addFlashAttribute("msg_error", "Mascota no encontrada");
             logger.error(e.getMessage());
             return "redirect:/pets/";
         }
@@ -124,9 +124,9 @@ public class PetController {
             Optional<User> user = userService.findByEmail(username);
             Optional<Pet> pet = petService.findOne(id);
             if (pet.isPresent() && user.isPresent() && pet.get().getIsActive()) {
-                if(petAdoptedService.checkIsPresentInAdoptions(pet.get(), user.get())){
+                if (petAdoptedService.checkIsPresentInAdoptions(pet.get(), user.get())) {
                     redirectAttributes.addFlashAttribute("msg_error", "Esta mascota ya la solicitaste");
-                }else{
+                } else {
                     PetAdopted petAdopted = new PetAdopted(pet.get(), user.get());
                     petAdoptedService.save(petAdopted);
                     redirectAttributes.addFlashAttribute("msg_success", "Solicitud de adopción realizada");
@@ -148,9 +148,9 @@ public class PetController {
             Optional<User> user = userService.findByEmail(username);
             Optional<Pet> pet = petService.findOne(id);
             if (pet.isPresent() && user.isPresent() && pet.get().getIsActive()) {
-                if(petService.checkIsPresentInFavorites(pet.get(), user.get().getFavoitesPets())){
+                if (petService.checkIsPresentInFavorites(pet.get(), user.get().getFavoitesPets())) {
                     redirectAttributes.addFlashAttribute("msg_error", "Esta mascota ya esta guardada en favoritos");
-                }else {
+                } else {
                     user.get().addToFavorite(pet.get());
                     userService.save(user.get());
                     redirectAttributes.addFlashAttribute("msg_success", "Mascota guardada en favoritos");
@@ -260,7 +260,7 @@ public class PetController {
     public String edit(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
         pet = petService.findOne(id).orElse(null);
         if (pet == null) {
-            redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+            redirectAttributes.addFlashAttribute("msg_error", "Mascota no encontrada");
             return "redirect:/pets/admin";
         }
         model.addAttribute("listCharacters", characterService.findAll());
@@ -272,9 +272,17 @@ public class PetController {
     }
 
     @PostMapping("/admin/save")
-    public String save(Model model, @Valid Pet pet, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String save(Model model, @Valid Pet pet, BindingResult bindingResult, RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
-            pet.setIsActive(false);
+            String username = authentication.getName();
+            boolean isAdmin = userService.isAdmin(username);
+            if (isAdmin && pet.getId() == null) {
+                pet.setIsActive(true);
+                pet.setIsAdopted(false);
+            } else {
+                pet.setIsActive(false);
+                pet.setIsAdopted(false);
+            }
             pet.setIsAdopted(false);
             if (bindingResult.hasErrors()) {
                 model.addAttribute("listCharacters", characterService.findAll());

@@ -76,7 +76,7 @@ public class ProfileController {
                     return "redirect:/profile/";
                 }
             }else{
-                redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+                redirectAttributes.addFlashAttribute("msg_error", "Usuario no encontrado");
                 return "redirect:/profile/";
             }
         }catch (Exception e){
