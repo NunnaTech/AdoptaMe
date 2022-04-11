@@ -1,7 +1,6 @@
 package mx.com.adoptame.config.pdf;
 
 import com.lowagie.text.DocumentException;
-import mx.com.adoptame.entities.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

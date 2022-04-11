@@ -47,8 +47,8 @@ public class Profile implements Serializable{
     @Column(name="second_name", columnDefinition = "varchar(50)")
     private String secondName;
 
-    @Size(min = 10, max = 10)
-    @Pattern(regexp = "^\\d{10}(?:[-\\s]\\d{4})?$")
+    @Size(min = 10, max = 15)
+    @Pattern(regexp = "[0-9()-]*")
     @Column(columnDefinition = "varchar(17)")
     private String phone;
 
@@ -88,5 +88,6 @@ public class Profile implements Serializable{
         this.phone = phone;
         this.user = user;
         this.address = address;
+        this.image = "https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/662/3e95009c-7c93-4580-a764-5a32f1648a0d.jpg";
     }
 }

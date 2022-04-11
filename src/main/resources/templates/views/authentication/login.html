@@ -134,7 +134,7 @@
                 </div>
                 <div class="form-group">
                     <label>Telefóno</label>
-                    <input type="text" th:name="phone" class="form-control form-control-lg phone-mask" maxlength="10"
+                    <input type="text" th:name="phone" class="form-control phone-mask" maxlength="15" pattern="[0-9()-]*"
                            minlength="14" placeholder="( ___ ) - ___ - __ - __" required th:field="*{phone}" >
                 </div>
                 <div class="form-group">
