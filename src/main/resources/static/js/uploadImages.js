@@ -3,7 +3,6 @@ let inputImage = document.querySelector('#preImage');
 
 inputImage.addEventListener('change', e => {
     let [file] = inputImage.files;
-    console.log(file)
     if (file) {
         document.querySelector('#previewImage').src = URL.createObjectURL(file);
     }
@@ -21,20 +20,23 @@ async function uploadImage(e, img = 'image') {
     let image = e.elements['preImage'].files[0];
     if (image) {
         if (image.type === "image/png" || image.type === "image/jpg" || image.type === "image/jpeg") {
-            sweetAlertWait();
-            let getBatche = await batche();
-            let formData = new FormData();
-            formData.append("image", image, image.name);
-            let imageResponse = await uploadImageAws(getBatche.id, formData);
-            if (imageResponse) {
-                e.elements[img].value = imageResponse.source.url;
-                e.submit();
-            } else {
-                sweetAlertNoty('Imagen corrompida')
-            }
-        } else sweetAlertNoty('Formato de imagen no admitido, solo se admite formatos .png, .jpeg o .jpg')
+            if(image.size<=625000){
+                sweetAlertWait();
+                let getBatche = await batche();
+                let formData = new FormData();
+                formData.append("image", image, image.name);
+                let imageResponse = await uploadImageAws(getBatche.id, formData);
+                if (imageResponse) {
+                    e.elements[img].value = imageResponse.source.url;
+                    e.submit();
+                } else {
+                    sweetAlertNoty('Imagen corrompida')
+                }
+            }else sweetAlertNoty('La imagen es demasiado pesada');
 
-    } else sweetAlertNoty('Debe seleccionar una imagen')
+        } else sweetAlertNoty('Formato de imagen no admitido, solo se admite formatos .png, .jpeg o .jpg');
+
+    } else sweetAlertNoty('Debe seleccionar una imagen');
 }
 
 async function uploadImageAws(code, formData) {

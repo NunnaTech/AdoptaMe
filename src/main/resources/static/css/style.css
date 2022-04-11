@@ -324,6 +324,12 @@ header .nav a {
     margin: 0.5rem 0px;
 }
 
+.pets .btn-info {
+    background-color: #57ccf2;
+    border: 0;
+    font-weight: bold;
+}
+
 /* ------------------------------- Pets Ends  -------------------------------  */
 /* ------------------------------- Pets Detail Start  -------------------------------  */
 
@@ -554,6 +560,63 @@ header .nav a {
     box-shadow: 0 0.5rem 1rem var(--light-color);
 }
 
+#about  {
+    background-color: var(--body-bg)
+}
+
+#about .first-container .text-header {
+    font-size: 3rem;
+    color: var(--light-color)
+}
+
+#about .first-container .text-adoptame {
+    color: var(--orange);
+    font-weight: 900;
+}
+
+#about .first-container .title-text {
+    color: var(--light-color);
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+
+#about .second-container .box-container {
+    box-shadow: var(--box-shadow);
+    border-radius: 5px;
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+}
+
+#about .second-container .card {
+    border: 0
+}
+
+#about .second-container .card .card-body .primary-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--orange);
+}
+
+#about .second-container .card .card-body .secondary-text {
+    font-size: 1.2rem;
+}
+
+#about .second-container .card .card-body .icons-container {
+    display: flex;
+    justify-content: space-around
+}
+
+#about .second-container .card .card-body .icons-container i {
+    font-size: 1.5rem;
+    color: var(--black)
+}
+
+#about .second-container .card .card-body .icons-container i:hover {
+    transition: all 0.2s linear;
+    transform: rotate(360deg);
+    color: var(--orange)
+}
+
 /* ------------------------------- About Ends  -------------------------------  */
 /* ------------------------------- Adopt Starts  -------------------------------  */
 
@@ -689,7 +752,7 @@ header .nav a {
 }
 
 /* ------------------------------- Admin Ends  -------------------------------  */
-/* ------------------------------- Pets Starts  -------------------------------  */
+/* ------------------------------- Pets Filtrer Starts  -------------------------------  */
 
 #pets-filter .single-card {
     display: grid;
@@ -790,11 +853,18 @@ header .nav a {
 }
 #pets-filter .btn-success {
     background-color: #56cc9d;
+    border: 0;
+    font-weight: bold;
 }
+
+#pets-filter .btn-warning {
+    border: 0;
+    font-weight: bold;
+}
+
 #pets-filter .btn-info {
     background-color: #57ccf2;
     border: 0;
-    padding: 0.7rem;
     font-weight: bold;
 }
 
@@ -807,9 +877,9 @@ header .nav a {
 #pets-filter .btn-danger {
     background-color: #fe6666;
     border: 0;
-    padding: 0.7rem;
     font-weight: bold;
 }
+
 #pets-filter .btn-danger:hover {
     background-color: #fd4242;
 }
@@ -908,6 +978,19 @@ header .nav a {
     background-position: center;
     background-repeat: no-repeat;
 
+}
+
+#blog-list .box-container .card .img-container {
+    height: 20rem;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+#blog-list .box-container .card .img-container img {
+    height: 100%;
+    width: 45rem;
+    object-fit: cover;
 }
 
 #blog-list .card {

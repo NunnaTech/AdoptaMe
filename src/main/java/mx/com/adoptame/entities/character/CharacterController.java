@@ -49,7 +49,7 @@ public class CharacterController {
     public String edit(@PathVariable("id") Integer id, Model model, Character character, RedirectAttributes redirectAttributes) {
         character = characterService.findOne(id).orElse(null);
         if (character == null) {
-            redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+            redirectAttributes.addFlashAttribute("msg_error", "Carácter no encontrado");
             return "redirect:/character/";
         }
         model.addAttribute("character", character);

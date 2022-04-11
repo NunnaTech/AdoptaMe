@@ -10,7 +10,7 @@
 <header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
 <div class="container py-3">
 
-    <div th:replace="components/titles::titles ('Solicitudes nuevas de adopción', ${ {'Mascotas','Adopciones'} })"/>
+    <div th:replace="components/titles::titles ('Solicitudes de adopción', ${ {'Mascotas','Adopciones'} })"/>
 
     <table id="datatable" class="table table-striped" aria-describedby="table">
         <thead>
@@ -28,13 +28,26 @@
             <td th:text="|${i.user.profile.name} ${i.user.profile.lastName} ${i.user.profile.secondName}|"/>
             <td th:text="${i.pet.name}"/>
             <td th:text="${i.pet.type.name}"/>
-            <td class="d-flex justify-content-around">
-                <form th:action="@{/petsAdopted/acept/{id} (id=${i.id})}" onsubmit="return false">
-                    <button type="submit" class="btn btn-info"
-                            onclick="confirmSweetAlert(this.parentElement, '¿Aceptar adopción a esta persona?', 'Esta mascota pertenecerá ahora a ella', 'Sí, aceptar!')">
-                        <em class="fa-solid fa-check"></em>
-                    </button>
-                </form>
+            <td>
+                <div th:if="${i.isCanceled==false && i.isAccepted==false}" class="d-flex justify-content-around">
+                    <a th:href="@{/pets/{id} (id=${i.id})}" target="_blank" class="btn bg-warning">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+                    <form th:action="@{/petsAdopted/acept/{id} (id=${i.id})}" onsubmit="return false">
+                        <button type="submit" class="btn btn-success"
+                                onclick="confirmSweetAlert(this.parentElement, '¿Aceptar adopción a esta persona?', 'Esta mascota pertenecerá ahora a ella', 'Sí, aceptar!')">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                    </form>
+                    <form th:action="@{/petsAdopted/cancel/{id} (id=${i.id})}" onsubmit="return false">
+                        <button type="submit" class="btn btn-danger"
+                                onclick="confirmSweetAlert(this.parentElement, '¿Rechazar adopción a esta persona?', 'Esta mascota no pertenecerá a ella', 'Sí, rechazar!')">
+                            <i class="fa-solid fa-ban"></i>
+                        </button>
+                    </form>
+                </div>
+                <div th:if="${i.isCanceled==false && i.isAccepted==true}">Solicitud <span class="text-success">aceptada</span></div>
+                <div th:if="${i.isCanceled==true && i.isAccepted==false}">Solicitud <span class="text-danger">rechazada</span></div>
             </td>
         </tr>
         </tbody>

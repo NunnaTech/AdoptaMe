@@ -2,6 +2,7 @@ const NAMES = 'áéíóúÁÉÍÓÚabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑO
 const ALPHANUMERIC = 'abcdefghijklmnopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@._, ';
 const TEXT = '0123456789áéíóúÁÉÍÓÚabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ.,;()\'\'- #/ ';
 const DIGITS = '0123456789';
+const TEL = '0123456789-()';
 
 setInputs();
 
@@ -26,6 +27,7 @@ function remove(value, inputName) {
         case 'query':
         case 'breed':
         case 'type':
+        case 'search':
             VALIDATE_TO = NAMES;
             break;
 
@@ -53,7 +55,6 @@ function remove(value, inputName) {
             VALIDATE_TO = TEXT;
             break;
 
-        case 'phone':
         case 'externalNumber':
         case 'internalNumber':
         case 'zipCode':
@@ -61,6 +62,10 @@ function remove(value, inputName) {
         case 'address.internalNumber':
         case 'address.externalNumber':
             VALIDATE_TO = DIGITS;
+            break;
+
+        case 'phone':
+            VALIDATE_TO = TEL;
             break;
     }
 

@@ -52,7 +52,7 @@ public class RoleController {
     public String edit(@PathVariable("id") Integer id, Model model, Role role, RedirectAttributes redirectAttributes) {
         role = roleService.findOne(id).orElse(null);
         if (role == null) {
-            redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+            redirectAttributes.addFlashAttribute("msg_error", "Rol no encontrado");
             return "redirect:/role/";
         }
         model.addAttribute("role", role);

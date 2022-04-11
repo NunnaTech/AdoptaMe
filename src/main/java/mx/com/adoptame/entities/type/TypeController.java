@@ -52,7 +52,7 @@ public class TypeController {
     public String edit(@PathVariable("id") Integer id, Model model, Type type, RedirectAttributes redirectAttributes) {
         type = typeService.findOne(id).orElse(null);
         if (type == null) {
-            redirectAttributes.addFlashAttribute("msg_error", "Elemento no encontrado");
+            redirectAttributes.addFlashAttribute("msg_error", "Tipo no encontrado");
             return "redirect:/type/";
         }
         model.addAttribute("type", type);
