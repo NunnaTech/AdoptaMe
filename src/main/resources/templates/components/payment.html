@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<h3 style="text-align: center;">
+<!--   Lucete Luisillo el pillo, para ver que más datos puedes pintar, entra en la clase User y todo es lo que puedes traer a imprimir aquí  -->
+    <h1 th:text="'Esto será una recibo de pago'"></h1>
+    <h2 th:text="${username}"/>
+    <h2 th:text="${profile.name}"/>
+    <h2 th:text="${profile.lastName}"/>
+    <h2 th:text="${profile.secondName}"/>
+    <h2 th:text="${profile.phone}"/>
+    <h2>Pago(s):</h2>
+    <ul>
+        <li th:each="d:${donations}"
+            th:text="|${d.isCompleted} ${d.quantity} ${d.authorization} ${#temporals.format(d.createdAt,'dd-MMM-yyyy')}|"></li>
+    </ul>
+</h3>
+</body>
+</html>
