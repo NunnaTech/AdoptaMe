@@ -2,22 +2,104 @@
 <html lang="es"
       xmlns:th="http://www.thymeleaf.org">
 <head>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"/>
+
 </head>
 <body>
-
-<h3 style="text-align: center;">
-<!--   Lucete Luisillo el pillo, para ver que más datos puedes pintar, entra en la clase User y todo es lo que puedes traer a imprimir aquí  -->
-    <h1 th:text="'Esto será una recibo de pago'"></h1>
-    <h2 th:text="${username}"/>
-    <h2 th:text="${profile.name}"/>
-    <h2 th:text="${profile.lastName}"/>
-    <h2 th:text="${profile.secondName}"/>
-    <h2 th:text="${profile.phone}"/>
-    <h2>Pago(s):</h2>
-    <ul>
-        <li th:each="d:${donations}"
-            th:text="|${d.isCompleted} ${d.quantity} ${d.authorization} ${#temporals.format(d.createdAt,'dd-MMM-yyyy')}|"></li>
-    </ul>
-</h3>
+<div class="container">
+    <div class="card-body py-5">
+        <div class="mx-auto w-100">
+            <div class="d-flex justify-content-between mb-4 mb-md-0">
+                <a href="https://paypal.com/">
+                    <img alt="Logo" th:src="@{/img/paypal.png}" style="width: 80px; height: 80px;"/>
+                </a>
+                <div class="text-sm-end">
+                    <a href="https://adoptaMe.com/">
+                        <img alt="Logo"  th:src="@{/img/logo.png}" style="width: 80px; height: 80px;"/>
+                    </a>
+                </div>
+            </div>
+            <div class="text-sm-end my-1">
+                <div class="text-sm-end fw-bold fs-5 text-muted">
+                    <div>Av. Universidad Tecnólogica #1, Palo Escrito</div>
+                    <div>Emiliano Zapata, Morelos 62765</div>
+                </div>
+            </div>
+            <div class="py-3">
+                <div class="">
+                    <div class="fw-bolder fs-2" th:text="|${profile.name} ${profile.lastName} ${profile.secondName}|">
+                        <br>
+                        <span class="fs-6" th:text="${username}"></span>
+                        <br>
+                        <span class="text-muted fs-5">A continuación te mostramos los detalles de tu
+                                donación.</span>
+                    </div>
+                    <hr/>
+                    <div class="d-flex justify-content-between fw-bolder my-4">
+                        <div class="flex-root d-flex flex-column">
+                            <span class="text-muted">Fecha</span>
+                            <span class="fs-5">11 April, 2022</span>
+                        </div>
+                        <div class="flex-root d-flex flex-column">
+                                <span class="text-muted">Dirección de envío
+                                </span>
+                            <span class="fs-6" th:text="| ${profile.address.street}
+                                                        ${profile.address.externalNumber}
+                                                        ${profile.address.internalNumber}
+                                                        ${profile.address.zipCode}
+                                                        ${profile.address.references} |"
+                            ></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between flex-column">
+                        <div class="table-responsive border-bottom">
+                            <table class="table align-middle table-row-dashed fs-6 gy-5 mb-0">
+                                <thead>
+                                <tr class="border-bottom fs-6 fw-bolder text-muted">
+                                    <th class="pb-2">Donación</th>
+                                    <th colspan="3" class="min-w-100px text-end pb-2">Total</th>
+                                </tr>
+                                </thead>
+                                <tbody class="fw-bold text-gray-600">
+                                <tr th:each="d:${donations}">
+                                    <td>
+                                        <div class="d-flex align-items-start">
+                                            <div class="">
+                                                <div class="fw-bolder">Donación #2425</div>
+                                                <div class="fs-7 text-muted">Fecha de donación: 11/04/2022</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td colspan="3" class="text-end">$240.00</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="text-end">Subtotal</td>
+                                    <td class="text-end">$264.00</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="text-end">IVA (0%)</td>
+                                    <td class="text-end">$0.00</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="fs-3 text-dark fw-bolder text-end">Total</td>
+                                    <td class="text-dark fs-3 fw-boldest text-end">$269.00</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-stack flex-wrap mt-lg-20 pt-13">
+                <div class="my-4">
+                    <button type="button" class="btn btn-success my-1 me-12" onclick="window.print();">Imprimir
+                        recibo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>
