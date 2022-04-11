@@ -60,7 +60,7 @@ public class NewsController {
     }
     //    List admin
     @GetMapping("/admin")
-//    @Secured("ROLE_ADMINISTRATOR")
+    @Secured("ROLE_ADMINISTRATOR")
     public String management(Model model, News news) {
         model.addAttribute("list", newsService.findAll());
         return "views/blog/blogList";
@@ -68,6 +68,7 @@ public class NewsController {
 
     //    Form admin
     @GetMapping("/admin/form")
+    @Secured("ROLE_ADMINISTRATOR")
     public String save(Model model, News news) {
         model.addAttribute("news", news);
         model.addAttribute("tags", tagService.findAll());
@@ -76,6 +77,7 @@ public class NewsController {
 
     //    Edit blog
     @GetMapping("/admin/edit/{id}")
+    @Secured("ROLE_ADMINISTRATOR")
     public String edit(@PathVariable("id") Integer id, Model model, News news, RedirectAttributes redirectAttributes) {
         news = newsService.findOne(id).orElse(null);
         if (news == null) {
@@ -89,6 +91,7 @@ public class NewsController {
     }
 
     @GetMapping("/admin/delete/{id}")
+    @Secured("ROLE_ADMINISTRATOR")
     public String delete(@PathVariable("id") Integer id, Model model, News news, RedirectAttributes redirectAttributes) {
         if (newsService.delete(id)) {
             redirectAttributes.addFlashAttribute("msg_success", "Blog eliminado exitosamente");
@@ -100,6 +103,7 @@ public class NewsController {
 
     //    Save admin
     @PostMapping("/admin/save")
+    @Secured("ROLE_ADMINISTRATOR")
     public String save(Model model, @Valid News news, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         news.setUser(userService.findOne(1).get());
         try {
