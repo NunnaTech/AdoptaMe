@@ -1,6 +1,7 @@
 package mx.com.adoptame.entities.user;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -117,6 +118,15 @@ public class User{
             inverseJoinColumns = @JoinColumn(name = "rol_id"))
     private Set<Role> roles;
 
+    public void addRole(Role role) {
+        if (roles == null) {
+            roles = new HashSet<Role>();
+        }
+        roles.add(role);
+    }
+    public void addRole() {
+        roles = new HashSet<Role>();
+    }
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
