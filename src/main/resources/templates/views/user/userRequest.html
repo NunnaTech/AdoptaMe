@@ -23,13 +23,18 @@
         </thead>
         <tbody>
         <tr th:each="i,c: ${list}">
-            <td th:text="${c.count}"/>
-            <td th:text="|${i.user.profile.name} ${i.user.profile.lastName} ${i.user.profile.secondName}|"/>
-            <td th:text="${i.user.username}"/>
+            <td th:text="${c.count}"></td>
+            <td th:text="${i.user.profile.getFullName()}"></td>
+            <td th:text="${i.user.username}"></td>
             <td>
-                <ul><li th:each="r:${i.user.roles}" th:text="${r.authority}"/></ul>
+                <ul th:each="r:${i.user.roles}" th:switch="__${r.authority}__">
+                    <li th:case="ROLE_ADMINISTRATOR" th:text="Administrador"></li>
+                    <li th:case="ROLE_VOLUNTEER" th:text="Voluntario"></li>
+                    <li th:case="*" th:text="Adoptador"></li>
+                </ul>
+
             </td>
-            <td th:text="${i.reason}"/>
+            <td th:text="${i.reason}"></td>
             <td class="d-flex justify-content-around">
                 <form th:action="@{/user/acept/{id} (id=${i.id})}" onsubmit="return false" method="post">
                     <button type="submit" class="btn btn-info"
