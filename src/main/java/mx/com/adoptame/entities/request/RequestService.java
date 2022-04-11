@@ -27,7 +27,11 @@ public class RequestService {
 
     @Transactional(readOnly = true)
     public List<Request> findAll() {
-        return  requestRepository.findAllByIsAccepted(false);
+        return  requestRepository.findAllByIsCanceledAndIsAcceptedFalse(false);
+    }
+    @Transactional(readOnly = true)
+    public List<Request> findAllCanceled() {
+        return  requestRepository.findAllByIsCanceledAndIsAcceptedFalse(true);
     }
 
     @Transactional(readOnly = true)
@@ -88,6 +92,16 @@ public class RequestService {
         Optional<Request> entity = requestRepository.findById(id);
         if (entity.isPresent()) {
             entity.get().setIsAccepted(true);
+            requestRepository.save(entity.get());
+            return true;
+        }
+        return false;
+    }
+    @Transactional
+    public Boolean delete(Integer id) {
+        Optional<Request> entity = requestRepository.findById(id);
+        if (entity.isPresent()) {
+            entity.get().setIsCanceled(true);
             requestRepository.save(entity.get());
             return true;
         }
