@@ -9,6 +9,7 @@ import mx.com.adoptame.entities.role.Role;
 import mx.com.adoptame.entities.role.RoleService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,9 +46,12 @@ public class UserService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Value("${deploy-host}")
+    private String host;
+
     @Transactional(readOnly = true)
     public List<User> findAll() {
-        return (List<User>) userRepository.findAll();
+        return userRepository.findAll();
     }
 
     @Transactional(readOnly = true)
@@ -169,7 +173,6 @@ public class UserService {
         //We create a token
         String token = RandomString.make(100);
         token += LocalDateTime.now();
-        String host = "http://localhost:8090";
         //we try to send the email
         try {
             updateResetPasswordToken(token, email);
