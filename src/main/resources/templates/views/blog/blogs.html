@@ -42,45 +42,37 @@
                             <div class="box-container">
                                 <div class="col-12">
                                     <div class="row">
-                                        <div class="col-md-12 box-container mt-sm-4 mt-md-0">
+                                        <div class="col-12 box-container mt-sm-4 mt-md-0">
                                             <article class="card">
                                                 <div class="img-container">
-                                                    <a>
-                                                        <img th:src="${news.image}"
-                                                             alt="banner" class="card-img-top">
-                                                    </a>
+                                                    <img th:src="${news.image}"
+                                                         alt="banner" class="card-img-top">
                                                 </div>
                                                 <div class="card-body">
-                                                    <h4 class="card-title">
-                                                        <a class="blog-title" th:text="${news.title}">
-
-                                                        </a>
-                                                    </h4>
+                                                    <h4 class="card-title blog-title" th:text="${news.title}"></h4>
                                                     <div class="media">
                                                         <div class="align-self-center">
-                                                            <a class="b-avatar badge-secondary rounded-circle">
+                                                            <div class="b-avatar badge-secondary rounded-circle">
                                                                 <span>
                                                                     <img class="rounded-circle"
                                                                          style="width: 24px; height: 24px;"
                                                                          th:src="${news.user.profile.image}"
                                                                          alt="avatar"></span>
-                                                            </a>
+                                                            </div>
                                                         </div>
-                                                        <div class="media-body pl-2">
-                                                            <small class="text-muted mr-1">by</small>
-                                                            <small>
-                                                                <a class="text-body"
-                                                                   th:text="${news.user.profile.getPartialName()}">
-                                                                </a>
-                                                            </small>
-                                                            <span class="text-muted ml-1">|</span><small
-                                                                class="text-muted ml-2"
+                                                        <div class="media-body pl-2 text-muted">
+                                                            <small class="mr-1">by</small>
+                                                            <small class="text-body"
+                                                                   th:text="${news.user.profile.getPartialName()}"> </small>
+                                                            <span class=" ml-1">|</span><small
+                                                                class="ml-2"
                                                                 th:text="${#temporals.format(news.createdAt,'dd-MMM-yyyy')}"></small>
                                                         </div>
                                                     </div>
                                                     <div class="my-3 d-flex justify-content-start">
                                                         <div th:each="tag:${news.tags}">
-                                                        <span class="badge badge-success p-1 ml-2" th:text="${tag.name}">
+                                                        <span class="badge badge-success p-1 ml-2"
+                                                              th:text="${tag.name}">
                                                         </span>
                                                         </div>
                                                     </div>
