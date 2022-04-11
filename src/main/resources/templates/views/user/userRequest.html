@@ -31,10 +31,16 @@
             </td>
             <td th:text="${i.reason}"/>
             <td class="d-flex justify-content-around">
-                <form th:action="@{/user/acept/{id} (id=${i.id})}" onsubmit="return false">
+                <form th:action="@{/user/acept/{id} (id=${i.id})}" onsubmit="return false" method="post">
                     <button type="submit" class="btn btn-info"
                             onclick="confirmSweetAlert(this.parentElement, '¿Aceptar usuario a ser voluntario?', 'Este usuario tendrá acciones sobre el sistema', 'Sí, aceptar!')">
                         <i class="fa-solid fa-check"></i>
+                    </button>
+                </form>
+                <form th:action="@{/user/delete/{id} (id=${i.id})}" onsubmit="return false" method="post">
+                    <button type="submit" class="btn btn-danger"
+                            onclick="confirmSweetAlert(this.parentElement, '¿Borrar solicitud de voluntario?', 'Se eliminará esta solicitud de voluntario', 'Sí, aceptar!')">
+                        <i class="fa-solid fa-trash"></i>
                     </button>
                 </form>
             </td>
