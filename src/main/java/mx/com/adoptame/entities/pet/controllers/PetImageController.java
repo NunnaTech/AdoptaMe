@@ -6,6 +6,7 @@ import mx.com.adoptame.entities.pet.entities.PetImage;
 import mx.com.adoptame.entities.pet.services.PetImageService;
 import mx.com.adoptame.entities.pet.services.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class PetImageController {
     private PetImageService petImageService;
 
     @GetMapping("/images/{id}")
+    @Secured("ROLE_ADMINISTRATOR")
     public String images(@PathVariable("id") Integer id, Model model, PetImage petImage, RedirectAttributes redirectAttributes) {
         Pet pet = petService.findOne(id).orElse(null);
         if (pet == null) {
@@ -34,6 +36,7 @@ public class PetImageController {
 
 
     @PostMapping("/images/save")
+    @Secured("ROLE_ADMINISTRATOR")
     public String save(@RequestParam("idPet") Integer idPet, @RequestParam("image") String image, RedirectAttributes redirectAttributes) {
         try {
             PetImage petImage = new PetImage();
@@ -51,6 +54,7 @@ public class PetImageController {
     }
 
     @GetMapping("/delete/{idPet}/{idImage}")
+    @Secured("ROLE_ADMINISTRATOR")
     public String delete(@PathVariable("idPet") Integer idPet, @PathVariable("idImage") Integer idImage, RedirectAttributes redirectAttributes) {
         if (petImageService.delete(idImage)) {
             redirectAttributes.addFlashAttribute("msg_success", "Imagen eliminada exitosamente");
