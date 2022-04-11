@@ -27,7 +27,7 @@
             <td th:text="|${i.user.profile.name} ${i.user.profile.lastName} ${i.user.profile.secondName}|"/>
             <td th:text="${i.user.username}"/>
             <td>
-                <ul><li th:each="r:${i.user.roles}" th:text="${r.type}"/></ul>
+                <ul><li th:each="r:${i.user.roles}" th:text="${r.authority}"/></ul>
             </td>
             <td th:text="${i.reason}"/>
             <td class="d-flex justify-content-around">
