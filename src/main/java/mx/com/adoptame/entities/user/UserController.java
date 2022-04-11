@@ -7,6 +7,7 @@ import mx.com.adoptame.entities.request.RequestService;
 import mx.com.adoptame.entities.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,22 +34,23 @@ public class UserController {
 
     @Autowired
     private ServletContext context;
-    @Autowired
-    private EmailService emailService;
 
     @GetMapping("/")
+    @Secured("ROLE_ADMINISTRATOR")
     public String type(Model model) {
         model.addAttribute("list", profileService.findAll());
         return "views/user/userList";
     }
 
     @GetMapping("/form")
+    @Secured("ROLE_ADMINISTRATOR")
     public String form(Model model, Profile profile) {
         model.addAttribute("listRoles", roleService.findAll());
         return "views/user/userForm";
     }
 
     @GetMapping("/request")
+    @Secured("ROLE_ADMINISTRATOR")
     public String request(Model model) {
         model.addAttribute("list", requestService.findAll());
         return "views/user/userRequest";
@@ -56,6 +58,7 @@ public class UserController {
 
 
     @GetMapping("/acept/{id}")
+    @Secured("ROLE_ADMINISTRATOR")
     public String acept(Model model, @PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         if (requestService.accept(id)) {
             redirectAttributes.addFlashAttribute("msg_success", "Usuario aceptado exitosamente");
@@ -66,6 +69,7 @@ public class UserController {
     }
 
     @GetMapping("/edit/{id}")
+    @Secured("ROLE_ADMINISTRATOR")
     public String edit(@PathVariable("id") Integer id, Model model, Profile profile, RedirectAttributes redirectAttributes) {
         profile = profileService.findOne(id).orElse(null);
         if (profile == null) {
@@ -78,6 +82,7 @@ public class UserController {
     }
 
     @GetMapping("/delete/{id}")
+    @Secured("ROLE_ADMINISTRATOR")
     public String delete(@PathVariable("id") Integer id, Model model, Profile profile, RedirectAttributes redirectAttributes) {
         if (profileService.delete(id)) {
             redirectAttributes.addFlashAttribute("msg_success", "Usuario eliminado exitosamente");
@@ -88,13 +93,14 @@ public class UserController {
     }
 
     @PostMapping("/save")
+    @Secured("ROLE_ADMINISTRATOR")
     public String save(Model model, @Valid Profile profile, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
                 return "views/user/userForm";
             } else {
                 profileService.save(profile);
-                redirectAttributes.addFlashAttribute("msg_success", "Usuario guardada exitosamente");
+                redirectAttributes.addFlashAttribute("msg_success", "Usuario guardado exitosamente");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

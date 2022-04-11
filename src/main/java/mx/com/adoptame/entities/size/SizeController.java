@@ -2,6 +2,7 @@ package mx.com.adoptame.entities.size;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,17 +23,20 @@ public class SizeController {
     private SizeService sizeService;
 
     @GetMapping("/")
+    @Secured("ROLE_ADMINISTRATOR")
     public String type(Model model) {
         model.addAttribute("list", sizeService.findAll());
         return "views/resources/size/sizeList";
     }
 
     @GetMapping("/form")
+    @Secured("ROLE_ADMINISTRATOR")
     public String form(Model model, Size size) {
         return "views/resources/size/sizeForm";
     }
 
     @PostMapping("/save")
+    @Secured("ROLE_ADMINISTRATOR")
     public String save(Model model, @Valid Size size, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
@@ -49,6 +53,7 @@ public class SizeController {
     }
 
     @GetMapping("/edit/{id}")
+    @Secured("ROLE_ADMINISTRATOR")
     public String edit(@PathVariable("id") Integer id, Model model, Size size, RedirectAttributes redirectAttributes) {
         size = sizeService.findOne(id).orElse(null);
         if (size == null) {
@@ -60,6 +65,7 @@ public class SizeController {
     }
 
     @GetMapping("/delete/{id}")
+    @Secured("ROLE_ADMINISTRATOR")
     public String delete(@PathVariable("id") Integer id, Model model, Size size, RedirectAttributes redirectAttributes) {
         if (sizeService.delete(id)) {
             redirectAttributes.addFlashAttribute("msg_success", "Tamaño eliminado exitosamente");

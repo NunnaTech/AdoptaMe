@@ -3,6 +3,7 @@ package mx.com.adoptame.entities.role;
 import lombok.extern.slf4j.Slf4j;
 import mx.com.adoptame.entities.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,17 +24,20 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping("/")
+    @Secured("ROLE_ADMINISTRATOR")
     public String type(Model model) {
         model.addAttribute("list", roleService.findAll());
         return "views/resources/role/roleList";
     }
 
     @GetMapping("/form")
+    @Secured("ROLE_ADMINISTRATOR")
     public String form(Model model, Role role) {
         return "views/resources/role/roleForm";
     }
 
     @PostMapping("/save")
+    @Secured("ROLE_ADMINISTRATOR")
     public String save(Model model, @Valid Role role, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
@@ -49,6 +53,7 @@ public class RoleController {
     }
 
     @GetMapping("/edit/{id}")
+    @Secured("ROLE_ADMINISTRATOR")
     public String edit(@PathVariable("id") Integer id, Model model, Role role, RedirectAttributes redirectAttributes) {
         role = roleService.findOne(id).orElse(null);
         if (role == null) {
@@ -60,6 +65,7 @@ public class RoleController {
     }
 
     @GetMapping("/delete/{id}")
+    @Secured("ROLE_ADMINISTRATOR")
     public String delete(@PathVariable("id") Integer id, Model model, Role role, RedirectAttributes redirectAttributes) {
         if (roleService.delete(id)) {
             redirectAttributes.addFlashAttribute("msg_success", "Rol eliminado exitosamente");
