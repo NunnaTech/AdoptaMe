@@ -4,6 +4,7 @@ import com.lowagie.text.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -29,7 +30,8 @@ public class GeneratorThymeleafService {
 
     private Logger logger = LoggerFactory.getLogger(GeneratorThymeleafService.class);
 
-    private String urlBase = "http://localhost:8090";
+    @Value("${deploy-host}")
+    private String urlBase;
 
     public ByteArrayOutputStream createPdf(String templateName, Map userPayload, HttpServletRequest request, HttpServletResponse response)
             throws DocumentException {
