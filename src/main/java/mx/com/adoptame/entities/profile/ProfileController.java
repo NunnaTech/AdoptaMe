@@ -1,7 +1,10 @@
 package mx.com.adoptame.entities.profile;
 
+import mx.com.adoptame.entities.request.RequestController;
 import mx.com.adoptame.entities.user.User;
 import mx.com.adoptame.entities.user.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,8 @@ public class ProfileController {
 
     @Autowired private UserService userService;
 
+    private Logger logger = LoggerFactory.getLogger(ProfileController.class);
+
     @GetMapping("/")
     public String type(Model model, Authentication authentication) {
         try {
@@ -34,7 +39,7 @@ public class ProfileController {
                 model.addAttribute("profile", user.get().getProfile());
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+           logger.error(e.getMessage());
         }
         return "views/profile/profileForm";
     }
@@ -50,7 +55,7 @@ public class ProfileController {
                 redirectAttributes.addFlashAttribute("msg_success", "Perfil guardado exitosamente");
             }
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            logger.error(e.getMessage());
             redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al almacenar los datos, intente nuevamente");
         }
         return "redirect:/profile/";
@@ -64,7 +69,6 @@ public class ProfileController {
             @RequestParam("repeatPassword") String repeatPassword,
             RedirectAttributes redirectAttributes
     ) {
-//         TODO  implementar el cambio de contraseñas
         try{
             Optional<User> user = userService.findOne(id);
             if(user.isPresent()){
@@ -80,7 +84,7 @@ public class ProfileController {
                 return "redirect:/profile/";
             }
         }catch (Exception e){
-            System.err.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         return "redirect:/profile/";
     }

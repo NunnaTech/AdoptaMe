@@ -2,25 +2,26 @@ package mx.com.adoptame.entities.user;
 
 import mx.com.adoptame.config.email.EmailService;
 import mx.com.adoptame.entities.address.Address;
-import mx.com.adoptame.entities.address.AdressRepository;
+import mx.com.adoptame.entities.news.NewsController;
 import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.profile.ProfileRepository;
 import mx.com.adoptame.entities.role.Role;
 import mx.com.adoptame.entities.role.RoleService;
 import net.bytebuddy.utility.RandomString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ReflectionUtils;
 
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-
 
 @Service
 public class UserService {
@@ -29,9 +30,6 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private AdressRepository adressRepository;
 
     @Autowired
     private ProfileRepository profileRepository;
@@ -45,9 +43,14 @@ public class UserService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    private Logger logger = LoggerFactory.getLogger(UserService.class);
+
+    @Value("${deploy-host}")
+    private String host;
+
     @Transactional(readOnly = true)
     public List<User> findAll() {
-        return (List<User>) userRepository.findAll();
+        return userRepository.findAll();
     }
 
     @Transactional(readOnly = true)
@@ -79,53 +82,12 @@ public class UserService {
     }
 
     @Transactional
-    public Optional<User> saveWithoutPassword(User entity) {
-        Optional<User> user = findOne(entity.getId());
-        entity.setPassword(user.get().getPassword());
-        return Optional.of(userRepository.save(entity));
-    }
-
-    @Transactional
-    public Optional<User> savejustUser(User entity) {
-        Optional<User> user = findOne(entity.getId());
-        Optional<Profile> profile = profileRepository.findByUser(entity);
-        Optional<Address> address = adressRepository.findByProfile(profile.get());
-        profile.get().setAddress(address.get());
-
-        entity.setProfile(profile.get());
-        entity.setPassword(user.get().getPassword());
-        entity.setPassword(user.get().getPassword());
-        return Optional.of(userRepository.save(entity));
-    }
-
-    @Transactional
     public Optional<User> update(User entity) {
-        Optional<User> updatedEntity = Optional.empty();
+        Optional<User> updatedEntity;
         updatedEntity = userRepository.findById(entity.getId());
         if (!updatedEntity.isEmpty())
             userRepository.save(entity);
         return updatedEntity;
-    }
-
-    @Transactional
-    public Optional<User> partialUpdate(Integer id, Map<Object, Object> fields) {
-        try {
-            User entity = findOne(id).get();
-            if (entity == null) {
-                return Optional.empty();
-            }
-            Optional<User> updatedEntity = Optional.empty();
-            fields.forEach((updatedField, value) -> {
-                Field field = ReflectionUtils.findField(User.class, (String) updatedField);
-                field.setAccessible(true);
-                ReflectionUtils.setField(field, entity, value);
-            });
-            userRepository.save(entity);
-            updatedEntity = Optional.of(entity);
-            return updatedEntity;
-        } catch (Exception exception) {
-            return Optional.empty();
-        }
     }
 
     @Transactional
@@ -135,6 +97,19 @@ public class UserService {
             userRepository.deleteById(id);
         }
         return entity;
+    }
+
+    @Transactional()
+    public User recoveryPassword(User user){
+        if (user.getPassword().isEmpty()){
+            Optional<User> oldUser = findOne(user.getId());
+            if(oldUser.isPresent()){
+                user.setPassword(oldUser.get().getPassword());
+            }
+        }else{
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        return (user);
     }
 
     @Transactional
@@ -149,71 +124,85 @@ public class UserService {
     public void fillInitialData() {
         if (userRepository.count() > 0) return;
         List<Profile> profiles = new ArrayList<>();
-        User superadmin = new User("super@adoptame.com", passwordEncoder.encode("admin"), Set.of(roleService.findByType("ROLE_ADMINISTRATOR").get()));
-        Address address1 = new Address("Alvaró Obregon", "7", "1", "69855", "Casa del superadmin");
-        Profile profile1 = new Profile("Alexis", "Álvarez", "Saldaña", "7778523699", superadmin, address1);
-        User volunter = new User("volun@adoptame.com", passwordEncoder.encode("admin"), Set.of(roleService.findByType("ROLE_VOLUNTEER").get()));
-        Address address2 = new Address("Avenida benito", "8", "7", "69858", "Casa del voluntario");
-        Profile profile2 = new Profile("Luis", "Saldaña", "García", "7778523696", volunter, address2);
-        User adopter = new User("adopt@adoptame.com", passwordEncoder.encode("admin"), Set.of(roleService.findByType("ROLE_ADOPTER").get()));
-        Address address3 = new Address("Calle fresno", "9", "1", "69874", "Casa del adoptador");
-        Profile profile3 = new Profile("Hector", "Ortiz", "Loya", "7778523698", adopter, address3);
-        profiles.add(profile1);
-        profiles.add(profile2);
-        profiles.add(profile3);
+        Optional<Role> admin = roleService.findByType("ROLE_ADMINISTRATOR");
+        if (admin.isPresent()) {
+            User superadmin = new User("super@adoptame.com", passwordEncoder.encode("admin"), Set.of(admin.get()));
+            Address address1 = new Address("Alvaró Obregon", "7", "1", "69855", "Casa del superadmin");
+            Profile profile1 = new Profile("Alexis", "Álvarez", "Saldaña", "7778523699", superadmin, address1);
+            profiles.add(profile1);
+        }
+        Optional<Role> volun = roleService.findByType("ROLE_VOLUNTEER");
+        if (volun.isPresent()) {
+            User volunter = new User("volun@adoptame.com", passwordEncoder.encode("admin"), Set.of(volun.get()));
+            Address address2 = new Address("Avenida benito", "8", "7", "69858", "Casa del voluntario");
+            Profile profile2 = new Profile("Luis", "Saldaña", "García", "7778523696", volunter, address2);
+            profiles.add(profile2);
+        }
+        Optional<Role> adop = roleService.findByType("ROLE_ADOPTER");
+        if (adop.isPresent()) {
+            User adopter = new User("adopt@adoptame.com", passwordEncoder.encode("admin"), Set.of(adop.get()));
+            Address address3 = new Address("Calle fresno", "9", "1", "69874", "Casa del adoptador");
+            Profile profile3 = new Profile("Hector", "Ortiz", "Loya", "7778523698", adopter, address3);
+            profiles.add(profile3);
+        }
         profileRepository.saveAll(profiles);
     }
 
     @Transactional
-    public void sedEmail(String email, String path) {
-        //We create a token
+    public void sendForgotPasswordEmail(String email) {
         String token = RandomString.make(100);
         token += LocalDateTime.now();
-        String host = "http://localhost:8090";
-        //we try to send the email
+        updateResetPasswordToken(token, email);
+    }
+
+    @Transactional
+    public void sendActivateEmail(User user) {
+        String token = RandomString.make(100);
+        token += LocalDateTime.now();
         try {
-            updateResetPasswordToken(token, email);
-            String resetPasswordLink = host + "/user/link_restore_password?token=" + token;
-            emailService.sendRecoverPasswordTemplate(email, resetPasswordLink);
+            user.setLinkActivateUsername(token);
+            save(user);
+            String resetPasswordLink = host + "/user/activate?token=" + token;
+            emailService.sendRequestAcceptedTemplate(user, resetPasswordLink);
         } catch (Exception exception) {
-            exception.printStackTrace();
+           logger.error(exception.getMessage());
         }
     }
 
-    /**
-     * sets value for the field linkRestorePassword of
-     * a user found by the given email – and persist
-     * change to the database.
-     */
+
+    @Transactional
     public void updateResetPasswordToken(String token, String email) {
         Optional<User> user = findByEmail(email);
         if (user.isPresent()) {
-            user.get().setLinkRestorePassword(token);
-            save(user.get());
+            try {
+                user.get().setLinkRestorePassword(token);
+                save(user.get());
+                String resetPasswordLink = host + "/user/link_restore_password?token=" + token;
+                emailService.sendRecoverPasswordTemplate(email, resetPasswordLink);
+            } catch (MessagingException e) {
+                logger.error(e.getMessage());
+            }
         }
     }
 
-    /**
-     * sets new password for the user
-     * (using BCrypt password encoding) and
-     * nullifies the reset password token.
-     */
+    @Transactional
     public Boolean updatePassword(String token, String newPassword, String repeatedPassword) {
         Optional<User> user = findByLinkRestorePassword(token);
         if (user.isEmpty()) return false;
         if (!checkTokenDate(token)) return false;
         if (!newPassword.equals(repeatedPassword)) return false;
-
         user.get().setPassword(passwordEncoder.encode(newPassword));
         user.get().setLinkRestorePassword(null);
         userRepository.save(user.get());
         return true;
     }
 
-    /**
-     * Check if the Token is already active
-     */
-
+    public Boolean activateUser(User user) {
+        user.setEnabled(true);
+        user.setLinkActivateUsername(null);
+        userRepository.save(user);
+        return true;
+    }
 
     public Boolean checkTokenDate(String token) {
         try {
@@ -221,7 +210,7 @@ public class UserService {
             long hours = ChronoUnit.HOURS.between(tokenDate, LocalDateTime.now());
             if (hours < 24) return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return false;
     }
@@ -232,9 +221,15 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public Optional<User> findByLinkActivateUsername(String token) {
+        return userRepository.findByLinkActivateUsername(token);
+    }
+
+    @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
         return userRepository.findByUsernameAndEnabled(email, true);
     }
+
     @Transactional(readOnly = true)
     public Optional<User> findByEmailAnyCase(String email) {
         return userRepository.findByUsername(email);
@@ -255,11 +250,7 @@ public class UserService {
         return userRepository.count();
     }
 
-    @Transactional(readOnly = true)
-    public Long countTotal(Role role) {
-        return userRepository.count();
-    }
-
+    @Transactional
     public Boolean isAdmin(String username) {
         boolean flag = false;
         Optional<User> user = findByEmail(username);

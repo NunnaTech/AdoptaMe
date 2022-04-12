@@ -15,6 +15,7 @@ import mx.com.adoptame.entities.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,7 +69,7 @@ public class PetController {
     public String pet(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         try {
             Optional<Pet> pet = petService.findOne(id);
-            if (pet.isPresent() && pet.get().getIsActive()) {
+            if (pet.isPresent() && Boolean.TRUE.equals(pet.get().getIsActive())) {
                 model.addAttribute("pet", pet.get());
                 return "views/pets/pet";
             } else {
@@ -83,6 +84,7 @@ public class PetController {
     }
 
     @GetMapping("/adoptions")
+    @Secured("ROLE_ADMINISTRATOR")
     public String adoptions(Model model, Authentication authentication) {
         try {
             String username = authentication.getName();
@@ -117,14 +119,14 @@ public class PetController {
         return "views/pets/petsFavorite";
     }
 
-    @GetMapping("/adopted/{id}")
+    @PostMapping("/adopted/{id}")
     public String adopted(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
             String username = authentication.getName();
             Optional<User> user = userService.findByEmail(username);
             Optional<Pet> pet = petService.findOne(id);
-            if (pet.isPresent() && user.isPresent() && pet.get().getIsActive()) {
-                if (petAdoptedService.checkIsPresentInAdoptions(pet.get(), user.get())) {
+            if (pet.isPresent() && user.isPresent() && Boolean.TRUE.equals(pet.get().getIsActive())) {
+                if (Boolean.TRUE.equals(petAdoptedService.checkIsPresentInAdoptions(pet.get(), user.get()))) {
                     redirectAttributes.addFlashAttribute("msg_error", "Esta mascota ya la solicitaste");
                 } else {
                     PetAdopted petAdopted = new PetAdopted(pet.get(), user.get());
@@ -147,8 +149,8 @@ public class PetController {
             String username = authentication.getName();
             Optional<User> user = userService.findByEmail(username);
             Optional<Pet> pet = petService.findOne(id);
-            if (pet.isPresent() && user.isPresent() && pet.get().getIsActive()) {
-                if (petService.checkIsPresentInFavorites(pet.get(), user.get().getFavoitesPets())) {
+            if (pet.isPresent() && user.isPresent() && Boolean.TRUE.equals(pet.get().getIsActive())) {
+                if (Boolean.TRUE.equals(petService.checkIsPresentInFavorites(pet.get(), user.get().getFavoitesPets()))) {
                     redirectAttributes.addFlashAttribute("msg_error", "Esta mascota ya esta guardada en favoritos");
                 } else {
                     user.get().addToFavorite(pet.get());
@@ -171,7 +173,7 @@ public class PetController {
             String username = authentication.getName();
             Optional<User> user = userService.findByEmail(username);
             Optional<Pet> pet = petService.findOne(id);
-            if (pet.isPresent() && user.isPresent() && pet.get().getIsActive()) {
+            if (pet.isPresent() && user.isPresent() && Boolean.TRUE.equals(pet.get().getIsActive())) {
                 user.get().removeFromFavorite(pet.get());
                 userService.save(user.get());
                 redirectAttributes.addFlashAttribute("msg_success", "Mascota removida de favoritos");
@@ -226,12 +228,14 @@ public class PetController {
     }
 
     @GetMapping("/admin")
+    @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
     public String admin(Model model) {
         model.addAttribute("list", petService.findAll());
         return "views/pets/petsList";
     }
 
     @GetMapping("/admin/form")
+    @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
     public String save(Model model, Pet pet) {
         model.addAttribute("listCharacters", characterService.findAll());
         model.addAttribute("listColors", colorService.findAll());
@@ -241,14 +245,16 @@ public class PetController {
     }
 
     @GetMapping("/admin/request")
+    @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
     public String request(Model model) {
         model.addAttribute("list", petService.findAllisActiveFalse());
         return "views/pets/petsRequest";
     }
 
     @GetMapping("/admin/acept/{id}")
+    @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
     public String acept(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
-        if (petService.accept(id)) {
+        if (Boolean.TRUE.equals(petService.accept(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Mascota aceptada exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Mascota no aceptada");
@@ -257,8 +263,9 @@ public class PetController {
     }
 
     @GetMapping("/admin/edit/{id}")
-    public String edit(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
-        pet = petService.findOne(id).orElse(null);
+    @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
+    public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        Pet pet = petService.findOne(id).orElse(null);
         if (pet == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Mascota no encontrada");
             return "redirect:/pets/admin";
@@ -272,6 +279,7 @@ public class PetController {
     }
 
     @PostMapping("/admin/save")
+    @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
     public String save(Model model, @Valid Pet pet, BindingResult bindingResult, RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
             String username = authentication.getName();
@@ -295,13 +303,14 @@ public class PetController {
                 redirectAttributes.addFlashAttribute("msg_success", "Mascota guardado exitosamente");
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         return "redirect:/pets/admin";
     }
 
     @GetMapping("/admin/delete/{id}")
-    public String delete(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
+    @Secured("ROLE_ADMINISTRATOR")
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         if (Boolean.TRUE.equals(petService.delete(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Mascota eliminado exitosamente");
         } else {
@@ -309,5 +318,4 @@ public class PetController {
         }
         return "redirect:/pets/admin";
     }
-
 }

@@ -4,6 +4,7 @@ import com.lowagie.text.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -29,11 +30,16 @@ public class GeneratorThymeleafService {
 
     private Logger logger = LoggerFactory.getLogger(GeneratorThymeleafService.class);
 
-    private String urlBase = "http://localhost:8090";
+    @Value("${deploy-host}")
+    private String urlBase;
 
-    public ByteArrayOutputStream createPdf(String templateName, Map userPayload, HttpServletRequest request, HttpServletResponse response)
+    public ByteArrayOutputStream createPdf(String templateName,
+            Map<String, Object> userPayload,
+            HttpServletRequest request,
+            HttpServletResponse response)
             throws DocumentException {
-        IWebContext ctx = new WebContext(request, response, servletContext, LocaleContextHolder.getLocale(), userPayload);
+        IWebContext ctx = new WebContext(request, response, servletContext, LocaleContextHolder.getLocale(),
+                userPayload);
         String processedHtml = templateEngine.process(templateName, ctx);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {
@@ -42,14 +48,15 @@ public class GeneratorThymeleafService {
             renderer.layout();
             renderer.createPDF(bos, false);
             renderer.finishPDF();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
         } finally {
-            if (bos != null) {
-                try {
-                    bos.close();
-                } catch (IOException e) {
-                    logger.error("Error creando pdf", e);
-                }
+            try {
+                bos.close();
+            } catch (IOException e) {
+                logger.error("Error creando pdf", e);
             }
+
         }
         return bos;
     }

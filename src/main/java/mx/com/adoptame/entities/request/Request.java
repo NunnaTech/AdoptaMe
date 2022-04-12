@@ -17,7 +17,7 @@ import mx.com.adoptame.entities.user.User;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+
 public class Request implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
@@ -31,6 +31,9 @@ public class Request implements Serializable{
 
     @Column(name = "is_accepted", nullable = false, columnDefinition = "tinyint default 0")
     private Boolean isAccepted;
+
+    @Column(name = "is_canceled", nullable = false, columnDefinition = "tinyint default 0")
+    private Boolean isCanceled;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)

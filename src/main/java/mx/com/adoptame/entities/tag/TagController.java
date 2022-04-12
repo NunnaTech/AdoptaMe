@@ -2,6 +2,7 @@ package mx.com.adoptame.entities.tag;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,17 +23,20 @@ public class TagController {
     private TagService tagService;
 
     @GetMapping("/")
+    @Secured("ROLE_ADMINISTRATOR")
     public String type(Model model) {
         model.addAttribute("list", tagService.findAll());
         return "views/resources/tag/tagList";
     }
 
     @GetMapping("/form")
+    @Secured("ROLE_ADMINISTRATOR")
     public String form(Model model, Tag tag) {
         return "views/resources/tag/tagForm";
     }
 
     @PostMapping("/save")
+    @Secured("ROLE_ADMINISTRATOR")
     public String save(Model model, @Valid Tag tag, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
@@ -48,8 +52,9 @@ public class TagController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Integer id, Model model, Tag tag, RedirectAttributes redirectAttributes) {
-        tag = tagService.findOne(id).orElse(null);
+    @Secured("ROLE_ADMINISTRATOR")
+    public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        Tag tag = tagService.findOne(id).orElse(null);
         if (tag == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Etiqueta no encontrada");
             return "redirect:/tag/";
@@ -59,8 +64,9 @@ public class TagController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Integer id, Model model, Tag tag, RedirectAttributes redirectAttributes) {
-        if (tagService.delete(id)) {
+    @Secured("ROLE_ADMINISTRATOR")
+    public String delete(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        if (Boolean.TRUE.equals(tagService.delete(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Etiqueta eliminado exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Etiqueta no eliminado");

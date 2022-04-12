@@ -1,14 +1,14 @@
 package mx.com.adoptame.entities.news;
 
 import lombok.extern.slf4j.Slf4j;
-import mx.com.adoptame.entities.pet.controllers.PetController;
-import mx.com.adoptame.entities.tag.Tag;
 import mx.com.adoptame.entities.tag.TagService;
+import mx.com.adoptame.entities.user.User;
 import mx.com.adoptame.entities.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,7 +32,6 @@ public class NewsController {
 
     private Logger logger = LoggerFactory.getLogger(NewsController.class);
 
-    //    Para todos
     @GetMapping("")
     public String home(Model model, News news) {
         model.addAttribute("newsList", newsService.findAllActives());
@@ -42,23 +41,23 @@ public class NewsController {
 
     @GetMapping("/{id}")
     public String view(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-       try {
-           Optional<News> news = newsService.findOne(id);
-           if (news.isPresent() && news.get().getIsMain()){
-               model.addAttribute("news", news.get());
-               return "views/blog/blog";
-           }else{
-               redirectAttributes.addFlashAttribute("msg_error", "Blog no encontrado");
-               return "redirect:/blog/";
-           }
-       }catch (Exception e){
-           redirectAttributes.addFlashAttribute("msg_error", "Blog no encontrado");
-           logger.error(e.getMessage());
-           return "redirect:/blog/";
-       }
+        try {
+            Optional<News> news = newsService.findOne(id);
+            if (news.isPresent() && news.get().getIsMain()) {
+                model.addAttribute("news", news.get());
+                return "views/blog/blog";
+            } else {
+                redirectAttributes.addFlashAttribute("msg_error", "Blog no encontrado");
+                return "redirect:/blog/";
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("msg_error", "Blog no encontrado");
+            logger.error(e.getMessage());
+            return "redirect:/blog/";
+        }
 
     }
-    //    List admin
+
     @GetMapping("/admin")
     @Secured("ROLE_ADMINISTRATOR")
     public String management(Model model, News news) {
@@ -66,7 +65,6 @@ public class NewsController {
         return "views/blog/blogList";
     }
 
-    //    Form admin
     @GetMapping("/admin/form")
     @Secured("ROLE_ADMINISTRATOR")
     public String save(Model model, News news) {
@@ -75,11 +73,10 @@ public class NewsController {
         return "views/blog/blogForm";
     }
 
-    //    Edit blog
     @GetMapping("/admin/edit/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String edit(@PathVariable("id") Integer id, Model model, News news, RedirectAttributes redirectAttributes) {
-        news = newsService.findOne(id).orElse(null);
+    public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        News news = newsService.findOne(id).orElse(null);
         if (news == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Blog no encontrado");
             return "redirect:/blog/admin";
@@ -87,13 +84,12 @@ public class NewsController {
         model.addAttribute("tags", tagService.findAll());
         model.addAttribute("news", news);
         return "views/blog/blogForm";
-
     }
 
     @GetMapping("/admin/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String delete(@PathVariable("id") Integer id, Model model, News news, RedirectAttributes redirectAttributes) {
-        if (newsService.delete(id)) {
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        if (Boolean.TRUE.equals(newsService.delete(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Blog eliminado exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Blog no eliminado");
@@ -101,27 +97,24 @@ public class NewsController {
         return "redirect:/blog/admin";
     }
 
-    //    Save admin
     @PostMapping("/admin/save")
     @Secured("ROLE_ADMINISTRATOR")
-    public String save(Model model, @Valid News news, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        news.setUser(userService.findOne(1).get());
+    public String save(Model model, @Valid News news, BindingResult bindingResult, RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
             if (bindingResult.hasErrors()) {
                 model.addAttribute("tagsList", tagService.findAll());
                 return "views/blog/blogForm";
-            }
-            news = newsService.save(news).get();
-            redirectAttributes.addFlashAttribute("msg_success", "Blog guardado exitosamente");
-            /*String[] tags = tagValues.split(",");
-            for (String tag : tags) {
-                Optional<Tag> tagItem = tagService.findOne(Integer.valueOf(tag));
-                if (tagItem.isPresent()) {
-                    newsService.saveTag(news, tagItem.get());
+            } else {
+                String username = authentication.getName();
+                Optional<User> user = userService.findByEmail(username);
+                if (user.isPresent()) {
+                    news.setUser(user.get());
+                    newsService.save(news);
+                    redirectAttributes.addFlashAttribute("msg_success", "Blog guardado exitosamente");
                 }
-            }*/
+            }
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         return "redirect:/blog/admin";
     }
