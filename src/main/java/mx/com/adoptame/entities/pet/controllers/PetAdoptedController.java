@@ -2,6 +2,7 @@ package mx.com.adoptame.entities.pet.controllers;
 
 import mx.com.adoptame.entities.pet.services.PetAdoptedService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +18,17 @@ public class PetAdoptedController {
 
 
     @GetMapping("/")
+    @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
     public String pets(Model model) {
         model.addAttribute("list", petAdoptedService.findAll());
         return "views/pets/petsAdopted";
     }
 
     @GetMapping("/acept/{id}")
+    @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
     public String acept(Model model, @PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         if (Boolean.TRUE.equals(petAdoptedService.accept(id))) {
+
             redirectAttributes.addFlashAttribute("msg_success", "Adopción aceptada exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Adopción no aceptada");
@@ -33,6 +37,7 @@ public class PetAdoptedController {
     }
 
     @GetMapping("/cancel/{id}")
+    @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
     public String calcel(Model model, @PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         if (Boolean.TRUE.equals(petAdoptedService.cancel(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Adopción rechazada exitosamente");

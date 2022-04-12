@@ -1,17 +1,17 @@
 package mx.com.adoptame.entities.profile;
 
+import mx.com.adoptame.entities.request.RequestController;
 import mx.com.adoptame.entities.user.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ReflectionUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,11 +23,15 @@ public class ProfileService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private Logger logger = LoggerFactory.getLogger(ProfileService.class);
+
     @PersistenceContext
     private EntityManager entityManager;
 
     @Transactional(readOnly = true)
-    public List<Profile> findAll() {return profileRepository.findAll();}
+    public List<Profile> findAll() {
+        return profileRepository.findAllByUser_Enabled(true);
+    }
 
     @Transactional(readOnly = true)
     public Optional<Profile> findOne(Integer id) {
@@ -41,11 +45,12 @@ public class ProfileService {
 
     @Transactional
     public Optional<Profile> save(Profile entity) {
-        if(entity.getUser().getId()==null){
+        if (entity.getUser().getId() == null) {
             entity.getUser().setPassword(passwordEncoder.encode(entity.getUser().getPassword()));
         }
         return Optional.of(profileRepository.save(entity));
     }
+
     @Transactional
     public Optional<Profile> addProfile(Profile profile) {
         entityManager.createNativeQuery("INSERT INTO tbl_profiles (name,last_name,second_name,phone,address_id,user_id)VALUES (?,?,?,?,null,?);")
@@ -53,13 +58,14 @@ public class ProfileService {
                 .setParameter(2, profile.getLastName())
                 .setParameter(3, profile.getSecondName())
                 .setParameter(4, profile.getPhone())
-                .setParameter(5,profile.getUser().getId())
+                .setParameter(5, profile.getUser().getId())
                 .executeUpdate();
         return findByUser(profile.getUser());
     }
+
     @Transactional
     public Optional<Profile> update(Profile entity) {
-        Optional<Profile> updatedEntity = Optional.empty();
+        Optional<Profile> updatedEntity;
         updatedEntity = profileRepository.findById(entity.getId());
         if (!updatedEntity.isEmpty())
             profileRepository.save(entity);
@@ -67,32 +73,10 @@ public class ProfileService {
     }
 
     @Transactional
-    public Optional<Profile> partialUpdate(Integer id, Map<Object, Object> fields) {
+    public Profile findAndSetPerfil(Profile entity) {
         try {
-            Profile entity = findOne(id).get();
-            if (entity == null) {
-                return Optional.empty();
-            }
-            Optional<Profile> updatedEntity = Optional.empty();
-            fields.forEach((updatedField, value) -> {
-                Field field = ReflectionUtils.findField(Profile.class, (String) updatedField);
-                field.setAccessible(true);
-                ReflectionUtils.setField(field, entity, value);
-            });
-            profileRepository.save(entity);
-            updatedEntity = Optional.of(entity);
-            return updatedEntity;
-        } catch (Exception exception) {
-            System.err.println(exception);
-            return Optional.empty();
-        }
-    }
-
-    @Transactional
-    public Profile findAndSetPerfil(Profile entity){
-        try{
             Optional<Profile> updateEntity = findOne(entity.getId());
-            if (updateEntity.isPresent()){
+            if (updateEntity.isPresent()) {
                 updateEntity.get().setName(entity.getName());
                 updateEntity.get().setLastName(entity.getLastName());
                 updateEntity.get().setSecondName(entity.getSecondName());
@@ -103,10 +87,10 @@ public class ProfileService {
                 updateEntity.get().getAddress().setExternalNumber(entity.getAddress().getExternalNumber());
                 updateEntity.get().getAddress().setZipCode(entity.getAddress().getZipCode());
                 updateEntity.get().getAddress().setReferences(entity.getAddress().getReferences());
+                return updateEntity.get();
             }
-            return updateEntity.get();
-        }catch (Exception e){
-            System.err.println(e.getMessage());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
         }
         return null;
     }

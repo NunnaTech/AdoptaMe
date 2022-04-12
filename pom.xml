@@ -10,7 +10,7 @@
     </parent>
     <groupId>mx.com.adoptame</groupId>
     <artifactId>AdoptaMe</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1</version>
     <name>AdoptaMe</name>
     <description>Proyecto AdoptaMe: Página web de adopción de mascotas</description>
     <properties>
@@ -82,6 +82,15 @@
 
     </dependencies>
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.4.0.905</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

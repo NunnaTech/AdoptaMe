@@ -1,6 +1,5 @@
 package mx.com.adoptame.entities.pet.entities;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +19,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.*;
 
-import lombok.Getter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import mx.com.adoptame.entities.character.Character;
 import mx.com.adoptame.entities.color.Color;
 import mx.com.adoptame.entities.size.Size;
@@ -35,11 +31,11 @@ import mx.com.adoptame.entities.type.Type;
 
 @Entity
 @Table(name = "TBL_PETS")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@ToString
-public class Pet implements Serializable {
-    private static final long serialVersionUID = 1L;
+
+public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pet")
@@ -67,6 +63,9 @@ public class Pet implements Serializable {
 
     @Column(name = "is_adopted", nullable = false, columnDefinition = "tinyint default 0")
     private Boolean isAdopted;
+
+    @Column(name = "is_dropped", nullable = false, columnDefinition = "tinyint default 0")
+    private Boolean isDropped;
 
     @Column(name = "is_active", nullable = false, columnDefinition = "tinyint default 0")
     private Boolean isActive;
@@ -99,14 +98,12 @@ public class Pet implements Serializable {
     @JoinColumn(name = "color_id")
     private Color color;
 
-    // Relationships
     @ManyToMany(mappedBy = "favoitesPets")
     public List<User> users = new ArrayList<>();
 
     @OneToMany(mappedBy = "pet", cascade = CascadeType.PERSIST)
     private Set<PetAdopted> pets;
 
-    // Pet to Images
     @OneToMany(mappedBy = "pet", cascade = CascadeType.PERSIST)
     private List<PetImage> images;
 

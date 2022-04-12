@@ -1,6 +1,7 @@
 package mx.com.adoptame.entities.character;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,17 +21,20 @@ public class CharacterController {
     private CharacterService characterService;
 
     @GetMapping("/")
+    @Secured("ROLE_ADMINISTRATOR")
     public String type(Model model) {
         model.addAttribute("list", characterService.findAll());
         return "views/resources/character/characterList";
     }
 
     @GetMapping("/form")
+    @Secured("ROLE_ADMINISTRATOR")
     public String form(Model model, Character character) {
         return "views/resources/character/characterForm";
     }
 
     @PostMapping("/save")
+    @Secured("ROLE_ADMINISTRATOR")
     public String save(Model model, @Valid Character character, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
@@ -46,8 +50,9 @@ public class CharacterController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Integer id, Model model, Character character, RedirectAttributes redirectAttributes) {
-        character = characterService.findOne(id).orElse(null);
+    @Secured("ROLE_ADMINISTRATOR")
+    public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        Character character = characterService.findOne(id).orElse(null);
         if (character == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Carácter no encontrado");
             return "redirect:/character/";
@@ -57,8 +62,9 @@ public class CharacterController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Integer id, Model model, Character character, RedirectAttributes redirectAttributes) {
-        if (characterService.delete(id)) {
+    @Secured("ROLE_ADMINISTRATOR")
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        if (Boolean.TRUE.equals(characterService.delete(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Carácter eliminado exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Carácter no eliminado");
