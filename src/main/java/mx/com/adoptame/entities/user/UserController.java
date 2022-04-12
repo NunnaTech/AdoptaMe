@@ -5,6 +5,8 @@ import mx.com.adoptame.entities.profile.ProfileService;
 import mx.com.adoptame.entities.request.Request;
 import mx.com.adoptame.entities.request.RequestService;
 import mx.com.adoptame.entities.role.RoleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.annotation.Secured;
@@ -30,6 +32,8 @@ public class UserController {
 
     @Autowired private UserService userService;
 
+    private Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @GetMapping("/")
     @Secured("ROLE_ADMINISTRATOR")
     public String type(Model model) {
@@ -50,7 +54,6 @@ public class UserController {
         model.addAttribute("list", requestService.findAll());
         return "views/user/userRequest";
     }
-
 
     @PostMapping("/acept/{id}")
     @Secured("ROLE_ADMINISTRATOR")
@@ -102,16 +105,17 @@ public class UserController {
 
     @PostMapping("/save")
     @Secured("ROLE_ADMINISTRATOR")
-    public String save(Model model, @Valid Profile profile, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String save(@Valid Profile profile, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
                 return "views/user/userForm";
             } else {
+                profile.setUser(userService.recoveryPassword(profile.getUser()));
                 profileService.save(profile);
                 redirectAttributes.addFlashAttribute("msg_success", "Usuario guardado exitosamente");
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         return "redirect:/user/";
     }
@@ -125,8 +129,8 @@ public class UserController {
     public String restorePassword(@Param(value = "token") String token, Model model, RedirectAttributes redirectAttributes){
         Optional<User> user = userService.findByLinkRestorePassword(token);
         if (!user.isPresent()) {
-            redirectAttributes.addFlashAttribute("msg_success", "Usuario guardada exitosamente");
-            return "redirect:/login"; //404 template
+            redirectAttributes.addFlashAttribute("msg_error", "Código no valido");
+            return "redirect:/login";
         }
         model.addAttribute("token", token);
         return "views/authentication/resetPassword";
