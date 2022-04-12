@@ -1,18 +1,15 @@
 package mx.com.adoptame.entities.role;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import lombok.*;
-import mx.com.adoptame.entities.user.User;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -30,7 +27,6 @@ public class Role{
     @NotNull
     @NotBlank
     @Size(min = 2, max = 20)
-    //@Pattern(regexp = "[A-Za-zÀ-ÿ '-._]*")
     @Column(nullable = false, unique = true, columnDefinition = "varchar(20)")
     private String authority;
 

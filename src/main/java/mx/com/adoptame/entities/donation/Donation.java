@@ -1,7 +1,6 @@
 package mx.com.adoptame.entities.donation;
 
 import mx.com.adoptame.entities.user.User;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -16,8 +15,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -30,8 +27,8 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @ToString
-public class Donation implements Serializable{
-    private static final long serialVersionUID = 1L;
+public class Donation {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_donation")
@@ -58,7 +55,6 @@ public class Donation implements Serializable{
     private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }
-
