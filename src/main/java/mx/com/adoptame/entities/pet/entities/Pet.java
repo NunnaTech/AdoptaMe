@@ -65,6 +65,9 @@ public class Pet {
     @Column(name = "is_adopted", nullable = false, columnDefinition = "tinyint default 0")
     private Boolean isAdopted;
 
+    @Column(name = "is_dropped", nullable = false, columnDefinition = "tinyint default 0")
+    private Boolean isDropped;
+
     @Column(name = "is_active", nullable = false, columnDefinition = "tinyint default 0")
     private Boolean isActive;
 
