@@ -12,6 +12,8 @@
     <div th:replace="components/titles::titles ('Usuarios', ${ {'Usuarios','Formulario'} })"/>
     <form th:action="@{/user/save}" method="post" th:object="${profile}">
         <input type="hidden" id="id" name="id" th:field="*{id}"/>
+        <input type="hidden" id="address-id" name="address-id" th:field="*{address.id}"/>
+        <input type="hidden" id="user-id" name="user-id" th:field="*{user.id}"/>
         <div class="form-row">
             <div class="form-group col-12 col-md-4">
                 <label for="name">Nombre:</label>
@@ -139,10 +141,10 @@
                 <input type="password" class="form-control"
                        id="password" name="password"
                        aria-describedby="passwordHelp"
+                       th:required="${profile.user.password.isEmpty()?true:false}"
                        placeholder="Ej: ********"
                        th:classappend="${#fields.hasErrors('user.password')?'is-invalid':''}"
                        th:field="*{user.password}"
-                       required
                        minlength="5"
                        maxlength="30"
                 />

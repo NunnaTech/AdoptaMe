@@ -4,6 +4,7 @@ import mx.com.adoptame.entities.tag.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +30,7 @@ public class NewsService {
 
     @Transactional(readOnly = true)
     public List<News> findMainNews() {
-        return newsRepository.findAllByIsMainAndIsPublishedOrderByCreatedAtDesc(true,true);
+        return newsRepository.findAllByIsMainAndIsPublishedOrderByCreatedAtDesc(true, true);
     }
 
     @Transactional
@@ -39,11 +40,14 @@ public class NewsService {
 
     @Transactional
     public Optional<News> save(News entity) {
+        if (entity.getImage().isEmpty()) {
+            entity.setImage("https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/592/89da8cb2-d1ea-4cfa-9e45-14725313b19e.png");
+        }
         return Optional.of(newsRepository.save(entity));
     }
 
     @Transactional
-    public Optional<News> saveTag(News news,Tag tag) {
+    public Optional<News> saveTag(News news, Tag tag) {
         news.addTag(tag);
         return Optional.of(newsRepository.save(news));
     }
@@ -65,6 +69,7 @@ public class NewsService {
         }
         return entity;
     }
+
     @Transactional(readOnly = true)
     public Integer countMainNews() {
         return newsRepository.countByIsMainIsTrue();

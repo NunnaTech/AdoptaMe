@@ -2,11 +2,14 @@ package mx.com.adoptame.entities.user;
 
 import mx.com.adoptame.config.email.EmailService;
 import mx.com.adoptame.entities.address.Address;
+import mx.com.adoptame.entities.news.NewsController;
 import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.profile.ProfileRepository;
 import mx.com.adoptame.entities.role.Role;
 import mx.com.adoptame.entities.role.RoleService;
 import net.bytebuddy.utility.RandomString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,6 +42,8 @@ public class UserService {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    private Logger logger = LoggerFactory.getLogger(NewsController.class);
 
     @Value("${deploy-host}")
     private String host;
@@ -94,6 +99,19 @@ public class UserService {
         return entity;
     }
 
+    @Transactional()
+    public User recoveryPassword(User user){
+        if (user.getPassword().isEmpty()){
+            Optional<User> oldUser = findOne(user.getId());
+            if(oldUser.isPresent()){
+                user.setPassword(oldUser.get().getPassword());
+            }
+        }else{
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        return (user);
+    }
+
     @Transactional
     public Boolean updatePassword(User user, String currentPassword, String newPassword, String repeatedPassword) {
         if (!passwordEncoder.matches(user.getPassword(), currentPassword)) return false;
@@ -121,7 +139,7 @@ public class UserService {
             profiles.add(profile2);
         }
         Optional<Role> adop = roleService.findByType("ROLE_ADOPTER");
-        if (admin.isPresent()) {
+        if (adop.isPresent()) {
             User adopter = new User("adopt@adoptame.com", passwordEncoder.encode("admin"), Set.of(adop.get()));
             Address address3 = new Address("Calle fresno", "9", "1", "69874", "Casa del adoptador");
             Profile profile3 = new Profile("Hector", "Ortiz", "Loya", "7778523698", adopter, address3);
@@ -147,7 +165,7 @@ public class UserService {
             String resetPasswordLink = host + "/user/activate?token=" + token;
             emailService.sendRequestAceptedTemplate(user, resetPasswordLink);
         } catch (Exception exception) {
-            exception.printStackTrace();
+           logger.error(exception.getMessage());
         }
     }
 
@@ -161,7 +179,7 @@ public class UserService {
                 String resetPasswordLink = host + "/user/link_restore_password?token=" + token;
                 emailService.sendRecoverPasswordTemplate(email, resetPasswordLink);
             } catch (MessagingException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
         }
     }
@@ -191,7 +209,7 @@ public class UserService {
             long hours = ChronoUnit.HOURS.between(tokenDate, LocalDateTime.now());
             if (hours < 24) return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return false;
     }

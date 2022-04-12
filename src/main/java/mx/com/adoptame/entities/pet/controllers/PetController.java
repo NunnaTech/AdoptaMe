@@ -303,7 +303,7 @@ public class PetController {
                 redirectAttributes.addFlashAttribute("msg_success", "Mascota guardado exitosamente");
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         return "redirect:/pets/admin";
     }

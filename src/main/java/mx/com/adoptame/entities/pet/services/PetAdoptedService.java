@@ -95,11 +95,12 @@ public class PetAdoptedService {
         return entity;
     }
 
+    @Transactional()
     public Boolean checkIsPresentInAdoptions(Pet currentPet, User currentUser){
         boolean flag = false;
         List<PetAdopted> petUserAdopted = findUsername(currentUser.getId());
         for (PetAdopted p:petUserAdopted) {
-            if(currentPet.getId() == p.getPet().getId()){
+            if(currentPet.getId().equals(p.getPet().getId())){
                 flag = true;
                 break;
             }

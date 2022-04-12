@@ -109,7 +109,7 @@ public class NewsController {
                 Optional<User> user = userService.findByEmail(username);
                 if (user.isPresent()) {
                     news.setUser(user.get());
-                    newsService.save(news).get();
+                    newsService.save(news);
                     redirectAttributes.addFlashAttribute("msg_success", "Blog guardado exitosamente");
                 }
             }
