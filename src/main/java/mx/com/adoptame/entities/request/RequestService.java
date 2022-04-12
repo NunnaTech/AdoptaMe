@@ -1,6 +1,7 @@
 package mx.com.adoptame.entities.request;
 
 
+import mx.com.adoptame.config.email.EmailService;
 import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class RequestService {
 
     @Autowired
     private RequestRepository requestRepository;
+    @Autowired
+    private EmailService emailService;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -82,20 +85,21 @@ public class RequestService {
             updatedEntity = Optional.of(entity);
             return updatedEntity;
         } catch (Exception exception) {
-            System.err.println(exception);
+            exception.printStackTrace();
             return Optional.empty();
         }
     }
 
     @Transactional
-    public Boolean accept(Integer id) {
+    public Request accept(Integer id) {
         Optional<Request> entity = requestRepository.findById(id);
         if (entity.isPresent()) {
             entity.get().setIsAccepted(true);
             requestRepository.save(entity.get());
-            return true;
+
+            return entity.get();
         }
-        return false;
+        return null;
     }
     @Transactional
     public Boolean delete(Integer id) {

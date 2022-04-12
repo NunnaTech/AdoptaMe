@@ -1,8 +1,8 @@
 package mx.com.adoptame.entities.user;
 
-import mx.com.adoptame.config.email.EmailService;
 import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.profile.ProfileService;
+import mx.com.adoptame.entities.request.Request;
 import mx.com.adoptame.entities.request.RequestService;
 import mx.com.adoptame.entities.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.servlet.ServletContext;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Controller
@@ -31,9 +29,6 @@ public class UserController {
     @Autowired private RoleService roleService;
 
     @Autowired private UserService userService;
-
-    @Autowired
-    private ServletContext context;
 
     @GetMapping("/")
     @Secured("ROLE_ADMINISTRATOR")
@@ -60,8 +55,10 @@ public class UserController {
     @PostMapping("/acept/{id}")
     @Secured("ROLE_ADMINISTRATOR")
     public String acept(Model model, @PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
-        if (requestService.accept(id)) {
+        Request  request =requestService.accept(id);
+        if (request != null) {
             redirectAttributes.addFlashAttribute("msg_success", "Usuario aceptado exitosamente");
+            userService.sendActivateEmail(request.getUser());
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Usuario no aceptado");
         }
@@ -120,8 +117,7 @@ public class UserController {
     }
     @PostMapping("/forgotPassword")
     public String sendEmail(@RequestParam String email){
-        String path = context.getContextPath();
-        userService.sedEmail(email, path);
+        userService.sendForgotPasswordEmail(email);
         return "redirect:/login";
     }
 
@@ -134,6 +130,17 @@ public class UserController {
         }
         model.addAttribute("token", token);
         return "views/authentication/resetPassword";
+    }
+    @GetMapping("/activate")
+    public String activate(@Param(value = "token") String token, Model model, RedirectAttributes redirectAttributes){
+        Optional<User> user = userService.findByLinkActivateUsername(token);
+        if (user.isEmpty()) {
+            redirectAttributes.addFlashAttribute("msg_error", "Código no valido");
+        }else {
+            redirectAttributes.addFlashAttribute("msg_success", "Correo confirmado");
+            userService.activateUser(user.get());
+        }
+        return "redirect:/login";
     }
 
     @PostMapping("/reset_password_submit")

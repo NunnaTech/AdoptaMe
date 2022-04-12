@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.lang.reflect.Field;
@@ -168,31 +169,48 @@ public class UserService {
         profileRepository.saveAll(profiles);
     }
 
+    public void sendForgotPasswordEmail(String email) {
+        //We create a token
+        String token = RandomString.make(100);
+        token += LocalDateTime.now();
+        //we try to send the email
+        updateResetPasswordToken(token, email);
+    }
     @Transactional
-    public void sedEmail(String email, String path) {
+    public void sendActivateEmail(User user) {
         //We create a token
         String token = RandomString.make(100);
         token += LocalDateTime.now();
         //we try to send the email
         try {
-            updateResetPasswordToken(token, email);
-            String resetPasswordLink = host + "/user/link_restore_password?token=" + token;
-            emailService.sendRecoverPasswordTemplate(email, resetPasswordLink);
+                user.setLinkActivateUsername(token);
+                save(user);
+                String resetPasswordLink = host + "/user/activate?token=" + token;
+                emailService.sendRequestAceptedTemplate(user,resetPasswordLink);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
+
+
 
     /**
      * sets value for the field linkRestorePassword of
      * a user found by the given email – and persist
      * change to the database.
      */
+    @Transactional
     public void updateResetPasswordToken(String token, String email) {
         Optional<User> user = findByEmail(email);
         if (user.isPresent()) {
-            user.get().setLinkRestorePassword(token);
-            save(user.get());
+            try {
+                user.get().setLinkRestorePassword(token);
+                save(user.get());
+                String resetPasswordLink = host + "/user/link_restore_password?token=" + token;
+                emailService.sendRecoverPasswordTemplate(email, resetPasswordLink);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -212,12 +230,19 @@ public class UserService {
         userRepository.save(user.get());
         return true;
     }
+    /**
+     * Activate User after recibe an Email
+     */
+    public Boolean activateUser(User user) {
+        user.setEnabled(true);
+        user.setLinkActivateUsername(null);
+        userRepository.save(user);
+        return true;
+    }
 
     /**
      * Check if the Token is already active
      */
-
-
     public Boolean checkTokenDate(String token) {
         try {
             LocalDateTime tokenDate = LocalDateTime.parse(token.substring(100, token.length()));
@@ -232,6 +257,10 @@ public class UserService {
     @Transactional(readOnly = true)
     public Optional<User> findByLinkRestorePassword(String token) {
         return userRepository.findByLinkRestorePassword(token);
+    }
+    @Transactional(readOnly = true)
+    public Optional<User> findByLinkActivateUsername(String token) {
+        return userRepository.findByLinkActivateUsername(token);
     }
 
     @Transactional(readOnly = true)

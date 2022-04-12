@@ -10,7 +10,13 @@
 <div class="container mb-5">
     <div class="row mt-5">
         <div class="col-12 col-md-6">
+            <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
+                <div class="error">
+                    <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
+                </div>
+            </c:if>
             <h2>Iniciar sesión</h2>
+
             <form th:action="@{/login}" method="post">
                 <div class="form-group">
                     <label for="email">Correo electrónico:</label>
