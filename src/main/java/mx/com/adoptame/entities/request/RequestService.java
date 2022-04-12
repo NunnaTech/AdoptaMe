@@ -1,19 +1,13 @@
 package mx.com.adoptame.entities.request;
 
-
-import mx.com.adoptame.config.email.EmailService;
-import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ReflectionUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -21,8 +15,6 @@ public class RequestService {
 
     @Autowired
     private RequestRepository requestRepository;
-    @Autowired
-    private EmailService emailService;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -66,28 +58,6 @@ public class RequestService {
         if (!updatedEntity.isEmpty())
             requestRepository.save(entity);
         return updatedEntity;
-    }
-
-    @Transactional
-    public Optional<Request> partialUpdate(Integer id, Map<Object, Object> fields) {
-        try {
-            Request entity = findOne(id).get();
-            if (entity == null) {
-                return Optional.empty();
-            }
-            Optional<Request> updatedEntity;
-            fields.forEach((updatedField, value) -> {
-                Field field = ReflectionUtils.findField(Request.class, (String) updatedField);
-                field.setAccessible(true);
-                ReflectionUtils.setField(field, entity, value);
-            });
-            requestRepository.save(entity);
-            updatedEntity = Optional.of(entity);
-            return updatedEntity;
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return Optional.empty();
-        }
     }
 
     @Transactional

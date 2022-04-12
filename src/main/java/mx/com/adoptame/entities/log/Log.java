@@ -3,13 +3,10 @@ package mx.com.adoptame.entities.log;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import mx.com.adoptame.entities.action.Action;
-import mx.com.adoptame.entities.boards.Board;
 import mx.com.adoptame.entities.user.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,9 +14,8 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @ToString
-public class Log implements Serializable {
+public class Log {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_log")

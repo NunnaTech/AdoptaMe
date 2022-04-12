@@ -69,7 +69,7 @@ public class PetController {
     public String pet(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         try {
             Optional<Pet> pet = petService.findOne(id);
-            if (pet.isPresent() && pet.get().getIsActive()) {
+            if (pet.isPresent() && Boolean.TRUE.equals(pet.get().getIsActive())) {
                 model.addAttribute("pet", pet.get());
                 return "views/pets/pet";
             } else {
@@ -125,8 +125,8 @@ public class PetController {
             String username = authentication.getName();
             Optional<User> user = userService.findByEmail(username);
             Optional<Pet> pet = petService.findOne(id);
-            if (pet.isPresent() && user.isPresent() && pet.get().getIsActive()) {
-                if (petAdoptedService.checkIsPresentInAdoptions(pet.get(), user.get())) {
+            if (pet.isPresent() && user.isPresent() && Boolean.TRUE.equals(pet.get().getIsActive())) {
+                if (Boolean.TRUE.equals(petAdoptedService.checkIsPresentInAdoptions(pet.get(), user.get()))) {
                     redirectAttributes.addFlashAttribute("msg_error", "Esta mascota ya la solicitaste");
                 } else {
                     PetAdopted petAdopted = new PetAdopted(pet.get(), user.get());
@@ -149,8 +149,8 @@ public class PetController {
             String username = authentication.getName();
             Optional<User> user = userService.findByEmail(username);
             Optional<Pet> pet = petService.findOne(id);
-            if (pet.isPresent() && user.isPresent() && pet.get().getIsActive()) {
-                if (petService.checkIsPresentInFavorites(pet.get(), user.get().getFavoitesPets())) {
+            if (pet.isPresent() && user.isPresent() && Boolean.TRUE.equals(pet.get().getIsActive())) {
+                if (Boolean.TRUE.equals(petService.checkIsPresentInFavorites(pet.get(), user.get().getFavoitesPets()))) {
                     redirectAttributes.addFlashAttribute("msg_error", "Esta mascota ya esta guardada en favoritos");
                 } else {
                     user.get().addToFavorite(pet.get());
@@ -173,7 +173,7 @@ public class PetController {
             String username = authentication.getName();
             Optional<User> user = userService.findByEmail(username);
             Optional<Pet> pet = petService.findOne(id);
-            if (pet.isPresent() && user.isPresent() && pet.get().getIsActive()) {
+            if (pet.isPresent() && user.isPresent() && Boolean.TRUE.equals(pet.get().getIsActive())) {
                 user.get().removeFromFavorite(pet.get());
                 userService.save(user.get());
                 redirectAttributes.addFlashAttribute("msg_success", "Mascota removida de favoritos");
@@ -254,7 +254,7 @@ public class PetController {
     @GetMapping("/admin/acept/{id}")
     @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
     public String acept(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
-        if (petService.accept(id)) {
+        if (Boolean.TRUE.equals(petService.accept(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Mascota aceptada exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Mascota no aceptada");

@@ -1,8 +1,6 @@
 package mx.com.adoptame.entities.request;
 
-import mx.com.adoptame.entities.donation.Donation;
 import mx.com.adoptame.entities.user.User;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

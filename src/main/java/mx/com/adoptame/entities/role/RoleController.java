@@ -1,7 +1,6 @@
 package mx.com.adoptame.entities.role;
 
 import lombok.extern.slf4j.Slf4j;
-import mx.com.adoptame.entities.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -67,7 +66,7 @@ public class RoleController {
     @GetMapping("/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
     public String delete(@PathVariable("id") Integer id, Model model, Role role, RedirectAttributes redirectAttributes) {
-        if (roleService.delete(id)) {
+        if (Boolean.TRUE.equals(roleService.delete(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Rol eliminado exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Rol no eliminado");

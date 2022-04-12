@@ -1,6 +1,5 @@
 package mx.com.adoptame.entities.type;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -30,8 +29,7 @@ import mx.com.adoptame.entities.pet.entities.Pet;
 @Data
 @NoArgsConstructor
 @ToString
-public class Type implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Type {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_type")

@@ -1,10 +1,12 @@
 package mx.com.adoptame.entities.pet.controllers;
 
-import lombok.extern.slf4j.Slf4j;
 import mx.com.adoptame.entities.pet.entities.Pet;
 import mx.com.adoptame.entities.pet.entities.PetImage;
 import mx.com.adoptame.entities.pet.services.PetImageService;
 import mx.com.adoptame.entities.pet.services.PetService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,8 @@ public class PetImageController {
 
     @Autowired
     private PetImageService petImageService;
+
+    private Logger logger = LoggerFactory.getLogger(PetImageController.class);
 
     @GetMapping("/images/{id}")
     @Secured("ROLE_ADMINISTRATOR")
@@ -48,7 +52,7 @@ public class PetImageController {
             redirectAttributes.addFlashAttribute("msg_success", "Imagen guardada exitosamente");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("msg_error", "Imagen no guardada");
-            System.err.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         return "redirect:/petsImages/images/" + idPet;
     }
@@ -56,7 +60,7 @@ public class PetImageController {
     @GetMapping("/delete/{idPet}/{idImage}")
     @Secured("ROLE_ADMINISTRATOR")
     public String delete(@PathVariable("idPet") Integer idPet, @PathVariable("idImage") Integer idImage, RedirectAttributes redirectAttributes) {
-        if (petImageService.delete(idImage)) {
+        if (Boolean.TRUE.equals(petImageService.delete(idImage))) {
             redirectAttributes.addFlashAttribute("msg_success", "Imagen eliminada exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Imagen no eliminado");
