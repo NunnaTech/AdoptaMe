@@ -66,6 +66,8 @@ header .nav a {
     color: var(--white);
 }
 
+
+
 .link-btn:hover {
     background-color: var(--black);
     color: var(--white);
@@ -80,7 +82,6 @@ header .nav a {
     cursor: pointer;
     color: var(--white);
     align-self: center;
-    /*NECESITAMOS CENTRAR EL BOTON*/
 }
 
 .link-btn-error:hover {
@@ -322,12 +323,18 @@ header .nav a {
     padding: 0.5rem;
     /* y, x */
     margin: 0.5rem 0px;
+    font-weight: normal;
 }
 
 .pets .btn-info {
     background-color: #57ccf2;
     border: 0;
+}
+
+.pets .btn-info:hover {
+    background-color: #00b5f3;
     font-weight: bold;
+
 }
 
 /* ------------------------------- Pets Ends  -------------------------------  */
@@ -420,6 +427,10 @@ header .nav a {
     border: 0;
 }
 
+#pet-detail .badge.text-white {
+    font-weight: normal;
+
+}
 
 #pet-detail h3 {
     color: var(--orange);
@@ -564,6 +575,8 @@ header .nav a {
     background-color: var(--body-bg)
 }
 
+
+
 #about .first-container .text-header {
     font-size: 3rem;
     color: var(--light-color)
@@ -591,6 +604,14 @@ header .nav a {
     border: 0
 }
 
+#about .phrase-container{
+    height: 7rem;
+}
+
+#about .phrase-container{
+    min-height: 5rem;
+}
+
 #about .second-container .card .card-body .primary-text {
     font-size: 1.2rem;
     font-weight: bold;
@@ -603,7 +624,7 @@ header .nav a {
 
 #about .second-container .card .card-body .icons-container {
     display: flex;
-    justify-content: space-around
+    justify-content: space-between;
 }
 
 #about .second-container .card .card-body .icons-container i {
@@ -754,9 +775,14 @@ header .nav a {
 /* ------------------------------- Admin Ends  -------------------------------  */
 /* ------------------------------- Pets Filtrer Starts  -------------------------------  */
 
+
+#pets-filter{
+    background-color: var(--body-bg);
+}
+
 #pets-filter .single-card {
     display: grid;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 }
 
 #pets-filter .card {
@@ -823,13 +849,6 @@ header .nav a {
 
 #pets-filter .box-container .card-body .card .stars {
     border-radius: 0.35rem;
-}
-
-#pets-filter .box-container .card-body .card .stars .badge {
-    color: var(--white);
-    font-size: 0.8rem;
-    padding: 0.5rem;
-    margin: 0.5rem 0px;
 }
 
 #pets-filter .box-container .card-body .card .stars .badge {
@@ -971,14 +990,17 @@ header .nav a {
     display: flex
 }
 
-#blog-list .box-container :hover {
-    transform: scale(1.01);
-    transition: all 150ms ease-in-out;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
+#blog-list .box-container :hover .main-image{
+    transform: scale(1.15);
+    transition: transform .75s;
 }
+
+#blog-list .box-container :not(:hover) .main-image{
+    transition: transform .75s;
+}
+
+
+
 
 #blog-list .box-container .card .img-container {
     height: 20rem;
@@ -1090,10 +1112,15 @@ header .nav a {
     border-width: 0;
 }
 
+#blog-main .card-body .blog-text {
+    font-size: 1rem;
+    font-weight: normal;
+}
+
 #blog-main .box-container .card-header h5 {
     color: var(--orange);
-    /*font-size: 2rem;*/
     font-weight: bolder;
+    font-size: 2.5rem;
 }
 
 #blog-main .box-container i,
@@ -1266,6 +1293,10 @@ header .nav a {
 }
 
 @media (max-width: 768px) {
+    .link-btn.text-btn {
+        font-size: 0.70rem;
+    }
+
     section {
         padding: 3rem 1rem;
     }
@@ -1273,15 +1304,34 @@ header .nav a {
     #menu-btn {
         display: inline-block;
         transition: 0.2s linear;
+        z-index: 2;
     }
 
     #menu-btn.fa-times {
         transform: rotate(180deg);
+        font-size: 2rem;
     }
 
     .header .nav {
+        z-index: 1;
         position: absolute;
-        top: 99%;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--white);
+        border-top: var(--border);
+        border-bottom: var(--border);
+        padding: 1rem 0;
+        text-align: center;
+        flex-flow: column;
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: 0.2s linear;
+    }
+
+    .header .nav.aux {
+        z-index: 1;
+        position: absolute;
+        top: 8%;
         left: 0;
         right: 0;
         background-color: var(--white);
@@ -1310,6 +1360,24 @@ header .nav a {
         width: auto;
     }
 }
+
+@media (max-width: 576px) {
+    .header .nav.aux {
+        z-index: 1;
+        position: absolute;
+        top: 10%;
+        left: 0;
+        right: 0;
+        background-color: var(--white);
+        border-top: var(--border);
+        border-bottom: var(--border);
+        padding: 1rem 0;
+        text-align: center;
+        flex-flow: column;
+        transition: 0.2s linear;
+    }
+}
+
 
 #sidebar {
     overflow: hidden;
