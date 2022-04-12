@@ -54,8 +54,8 @@ public class SizeController {
 
     @GetMapping("/edit/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String edit(@PathVariable("id") Integer id, Model model, Size size, RedirectAttributes redirectAttributes) {
-        size = sizeService.findOne(id).orElse(null);
+    public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        Size size = sizeService.findOne(id).orElse(null);
         if (size == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Tamaño no encontrado");
             return "redirect:/size/";
@@ -66,8 +66,8 @@ public class SizeController {
 
     @GetMapping("/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String delete(@PathVariable("id") Integer id, Model model, Size size, RedirectAttributes redirectAttributes) {
-        if (sizeService.delete(id)) {
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        if (Boolean.TRUE.equals(sizeService.delete(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Tamaño eliminado exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Tamaño no eliminado");

@@ -54,8 +54,8 @@ public class ColorController {
 
     @GetMapping("/edit/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String edit(@PathVariable("id") Integer id, Model model, Color color, RedirectAttributes redirectAttributes) {
-        color = colorService.findOne(id).orElse(null);
+    public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        Color color = colorService.findOne(id).orElse(null);
         if (color == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Color no encontrado");
             return "redirect:/color/";
@@ -66,8 +66,8 @@ public class ColorController {
 
     @GetMapping("/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String delete(@PathVariable("id") Integer id, Model model, Color color, RedirectAttributes redirectAttributes) {
-        if (colorService.delete(id)) {
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        if (Boolean.TRUE.equals(colorService.delete(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Color eliminado exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Color no eliminado");

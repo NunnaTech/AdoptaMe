@@ -8,11 +8,7 @@ import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ReflectionUtils;
-
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -63,28 +59,6 @@ public class PetAdoptedService {
         if (!updatedEntity.isEmpty())
             petAdoptedRepository.save(entity);
         return updatedEntity;
-    }
-
-    @Transactional
-    public Optional<PetAdopted> partialUpdate(Integer id, Map<Object, Object> fields) {
-        try {
-            PetAdopted entity = findOne(id).get();
-            if (entity == null) {
-                return Optional.empty();
-            }
-            Optional<PetAdopted> updatedEntity;
-            fields.forEach((updatedField, value) -> {
-                Field field = ReflectionUtils.findField(PetAdopted.class, (String) updatedField);
-                field.setAccessible(true);
-                ReflectionUtils.setField(field, entity, value);
-            });
-            petAdoptedRepository.save(entity);
-            updatedEntity = Optional.of(entity);
-            return updatedEntity;
-        } catch (Exception exception) {
-            System.err.println(exception);
-            return Optional.empty();
-        }
     }
 
     @Transactional

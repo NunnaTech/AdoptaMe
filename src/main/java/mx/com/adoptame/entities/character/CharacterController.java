@@ -51,8 +51,8 @@ public class CharacterController {
 
     @GetMapping("/edit/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String edit(@PathVariable("id") Integer id, Model model, Character character, RedirectAttributes redirectAttributes) {
-        character = characterService.findOne(id).orElse(null);
+    public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        Character character = characterService.findOne(id).orElse(null);
         if (character == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Carácter no encontrado");
             return "redirect:/character/";
@@ -63,8 +63,8 @@ public class CharacterController {
 
     @GetMapping("/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String delete(@PathVariable("id") Integer id, Model model, Character character, RedirectAttributes redirectAttributes) {
-        if (characterService.delete(id)) {
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        if (Boolean.TRUE.equals(characterService.delete(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Carácter eliminado exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Carácter no eliminado");

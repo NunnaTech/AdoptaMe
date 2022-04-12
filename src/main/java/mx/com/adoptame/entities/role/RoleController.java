@@ -1,6 +1,6 @@
 package mx.com.adoptame.entities.role;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -13,14 +13,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import org.slf4j.Logger;
 
 @Controller
 @RequestMapping("/role")
-@Slf4j
 public class RoleController {
-    
+
     @Autowired
     private RoleService roleService;
+
+    private Logger logger =LoggerFactory.getLogger(RoleController.class);
 
     @GetMapping("/")
     @Secured("ROLE_ADMINISTRATOR")
@@ -46,15 +48,15 @@ public class RoleController {
                 redirectAttributes.addFlashAttribute("msg_success", "Rol guardado exitosamente");
             }
         } catch (Exception e) {
-            log.info(e.getMessage());
+            logger.error(e.getMessage());
         }
         return "redirect:/role/";
     }
 
     @GetMapping("/edit/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String edit(@PathVariable("id") Integer id, Model model, Role role, RedirectAttributes redirectAttributes) {
-        role = roleService.findOne(id).orElse(null);
+    public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        Role role = roleService.findOne(id).orElse(null);
         if (role == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Rol no encontrado");
             return "redirect:/role/";
@@ -73,5 +75,5 @@ public class RoleController {
         }
         return "redirect:/role/";
     }
-    
+
 }

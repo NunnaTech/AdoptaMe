@@ -37,7 +37,6 @@ public class TypeController {
 
     @PostMapping("/save")
     @Secured("ROLE_ADMINISTRATOR")
-
     public String save(Model model, @Valid Type type, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
@@ -55,8 +54,8 @@ public class TypeController {
 
     @GetMapping("/edit/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String edit(@PathVariable("id") Integer id, Model model, Type type, RedirectAttributes redirectAttributes) {
-        type = typeService.findOne(id).orElse(null);
+    public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        Type type = typeService.findOne(id).orElse(null);
         if (type == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Tipo no encontrado");
             return "redirect:/type/";
@@ -67,8 +66,8 @@ public class TypeController {
 
     @GetMapping("/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String delete(@PathVariable("id") Integer id, Model model, Type type, RedirectAttributes redirectAttributes) {
-        if (typeService.delete(id)) {
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        if (Boolean.TRUE.equals(typeService.delete(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Tipo eliminado exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Tipo no eliminado");
