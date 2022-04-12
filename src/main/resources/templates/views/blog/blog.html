@@ -4,8 +4,11 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
+
 <body  id="blog-main" class="d-flex flex-column min-vh-100">
 <header th:replace="components/navbars::navbar-all-aux"></header>
+
+
 
 <main>
     <div class="container py-4">
@@ -25,7 +28,7 @@
                                             <span class="badge badge-success p-2 text-white">Principal</span>
                                             <div class="row ml-2 mt-1">
                                                 <span class="ml-3"><i class="fa-solid fa-user-pen mr-2"></i>Por:</span>
-                                               <!-- <span class="ml-1" th:text="${news.user.profile.getPartialName()}"/>-->
+                                                <span class="ml-1" th:text="${news.user.profile.getPartialName()}"/>
                                                 <span class="ml-3 date"><i class="fa-solid fa-calendar mr-2"></i></span>
                                                 <span class="date"
                                                       th:text="${#temporals.format(news.createdAt,'dd-MMM-yyyy')}"/>
@@ -36,15 +39,15 @@
                                         <img class="card-img-top img-fluid blog-img" th:src="${news.image}"
                                              alt="banner">
                                     </div>
-
                                     <div class="card-body px-0">
                                         <p class="blog-text" th:utext="${news.content}"/>
                                     </div>
-                                        <div class="pb-4">
-                                            <p class="mb-2 font-weight-bold">Tags</p>
-                                            <div class="badge badge-info p-2" th:each="tag: ${news.tags}"
-                                                 th:text="${tag.name}"></div>
-                                        </div>
+                                    <hr/>
+                                    <div class="pb-4">
+                                        <h4 class="mb-2 font-weight-bold">Etiquetas:</h4>
+                                        <div class="badge badge-info p-2" th:each="tag: ${news.tags}"
+                                             th:text="${tag.name}"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

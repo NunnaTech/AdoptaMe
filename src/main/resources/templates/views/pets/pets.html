@@ -66,6 +66,7 @@
             <a th:href="@{/pets/{id} (id=${p.id})}" class="btn btn-info">Detalles
                 <i class="fa-solid fa-eye ml-2"></i>
             </a>
+
             <h4><i class="fa-solid fa-calendar mr-1"></i>
                 <span th:text="${#temporals.format(p.createdAt,'dd-MMM-yyyy')}"/>
             </h4>

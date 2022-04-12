@@ -3,11 +3,7 @@ package mx.com.adoptame.entities.donation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ReflectionUtils;
-
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -37,28 +33,6 @@ public class DonationService {
         if (!updatedEntity.isEmpty())
             donationRepository.save(entity);
         return updatedEntity;
-    }
-
-    @Transactional
-    public Optional<Donation> partialUpdate(Integer id, Map<Object, Object> fields) {
-        try {
-            Donation entity = findOne(id).get();
-            if (entity == null) {
-                return Optional.empty();
-            }
-            Optional<Donation> updatedEntity;
-            fields.forEach((updatedField, value) -> {
-                Field field = ReflectionUtils.findField(Donation.class, (String) updatedField);
-                field.setAccessible(true);
-                ReflectionUtils.setField(field, entity, value);
-            });
-            donationRepository.save(entity);
-            updatedEntity = Optional.of(entity);
-            return updatedEntity;
-        } catch (Exception exception) {
-            System.err.println(exception);
-            return Optional.empty();
-        }
     }
 
     @Transactional

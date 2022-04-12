@@ -13,10 +13,10 @@ import mx.com.adoptame.entities.type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ReflectionUtils;
-
-import java.lang.reflect.Field;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Collection;
+import java.util.ArrayList;
 
 @Service
 public class PetService {
@@ -34,12 +34,12 @@ public class PetService {
 
     @Transactional(readOnly = true)
     public List<Pet> findAll() {
-        return petRepository.findAllByIsActive(true);
+        return petRepository.findAllByIsActiveAndIsDroppedFalse(true);
     }
 
     @Transactional(readOnly = true)
     public List<Pet> findAllisActiveFalse() {
-        return petRepository.findAllByIsActive(false);
+        return petRepository.findAllByIsActiveAndIsDroppedFalse(false);
     }
 
     @Transactional(readOnly = true)
@@ -69,33 +69,11 @@ public class PetService {
 
     @Transactional
     public Optional<Pet> update(Pet entity) {
-        Optional<Pet> updatedEntity = Optional.empty();
+        Optional<Pet> updatedEntity;
         updatedEntity = petRepository.findById(entity.getId());
         if (!updatedEntity.isEmpty())
             petRepository.save(entity);
         return updatedEntity;
-    }
-
-    @Transactional
-    public Optional<Pet> partialUpdate(Integer id, Map<Object, Object> fields) {
-        try {
-            Pet entity = findOne(id).get();
-            if (entity == null) {
-                return Optional.empty();
-            }
-            Optional<Pet> updatedEntity = Optional.empty();
-            fields.forEach((updatedField, value) -> {
-                Field field = ReflectionUtils.findField(Pet.class, (String) updatedField);
-                field.setAccessible(true);
-                ReflectionUtils.setField(field, entity, value);
-            });
-            petRepository.save(entity);
-            updatedEntity = Optional.of(entity);
-            return updatedEntity;
-        } catch (Exception exception) {
-            System.err.println(exception);
-            return Optional.empty();
-        }
     }
 
     @Transactional
@@ -114,6 +92,7 @@ public class PetService {
         Optional<Pet> entity = petRepository.findById(id);
         if (entity.isPresent()) {
             entity.get().setIsActive(false);
+            entity.get().setIsDropped(true);
             return true;
         }
         return false;
@@ -121,12 +100,12 @@ public class PetService {
 
     @Transactional(readOnly = true)
     public Integer coutnByIsActive(Boolean flag) {
-        return petRepository.countByIsActive(flag);
+        return petRepository.countByIsActiveAndIsDroppedFalse(flag);
     }
 
     @Transactional(readOnly = true)
     public Integer coutnByIsAdopted(Boolean flag) {
-        return petRepository.countByIsAdopted(flag);
+        return petRepository.countByIsAdoptedAndIsDroppedFalse(flag);
     }
 
     @Transactional(readOnly = true)
@@ -136,15 +115,15 @@ public class PetService {
 
     @Transactional(readOnly = true)
     public List<Pet> findByNameOrBreed(String query) {
-        return petRepository.findAllByNameContainingOrBreedContainingAndIsActiveTrueAndIsAdoptedFalse(query, query);
+        return petRepository.findAllByNameContainingOrBreedContainingAndIsActiveTrueAndIsAdoptedFalseAndIsDroppedFalse(query, query);
     }
 
     @Transactional(readOnly = true)
     public List<Pet> findByAge(String ages) {
         String[] agesName = ages.split(",");
         List<String> agesList = List.of(agesName);
-        Collection<String> collection = new ArrayList(agesList);
-        return petRepository.findByAgeInAndIsActiveTrueAndIsAdoptedFalse(collection);
+        Collection<String> collection = agesList;
+        return petRepository.findByAgeInAndIsActiveTrueAndIsAdoptedFalseAndIsDroppedFalse(collection);
     }
 
     @Transactional(readOnly = true)
@@ -156,7 +135,7 @@ public class PetService {
             size.ifPresent(filterSizes::add);
         }
         Collection<Size> collection = new ArrayList<>(filterSizes);
-        return petRepository.findBySizeInAndIsActiveTrueAndIsAdoptedFalse(collection);
+        return petRepository.findBySizeInAndIsActiveTrueAndIsAdoptedFalseAndIsDroppedFalse(collection);
     }
 
     @Transactional(readOnly = true)
@@ -168,7 +147,7 @@ public class PetService {
             character.ifPresent(filterCharacters::add);
         }
         Collection<Character> collection = new ArrayList<>(filterCharacters);
-        return petRepository.findByCharacterInAndIsActiveTrueAndIsAdoptedFalse(collection);
+        return petRepository.findByCharacterInAndIsActiveTrueAndIsAdoptedFalseAndIsDroppedFalse(collection);
     }
 
     @Transactional(readOnly = true)
@@ -180,7 +159,7 @@ public class PetService {
             color.ifPresent(filterColors::add);
         }
         Collection<Color> collection = new ArrayList<>(filterColors);
-        return petRepository.findByColorInAndIsActiveTrueAndIsAdoptedFalse(collection);
+        return petRepository.findByColorInAndIsActiveTrueAndIsAdoptedFalseAndIsDroppedFalse(collection);
     }
 
     @Transactional(readOnly = true)
@@ -192,13 +171,14 @@ public class PetService {
             type.ifPresent(filterTypes::add);
         }
         Collection<Type> collection = new ArrayList<>(filterTypes);
-        return petRepository.findByTypeInAndIsActiveTrueAndIsAdoptedFalse(collection);
+        return petRepository.findByTypeInAndIsActiveTrueAndIsAdoptedFalseAndIsDroppedFalse(collection);
     }
 
+    @Transactional
     public Boolean checkIsPresentInFavorites(Pet currentPet, List<Pet> userPetsFavorites) {
         boolean flag = false;
         for (Pet p : userPetsFavorites) {
-            if (p.getId() == currentPet.getId()) {
+            if (p.getId().equals(currentPet.getId())) {
                 flag = true;
                 break;
             }

@@ -1,18 +1,13 @@
 package mx.com.adoptame.entities.request;
 
-
-import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ReflectionUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -27,7 +22,11 @@ public class RequestService {
 
     @Transactional(readOnly = true)
     public List<Request> findAll() {
-        return  requestRepository.findAllByIsAccepted(false);
+        return  requestRepository.findAllByIsCanceledAndIsAcceptedFalse(false);
+    }
+    @Transactional(readOnly = true)
+    public List<Request> findAllCanceled() {
+        return  requestRepository.findAllByIsCanceledAndIsAcceptedFalse(true);
     }
 
     @Transactional(readOnly = true)
@@ -62,32 +61,21 @@ public class RequestService {
     }
 
     @Transactional
-    public Optional<Request> partialUpdate(Integer id, Map<Object, Object> fields) {
-        try {
-            Request entity = findOne(id).get();
-            if (entity == null) {
-                return Optional.empty();
-            }
-            Optional<Request> updatedEntity;
-            fields.forEach((updatedField, value) -> {
-                Field field = ReflectionUtils.findField(Request.class, (String) updatedField);
-                field.setAccessible(true);
-                ReflectionUtils.setField(field, entity, value);
-            });
-            requestRepository.save(entity);
-            updatedEntity = Optional.of(entity);
-            return updatedEntity;
-        } catch (Exception exception) {
-            System.err.println(exception);
-            return Optional.empty();
-        }
-    }
-
-    @Transactional
-    public Boolean accept(Integer id) {
+    public Request accept(Integer id) {
         Optional<Request> entity = requestRepository.findById(id);
         if (entity.isPresent()) {
             entity.get().setIsAccepted(true);
+            requestRepository.save(entity.get());
+
+            return entity.get();
+        }
+        return null;
+    }
+    @Transactional
+    public Boolean delete(Integer id) {
+        Optional<Request> entity = requestRepository.findById(id);
+        if (entity.isPresent()) {
+            entity.get().setIsCanceled(true);
             requestRepository.save(entity.get());
             return true;
         }

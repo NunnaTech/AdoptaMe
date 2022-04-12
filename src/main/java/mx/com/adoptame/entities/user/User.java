@@ -1,5 +1,6 @@
 package mx.com.adoptame.entities.user;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -29,7 +30,10 @@ import mx.com.adoptame.entities.request.Request;
 @NoArgsConstructor
 @Setter
 @Getter
-public class User{
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
@@ -54,6 +58,10 @@ public class User{
     @Column(name = "link_restore_password",unique = true, columnDefinition = "varchar(150)")
     private String linkRestorePassword;
 
+
+    @Column(name = "link_activate_username",unique = true, columnDefinition = "varchar(150)")
+    private String linkActivateUsername;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
@@ -62,11 +70,8 @@ public class User{
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
-    // Relationships
-
     @OneToOne(mappedBy = "user")
     private Profile profile;
-
 
     @OneToOne(mappedBy = "user")
     private Request request;
@@ -91,7 +96,6 @@ public class User{
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private Set<Log> logs;
 
-    // Many to Many: PETS
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -111,7 +115,6 @@ public class User{
         pet.getUsers().remove(this);
     }
 
-    // Many to Many: ROLES
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "authorities",
             joinColumns = @JoinColumn(name = "user_id"),

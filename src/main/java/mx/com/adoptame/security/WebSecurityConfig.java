@@ -24,16 +24,15 @@ import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-        securedEnabled = true
-)
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
     Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
 
-    private final String[] urlAvailableForAll = {"/", "/blog/**", "/pets/**", "/pets/filter", "/noscript", "/request/**", "/about"};
+    private final String[] urlAvailableForAll = { "/", "/blog/**", "/pets/**", "/pets/filter", "/noscript",
+            "/request/**", "/user/**", "/about" };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -52,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(new AuthenticationFailureHandler() {
                     @Override
                     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-                                                        AuthenticationException exception) throws IOException, ServletException {
+                            AuthenticationException exception) throws IOException, ServletException {
                         String error = exception.getMessage();
                         String redirectUrl = request.getContextPath() + "/login?error";
                         response.sendRedirect(redirectUrl);
@@ -64,7 +63,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
-
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
@@ -72,21 +70,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**");
     }
 
-    /*
-        Add configuration with AuthenticationManagerBuilder
-        Set with auth.jdbcAuthentication and using datasource
-     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource)
+        auth.jdbcAuthentication()
+                .dataSource(dataSource)
                 .usersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username = ?")
-                .authoritiesByUsernameQuery("SELECT u.username, r.authority FROM authorities a INNER JOIN users u ON u.id_user = a.user_id INNER JOIN roles r ON r.id_rol = a.rol_id WHERE u.username = ?");
+                .passwordEncoder(passwordEncoder())
+                .authoritiesByUsernameQuery(
+                        "SELECT u.username, r.authority FROM authorities a INNER JOIN users u ON u.id_user = a.user_id INNER JOIN roles r ON r.id_rol = a.rol_id WHERE u.username = ?");
     }
-    /*
-        Encrypt the password with BCryptPassword
-    */
+
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

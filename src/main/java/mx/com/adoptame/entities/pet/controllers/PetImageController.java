@@ -1,11 +1,14 @@
 package mx.com.adoptame.entities.pet.controllers;
 
-import lombok.extern.slf4j.Slf4j;
 import mx.com.adoptame.entities.pet.entities.Pet;
 import mx.com.adoptame.entities.pet.entities.PetImage;
 import mx.com.adoptame.entities.pet.services.PetImageService;
 import mx.com.adoptame.entities.pet.services.PetService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +24,10 @@ public class PetImageController {
     @Autowired
     private PetImageService petImageService;
 
+    private Logger logger = LoggerFactory.getLogger(PetImageController.class);
+
     @GetMapping("/images/{id}")
+    @Secured("ROLE_ADMINISTRATOR")
     public String images(@PathVariable("id") Integer id, Model model, PetImage petImage, RedirectAttributes redirectAttributes) {
         Pet pet = petService.findOne(id).orElse(null);
         if (pet == null) {
@@ -34,6 +40,7 @@ public class PetImageController {
 
 
     @PostMapping("/images/save")
+    @Secured("ROLE_ADMINISTRATOR")
     public String save(@RequestParam("idPet") Integer idPet, @RequestParam("image") String image, RedirectAttributes redirectAttributes) {
         try {
             PetImage petImage = new PetImage();
@@ -45,14 +52,15 @@ public class PetImageController {
             redirectAttributes.addFlashAttribute("msg_success", "Imagen guardada exitosamente");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("msg_error", "Imagen no guardada");
-            System.err.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         return "redirect:/petsImages/images/" + idPet;
     }
 
     @GetMapping("/delete/{idPet}/{idImage}")
+    @Secured("ROLE_ADMINISTRATOR")
     public String delete(@PathVariable("idPet") Integer idPet, @PathVariable("idImage") Integer idImage, RedirectAttributes redirectAttributes) {
-        if (petImageService.delete(idImage)) {
+        if (Boolean.TRUE.equals(petImageService.delete(idImage))) {
             redirectAttributes.addFlashAttribute("msg_success", "Imagen eliminada exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Imagen no eliminado");
