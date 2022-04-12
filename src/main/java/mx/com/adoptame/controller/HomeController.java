@@ -36,7 +36,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("navbar", "navbar-all");
         model.addAttribute("fix", "fix");
         model.addAttribute("mainNews", newsService.findMainNews());
         return "index";

@@ -624,7 +624,7 @@ header .nav a {
 
 #about .second-container .card .card-body .icons-container {
     display: flex;
-    justify-content: space-around
+    justify-content: space-between;
 }
 
 #about .second-container .card .card-body .icons-container i {
