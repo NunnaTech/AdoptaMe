@@ -1,6 +1,5 @@
 package mx.com.adoptame.config.email;
 
-import mx.com.adoptame.entities.request.Request;
 import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;

@@ -13,10 +13,10 @@ import mx.com.adoptame.entities.type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ReflectionUtils;
-
-import java.lang.reflect.Field;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Collection;
+import java.util.ArrayList;
 
 @Service
 public class PetService {
@@ -69,33 +69,11 @@ public class PetService {
 
     @Transactional
     public Optional<Pet> update(Pet entity) {
-        Optional<Pet> updatedEntity = Optional.empty();
+        Optional<Pet> updatedEntity;
         updatedEntity = petRepository.findById(entity.getId());
         if (!updatedEntity.isEmpty())
             petRepository.save(entity);
         return updatedEntity;
-    }
-
-    @Transactional
-    public Optional<Pet> partialUpdate(Integer id, Map<Object, Object> fields) {
-        try {
-            Pet entity = findOne(id).get();
-            if (entity == null) {
-                return Optional.empty();
-            }
-            Optional<Pet> updatedEntity = Optional.empty();
-            fields.forEach((updatedField, value) -> {
-                Field field = ReflectionUtils.findField(Pet.class, (String) updatedField);
-                field.setAccessible(true);
-                ReflectionUtils.setField(field, entity, value);
-            });
-            petRepository.save(entity);
-            updatedEntity = Optional.of(entity);
-            return updatedEntity;
-        } catch (Exception exception) {
-            System.err.println(exception);
-            return Optional.empty();
-        }
     }
 
     @Transactional
@@ -143,7 +121,7 @@ public class PetService {
     public List<Pet> findByAge(String ages) {
         String[] agesName = ages.split(",");
         List<String> agesList = List.of(agesName);
-        Collection<String> collection = new ArrayList(agesList);
+        Collection<String> collection = agesList;
         return petRepository.findByAgeInAndIsActiveTrueAndIsAdoptedFalse(collection);
     }
 

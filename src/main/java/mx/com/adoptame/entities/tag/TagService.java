@@ -1,15 +1,10 @@
 package mx.com.adoptame.entities.tag;
 
-import mx.com.adoptame.entities.color.Color;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ReflectionUtils;
-
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -34,33 +29,11 @@ public class TagService {
 
     @Transactional
     public Optional<Tag> update(Tag entity) {
-        Optional<Tag> updatedEntity = Optional.empty();
+        Optional<Tag> updatedEntity;
         updatedEntity = tagRepository.findById(entity.getId());
         if (!updatedEntity.isEmpty())
             tagRepository.save(entity);
         return updatedEntity;
-    }
-
-    @Transactional
-    public Optional<Tag> partialUpdate(Integer id, Map<Object, Object> fields) {
-        try {
-            Tag entity = findOne(id).get();
-            if (entity == null) {
-                return Optional.empty();
-            }
-            Optional<Tag> updatedEntity = Optional.empty();
-            fields.forEach((updatedField, value) -> {
-                Field field = ReflectionUtils.findField(Tag.class, (String) updatedField);
-                field.setAccessible(true);
-                ReflectionUtils.setField(field, entity, value);
-            });
-            tagRepository.save(entity);
-            updatedEntity = Optional.of(entity);
-            return updatedEntity;
-        } catch (Exception exception) {
-            System.err.println(exception);
-            return Optional.empty();
-        }
     }
 
     @Transactional
