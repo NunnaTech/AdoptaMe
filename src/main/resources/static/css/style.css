@@ -1011,7 +1011,7 @@ header .nav a {
 
 #blog-list .box-container .card .img-container img {
     height: 100%;
-    width: 45rem;
+    width: 100%;
     object-fit: cover;
 }
 
@@ -1329,7 +1329,7 @@ header .nav a {
     }
 
     .header .nav.aux {
-        z-index: 1;
+        z-index: 99;
         position: absolute;
         top: 8%;
         left: 0;
