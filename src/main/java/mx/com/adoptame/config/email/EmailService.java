@@ -1,8 +1,7 @@
 package mx.com.adoptame.config.email;
 
+import mx.com.adoptame.entities.request.Request;
 import mx.com.adoptame.entities.user.User;
-import mx.com.adoptame.entities.user.UserService;
-import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -13,10 +12,8 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import org.thymeleaf.context.Context;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class EmailService {
@@ -25,14 +22,12 @@ public class EmailService {
     @Autowired
     private SpringTemplateEngine templateEngine;
 
+
+
     public void sendRecoverPasswordTemplate(String email, String link) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(
-                message,
-                MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
-                StandardCharsets.UTF_8.name()
-        );
-        Map<String, Object> map = new HashMap<String, Object>();
+        MimeMessageHelper helper = helper(message);
+        Map<String, Object> map = new HashMap<>();
         map.put("email", email);
         map.put("link", link);
         Context context = new Context();
@@ -43,6 +38,29 @@ public class EmailService {
         helper.setText(html, true);
         javaMailSender.send(message);
     }
+    public void sendRequestAceptedTemplate(User user, String token) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = helper(message);
+        Map<String, Object> map = new HashMap<>();
+        String username =  user.getUsername();
+        map.put("link",token);
+        map.put("email",username);
+        map.put("name", user.getProfile().getPartialName());
 
+        Context context = new Context();
+        context.setVariables(map);
+        String html = templateEngine.process("email/voluntarioConfirm", context);
+        helper.setTo(username);
+        helper.setSubject("Pulgas de Adoptame: Restablecimiento de contraseña");
+        helper.setText(html, true);
+        javaMailSender.send(message);
+    }
+    private MimeMessageHelper helper (MimeMessage mimeMessage) throws MessagingException {
+            return new MimeMessageHelper(
+                    mimeMessage,
+                    MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    StandardCharsets.UTF_8.name()
+            );
+    }
 
 }
