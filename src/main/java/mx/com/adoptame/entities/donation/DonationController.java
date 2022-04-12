@@ -83,7 +83,6 @@ public class DonationController {
                 user.get().setDonations(Arrays.asList(donation.get()));
             }
         }
-
         if (user.isPresent()) {
             Field[] allFields = user.get().getClass().getDeclaredFields();
             for (Field field : allFields) {
@@ -96,7 +95,6 @@ public class DonationController {
                     "/components/payment.html",
                     userPayload, request, response);
         }
-
         ByteArrayResource inputStreamResourcePDF = new ByteArrayResource(byteArrayOutputStreamPDF.toByteArray());
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + fileName)
                 .contentType(MediaType.APPLICATION_PDF)

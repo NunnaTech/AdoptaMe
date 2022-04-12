@@ -173,10 +173,11 @@ public class PetService {
         return petRepository.findByTypeInAndIsActiveTrueAndIsAdoptedFalse(collection);
     }
 
+    @Transactional
     public Boolean checkIsPresentInFavorites(Pet currentPet, List<Pet> userPetsFavorites) {
         boolean flag = false;
         for (Pet p : userPetsFavorites) {
-            if (p.getId() == currentPet.getId()) {
+            if (p.getId().equals(currentPet.getId())) {
                 flag = true;
                 break;
             }
