@@ -30,7 +30,7 @@ public class ProfileService {
 
     @Transactional(readOnly = true)
     public List<Profile> findAll() {
-        return profileRepository.findAll();
+        return profileRepository.findAllByUser_Enabled(true);
     }
 
     @Transactional(readOnly = true)
