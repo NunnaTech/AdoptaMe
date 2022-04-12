@@ -54,6 +54,10 @@ public class User{
     @Column(name = "link_restore_password",unique = true, columnDefinition = "varchar(150)")
     private String linkRestorePassword;
 
+
+    @Column(name = "link_activate_username",unique = true, columnDefinition = "varchar(150)")
+    private String linkActivateUsername;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
