@@ -1,8 +1,6 @@
 package mx.com.adoptame.entities.log;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import mx.com.adoptame.entities.user.User;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -11,9 +9,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "TBL_LOGS")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@ToString
+
 public class Log {
 
     @Id

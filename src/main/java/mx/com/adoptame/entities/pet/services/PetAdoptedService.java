@@ -1,13 +1,18 @@
 package mx.com.adoptame.entities.pet.services;
 
+import mx.com.adoptame.config.email.EmailService;
+import mx.com.adoptame.entities.news.NewsController;
 import mx.com.adoptame.entities.pet.entities.Pet;
 import mx.com.adoptame.entities.pet.entities.PetAdopted;
 import mx.com.adoptame.entities.pet.repositories.PetAdoptedRepository;
 
 import mx.com.adoptame.entities.user.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +21,11 @@ public class PetAdoptedService {
 
     @Autowired
     private PetAdoptedRepository petAdoptedRepository;
+
+    @Autowired
+    private EmailService emailService;
+
+    private Logger logger = LoggerFactory.getLogger(PetAdoptedService.class);
 
     @Transactional(readOnly = true)
     public List<PetAdopted> findAll() {
@@ -65,10 +75,12 @@ public class PetAdoptedService {
     public Boolean accept(Integer id) {
         Optional<PetAdopted> entity = petAdoptedRepository.findById(id);
         if (entity.isPresent()) {
-            entity.get().setIsAccepted(true);
-            entity.get().setIsCanceled(false);
-            entity.get().getPet().setIsAdopted(true);
-            petAdoptedRepository.save(entity.get());
+            PetAdopted petAdopted = entity.get();
+            petAdopted.setIsAccepted(true);
+            petAdopted.setIsCanceled(false);
+            petAdopted.getPet().setIsAdopted(true);
+            petAdoptedRepository.save(petAdopted);
+            sendAdoptionConfirmation(petAdopted);
             return true;
         }
         return false;
@@ -106,5 +118,16 @@ public class PetAdoptedService {
             }
         }
         return flag;
+    }
+
+    @Transactional
+    public void sendAdoptionConfirmation(PetAdopted petAdopted) {
+        try {
+            if(Boolean.TRUE.equals(petAdopted.getIsAccepted()) && Boolean.FALSE.equals(petAdopted.getIsCanceled())){
+                emailService.sendConfirmationAdoptTemplate(petAdopted);
+            }
+        } catch (Exception exception) {
+            logger.error(exception.getMessage());
+        }
     }
 }

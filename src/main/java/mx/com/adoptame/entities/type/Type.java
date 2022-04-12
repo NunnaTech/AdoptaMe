@@ -16,19 +16,18 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import mx.com.adoptame.entities.pet.entities.Pet;
 
 @Entity
 @Table(name = "TBL_TYPES")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@ToString
+
 public class Type {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

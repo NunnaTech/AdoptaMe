@@ -1,5 +1,6 @@
 package mx.com.adoptame.entities.donation;
 
+import lombok.*;
 import mx.com.adoptame.entities.user.User;
 import java.time.LocalDateTime;
 
@@ -18,15 +19,12 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
 @Entity
 @Table(name = "TBL_DONATIONS")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@ToString
+
 public class Donation {
 
     @Id

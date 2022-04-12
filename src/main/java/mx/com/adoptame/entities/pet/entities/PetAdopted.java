@@ -22,7 +22,7 @@ import mx.com.adoptame.entities.user.User;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+
 public class PetAdopted implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

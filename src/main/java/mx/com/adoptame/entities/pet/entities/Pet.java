@@ -19,12 +19,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.*;
 
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import mx.com.adoptame.entities.character.Character;
 import mx.com.adoptame.entities.color.Color;
 import mx.com.adoptame.entities.size.Size;
@@ -33,9 +31,10 @@ import mx.com.adoptame.entities.type.Type;
 
 @Entity
 @Table(name = "TBL_PETS")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@ToString
+
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
