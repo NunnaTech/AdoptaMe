@@ -17,8 +17,27 @@
                 <a th:href="@{/pets/}">Mascotas</a>
                 <a th:href="@{/pets/filter}">Adoptar</a>
             </nav>
-            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="link-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
-            <a sec:authorize="isAuthenticated()" th:href="@{/dashboard}" class="link-btn">Mi cuenta<i class="fa-solid fa-user ml-4"></i></a>
+            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="link-btn text-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/dashboard}" class="link-btn text-btn">Mi cuenta<i class="fa-solid fa-user ml-4"></i></a>
+            <div id="menu-btn" class="fas fa-bars"></div>
+        </div>
+    </div>
+</header>
+
+<header th:fragment="navbar-all-aux" class="header">
+    <div class="container">
+        <div class="row align-items-center d-flex justify-content-between">
+            <a th:href="@{/}" class="logo">
+                <img th:src="@{/img/logo.svg}" style="height: 50px; width: 50px" alt="logo"/>Adopta<span>Me.</span>
+            </a>
+            <nav class="nav aux">
+                <a th:href="@{/}">Inicio</a>
+                <a th:href="@{/blog/}">Blog</a>
+                <a th:href="@{/pets/}">Mascotas</a>
+                <a th:href="@{/pets/filter}">Adoptar</a>
+            </nav>
+            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="link-btn text-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/dashboard}" class="link-btn text-btn">Mi cuenta<i class="fa-solid fa-user ml-4"></i></a>
             <div id="menu-btn" class="fas fa-bars"></div>
         </div>
     </div>

@@ -4,11 +4,11 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
-<body class="d-flex flex-column min-vh-100">
-<header th:replace="components/navbars:: navbar-all"></header>
+<body id="pets-filter" class="d-flex flex-column min-vh-100">
+<header th:replace="components/navbars:: navbar-all-aux"></header>
 
-<main id="pets-filter" class="my-4">
-    <div class="container p-0">
+<main class="my-4">
+    <div class="container mt-2 pt-2 pb-1 ">
         <h1 class="h3 mb-3">Adoptar una mascota</h1>
         <div class="row">
             <div class=" col-md-4 col-xl-3 mb-4">
@@ -72,7 +72,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary mt-4 col-12">Buscar</button>
+                                <button class="btn btn-primary my-4 col-12">Buscar</button>
                             </form>
                         </nav>
                     </div>
@@ -108,7 +108,7 @@
                                     <div th:if="${petsList.isEmpty()}" class="col-12 text-center">
                                         <div style="font-size: 20px">No hay mascotas para mostrar</div>
                                     </div>
-                                    <div th:unless="${petsList.isEmpty()}" class="col-12 col-md-12 col-lg-6 col-xl-4" th:each="p:${petsList}">
+                                    <div th:unless="${petsList.isEmpty()}" class="single-card col-12 col-md-12 col-lg-6 col-xl-4" th:each="p:${petsList}">
                                         <div class="card">
                                             <div class="image">
                                                 <img class="card-img-top"
@@ -127,21 +127,21 @@
                                             <div class="card-description my-2">
                                                 <h6 class="text-muted" th:text="|${p.type.name} - ${p.breed}|"/>
                                                 <span>
-                                                    <i class="fa-solid fa-cake-candles mr-1"></i>
+                                                    <i class="fa-solid fa-cake-candles mx-1"></i>
                                                     <span th:text="${p.age}"></span>
                                                 </span>
                                                 <span>
-                                                    <i class="fa-solid fa-bone mr-1"></i>
+                                                    <i class="fa-solid fa-bone mx-1"></i>
                                                     <span th:text="${p.size.name}"></span>
                                                 </span>
                                                 <br>
                                                 <span>
-                                                    <i class="mr-1 fa-solid"
+                                                    <i class="mx-1 fa-solid"
                                                        th:classappend="${p.gender?'fa-mars':'fa-venus'}"></i>
                                                     <span th:text="${p.gender ? 'Macho':'Hembra'}"></span>
                                                 </span>
                                                 <span>
-                                                   <i class="fa-solid fa-palette mr-2"></i>
+                                                   <i class="fa-solid fa-palette mx-2"></i>
                                                     <span th:text="${p.color.name}"></span>
                                                 </span>
 
