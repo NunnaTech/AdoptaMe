@@ -48,6 +48,11 @@ public class HomeController {
         return "views/authentication/login";
     }
 
+    @GetMapping("/about")
+    public String about() {
+        return "views/about";
+    }
+
     @GetMapping("/dashboard")
     public String dashboard(Model model, Authentication authentication, HttpSession httpSession) {
         String username = authentication.getName();

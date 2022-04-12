@@ -105,7 +105,10 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-12 col-md-12 col-lg-6 col-xl-4 single-card" th:each="p:${petsList}">
+                                    <div th:if="${petsList.isEmpty()}" class="col-12 text-center">
+                                        <div style="font-size: 20px">No hay mascotas para mostrar</div>
+                                    </div>
+                                    <div th:unless="${petsList.isEmpty()}" class="col-12 col-md-12 col-lg-6 col-xl-4" th:each="p:${petsList}">
                                         <div class="card">
                                             <div class="image">
                                                 <img class="card-img-top"
