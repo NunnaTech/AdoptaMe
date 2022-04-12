@@ -231,24 +231,38 @@
                             />
                         </div>
                         <div class="form-group">
-                            <label for="newPassword">Nueva contraseña:</label>
-                            <input type="password" class="form-control"
-                                   id="newPassword" name="newPassword"
-                                   placeholder="Ej: ************"
-                                   required
-                                   minlength="5"
-                                   maxlength="30"
-                            />
+                            <label for="password">Nueva contraseña:</label>
+                            <div class="input-group mb-1">
+                                <input type="password" class="form-control"
+                                       id="password" name="repeatPassword"
+                                       placeholder="Ej: ************"
+                                       required
+                                       minlength="5"
+                                       maxlength="30"/>
+                                <div class="input-group-append ">
+                                    <button class="btn btn-outline-secondary" type="button" id="seePasswordButton"
+                                            onclick="bothPasswords()">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="repeatPassword">Repetir nueva contraseña:</label>
-                            <input type="password" class="form-control"
-                                   id="repeatPassword" name="repeatPassword"
-                                   placeholder="Ej: ************"
-                                   required
-                                   minlength="5"
-                                   maxlength="30"
-                            />
+                            <label for="newPassword">Repetir nueva contraseña:</label>
+                            <div class="input-group mb-1">
+                                <input type="password" class="form-control"
+                                       id="newPassword" name="repeatPassword"
+                                       placeholder="Ej: ************"
+                                       required
+                                       minlength="5"
+                                       maxlength="30"/>
+                                <div class="input-group-append ">
+                                    <button class="btn btn-outline-secondary" type="button" id="seeNewPasswordButton"
+                                            onclick="bothPasswords()">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-warning mt-3">Actualizar</button>
                     </form>
