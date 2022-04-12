@@ -3,103 +3,145 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+
+
+    <style type="text/css">
+        .logo-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .text-sm-end p {
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
+
+        .address-container {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
 
 </head>
-<body>
+<body id="payment">
 <div class="container">
-    <div class="card-body py-5">
-        <div class="mx-auto w-100">
-            <div class="d-flex justify-content-between mb-4 mb-md-0">
-                <a href="https://paypal.com/">
-                    <img alt="Logo" th:src="@{/img/paypal.png}" style="width: 80px; height: 80px;"/>
-                </a>
-                <div class="text-sm-end">
-                    <a href="https://adoptaMe.com/">
-                        <img alt="Logo"  th:src="@{/img/logo.png}" style="width: 80px; height: 80px;"/>
-                    </a>
-                </div>
-            </div>
-            <div class="text-sm-end my-1">
-                <div class="text-sm-end fw-bold fs-5 text-muted">
-                    <div>Av. Universidad Tecnólogica #1, Palo Escrito</div>
-                    <div>Emiliano Zapata, Morelos 62765</div>
-                </div>
-            </div>
-            <div class="py-3">
-                <div class="">
-                    <div class="fw-bolder fs-2" th:text="|${profile.name} ${profile.lastName} ${profile.secondName}|">
-                        <br>
-                        <span class="fs-6" th:text="${username}"></span>
-                        <br>
-                        <span class="text-muted fs-5">A continuación te mostramos los detalles de tu
-                                donación.</span>
-                    </div>
-                    <hr/>
-                    <div class="d-flex justify-content-between fw-bolder my-4">
-                        <div class="flex-root d-flex flex-column">
-                            <span class="text-muted">Fecha</span>
-                            <span class="fs-5">11 April, 2022</span>
-                        </div>
-                        <div class="flex-root d-flex flex-column">
-                                <span class="text-muted">Dirección de envío
-                                </span>
-                            <span class="fs-6" th:text="| ${profile.address.street}
-                                                        ${profile.address.externalNumber}
-                                                        ${profile.address.internalNumber}
-                                                        ${profile.address.zipCode}
-                                                        ${profile.address.references} |"
-                            ></span>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between flex-column">
-                        <div class="table-responsive border-bottom">
-                            <table class="table align-middle table-row-dashed fs-6 gy-5 mb-0">
-                                <thead>
-                                <tr class="border-bottom fs-6 fw-bolder text-muted">
-                                    <th class="pb-2">Donación</th>
-                                    <th colspan="3" class="min-w-100px text-end pb-2">Total</th>
-                                </tr>
-                                </thead>
-                                <tbody class="fw-bold text-gray-600">
-                                <tr th:each="d:${donations}">
-                                    <td>
-                                        <div class="d-flex align-items-start">
-                                            <div class="">
-                                                <div class="fw-bolder">Donación #2425</div>
-                                                <div class="fs-7 text-muted">Fecha de donación: 11/04/2022</div>
-                                            </div>
+    <div class="card-body">
+        <div class="py-3">
+            <div class="d-flex justify-content-between flex-column" style="margin: 20px 0 20px 0">
+                <div class="table-responsive border-bottom">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5 mb-0">
+                        <tbody class="fw-bold text-gray-600">
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-start">
+                                        <div>
+                                            <a href="https://paypal.com/">
+                                                <img alt="Logo" th:src="@{/img/paypal.png}"
+                                                     style="width: 50px; height: 50px;"/>
+                                            </a>
                                         </div>
-                                    </td>
-                                    <td colspan="3" class="text-end">$240.00</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" class="text-end">Subtotal</td>
-                                    <td class="text-end">$264.00</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" class="text-end">IVA (0%)</td>
-                                    <td class="text-end">$0.00</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" class="fs-3 text-dark fw-bolder text-end">Total</td>
-                                    <td class="text-dark fs-3 fw-boldest text-end">$269.00</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                                    </div>
+                                </td>
+                                <td colspan="3" class="text-end">
+                                    <div>
+                                        <a href="https://paypal.com/">
+                                            <img alt="Logo" th:src="@{/img/logo.png}"
+                                                 style="width: 50px; height: 50px;"/>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-end">
+                                    <div class="text-sm-end fw-bold fs-5 text-muted">
+                                        <p>Av. Universidad Tecnólogica #1, Palo Escrito</p>
+                                        <p>Emiliano Zapata, Morelos 62765</p>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="d-flex flex-stack flex-wrap mt-lg-20 pt-13">
-                <div class="my-4">
-                    <button type="button" class="btn btn-success my-1 me-12" onclick="window.print();">Imprimir
-                        recibo</button>
+            <div class="d-flex justify-content-between flex-column" style="margin: 20px 0 20px 0">
+                <div class="table-responsive border-bottom" style="margin: 20px 0 20px 0">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5 mb-0">
+                        <tbody class="fw-bold text-gray-600">
+                        <tr>
+                           <td colspan="3" >
+                               <span class="text-muted">A continuación te mostramos los detalles de tu donación.</span>
+                           </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <span class="fw-bolder fs-2" th:text="|${profile.name} ${profile.lastName} ${profile.secondName}|"></span>
+                                </div>
+                                <div>
+                                    <span th:text="${username}"></span>
+                                </div>
+                            </td>
+                            <td class="text-end">
+                                <div th:text="${profile.address.street}"></div>
+                                <div th:text="'No.Ext ' + ${profile.address.externalNumber}"></div>
+                                <div th:text="'No.Int ' + ${profile.address.internalNumber}"></div>
+                                <div th:text="${profile.address.zipCode}"></div>
+                                <div style="margin-bottom: 20px" th:text="${profile.address.references}"></div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            <div class="d-flex justify-content-between flex-column" style="margin: 20px 0 20px 0">
+                <div class="table-responsive border-bottom">
+                    <table class="table align-middle table-row-dashed fs-6 gy-5 mb-0">
+                        <thead>
+                        <tr class="border-bottom fs-6 fw-bolder text-muted">
+                            <th class="pb-2">Concepto de Donación</th>
+                            <th colspan="3" class="min-w-100px text-end pb-2">Total</th>
+                        </tr>
+                        </thead>
+                        <tbody class="fw-bold text-gray-600">
+                            <tr th:each="d:${donations}">
+                                <td>
+                                    <div class="d-flex align-items-start" style="margin: 10px 0 10px 0">
+                                        <div>
+                                            <div class="fw-bolder">Donación #2425</div>
+                                            <div class="fs-7 text-muted" th:text="${#temporals.format(d.createdAt,'dd-MMM-yyyy')}">d</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td colspan="3" class="text-end" th:text="'$'+${d.quantity}"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-end">Subtotal</td>
+                                <td class="text-end"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-end">IVA (0%)</td>
+                                <td class="text-end">$0.00</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="fs-3 text-dark fw-bolder text-end">Total</td>
+                                <td class="text-dark fs-3 fw-boldest text-end">$269.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
+
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 </body>
 </html>
