@@ -14,30 +14,30 @@ import java.util.List;
 
 @Repository
 public interface PetRepository extends JpaRepository<Pet,Integer> {
-    List<Pet> findAllByIsActive(Boolean isActive);
+    List<Pet> findAllByIsActiveAndIsDroppedFalse(Boolean isActive);
 
-    @Query(value = "SELECT * FROM tbl_pets p WHERE p.is_active = 1 AND p.is_adopted = 0 ORDER BY created_at DESC LIMIT 3;",
+    @Query(value = "SELECT * FROM tbl_pets p WHERE p.is_active = 1 AND p.is_adopted = 0 AND p.is_dropped = 0 ORDER BY created_at DESC LIMIT 3;",
             nativeQuery = true)
     List<Pet> findLastThreePets();
 
-    @Query(value = "SELECT * FROM tbl_pets p WHERE p.is_active = 1 AND p.is_adopted = 0;",
+    @Query(value = "SELECT * FROM tbl_pets p WHERE p.is_active = 1 AND p.is_adopted = 0; AND p.is_dropped = 0;",
             nativeQuery = true)
     List<Pet> findPetsForAdopted();
 
-    Integer countByIsActive(Boolean isActive);
+    Integer countByIsActiveAndIsDroppedFalse(Boolean isActive);
     
-    Integer countByIsAdopted(Boolean isAdopted);
+    Integer countByIsAdoptedAndIsDroppedFalse(Boolean isAdopted);
 
-    @Query(value = "SELECT * FROM tbl_pets p WHERE p.is_active = 1 ORDER BY p.created_at LIMIT 5 ",
+    @Query(value = "SELECT * FROM tbl_pets p WHERE p.is_active = 1 AND p.is_dropped = 0 ORDER BY p.created_at LIMIT 5 ",
             nativeQuery = true)
     List<Pet> findTop5ByCreatedAtDesc();
 
-    List<Pet> findAllByNameContainingOrBreedContainingAndIsActiveTrueAndIsAdoptedFalse(String name, String breed);
+    List<Pet> findAllByNameContainingOrBreedContainingAndIsActiveTrueAndIsAdoptedFalseAndIsDroppedFalse(String name, String breed);
 
-    List<Pet> findByTypeInAndIsActiveTrueAndIsAdoptedFalse(Collection<Type> types);
-    List<Pet> findBySizeInAndIsActiveTrueAndIsAdoptedFalse(Collection<Size> sizes);
-    List<Pet> findByCharacterInAndIsActiveTrueAndIsAdoptedFalse(Collection<Character> characters);
-    List<Pet> findByColorInAndIsActiveTrueAndIsAdoptedFalse(Collection<Color> colors);
+    List<Pet> findByTypeInAndIsActiveTrueAndIsAdoptedFalseAndIsDroppedFalse(Collection<Type> types);
+    List<Pet> findBySizeInAndIsActiveTrueAndIsAdoptedFalseAndIsDroppedFalse(Collection<Size> sizes);
+    List<Pet> findByCharacterInAndIsActiveTrueAndIsAdoptedFalseAndIsDroppedFalse(Collection<Character> characters);
+    List<Pet> findByColorInAndIsActiveTrueAndIsAdoptedFalseAndIsDroppedFalse(Collection<Color> colors);
 
-    List<Pet> findByAgeInAndIsActiveTrueAndIsAdoptedFalse(Collection<String> age);
+    List<Pet> findByAgeInAndIsActiveTrueAndIsAdoptedFalseAndIsDroppedFalse(Collection<String> age);
 }
