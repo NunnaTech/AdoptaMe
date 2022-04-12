@@ -29,7 +29,8 @@
 <section class="pets container">
     <h1 class="heading">¡Nuevos Amigos!</h1>
     <div class="box-container">
-        <div class="box" th:each="p:${list}">
+        <div th:if="${list.isEmpty()}" class="text-center" style="font-size: 20px">No hay mascotas para mostrar</div>
+        <div th:unless="${list.isEmpty()}" class="box" th:each="p:${list}">
             <div class="image">
                 <a th:href="@{/pets/{id} (id=${p.id})}">
                     <img th:src="${p.images.isEmpty() ? 'https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/876/fb45d6e2-dd35-4312-b57a-ba37bf30e97d.png':p.images.get(0).image}"
