@@ -53,8 +53,8 @@ public class TagController {
 
     @GetMapping("/edit/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String edit(@PathVariable("id") Integer id, Model model, Tag tag, RedirectAttributes redirectAttributes) {
-        tag = tagService.findOne(id).orElse(null);
+    public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        Tag tag = tagService.findOne(id).orElse(null);
         if (tag == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Etiqueta no encontrada");
             return "redirect:/tag/";
@@ -65,8 +65,8 @@ public class TagController {
 
     @GetMapping("/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String delete(@PathVariable("id") Integer id, Model model, Tag tag, RedirectAttributes redirectAttributes) {
-        if (tagService.delete(id)) {
+    public String delete(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        if (Boolean.TRUE.equals(tagService.delete(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Etiqueta eliminado exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Etiqueta no eliminado");

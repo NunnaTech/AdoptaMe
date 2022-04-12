@@ -264,8 +264,8 @@ public class PetController {
 
     @GetMapping("/admin/edit/{id}")
     @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
-    public String edit(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
-        pet = petService.findOne(id).orElse(null);
+    public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        Pet pet = petService.findOne(id).orElse(null);
         if (pet == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Mascota no encontrada");
             return "redirect:/pets/admin";
@@ -310,7 +310,7 @@ public class PetController {
 
     @GetMapping("/admin/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String delete(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         if (Boolean.TRUE.equals(petService.delete(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Mascota eliminado exitosamente");
         } else {
@@ -318,5 +318,4 @@ public class PetController {
         }
         return "redirect:/pets/admin";
     }
-
 }

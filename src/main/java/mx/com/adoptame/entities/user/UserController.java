@@ -78,8 +78,8 @@ public class UserController {
 
     @GetMapping("/edit/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String edit(@PathVariable("id") Integer id, Model model, Profile profile, RedirectAttributes redirectAttributes) {
-        profile = profileService.findOne(id).orElse(null);
+    public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        Profile profile = profileService.findOne(id).orElse(null);
         if (profile == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Usuario no encontrado");
             return "redirect:/user/";
@@ -91,8 +91,8 @@ public class UserController {
 
     @GetMapping("/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String delete(@PathVariable("id") Integer id, Model model, Profile profile, RedirectAttributes redirectAttributes) {
-        if (profileService.delete(id)) {
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        if (Boolean.TRUE.equals(profileService.delete(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Usuario eliminado exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Usuario no eliminado");
@@ -148,16 +148,12 @@ public class UserController {
         String token = request.getParameter("token");
         String newPassword = request.getParameter("newPassword");
         String repeatedPassword = request.getParameter("repeatedPassword");
-
         Boolean completed = userService.updatePassword(token, newPassword, repeatedPassword);
-
         if (!completed) {
             redirectAttributes.addFlashAttribute("msg_warning", "Token no valida");
-
             return "views/authentication/resetPassword";
         }
         redirectAttributes.addFlashAttribute("msg_success", "cambio de contraseña exitoso");
-
         return "redirect:/login";
     }
 }
