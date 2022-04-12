@@ -15,19 +15,18 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import mx.com.adoptame.entities.pet.entities.Pet;
 
 @Entity
 @Table(name = "TBL_SIZES")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@ToString
+
 public class Size implements Serializable{
    
     private static final long serialVersionUID = 1L;

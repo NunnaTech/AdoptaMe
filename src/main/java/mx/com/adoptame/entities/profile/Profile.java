@@ -21,7 +21,7 @@ import mx.com.adoptame.entities.user.User;
 @Setter
 @Getter
 @NoArgsConstructor
-@ToString
+
 public class Profile implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id

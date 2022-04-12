@@ -24,6 +24,6 @@ public class MyErrorController implements ErrorController {
                 return "views/errorpages/error500";
             }
         }
-        return "views/errorpages/error404";
+        return "";
     }
 }
