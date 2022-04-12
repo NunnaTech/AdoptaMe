@@ -49,7 +49,7 @@ public class GeneratorThymeleafService {
             renderer.createPDF(bos, false);
             renderer.finishPDF();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } finally {
             try {
                 bos.close();

@@ -1,6 +1,9 @@
 package mx.com.adoptame.entities.profile;
 
+import mx.com.adoptame.entities.request.RequestController;
 import mx.com.adoptame.entities.user.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,8 @@ public class ProfileService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    private Logger logger = LoggerFactory.getLogger(ProfileService.class);
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -85,7 +90,7 @@ public class ProfileService {
                 return updateEntity.get();
             }
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         return null;
     }
