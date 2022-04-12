@@ -28,6 +28,7 @@ public class PetAdoptedController {
     @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER"})
     public String acept(Model model, @PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         if (Boolean.TRUE.equals(petAdoptedService.accept(id))) {
+
             redirectAttributes.addFlashAttribute("msg_success", "Adopción aceptada exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Adopción no aceptada");

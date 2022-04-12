@@ -325,7 +325,7 @@
                         <td class="header-lg" style="color: #f47a1f;"> ¡Mascota Aprobada!</td>
                     </tr>
                     <tr>
-                        <td class="free-text"><h2 style="margin: 0; color: #393939;">Estimado Luis Álvarez:</h2> <br>
+                        <td class="free-text"><h2 style="margin: 0; color: #393939;" th:text="${name}"></h2> <br>
                             Te informamos que tu solicitud de adopción...<br> ¡Ha sido aprobada por parte del equipo de
                             Adoptame!
                             <br><br>
@@ -351,12 +351,12 @@
                                                         <div>
                                                             <img style="width: 15rem; border-radius: 0.3rem;
                                                         shadow: 0 0.5rem 4rem rgba(0, 0, 0, 0.2);"
-                                                                 src="https://picsum.photos/1980/1080?random=1"
-                                                                 alt="Unsplash">
-                                                            <h3 style="margin: 1rem; color:#F47A1FFF ">Máximo</h3>
-                                                            <p style="margin: 0rem">Pastor Alemán </p>
+                                                                 th:src="${petImage}"
+                                                                 alt="mascota">
+                                                            <h3 style="margin: 1rem; color:#F47A1FFF " th:text="${petName}"></h3>
+                                                            <p style="margin: 0rem" th:text="${petBreed}"></p>
                                                         </div>
-                                                        <p style="margin: 0rem">Cachorro</p>
+                                                        <p style="margin: 0rem" th:text="${petAge}"></p>
                                                     </div>
                                                 </td>
                                             </tr>

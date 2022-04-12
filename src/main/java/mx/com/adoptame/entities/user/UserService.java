@@ -43,7 +43,7 @@ public class UserService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private Logger logger = LoggerFactory.getLogger(NewsController.class);
+    private Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Value("${deploy-host}")
     private String host;
@@ -163,11 +163,12 @@ public class UserService {
             user.setLinkActivateUsername(token);
             save(user);
             String resetPasswordLink = host + "/user/activate?token=" + token;
-            emailService.sendRequestAceptedTemplate(user, resetPasswordLink);
+            emailService.sendRequestAcceptedTemplate(user, resetPasswordLink);
         } catch (Exception exception) {
            logger.error(exception.getMessage());
         }
     }
+
 
     @Transactional
     public void updateResetPasswordToken(String token, String email) {

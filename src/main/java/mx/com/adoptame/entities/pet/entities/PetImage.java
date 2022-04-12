@@ -11,15 +11,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Table(name = "TBL_PETS_IMAGES")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@ToString
+
 public class PetImage implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id

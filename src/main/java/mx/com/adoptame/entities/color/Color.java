@@ -16,16 +16,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import mx.com.adoptame.entities.pet.entities.Pet;
 
 @Entity
 @Table(name = "TBL_COLORS")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@ToString
+
 public class Color implements Serializable {
   
     private static final long serialVersionUID = 1L;
