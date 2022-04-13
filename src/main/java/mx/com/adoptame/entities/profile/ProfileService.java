@@ -1,6 +1,5 @@
 package mx.com.adoptame.entities.profile;
 
-import mx.com.adoptame.entities.request.RequestController;
 import mx.com.adoptame.entities.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

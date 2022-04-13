@@ -20,7 +20,6 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/blog")
-@Slf4j
 public class NewsController {
 
     @Autowired
