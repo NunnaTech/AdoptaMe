@@ -20,10 +20,10 @@ public class Log {
     @Column(name = "id_log")
     private Integer id;
 
-    @Column(name="old_data" ,nullable = false, columnDefinition = "TEXT")
+    @Column(name="old_data" , columnDefinition = "TEXT")
     private String oldData;
 
-    @Column(name="new_data" ,nullable = false, columnDefinition = "TEXT")
+    @Column(name="new_data" , columnDefinition = "TEXT")
     private String newData;
 
     @CreationTimestamp
