@@ -17,33 +17,13 @@
     Proyecto AdoptaMe: Una aplicación web para la adopción de mascotas.
     <br />
     <br />
-    <a href="https://adoptame-mx.herokuapp.com/">Ver la aplicación</a>
+    <a href="https://adoptame-mx.herokuapp.com/" target="_blank">Ver la aplicación</a>
     ·
-    <a href="https://github.com/ThePandaDevs/AdoptaMe/issues">Reportar errores</a>
+    <a href="https://github.com/ThePandaDevs/AdoptaMe/issues" target="_blank">Reportar errores</a>
     ·
-    <a href="https://github.com/ThePandaDevs/AdoptaMe/issues">Solicitar nuevas funciones</a>
+    <a href="https://github.com/ThePandaDevs/AdoptaMe/issues" target="_blank">Solicitar nuevas funciones</a>
   </p>
 </div>
-
-<details>
-  <summary>Tabla de contenidos</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">Acerca del proyecto</a>
-      <ul>
-        <li><a href="#built-with">Herramientas para su construcción</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Cómo empezar</a>
-      <ul>
-        <li><a href="#prerequisites">Requisitos</a></li>
-        <li><a href="#installation">Instalación</a></li>
-      </ul>
-    </li>
-    <li><a href="#license">Licencia</a></li>
-  </ol>
-</details>
 
 ## Acerca del proyecto
 
