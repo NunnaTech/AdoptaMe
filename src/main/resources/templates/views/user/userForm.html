@@ -81,7 +81,7 @@
                        th:field="*{phone}"
                        minlength="10"
                        maxlength="10"
-                       pattern="^\d{10}(?:[-\s]\d{4})?$"
+                       pattern="[0-9()-]*"
                 />
                 <div id="phoneHelp"
                      th:classappend="${#fields.hasErrors('phone')?'invalid-feedback':''}"

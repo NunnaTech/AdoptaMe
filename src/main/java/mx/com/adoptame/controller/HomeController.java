@@ -49,6 +49,7 @@ public class HomeController {
         model.addAttribute("profile", profile);
         return "views/authentication/login";
     }
+
     @GetMapping("/login-error")
     public String login(HttpServletRequest request, Model model, Profile profile) {
         HttpSession session = request.getSession(false);
@@ -74,7 +75,6 @@ public class HomeController {
         String username = authentication.getName();
         Optional<User> user = userService.findByEmail(username);
         user.ifPresent(value -> {
-            value.setPassword(null);
             httpSession.setAttribute("user", value);
         });
         if (user.isPresent()) {
