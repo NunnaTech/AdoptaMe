@@ -81,7 +81,7 @@
                        th:field="*{phone}"
                        minlength="10"
                        maxlength="10"
-                       pattern="^\d{10}(?:[-\s]\d{4})?$"
+                       pattern="[0-9()-]*"
                 />
                 <div id="phoneHelp"
                      th:classappend="${#fields.hasErrors('phone')?'invalid-feedback':''}"
@@ -138,19 +138,28 @@
             </div>
             <div class="form-group col-12 col-md-4">
                 <label for="password">Contraseña:</label>
-                <input type="password" class="form-control"
-                       id="password" name="password"
-                       aria-describedby="passwordHelp"
-                       th:required="${profile.user.password.isEmpty()?true:false}"
-                       placeholder="Ej: ********"
-                       th:classappend="${#fields.hasErrors('user.password')?'is-invalid':''}"
-                       th:field="*{user.password}"
-                       minlength="5"
-                       maxlength="30"
-                />
-                <div id="passwordHelp"
-                     th:classappend="${#fields.hasErrors('user.password')?'invalid-feedback':''}"
-                     th:errors="*{user.password}">
+                <div class="input-group mb-1">
+                    <input type="password" class="form-control"
+                           id="password" name="password"
+                           aria-describedby="passwordHelp"
+                           th:required="${profile.user.password.isEmpty()?true:false}"
+                           placeholder="Ej: ********"
+                           th:classappend="${#fields.hasErrors('user.password')?'is-invalid':''}"
+                           th:field="*{user.password}"
+                           minlength="5"
+                           maxlength="30"
+                    />
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button"
+                                id="seePasswordButton"
+                                onclick="bothPasswords('password','seePasswordButton')">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                    <div id="passwordHelp"
+                         th:classappend="${#fields.hasErrors('user.password')?'invalid-feedback':''}"
+                         th:errors="*{user.password}">
+                    </div>
                 </div>
             </div>
             <div class="form-group col-12 col-md-4">
