@@ -11,10 +11,12 @@
             justify-content: space-between;
             margin-bottom: 1rem;
         }
+
         .text-sm-end p {
             font-size: 1rem;
             margin-bottom: 0;
         }
+
         .address-container {
             display: flex;
             justify-content: space-between;
@@ -29,34 +31,34 @@
                 <div class="table-responsive border-bottom">
                     <table class="table align-middle table-row-dashed fs-6 gy-5 mb-0" aria-describedby="table">
                         <tbody class="fw-bold text-gray-600">
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-start">
-                                        <div>
-                                            <a href="https://paypal.com/">
-                                                <img alt="Logo" th:src="@{/img/paypal.png}"
-                                                     style="width: 50px; height: 50px;"/>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td colspan="3" class="text-end">
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-start">
                                     <div>
                                         <a href="https://paypal.com/">
-                                            <img alt="Logo" th:src="@{/img/logo.png}"
+                                            <img alt="Logo" th:src="@{/img/paypal.png}"
                                                  style="width: 50px; height: 50px;"/>
                                         </a>
                                     </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" class="text-end">
-                                    <div class="text-sm-end fw-bold fs-5 text-muted">
-                                        <p>Av. Universidad Tecnólogica #1, Palo Escrito</p>
-                                        <p>Emiliano Zapata, Morelos 62765</p>
-                                    </div>
-                                </td>
-                            </tr>
+                                </div>
+                            </td>
+                            <td colspan="3" class="text-end">
+                                <div>
+                                    <a href="https://paypal.com/">
+                                        <img alt="Logo" th:src="@{/img/logo_letters.png}"
+                                             style="width: 80px; height: 60px;"/>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="text-end">
+                                <div class="text-sm-end fw-bold fs-5 text-muted" style="margin-top: 40px">
+                                    <p>Av. Universidad Tecnólogica #1, Palo Escrito</p>
+                                    <p>Emiliano Zapata, Morelos 62765</p>
+                                </div>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -66,14 +68,15 @@
                     <table class="table align-middle table-row-dashed fs-6 gy-5 mb-0">
                         <tbody class="fw-bold text-gray-600">
                         <tr>
-                           <td colspan="3" >
-                               <span class="text-muted">A continuación te mostramos los detalles de tu donación.</span>
-                           </td>
+                            <td colspan="3">
+                                <span class="text-muted">A continuación te mostramos los detalles de tu donación.</span>
+                            </td>
                         </tr>
                         <tr>
                             <td>
                                 <div>
-                                    <span class="fw-bolder fs-2" th:text="|${profile.name} ${profile.lastName} ${profile.secondName}|"></span>
+                                    <span class="fw-bolder fs-2"
+                                          th:text="|${profile.name} ${profile.lastName} ${profile.secondName}|"></span>
                                 </div>
                                 <div>
                                     <span th:text="${username}"></span>
@@ -101,29 +104,33 @@
                         </tr>
                         </thead>
                         <tbody class="fw-bold text-gray-600">
-                            <tr th:each="d,i:${donations}">
-                                <td>
-                                    <div class="d-flex align-items-start" style="margin: 10px 0 10px 0">
-                                        <div>
-                                            <div class="fw-bolder" th:text="|Donación #${i.count}|"></div>
-                                            <div class="fs-7 text-muted" th:text="${#temporals.format(d.createdAt,'dd-MMM-yyyy')}">d</div>
-                                        </div>
+                        <tr th:each="d,i:${donations}">
+                            <td>
+                                <div class="d-flex align-items-start" style="margin: 10px 0 10px 0">
+                                    <div>
+                                        <div class="fw-bolder" th:text="|Donación #${i.count}|"></div>
+                                        <div class="fs-7 text-muted"
+                                             th:text="${#temporals.format(d.createdAt,'dd-MMM-yyyy')}"></div>
+                                        <div class="fs-7 text-muted"
+                                             th:text="${d.isCompleted ? 'Exitosa':'Pendiente'}"></div>
                                     </div>
-                                </td>
-                                <td colspan="3" class="text-end" th:text="'$ '+${d.quantity}"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" class="text-end">Subtotal</td>
-                                <td class="text-end" th:text="'$ '+${#aggregates.sum(donations.![quantity])}"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" class="text-end">IVA (0%)</td>
-                                <td class="text-end">$0.00</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" class="fs-3 text-dark fw-bolder text-end">Total</td>
-                                <td class="text-dark fs-3 fw-boldest text-end" th:text="'$ '+${#aggregates.sum(donations.![quantity])}"></td>
-                            </tr>
+                                </div>
+                            </td>
+                            <td colspan="3" class="text-end" th:text="'$ '+${d.quantity}"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-end">Subtotal</td>
+                            <td class="text-end" th:text="'$ '+${#aggregates.sum(donations.![quantity])}"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-end">IVA (0%)</td>
+                            <td class="text-end">$0.00</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="fs-3 text-dark fw-bolder text-end">Total</td>
+                            <td class="text-dark fs-3 fw-boldest text-end"
+                                th:text="'$ '+${#aggregates.sum(donations.![quantity])}"></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
