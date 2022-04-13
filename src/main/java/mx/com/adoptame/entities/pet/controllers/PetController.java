@@ -84,7 +84,7 @@ public class PetController {
     }
 
     @GetMapping("/adoptions")
-    @Secured("ROLE_ADMINISTRATOR")
+    @Secured({"ROLE_ADMINISTRATOR","ROLE_VOLUNTEER","ROLE_ADOPTER"})
     public String adoptions(Model model, Authentication authentication) {
         try {
             String username = authentication.getName();

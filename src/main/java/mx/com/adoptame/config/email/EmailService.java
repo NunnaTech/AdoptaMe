@@ -46,7 +46,7 @@ public class EmailService {
         String email = petAdopted.getUser().getUsername();
         map.put("email", email);
         map.put("name", petAdopted.getUser().getProfile().getFullName());
-        map.put("petImage", petAdopted.getPet().getImages().get(0));
+        map.put("petImage", petAdopted.getPet().getImages().get(0).getImage());
         map.put("petName", petAdopted.getPet().getName());
         map.put("petBreed", petAdopted.getPet().getBreed());
         map.put("petAge", petAdopted.getPet().getAge());
