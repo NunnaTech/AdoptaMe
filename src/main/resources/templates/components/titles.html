@@ -8,7 +8,10 @@
     <small class="font-italic text-muted">
         <span th:each="i : ${list}">[[${i}]] / </span>
     </small>
-    <h3 class="h3 mb-3 font-weight-bold" th:text="${title}"/>
+    <div class="d-flex justify-content-between align-content-center align-self-center mb-3 ">
+    <h3 class="h3 font-weight-bold m-0" th:text="${title}"/>
+    <button class="ml-2 btn btn-logs p-2">Ver Actividad Reciente <i class="ml-2 fa-solid fa-database"></i></button>
+    </div>
     <hr/>
 </div>
 

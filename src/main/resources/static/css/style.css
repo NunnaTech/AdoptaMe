@@ -722,6 +722,20 @@ header .nav a {
     display: grid;
 }
 
+#admin-dashboard .btn-logs{
+    display: inline-block;
+    border-radius: 0.5rem;
+    background-color: #ff5b5b;
+    cursor: pointer;
+    color: var(--white);
+}
+
+#admin-dashboard .btn-logs:hover{
+    background-color: var(--black);
+    color: var(--white);
+    font-weight: bold;
+}
+
 #admin-dashboard .single-card .card .col-auto i {
     font-size: 1rem;
     display: inline-block;
@@ -773,6 +787,88 @@ header .nav a {
 }
 
 /* ------------------------------- Admin Ends  -------------------------------  */
+/* ------------------------------- Logs Starts  -------------------------------  */
+
+#logs {
+    background-color: var(--body-bg)
+}
+
+#logs .box-container {
+    box-shadow: var(--box-shadow);
+    margin-bottom: 2rem;
+    border: 0.1rem solid rgba(0, 0, 0, 0.2);
+}
+
+
+#logs h3{
+    color: var(--orange)
+}
+
+#logs h3 i{
+    color: var(--light-color)
+}
+
+#logs .media img{
+    width: 40px;
+    height: 40px;
+}
+
+#logs .card-header{
+    color: var(--orange);
+    background-color: var(--white);
+    border: 0;
+}
+
+
+#logs .td-badge {
+    text-align: center;
+
+}
+
+#logs .th-date {
+    text-align: center;
+    width: 9rem;
+}
+
+#logs .th-head {
+    color: var(--black)
+}
+
+#logs .th-head .fa-solid {
+    color: #008af3;
+    padding: 0.5rem;
+    background-color: #008af32d;
+    -moz-border-radius:75px;
+    -webkit-border-radius: 75px;
+}
+
+#logs .badge{
+    width: 6rem;
+
+}
+
+
+
+#logs .badge-primary{
+    background-color: var(--orange)
+}
+
+#logs .badge-secondary{
+    background-color: var(--light-color)
+}
+
+#logs .badge-success{
+    background-color: #54d37a;
+}
+
+
+#logs .badge-danger{
+    background-color: #ff5b5b;
+}
+
+
+
+/* ------------------------------- Logs Ends  -------------------------------  */
 /* ------------------------------- Pets Filtrer Starts  -------------------------------  */
 
 
