@@ -1,5 +1,6 @@
 package mx.com.adoptame.entities.log;
 
+import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,13 +28,17 @@ public class LogService {
     }
 
     @Transactional
-    public Optional<Log> update(Log entity) {
-        Optional<Log> updatedEntity;
-        updatedEntity = logRepository.findById(entity.getId());
-        if (!updatedEntity.isEmpty())
-            logRepository.save(entity);
-        return updatedEntity;
+    public void saveUserLog(String action,User user, User madeBy) {
+                logRepository.logUser(
+                        action,
+                        user.getId(),
+                        user.getUsername(),
+                        user.getPassword(),
+                        user.getEnabled(),
+                        madeBy.getId()
+                );
     }
+
 
     @Transactional
     public Boolean delete(Integer id) {
