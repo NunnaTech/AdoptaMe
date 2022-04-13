@@ -69,7 +69,7 @@ Necesitas tener instalado y debidamente configurado las siguientes herramientas:
 
 ### Instalación
 
-1. Clonar el repositorio, puede ser mediante HTTPS o SSH
+1. Clona el repositorio, puede ser mediante HTTPS o SSH
    ```sh
    git clone https://github.com/ThePandaDevs/AdoptaMe.git
    ```
@@ -77,7 +77,24 @@ Necesitas tener instalado y debidamente configurado las siguientes herramientas:
    ```sh
     cd AdoptaMe
    ```
-3. Ejecutar la aplicación
+3. Activa el servicio de MySQL
+4. Asegurate que en el archivo de propiedad de la aplicación `application.properties` se tenga la siguiente línea para crear la base de datos junto con la opción de creado correcta.
+   ```sh
+   # create-drop
+   # create
+   # update
+   spring.jpa.hibernate.ddl-auto=update
+   ```
+5. Ejecuta la aplicación con Spring
+6. Encuentra el archivo `fillpets.sql` que se encuentra en la carpeta `src > main > java/mx/com/adoptame > util`
+7. Ejecuta el script para inicializar con datos la aplicación
+8. Los datos por defecto para iniciar sesión dentro son:
+   ```sh
+   # super@adoptame.com:admin  ADMINISTRADOR
+   # volun@adoptame.com:admin  VOLUNTARIO
+   # adopt@adoptame.com:admin  ADOPTADOR
+   ```
+9. Listo, podrás usar la aplicación.
 
 <p align="right">(<a href="#top">regresar al inicio</a>)</p>
 
