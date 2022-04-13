@@ -2,7 +2,6 @@ package mx.com.adoptame.entities.user;
 
 import mx.com.adoptame.config.email.EmailService;
 import mx.com.adoptame.entities.address.Address;
-import mx.com.adoptame.entities.news.NewsController;
 import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.profile.ProfileRepository;
 import mx.com.adoptame.entities.role.Role;
@@ -265,6 +264,7 @@ public class UserService {
         return flag;
     }
 
+    @Transactional
     public Boolean isAdopter(String username) {
         boolean flag = false;
         Optional<User> user = findByEmail(username);
