@@ -1,7 +1,6 @@
 package mx.com.adoptame.entities.pet.services;
 
 import mx.com.adoptame.config.email.EmailService;
-import mx.com.adoptame.entities.news.NewsController;
 import mx.com.adoptame.entities.pet.entities.Pet;
 import mx.com.adoptame.entities.pet.entities.PetAdopted;
 import mx.com.adoptame.entities.pet.repositories.PetAdoptedRepository;
@@ -72,7 +71,7 @@ public class PetAdoptedService {
     }
 
     @Transactional
-    public Boolean accept(Integer id) {
+    public Boolean accept(Integer id, Integer idPet, Integer idUser) {
         Optional<PetAdopted> entity = petAdoptedRepository.findById(id);
         if (entity.isPresent()) {
             PetAdopted petAdopted = entity.get();
@@ -80,6 +79,7 @@ public class PetAdoptedService {
             petAdopted.setIsCanceled(false);
             petAdopted.getPet().setIsAdopted(true);
             petAdoptedRepository.save(petAdopted);
+            petAdoptedRepository.setAllPetCanceled(idPet, idUser);
             sendAdoptionConfirmation(petAdopted);
             return true;
         }

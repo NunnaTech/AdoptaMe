@@ -33,7 +33,8 @@
                     <a th:href="@{/pets/{id} (id=${i.pet.id})}" target="_blank" class="btn bg-warning">
                         <i class="fa-solid fa-eye"></i>
                     </a>
-                    <form th:action="@{/petsAdopted/acept/{id} (id=${i.id})}" onsubmit="return false">
+                    <form th:action="@{/petsAdopted/acept/{id}/{idPet}/{idUser} (id=${i.id}, idPet=${i.pet.id}, idUser=${i.user.id})}"
+                          onsubmit="return false">
                         <button type="submit" class="btn btn-success"
                                 onclick="confirmSweetAlert(this.parentElement, '¿Aceptar adopción a esta persona?', 'Esta mascota pertenecerá ahora a ella', 'Sí, aceptar!')">
                             <i class="fa-solid fa-check"></i>
@@ -46,8 +47,10 @@
                         </button>
                     </form>
                 </div>
-                <div th:if="${i.isCanceled==false && i.isAccepted==true}">Solicitud <span class="text-success">aceptada</span></div>
-                <div th:if="${i.isCanceled==true && i.isAccepted==false}">Solicitud <span class="text-danger">rechazada</span></div>
+                <div th:if="${i.isCanceled==false && i.isAccepted==true}">Solicitud <span
+                        class="text-success">aceptada</span></div>
+                <div th:if="${i.isCanceled==true && i.isAccepted==false}">Solicitud <span
+                        class="text-danger">rechazada</span></div>
             </td>
         </tr>
         </tbody>

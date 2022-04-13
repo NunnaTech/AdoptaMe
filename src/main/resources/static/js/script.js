@@ -7,6 +7,28 @@ menu.onclick = () => {
     navbar.classList.toggle('active');
 }
 
+function mostrarContrasena() {
+    let tipo = document.getElementById("password");
+    if (tipo.type == "password") {
+        tipo.type = "text";
+        document.getElementById('seePasswordButton').innerHTML = "<i class=\"fa-solid fa-eye-slash\"></i>";
+    } else {
+        tipo.type = "password";
+        document.getElementById('seePasswordButton').innerHTML = "<i class=\"fa-solid fa-eye\"></i>";
+    }
+}
+
+function bothPasswords(i,j) {
+    let tipo = document.getElementById(i);
+    if (tipo.type == "password") {
+        tipo.type = "text";
+        document.getElementById(j).innerHTML = "<i class=\"fa-solid fa-eye-slash\"></i>";
+    } else {
+        tipo.type = "password";
+        document.getElementById(j).innerHTML = "<i class=\"fa-solid fa-eye\"></i>";
+    }
+}
+
 window.onscroll = () => {
     if (window.scrollY > 0) {
         header.classList.add('active');

@@ -2,7 +2,6 @@ package mx.com.adoptame.entities.user;
 
 import mx.com.adoptame.config.email.EmailService;
 import mx.com.adoptame.entities.address.Address;
-import mx.com.adoptame.entities.news.NewsController;
 import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.profile.ProfileRepository;
 import mx.com.adoptame.entities.role.Role;
@@ -114,7 +113,7 @@ public class UserService {
 
     @Transactional
     public Boolean updatePassword(User user, String currentPassword, String newPassword, String repeatedPassword) {
-        if (!passwordEncoder.matches(user.getPassword(), currentPassword)) return false;
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) return false;
         if (!newPassword.equals(repeatedPassword)) return false;
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
@@ -265,6 +264,7 @@ public class UserService {
         return flag;
     }
 
+    @Transactional
     public Boolean isAdopter(String username) {
         boolean flag = false;
         Optional<User> user = findByEmail(username);
