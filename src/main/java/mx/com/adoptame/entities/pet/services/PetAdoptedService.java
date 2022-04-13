@@ -1,7 +1,6 @@
 package mx.com.adoptame.entities.pet.services;
 
 import mx.com.adoptame.config.email.EmailService;
-import mx.com.adoptame.entities.news.NewsController;
 import mx.com.adoptame.entities.pet.entities.Pet;
 import mx.com.adoptame.entities.pet.entities.PetAdopted;
 import mx.com.adoptame.entities.pet.repositories.PetAdoptedRepository;
