@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body id="logs" class="d-flex flex-column min-vh-100" >
+<header th:replace="components/navbars:: navbar-admin"/>
+
+<div class="container-fluid my-5">
+  <div class="mb-4">
+    <h3>Registro de Actividades <i class="ml-2 fa-solid fa-database"></i></h3>
+  </div>
+  <div class="row">
+    <div class="col-xl-12 ">
+      <div class="card box-container">
+        <div class="card-header py-3">
+          <h5 class="card-title mb-0">Actividades</h5>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table table-hover">
+            <thead>
+            <tr class="th-head">
+              <th>Usuario <i class="ml-2 fa-solid fa-user"></i></th>
+              <th class="td-badge">Acción <i class=" ml-2 fa-solid fa-circle-exclamation"></i></th>
+
+              <th class="th-date">Fecha <i class="ml-2 fa-solid fa-calendar"></i></th>
+              <th>Datos anteriores <i class="ml-2 fa-solid fa-database"></i></th>
+              <th>Nuevos datos <i class="ml-2 fa-solid fa-database"></i></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>
+                <div class="media">
+                  <div class="media-aside align-self-center">
+                    <img src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/img/9.3fd39137.png"
+                         alt="avatar" class="rounded-circle">
+                    </a>
+                  </div>
+                  <div class="ml-3"><p class="m-0">
+                    Luis Álvarez
+                  </p>
+                    <small class="text-muted">LuisAlvarez@gmail.com</small>
+                  </div>
+                </div>
+              </td>
+              <td class="td-badge"><span class="p-2 badge badge-success">Registro</span>
+              </td>
+              <td class="td-badge">24/05/22</td>
+              <td>Lorem ipsum dolor sit amet, con rem elit</td>
+              <td>Lorem ipsum dolor sit amet, con rem elit</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="media">
+                  <div class="media-aside align-self-center">
+                    <img src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/img/9.3fd39137.png"
+                         alt="avatar" class="rounded-circle">
+                    </a>
+                  </div>
+                  <div class="ml-3"><p class="m-0">
+                    Luis Álvarez
+                  </p>
+                    <small class="text-muted">LuisAlvarez@gmail.com</small>
+                  </div>
+                </div>
+              </td>
+              <td class="td-badge"><span class="p-2 badge badge-primary">Modificación</span>
+              </td>
+              <td class="td-badge">24/05/22</td>
+              <td>Lorem ipsum dolor sit amet, con rem elit</td>
+              <td>Lorem ipsum dolor sit amet, con rem elit</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="media">
+                  <div class="media-aside align-self-center">
+                    <img src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/img/9.3fd39137.png"
+                         alt="avatar" class="rounded-circle">
+                    </a>
+                  </div>
+                  <div class="ml-3"><p class="m-0">
+                    Luis Álvarez
+                  </p>
+                    <small class="text-muted">LuisAlvarez@gmail.com</small>
+                  </div>
+                </div>
+              </td>
+              <td class="td-badge"><span class="p-2 badge badge-danger">Eliminación</span>
+              </td>
+              <td class="td-badge">24/05/22</td>
+              <td>Lorem ipsum dolor sit amet, con rem elit</td>
+              <td>Lorem ipsum dolor sit amet, con rem elit</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
+</html>
