@@ -92,7 +92,7 @@ public class RequestController {
             if(success){
                 redirectAttributes.addFlashAttribute("msg_success", "Usuario registrado exitosamente");
             }else{
-                redirectAttributes.addFlashAttribute("msg_error", "Usuario no registrado exitosamente");
+                redirectAttributes.addFlashAttribute("msg_error", "Usuario no registrado correctamente");
             }
         } catch (Exception e) {
            logger.error(e.getMessage());
