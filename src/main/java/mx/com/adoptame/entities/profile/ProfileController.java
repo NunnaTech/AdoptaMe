@@ -72,9 +72,10 @@ public class ProfileController {
             Optional<User> user = userService.findOne(id);
             if(user.isPresent()){
                 if(userService.updatePassword(user.get(),currentPassword,newPassword,repeatPassword)){
+                    redirectAttributes.addFlashAttribute("msg_success", "Contraseña cambiada correctamente");
                     return "redirect:/login";
                 }else{
-                    redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al actualizar la contraseña, intente nuevamente");
+                    redirectAttributes.addFlashAttribute("msg_error", "La contraseña actual no es correcta");
                     return "redirect:/profile/";
                 }
             }else{
@@ -82,6 +83,7 @@ public class ProfileController {
                 return "redirect:/profile/";
             }
         }catch (Exception e){
+            redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al actualizar la contraseña, intente nuevamente");
             logger.error(e.getMessage());
         }
         return "redirect:/profile/";
