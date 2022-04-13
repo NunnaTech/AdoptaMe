@@ -10,11 +10,14 @@
 <div class="container mb-5">
     <div class="row mt-5">
         <div class="col-12 col-md-6">
-            <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
-                <div class="error">
-                    <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
-                </div>
-            </c:if>
+            <div class="box-container bg-danger text-white alert alert-dismissible fade show" th:if="${errorMessage}">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="">
+                        <small class="card-title mb-0" th:text="${errorMessage}"></small>
+                    </div>
+            </div>
             <h2>Iniciar sesión</h2>
 
             <form th:action="@{/login}" method="post">
@@ -170,10 +173,6 @@
                            minlength="5"
                            maxlength="50"
                     />
-                    <!--<div id="reasonHelp"
-                         th:classappend="${#fields.hasErrors('reason')?'invalid-feedback':''}"
-                         th:errors="*{reason}">
-                    </div>-->
                 </div>
                 <button type="submit" class="btn btn-success">Crear cuenta</button>
             </form>

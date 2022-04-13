@@ -38,25 +38,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/login")
-                .permitAll()
                 .antMatchers(urlAvailableForAll)
                 .permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().fullyAuthenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/login").permitAll()
+                .failureUrl("/login-error")
                 .defaultSuccessUrl("/dashboard")
                 .usernameParameter("email")
-                .failureHandler(new AuthenticationFailureHandler() {
-                    @Override
-                    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-                            AuthenticationException exception) throws IOException, ServletException {
-                        String error = exception.getMessage();
-                        String redirectUrl = request.getContextPath() + "/login?error";
-                        response.sendRedirect(redirectUrl);
-                    }
-                })
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login?logout")
