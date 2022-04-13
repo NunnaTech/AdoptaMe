@@ -1,5 +1,6 @@
 package mx.com.adoptame.entities.user;
 
+import mx.com.adoptame.entities.log.LogService;
 import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.profile.ProfileService;
 import mx.com.adoptame.entities.request.Request;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,6 +33,8 @@ public class UserController {
     @Autowired private RoleService roleService;
 
     @Autowired private UserService userService;
+
+    @Autowired private LogService logService;
 
     private Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -105,13 +109,19 @@ public class UserController {
 
     @PostMapping("/save")
     @Secured("ROLE_ADMINISTRATOR")
-    public String save(@Valid Profile profile, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String save(@Valid Profile profile, BindingResult bindingResult, RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
             if (bindingResult.hasErrors()) {
                 return "views/user/userForm";
             } else {
                 profile.setUser(userService.recoveryPassword(profile.getUser()));
-                profileService.save(profile);
+                String username = authentication.getName();
+                Optional<User> user = userService.findByEmail(username);
+                if(user.isPresent()){
+                    profileService.save(profile);
+                    logService.saveUserLog("Actualizar",profile.getUser(),user.get());
+                }
+
                 redirectAttributes.addFlashAttribute("msg_success", "Usuario guardado exitosamente");
             }
         } catch (Exception e) {
