@@ -1,8 +1,11 @@
 package mx.com.adoptame.entities.color;
 
 import lombok.extern.slf4j.Slf4j;
+import mx.com.adoptame.entities.user.User;
+import mx.com.adoptame.entities.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,14 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/color")
 @Slf4j
 public class ColorController {
-    @Autowired
-    private ColorService colorService;
 
+    @Autowired private ColorService colorService;
+
+    @Autowired private UserService userService;
     
     @GetMapping("/")
     @Secured("ROLE_ADMINISTRATOR")
@@ -37,14 +42,18 @@ public class ColorController {
 
     @PostMapping("/save")
     @Secured("ROLE_ADMINISTRATOR")
-    public String save(Model model, @Valid Color color, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String save(Model model, @Valid Color color, BindingResult bindingResult, RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
             if (bindingResult.hasErrors()) {
                 return "views/resources/color/colorForm";
             } else {
-                color.setStatus(true);
-                colorService.save(color);
-                redirectAttributes.addFlashAttribute("msg_success", "Color guardado exitosamente");
+                String username = authentication.getName();
+                Optional<User> user = userService.findByEmail(username);
+                if(user.isPresent()){
+                    color.setStatus(true);
+                    colorService.save(color, user.get());
+                    redirectAttributes.addFlashAttribute("msg_success", "Color guardado exitosamente");
+                }
             }
         } catch (Exception e) {
             log.info(e.getMessage());
