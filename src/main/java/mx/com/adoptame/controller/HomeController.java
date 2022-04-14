@@ -24,18 +24,17 @@ import java.util.Optional;
 @Controller()
 public class HomeController {
 
-    @Autowired
-    private NewsService newsService;
-    @Autowired
-    private DonationService donationService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private RequestService requestService;
-    @Autowired
-    private PetService petService;
-    @Autowired
-    private PetAdoptedService petAdoptedService;
+    @Autowired private NewsService newsService;
+
+    @Autowired private DonationService donationService;
+
+    @Autowired private UserService userService;
+
+    @Autowired private RequestService requestService;
+
+    @Autowired private PetService petService;
+
+    @Autowired private PetAdoptedService petAdoptedService;
 
     @GetMapping("/")
     public String index(Model model) {

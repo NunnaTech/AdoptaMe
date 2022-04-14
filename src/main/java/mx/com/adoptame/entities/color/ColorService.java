@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import mx.com.adoptame.entities.log.LogService;
+import mx.com.adoptame.entities.user.User;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ColorService {
+
     @Autowired
     private ColorRepository colorRepository;
+
+    @Autowired
+    private LogService logService;
 
     @Transactional(readOnly = true)
     public List<Color> findAll() {
@@ -29,7 +35,12 @@ public class ColorService {
     }
 
     @Transactional
-    public Optional<Color> save(Color color) {
+    public Optional<Color> save(Color color, User user) {
+        String action = "Actualizar";
+        if (color.getId() == null) {
+            action = "Crear";
+        }
+        logService.saveColorLog(action, color, user);
         return Optional.of(colorRepository.save(color));
     }
 
