@@ -41,6 +41,8 @@ public class DonationController {
 
     private Logger logger = LoggerFactory.getLogger(DonationController.class);
 
+
+    // FALTA IMPLEMENTAR LOGS
     @GetMapping("/admin")
     @Secured("ROLE_ADMINISTRATOR")
     public String donation(Model model) {
@@ -65,11 +67,11 @@ public class DonationController {
         return "views/donations";
     }
 
-    @GetMapping(value = { "/payment", "/payment/{id}" })
+    @GetMapping(value = {"/payment", "/payment/{id}"})
     public ResponseEntity<ByteArrayResource> generatePayment(@PathVariable(required = false, value = "id") Integer id,
-            final HttpServletRequest request,
-            final HttpServletResponse response, RedirectAttributes redirectAttributes,
-            Authentication authentication) throws DocumentException, IllegalAccessException {
+                                                             final HttpServletRequest request,
+                                                             final HttpServletResponse response, RedirectAttributes redirectAttributes,
+                                                             Authentication authentication) throws DocumentException, IllegalAccessException {
         String fileName = "";
         ByteArrayOutputStream byteArrayOutputStreamPDF = new ByteArrayOutputStream();
         Map<String, Object> userPayload = new HashMap<>();

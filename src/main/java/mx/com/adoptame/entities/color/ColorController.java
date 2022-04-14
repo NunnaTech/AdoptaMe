@@ -1,8 +1,9 @@
 package mx.com.adoptame.entities.color;
 
-import lombok.extern.slf4j.Slf4j;
 import mx.com.adoptame.entities.user.User;
 import mx.com.adoptame.entities.user.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -20,13 +21,16 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/color")
-@Slf4j
 public class ColorController {
 
-    @Autowired private ColorService colorService;
+    @Autowired
+    private ColorService colorService;
 
-    @Autowired private UserService userService;
-    
+    @Autowired
+    private UserService userService;
+
+    private Logger logger = LoggerFactory.getLogger(ColorController.class);
+
     @GetMapping("/")
     @Secured("ROLE_ADMINISTRATOR")
     public String type(Model model) {
@@ -49,14 +53,14 @@ public class ColorController {
             } else {
                 String username = authentication.getName();
                 Optional<User> user = userService.findByEmail(username);
-                if(user.isPresent()){
+                if (user.isPresent()) {
                     color.setStatus(true);
                     colorService.save(color, user.get());
                     redirectAttributes.addFlashAttribute("msg_success", "Color guardado exitosamente");
                 }
             }
         } catch (Exception e) {
-            log.info(e.getMessage());
+            logger.error(e.getMessage());
         }
         return "redirect:/color/";
     }
@@ -75,11 +79,16 @@ public class ColorController {
 
     @GetMapping("/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
-        if (Boolean.TRUE.equals(colorService.delete(id))) {
-            redirectAttributes.addFlashAttribute("msg_success", "Color eliminado exitosamente");
-        } else {
-            redirectAttributes.addFlashAttribute("msg_error", "Color no eliminado");
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes, Authentication authentication) {
+        String username = authentication.getName();
+        Optional<User> user = userService.findByEmail(username);
+        if (user.isPresent()) {
+            if (Boolean.TRUE.equals(colorService.delete(id, user.get()))) {
+                redirectAttributes.addFlashAttribute("msg_success", "Color eliminado exitosamente");
+            } else {
+                redirectAttributes.addFlashAttribute("msg_error", "Color no eliminado");
+            }
+
         }
         return "redirect:/color/";
     }

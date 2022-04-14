@@ -842,32 +842,6 @@ header .nav a {
     -webkit-border-radius: 75px;
 }
 
-#logs .badge{
-    width: 6rem;
-
-}
-
-
-
-#logs .badge-primary{
-    background-color: var(--orange)
-}
-
-#logs .badge-secondary{
-    background-color: var(--light-color)
-}
-
-#logs .badge-success{
-    background-color: #54d37a;
-}
-
-
-#logs .badge-danger{
-    background-color: #ff5b5b;
-}
-
-
-
 /* ------------------------------- Logs Ends  -------------------------------  */
 /* ------------------------------- Pets Filtrer Starts  -------------------------------  */
 
@@ -1369,7 +1343,6 @@ header .nav a {
 }
 .media .media-body {
     flex: 1;
-    padding-left: 1rem;
 }
 .email-application .content-area-wrapper {
     border: 1px solid #dfe3e7;

@@ -20,20 +20,18 @@ public class Log {
     @Column(name = "id_log")
     private Integer id;
 
-    @Column(name="old_data" , columnDefinition = "TEXT")
+    @Column(name="old_data", columnDefinition = "TEXT")
     private String oldData;
 
-    @Column(name="new_data" , columnDefinition = "TEXT")
+    @Column(name="new_data", columnDefinition = "TEXT")
     private String newData;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     private LocalDateTime createdAt;
 
-
     @Column(nullable = false, columnDefinition = "enum ('Crear', 'Actualizar', 'Eliminar')")
     private String action;
-
 
     @Column(nullable = false, columnDefinition = "enum ('address', 'characters', 'colors', 'donations', 'favorites_pets', 'logs','news', 'pets', 'pets_adopted', 'pet_images', 'profile', 'request','roles', 'sizes', 'tags', 'tags_news','types', 'users' )")
     private String board;

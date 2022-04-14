@@ -1,16 +1,23 @@
 package mx.com.adoptame.entities.type;
 
+import mx.com.adoptame.entities.log.LogService;
+import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class TypeService {
+
     @Autowired
     private TypeRepository typeRepository;
+
+    @Autowired
+    private LogService logService;
 
     @Transactional(readOnly = true)
     public List<Type> findAll() {
@@ -28,7 +35,12 @@ public class TypeService {
     }
 
     @Transactional
-    public Optional<Type> save(Type entity) {
+    public Optional<Type> save(Type entity, User user) {
+        String action = "Actualizar";
+        if (entity.getId() == null) {
+            action = "Crear";
+        }
+        logService.saveTypeLog(action, entity, user);
         return Optional.of(typeRepository.save(entity));
     }
 
@@ -42,10 +54,11 @@ public class TypeService {
     }
 
     @Transactional
-    public Boolean delete(Integer id) {
+    public Boolean delete(Integer id, User user) {
         Optional<Type> entity = typeRepository.findById(id);
         if (entity.isPresent()) {
             entity.get().setStatus(false);
+            logService.saveTypeLog("Eliminar", entity.get(), user);
             typeRepository.save(entity.get());
             return true;
         }

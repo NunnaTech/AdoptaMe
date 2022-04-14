@@ -4,15 +4,18 @@ import mx.com.adoptame.entities.character.Character;
 import mx.com.adoptame.entities.character.CharacterService;
 import mx.com.adoptame.entities.color.Color;
 import mx.com.adoptame.entities.color.ColorService;
+import mx.com.adoptame.entities.log.LogService;
 import mx.com.adoptame.entities.pet.entities.Pet;
 import mx.com.adoptame.entities.pet.repositories.PetRepository;
 import mx.com.adoptame.entities.size.Size;
 import mx.com.adoptame.entities.size.SizeService;
 import mx.com.adoptame.entities.type.Type;
 import mx.com.adoptame.entities.type.TypeService;
+import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Collection;
@@ -31,6 +34,8 @@ public class PetService {
     private CharacterService characterService;
     @Autowired
     private ColorService colorService;
+    @Autowired
+    private LogService logService;
 
     @Transactional(readOnly = true)
     public List<Pet> findAll() {
@@ -63,7 +68,12 @@ public class PetService {
     }
 
     @Transactional
-    public Optional<Pet> save(Pet entity) {
+    public Optional<Pet> save(Pet entity, User user) {
+        String action = "Actualizar";
+        if (entity.getId() == null) {
+            action = "Crear";
+        }
+        logService.savePetLog(action, entity, user);
         return Optional.of(petRepository.save(entity));
     }
 
@@ -88,11 +98,12 @@ public class PetService {
     }
 
     @Transactional
-    public Boolean delete(Integer id) {
+    public Boolean delete(Integer id , User user) {
         Optional<Pet> entity = petRepository.findById(id);
         if (entity.isPresent()) {
             entity.get().setIsActive(false);
             entity.get().setIsDropped(true);
+            logService.savePetLog("Eliminar", entity.get(), user);
             return true;
         }
         return false;

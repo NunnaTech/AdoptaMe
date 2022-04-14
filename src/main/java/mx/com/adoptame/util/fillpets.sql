@@ -451,7 +451,8 @@ CREATE PROCEDURE log_tbl_sizes(action_in VARCHAR(20),
                                id_in INT,
                                name_in VARCHAR(50),
                                size_range_in VARCHAR(100),
-                               status_in TINYINT(1), user_id_in INT)
+                               status_in TINYINT(1),
+                               user_id_in INT)
 BEGIN
 
     DECLARE table_in VARCHAR(50) DEFAULT 'sizes';

@@ -87,11 +87,15 @@ public class NewsController {
 
     @GetMapping("/admin/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
-        if (Boolean.TRUE.equals(newsService.delete(id))) {
-            redirectAttributes.addFlashAttribute("msg_success", "Blog eliminado exitosamente");
-        } else {
-            redirectAttributes.addFlashAttribute("msg_error", "Blog no eliminado");
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes, Authentication authentication) {
+        String username = authentication.getName();
+        Optional<User> user = userService.findByEmail(username);
+        if (user.isPresent()) {
+            if (Boolean.TRUE.equals(newsService.delete(id, user.get()))) {
+                redirectAttributes.addFlashAttribute("msg_success", "Blog eliminado exitosamente");
+            } else {
+                redirectAttributes.addFlashAttribute("msg_error", "Blog no eliminado");
+            }
         }
         return "redirect:/blog/admin";
     }
@@ -108,7 +112,7 @@ public class NewsController {
                 Optional<User> user = userService.findByEmail(username);
                 if (user.isPresent()) {
                     news.setUser(user.get());
-                    newsService.save(news);
+                    newsService.save(news, user.get());
                     redirectAttributes.addFlashAttribute("msg_success", "Blog guardado exitosamente");
                 }
             }
