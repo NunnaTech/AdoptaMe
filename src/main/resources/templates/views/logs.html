@@ -4,104 +4,53 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="components/htmlComponents::htmlHead"/>
-<body id="logs" class="d-flex flex-column min-vh-100" >
-<header th:replace="components/navbars:: navbar-admin"/>
+<body id="logs" class="d-flex flex-column min-vh-100">
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
 
-<div class="container-fluid my-5">
-  <div class="mb-4">
-    <h3>Registro de Actividades <i class="ml-2 fa-solid fa-database"></i></h3>
-  </div>
-  <div class="row">
-    <div class="col-xl-12 ">
-      <div class="card box-container">
-        <div class="card-header py-3">
-          <h5 class="card-title mb-0">Actividades</h5>
+<div class="container-fluid py-3">
+    <div th:replace="components/titles::titles ('Actividades', ${ {'Monitoreo de actividades'} })"></div>
+    <div class="card box-container">
+        <div class="card-body table-responsive py-3">
+            <table id="datatable" class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Tabla</th>
+                    <th scope="col">Acción</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Datos anteriores</th>
+                    <th scope="col">Datos nuevos</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="i,c:${list}">
+                    <td th:text="${c.count}"/>
+                    <td class="media">
+                        <img th:src="${i.user.profile.image}"
+                             alt="avatar" class="rounded-circle">
+                        <div class="ml-3">
+                            <p class="m-0" th:text="|${i.user.profile.getPartialName()}|"/>
+                            <small class="text-muted" th:text="${i.user.username}"/>
+                        </div>
+                    </td>
+                    <td th:text="${i.board}"/>
+                    <td th:switch="${i.action}">
+                        <span th:case="Crear" class="badge badge-success">Creación</span>
+                        <span th:case="Actualizar" class="badge badge-primary">Modificación</span>
+                        <span th:case="Eliminar" class="badge badge-danger">Eliminación</span>
+                    </td>
+                    <td th:text="${#temporals.format(i.createdAt,'dd-MMM-yyyy')}"/>
+                    <td th:text="${i.oldData}"/>
+                    <td th:text="${i.newData}"/>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="card-body table-responsive">
-          <table class="table table-hover">
-            <thead>
-            <tr class="th-head">
-              <th>Usuario <i class="ml-2 fa-solid fa-user"></i></th>
-              <th class="td-badge">Acción <i class=" ml-2 fa-solid fa-circle-exclamation"></i></th>
-
-              <th class="th-date">Fecha <i class="ml-2 fa-solid fa-calendar"></i></th>
-              <th>Datos anteriores <i class="ml-2 fa-solid fa-database"></i></th>
-              <th>Nuevos datos <i class="ml-2 fa-solid fa-database"></i></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>
-                <div class="media">
-                  <div class="media-aside align-self-center">
-                    <img src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/img/9.3fd39137.png"
-                         alt="avatar" class="rounded-circle">
-                    </a>
-                  </div>
-                  <div class="ml-3"><p class="m-0">
-                    Luis Álvarez
-                  </p>
-                    <small class="text-muted">LuisAlvarez@gmail.com</small>
-                  </div>
-                </div>
-              </td>
-              <td class="td-badge"><span class="p-2 badge badge-success">Registro</span>
-              </td>
-              <td class="td-badge">24/05/22</td>
-              <td>Lorem ipsum dolor sit amet, con rem elit</td>
-              <td>Lorem ipsum dolor sit amet, con rem elit</td>
-            </tr>
-            <tr>
-              <td>
-                <div class="media">
-                  <div class="media-aside align-self-center">
-                    <img src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/img/9.3fd39137.png"
-                         alt="avatar" class="rounded-circle">
-                    </a>
-                  </div>
-                  <div class="ml-3"><p class="m-0">
-                    Luis Álvarez
-                  </p>
-                    <small class="text-muted">LuisAlvarez@gmail.com</small>
-                  </div>
-                </div>
-              </td>
-              <td class="td-badge"><span class="p-2 badge badge-primary">Modificación</span>
-              </td>
-              <td class="td-badge">24/05/22</td>
-              <td>Lorem ipsum dolor sit amet, con rem elit</td>
-              <td>Lorem ipsum dolor sit amet, con rem elit</td>
-            </tr>
-            <tr>
-              <td>
-                <div class="media">
-                  <div class="media-aside align-self-center">
-                    <img src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/img/9.3fd39137.png"
-                         alt="avatar" class="rounded-circle">
-                    </a>
-                  </div>
-                  <div class="ml-3"><p class="m-0">
-                    Luis Álvarez
-                  </p>
-                    <small class="text-muted">LuisAlvarez@gmail.com</small>
-                  </div>
-                </div>
-              </td>
-              <td class="td-badge"><span class="p-2 badge badge-danger">Eliminación</span>
-              </td>
-              <td class="td-badge">24/05/22</td>
-              <td>Lorem ipsum dolor sit amet, con rem elit</td>
-              <td>Lorem ipsum dolor sit amet, con rem elit</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
-  </div>
-
 </div>
-
 <footer th:replace="components/htmlComponents::htmlFooter"/>
 </body>
 </html>

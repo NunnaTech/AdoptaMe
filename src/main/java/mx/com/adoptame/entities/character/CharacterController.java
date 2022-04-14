@@ -1,7 +1,10 @@
 package mx.com.adoptame.entities.character;
 
+import mx.com.adoptame.entities.user.User;
+import mx.com.adoptame.entities.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/character")
@@ -19,6 +23,9 @@ public class CharacterController {
 
     @Autowired
     private CharacterService characterService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/")
     @Secured("ROLE_ADMINISTRATOR")
@@ -35,14 +42,18 @@ public class CharacterController {
 
     @PostMapping("/save")
     @Secured("ROLE_ADMINISTRATOR")
-    public String save(Model model, @Valid Character character, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String save(Authentication authentication, @Valid Character character, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
                 return "views/resources/character/characterForm";
             } else {
-                character.setStatus(true);
-                characterService.save(character);
-                redirectAttributes.addFlashAttribute("msg_success", "Carácter guardado exitosamente");
+                String username = authentication.getName();
+                Optional<User> user = userService.findByEmail(username);
+                if (user.isPresent()) {
+                    character.setStatus(true);
+                    characterService.save(character, user.get());
+                    redirectAttributes.addFlashAttribute("msg_success", "Carácter guardado exitosamente");
+                }
             }
         } catch (Exception e) {
         }
@@ -63,11 +74,15 @@ public class CharacterController {
 
     @GetMapping("/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
-        if (Boolean.TRUE.equals(characterService.delete(id))) {
-            redirectAttributes.addFlashAttribute("msg_success", "Carácter eliminado exitosamente");
-        } else {
-            redirectAttributes.addFlashAttribute("msg_error", "Carácter no eliminado");
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes, Authentication authentication) {
+        String username = authentication.getName();
+        Optional<User> user = userService.findByEmail(username);
+        if (user.isPresent()) {
+            if (Boolean.TRUE.equals(characterService.delete(id, user.get()))) {
+                redirectAttributes.addFlashAttribute("msg_success", "Carácter eliminado exitosamente");
+            } else {
+                redirectAttributes.addFlashAttribute("msg_error", "Carácter no eliminado");
+            }
         }
         return "redirect:/character/";
     }

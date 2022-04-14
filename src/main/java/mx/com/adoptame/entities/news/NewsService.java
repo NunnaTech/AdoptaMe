@@ -1,6 +1,9 @@
 package mx.com.adoptame.entities.news;
 
+import mx.com.adoptame.entities.log.LogService;
 import mx.com.adoptame.entities.tag.Tag;
+import mx.com.adoptame.entities.type.Type;
+import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,8 +13,12 @@ import java.util.Optional;
 
 @Service
 public class NewsService {
+
     @Autowired
     private NewsRepository newsRepository;
+
+    @Autowired
+    private LogService logService;
 
     @Transactional(readOnly = true)
     public List<News> findAll() {
@@ -39,10 +46,15 @@ public class NewsService {
     }
 
     @Transactional
-    public Optional<News> save(News entity) {
+    public Optional<News> save(News entity, User user) {
+        String action = "Actualizar";
         if (entity.getImage().isEmpty()) {
             entity.setImage("https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/592/89da8cb2-d1ea-4cfa-9e45-14725313b19e.png");
         }
+        if (entity.getId() == null) {
+            action = "Crear";
+        }
+        logService.saveNewsLog(action, entity, user);
         return Optional.of(newsRepository.save(entity));
     }
 
@@ -62,12 +74,14 @@ public class NewsService {
     }
 
     @Transactional
-    public Boolean delete(Integer id) {
-        boolean entity = newsRepository.existsById(id);
-        if (entity) {
+    public Boolean delete(Integer id, User user) {
+        Optional<News> entity = newsRepository.findById(id);
+        if (entity.isPresent()) {
+            logService.saveNewsLog("Eliminar", entity.get(), user);
             newsRepository.deleteById(id);
+            return true;
         }
-        return entity;
+        return false;
     }
 
     @Transactional(readOnly = true)

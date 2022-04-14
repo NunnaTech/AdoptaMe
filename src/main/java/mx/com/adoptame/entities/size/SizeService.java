@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import mx.com.adoptame.entities.log.LogService;
+import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ public class SizeService {
 
     @Autowired
     private SizeRepository sizeRepository;
+
+    @Autowired
+    private LogService logService;
 
     @Transactional(readOnly = true)
     public List<Size> findAll() {
@@ -30,8 +35,13 @@ public class SizeService {
     }
 
     @Transactional
-    public Optional<Size> save(Size size) {
-        return Optional.of(sizeRepository.save(size));
+    public Optional<Size> save(Size entity, User user) {
+        String action = "Actualizar";
+        if (entity.getId() == null) {
+            action = "Crear";
+        }
+        logService.saveSizeLog(action, entity, user);
+        return Optional.of(sizeRepository.save(entity));
     }
 
     @Transactional
@@ -44,10 +54,11 @@ public class SizeService {
     }
 
     @Transactional
-    public Boolean delete(Integer id) {
+    public Boolean delete(Integer id, User user) {
         Optional<Size> entity = sizeRepository.findById(id);
         if (entity.isPresent()) {
             entity.get().setStatus(false);
+            logService.saveSizeLog("Eliminar", entity.get(), user);
             sizeRepository.save(entity.get());
             return true;
         }

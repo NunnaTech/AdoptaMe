@@ -1,8 +1,12 @@
 package mx.com.adoptame.entities.tag;
 
-import lombok.extern.slf4j.Slf4j;
+import mx.com.adoptame.entities.user.User;
+import mx.com.adoptame.entities.user.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,14 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/tag")
-@Slf4j
 public class TagController {
 
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private UserService userService;
+
+    private Logger logger = LoggerFactory.getLogger(TagController.class);
 
     @GetMapping("/")
     @Secured("ROLE_ADMINISTRATOR")
@@ -37,16 +46,20 @@ public class TagController {
 
     @PostMapping("/save")
     @Secured("ROLE_ADMINISTRATOR")
-    public String save(Model model, @Valid Tag tag, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String save(Authentication authentication, @Valid Tag tag, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
                 return "views/resources/tag/tagForm";
             } else {
-                tagService.save(tag);
-                redirectAttributes.addFlashAttribute("msg_success", "Etiqueta guardada exitosamente");
+                String username = authentication.getName();
+                Optional<User> user = userService.findByEmail(username);
+                if (user.isPresent()) {
+                    tagService.save(tag, user.get());
+                    redirectAttributes.addFlashAttribute("msg_success", "Etiqueta guardada exitosamente");
+                }
             }
         } catch (Exception e) {
-            log.info(e.getMessage());
+            logger.error(e.getMessage());
         }
         return "redirect:/tag/";
     }
@@ -65,11 +78,15 @@ public class TagController {
 
     @GetMapping("/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String delete(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-        if (Boolean.TRUE.equals(tagService.delete(id))) {
-            redirectAttributes.addFlashAttribute("msg_success", "Etiqueta eliminado exitosamente");
-        } else {
-            redirectAttributes.addFlashAttribute("msg_error", "Etiqueta no eliminado");
+    public String delete(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
+        String username = authentication.getName();
+        Optional<User> user = userService.findByEmail(username);
+        if (user.isPresent()) {
+            if (Boolean.TRUE.equals(tagService.delete(id, user.get()))) {
+                redirectAttributes.addFlashAttribute("msg_success", "Etiqueta eliminado exitosamente");
+            } else {
+                redirectAttributes.addFlashAttribute("msg_error", "Etiqueta no eliminado");
+            }
         }
         return "redirect:/tag/";
     }
