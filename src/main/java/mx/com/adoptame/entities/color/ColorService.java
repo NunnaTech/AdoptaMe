@@ -13,11 +13,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class ColorService {
 
-    @Autowired
-    private ColorRepository colorRepository;
+    @Autowired private ColorRepository colorRepository;
 
-    @Autowired
-    private LogService logService;
+    @Autowired private LogService logService;
 
     @Transactional(readOnly = true)
     public List<Color> findAll() {
@@ -54,11 +52,12 @@ public class ColorService {
     }
 
     @Transactional
-    public Boolean delete(Integer id) {
+    public Boolean delete(Integer id, User user) {
         Optional<Color> entity = colorRepository.findById(id);
         if (entity.isPresent()) {
             entity.get().setStatus(false);
             colorRepository.save(entity.get());
+            logService.saveColorLog("Eliminar", entity.get(), user);
             return true;
         }
         return false;

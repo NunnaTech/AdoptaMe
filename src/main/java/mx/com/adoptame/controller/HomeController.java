@@ -1,6 +1,7 @@
 package mx.com.adoptame.controller;
 
 import mx.com.adoptame.entities.donation.DonationService;
+import mx.com.adoptame.entities.log.LogService;
 import mx.com.adoptame.entities.news.NewsService;
 import mx.com.adoptame.entities.pet.services.PetAdoptedService;
 import mx.com.adoptame.entities.pet.services.PetService;
@@ -35,6 +36,8 @@ public class HomeController {
     @Autowired private PetService petService;
 
     @Autowired private PetAdoptedService petAdoptedService;
+
+    @Autowired private LogService logService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -107,5 +110,11 @@ public class HomeController {
     @GetMapping("/noscript")
     public String noscript() {
         return "views/authentication/resetPassword";
+    }
+
+    @GetMapping("/logs")
+    public String logs(Model model) {
+        model.addAttribute("list", logService.findAll());
+        return "views/logs";
     }
 }

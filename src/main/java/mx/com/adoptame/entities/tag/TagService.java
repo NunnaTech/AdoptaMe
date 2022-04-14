@@ -1,5 +1,7 @@
 package mx.com.adoptame.entities.tag;
 
+import mx.com.adoptame.entities.log.LogService;
+import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,9 @@ public class TagService {
     @Autowired
     private TagRepository tagRepository;
 
+    @Autowired
+    private LogService logService;
+
     @Transactional(readOnly = true)
     public List<Tag> findAll() {
         return (List<Tag>) tagRepository.findAll();
@@ -23,7 +28,12 @@ public class TagService {
     }
 
     @Transactional
-    public Optional<Tag> save(Tag entity) {
+    public Optional<Tag> save(Tag entity, User user) {
+        String action = "Actualizar";
+        if (entity.getId() == null) {
+            action = "Crear";
+        }
+        logService.saveTagLog(action, entity, user);
         return Optional.of(tagRepository.save(entity));
     }
 
@@ -37,12 +47,14 @@ public class TagService {
     }
 
     @Transactional
-    public Boolean delete(Integer id) {
-        boolean entity = tagRepository.existsById(id);
-        if (entity) {
+    public Boolean delete(Integer id, User user) {
+        Optional<Tag> entity = tagRepository.findById(id);
+        if (entity.isPresent()) {
+            logService.saveTagLog("Eliminar", entity.get(), user);
             tagRepository.deleteById(id);
+            return true;
         }
-        return entity;
+        return false;
     }
 
     public void fillInitialData() {

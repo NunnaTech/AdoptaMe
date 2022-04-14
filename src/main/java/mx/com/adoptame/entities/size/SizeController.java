@@ -1,8 +1,12 @@
 package mx.com.adoptame.entities.size;
 
-import lombok.extern.slf4j.Slf4j;
+import mx.com.adoptame.entities.user.User;
+import mx.com.adoptame.entities.user.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,14 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/size")
-@Slf4j
 public class SizeController {
 
     @Autowired
     private SizeService sizeService;
+
+    @Autowired
+    private UserService userService;
+
+    private Logger logger = LoggerFactory.getLogger(SizeController.class);
 
     @GetMapping("/")
     @Secured("ROLE_ADMINISTRATOR")
@@ -37,17 +46,21 @@ public class SizeController {
 
     @PostMapping("/save")
     @Secured("ROLE_ADMINISTRATOR")
-    public String save(Model model, @Valid Size size, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String save(Authentication authentication, @Valid Size size, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
                 return "views/resources/size/sizeForm";
             } else {
-                size.setStatus(true);
-                sizeService.save(size);
-                redirectAttributes.addFlashAttribute("msg_success", "Tamaño guardado exitosamente");
+                String username = authentication.getName();
+                Optional<User> user = userService.findByEmail(username);
+                if (user.isPresent()) {
+                    size.setStatus(true);
+                    sizeService.save(size, user.get());
+                    redirectAttributes.addFlashAttribute("msg_success", "Tamaño guardado exitosamente");
+                }
             }
         } catch (Exception e) {
-            log.info(e.getMessage());
+            logger.error(e.getMessage());
         }
         return "redirect:/size/";
     }
@@ -66,11 +79,15 @@ public class SizeController {
 
     @GetMapping("/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
-        if (Boolean.TRUE.equals(sizeService.delete(id))) {
-            redirectAttributes.addFlashAttribute("msg_success", "Tamaño eliminado exitosamente");
-        } else {
-            redirectAttributes.addFlashAttribute("msg_error", "Tamaño no eliminado");
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes, Authentication authentication) {
+        String username = authentication.getName();
+        Optional<User> user = userService.findByEmail(username);
+        if (user.isPresent()) {
+            if (Boolean.TRUE.equals(sizeService.delete(id, user.get()))) {
+                redirectAttributes.addFlashAttribute("msg_success", "Tamaño eliminado exitosamente");
+            } else {
+                redirectAttributes.addFlashAttribute("msg_error", "Tamaño no eliminado");
+            }
         }
         return "redirect:/size/";
     }
