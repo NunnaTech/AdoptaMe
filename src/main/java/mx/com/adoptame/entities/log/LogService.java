@@ -1,9 +1,11 @@
 package mx.com.adoptame.entities.log;
 
+import mx.com.adoptame.entities.color.Color;
 import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -28,15 +30,27 @@ public class LogService {
     }
 
     @Transactional
-    public void saveUserLog(String action,User user, User madeBy) {
-                logRepository.logUser(
-                        action,
-                        user.getId(),
-                        user.getUsername(),
-                        user.getPassword(),
-                        user.getEnabled(),
-                        madeBy.getId()
-                );
+    public void saveUserLog(String action, User user, User madeBy) {
+        logRepository.logUser(
+                action,
+                user.getId(),
+                user.getUsername(),
+                user.getPassword(),
+                user.getEnabled() == true ? 1 : 0,
+                madeBy.getId()
+        );
+    }
+
+    @Transactional
+    public void saveColorLog(String action, Color color, User madeBy) {
+        logRepository.logColor(
+                action,
+                color.getId(),
+                color.getHex_code(),
+                color.getName(),
+                color.getStatus() == true ? 1 : 0,
+                madeBy.getId()
+        );
     }
 
 
@@ -47,5 +61,5 @@ public class LogService {
             logRepository.deleteById(id);
         }
         return entity;
-    }    
+    }
 }
