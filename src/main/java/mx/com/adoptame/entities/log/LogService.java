@@ -28,7 +28,7 @@ public class LogService {
 
     @Transactional(readOnly = true)
     public List<Log> findAll() {
-        return logRepository.findByOrderByCreatedAtDesc();
+        return logRepository.findAllByOrderByCreatedAtDesc();
     }
 
     @Transactional(readOnly = true)

@@ -42,7 +42,6 @@ public class Address implements Serializable{
     @Column(name="external_number", nullable = false, columnDefinition = "varchar(5)")
     private String externalNumber;
 
-    @Size(min = 1, max = 5)
     @Pattern(regexp = "[0-9]*")
     @Column(name="internal_number", columnDefinition = "varchar(5)")
     private String internalNumber;

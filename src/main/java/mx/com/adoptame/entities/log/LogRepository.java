@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface LogRepository extends CrudRepository<Log, Integer> {
-
+    List<Log> findAllByOrderByCreatedAtDesc();
     @Procedure(procedureName = "log_user")
     void logUser(
             @Param("action_in") String actionIn,
@@ -163,5 +163,5 @@ public interface LogRepository extends CrudRepository<Log, Integer> {
             @Param("user_in") Integer userIn,
             @Param("user_id_in") Integer userIdIn
     );
-    List<Log> findByOrderByCreatedAtDesc();
+
 }

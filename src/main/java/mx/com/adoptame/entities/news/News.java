@@ -50,7 +50,6 @@ public class News implements Serializable {
     @NotNull
     @NotBlank
     @Size(min = 10)
-    //@Pattern(regexp = "[A-Za-zÀ-ÿ '-.]*")
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String content;
 
@@ -75,8 +74,6 @@ public class News implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
     
-    // Relationships
-    // Many to Many: TAGS
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "TBL_TAGS_NEWS",
       joinColumns = @JoinColumn(name = "id_news"), 
@@ -87,10 +84,4 @@ public class News implements Serializable {
         tags.add(tag);
         tag.getNews().add(this);
     }
-
-    public void removeTag(Tag tag) {
-        tags.remove(tag);
-        tag.getNews().remove(this);
-    }
-
 }
