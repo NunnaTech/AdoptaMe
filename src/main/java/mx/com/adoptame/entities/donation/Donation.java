@@ -2,6 +2,8 @@ package mx.com.adoptame.entities.donation;
 
 import lombok.*;
 import mx.com.adoptame.entities.user.User;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -25,7 +27,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Setter
 @NoArgsConstructor
 
-public class Donation {
+public class Donation implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -27,8 +27,8 @@
         <tr th:each="i,c: ${list}">
             <td th:text="${c.count}"/>
             <td th:text="${i.name}"/>
-            <td th:style="|background-color:${i.hex_code}|">
-                <span class="bg-white" th:text="${i.hex_code}"/>
+            <td th:style="|background-color:${i.hexCode}|">
+                <span class="bg-white" th:text="${i.hexCode}"/>
             </td>
             <td class="d-flex justify-content-around">
                 <a th:href="@{/color/edit/{id} (id=${i.id})}" class="btn btn-warning">

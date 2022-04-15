@@ -19,6 +19,9 @@ import org.slf4j.Logger;
 @RequestMapping("/role")
 public class RoleController {
 
+    private static final String ROLE = "redirect:/role/";
+    private static final String ROLEFORM = "views/resources/role/roleForm";
+
     @Autowired
     private RoleService roleService;
 
@@ -34,7 +37,7 @@ public class RoleController {
     @GetMapping("/form")
     @Secured("ROLE_ADMINISTRATOR")
     public String form(Model model, Role role) {
-        return "views/resources/role/roleForm";
+        return ROLEFORM;
     }
 
     @PostMapping("/save")
@@ -42,7 +45,7 @@ public class RoleController {
     public String save(Model model, @Valid Role role, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
-                return "views/resources/role/roleForm";
+                return ROLEFORM;
             } else {
                 roleService.save(role);
                 redirectAttributes.addFlashAttribute("msg_success", "Rol guardado exitosamente");
@@ -50,19 +53,19 @@ public class RoleController {
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-        return "redirect:/role/";
+        return ROLE;
     }
 
     @GetMapping("/edit/{id}")
     @Secured("ROLE_ADMINISTRATOR")
     public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-        Role role = roleService.findOne(id).orElse(null);
+        var role = roleService.findOne(id).orElse(null);
         if (role == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Rol no encontrado");
-            return "redirect:/role/";
+            return ROLE;
         }
         model.addAttribute("role", role);
-        return "views/resources/role/roleForm";
+        return ROLEFORM;
     }
 
     @GetMapping("/delete/{id}")
@@ -73,7 +76,7 @@ public class RoleController {
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Rol no eliminado");
         }
-        return "redirect:/role/";
+        return ROLE;
     }
 
 }

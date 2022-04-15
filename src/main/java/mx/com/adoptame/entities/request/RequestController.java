@@ -55,47 +55,47 @@ public class RequestController {
             if (bindingResult.hasErrors()) {
                 return "views/authentication/login";
             }
-            if(userService.findByEmail(profile.getUser().getUsername()).isPresent()){
+            if (userService.findByEmail(profile.getUser().getUsername()).isPresent()) {
                 redirectAttributes.addFlashAttribute("msg_error", "Intenta con otro correo electrónico");
                 return "redirect:/login";
             }
-            boolean success = false;
+            var success = false;
             String phone = profile.getPhone().replaceAll("[\\s]", "").replaceAll("\\(", "").replaceAll("\\)", "")
                     .replaceAll("-", "");
             profile.setPhone(phone);
-            if(role.equalsIgnoreCase("Voluntario")){
+            if (role.equalsIgnoreCase("Voluntario")) {
                 profile.getUser().addRole();
                 profile.getUser().setEnabled(false);
 
                 Optional<User> optionalUser = userService.addUser(profile.getUser());
-                if (optionalUser.isPresent()){
+                if (optionalUser.isPresent()) {
                     Optional<Role> volunteer = roleService.findByType("ROLE_VOLUNTEER");
                     volunteer.ifPresent(value -> userService.addRole(optionalUser.get(), value));
                     profile.setUser(optionalUser.get());
-                    profileService.addProfile(profile,profile.getUser());
+                    profileService.addProfile(profile, profile.getUser());
                     requestService.addRequest(reason, optionalUser.get());
                     success = true;
                 }
-            }else {
+            } else {
                 profile.getUser().addRole();
                 profile.getUser().setEnabled(true);
                 Optional<User> optionalUser = userService.addUser(profile.getUser());
-                if (optionalUser.isPresent()){
+                if (optionalUser.isPresent()) {
                     Optional<Role> volunteer = roleService.findByType("ROLE_ADOPTER");
                     volunteer.ifPresent(value -> userService.addRole(optionalUser.get(), value));
                     profile.setUser(optionalUser.get());
-                    profileService.addProfile(profile,profile.getUser());
+                    profileService.addProfile(profile, profile.getUser());
                     success = true;
                 }
             }
 
-            if(success){
+            if (success) {
                 redirectAttributes.addFlashAttribute("msg_success", "Usuario registrado exitosamente");
-            }else{
+            } else {
                 redirectAttributes.addFlashAttribute("msg_error", "Usuario no registrado correctamente");
             }
         } catch (Exception e) {
-           logger.error(e.getMessage());
+            logger.error(e.getMessage());
         }
         return "redirect:/login";
     }

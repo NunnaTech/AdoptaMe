@@ -1,5 +1,6 @@
 package mx.com.adoptame.entities.pet.entities;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,10 @@ import mx.com.adoptame.entities.type.Type;
 @Setter
 @NoArgsConstructor
 
-public class Pet {
+public class Pet implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pet")
@@ -90,17 +94,19 @@ public class Pet {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "character_id")
     private Character character;
+
     @Valid
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")
     private Type type;
+
     @Valid
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "color_id")
     private Color color;
 
     @ManyToMany(mappedBy = "favoitesPets")
-    public List<User> users = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
     @OneToMany(mappedBy = "pet", cascade = CascadeType.PERSIST)
     private Set<PetAdopted> pets;

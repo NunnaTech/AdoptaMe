@@ -240,7 +240,7 @@ DELIMITER $$;
 CREATE PROCEDURE log_tbl_colors(
     action_in VARCHAR(20),
     id_in INT,
-    hex_code_in VARCHAR(10),
+    hexCode_in VARCHAR(10),
     name_in VARCHAR(20),
     status_in TINYINT(1),
     user_id_in INT)
@@ -252,12 +252,12 @@ BEGIN
         INSERT INTO tbl_logs(action, board, new_data, user_id)
         VALUES (action_in,
                 table_in,
-                CONCAT('{hex_code:', hex_code_in, ',name:', name_in, ',status:', status_in, '}'),
+                CONCAT('{hexCode:', hexCode_in, ',name:', name_in, ',status:', status_in, '}'),
                 user_id_in);
 
     ELSEIF (action_in = 'Actualizar' AND id_in IS NOT NULL) THEN
 
-        SELECT CONCAT('{hex_code:', hex_code, ',name:', name, ',status:', status, '}')
+        SELECT CONCAT('{hexCode:', hexCode, ',name:', name, ',status:', status, '}')
         INTO data_from_db
         FROM tbl_colors t
         WHERE t.id_color = id_in;
@@ -265,13 +265,13 @@ BEGIN
         INSERT INTO tbl_logs(action, board, new_data, old_data, user_id)
         VALUES (action_in,
                 table_in,
-                CONCAT('{hex_code:', hex_code_in, ',name:', name_in, ',status:', status_in, '}'),
+                CONCAT('{hexCode:', hexCode_in, ',name:', name_in, ',status:', status_in, '}'),
                 data_from_db,
                 user_id_in);
 
     ELSE
 
-        SELECT CONCAT('{hex_code:', hex_code, ',name:', name, ',status:', status, '}')
+        SELECT CONCAT('{hexCode:', hexCode, ',name:', name, ',status:', status, '}')
         INTO data_from_db
         FROM tbl_colors t
         WHERE t.id_color = id_in;

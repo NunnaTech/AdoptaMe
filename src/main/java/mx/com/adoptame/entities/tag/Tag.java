@@ -43,7 +43,7 @@ public class Tag implements Serializable{
     private String description;
 
     @ManyToMany(mappedBy = "tags")
-    public List<News> news = new ArrayList<>();
+    private List<News> news = new ArrayList<>();
 
     public Tag(String name, String description) {
         this.name = name;

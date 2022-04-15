@@ -45,7 +45,7 @@ public class Color implements Serializable {
     @Size(min = 2, max = 10)
     @Pattern(regexp = "[A-Za-z0-9#]*")
     @Column(nullable = false, columnDefinition = "varchar(10)")
-    private String hex_code;
+    private String hexCode;
 
     @Column(columnDefinition = "tinyint default 1")
     private Boolean status;
@@ -53,9 +53,9 @@ public class Color implements Serializable {
     @OneToMany(mappedBy="color", cascade = CascadeType.PERSIST)
     private Set<Pet> pets;
 
-    public Color(String name, String hex_code) {
+    public Color(String name, String hexCode) {
         this.name = name;
-        this.hex_code = hex_code;
+        this.hexCode = hexCode;
         this.status = true;
     }
 }

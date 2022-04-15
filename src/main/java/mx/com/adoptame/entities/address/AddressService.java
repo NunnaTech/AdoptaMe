@@ -1,7 +1,5 @@
 package mx.com.adoptame.entities.address;
 
-import mx.com.adoptame.entities.profile.Profile;
-import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

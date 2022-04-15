@@ -41,8 +41,6 @@ public class DonationController {
 
     private Logger logger = LoggerFactory.getLogger(DonationController.class);
 
-
-    // FALTA IMPLEMENTAR LOGS
     @GetMapping("/admin")
     @Secured("ROLE_ADMINISTRATOR")
     public String donation(Model model) {
@@ -72,8 +70,8 @@ public class DonationController {
                                                              final HttpServletRequest request,
                                                              final HttpServletResponse response, RedirectAttributes redirectAttributes,
                                                              Authentication authentication) throws DocumentException, IllegalAccessException {
-        String fileName = "";
-        ByteArrayOutputStream byteArrayOutputStreamPDF = new ByteArrayOutputStream();
+        var fileName = "";
+        var byteArrayOutputStreamPDF = new ByteArrayOutputStream();
         Map<String, Object> userPayload = new HashMap<>();
         String username = authentication.getName();
         Optional<User> user = userService.findByEmail(username);
@@ -88,7 +86,6 @@ public class DonationController {
         if (user.isPresent()) {
             Field[] allFields = user.get().getClass().getDeclaredFields();
             for (Field field : allFields) {
-                field.setAccessible(true);
                 Object value = field.get(user.get());
                 userPayload.put(field.getName(), value);
             }
@@ -97,7 +94,7 @@ public class DonationController {
                     "/components/payment.html",
                     userPayload, request, response);
         }
-        ByteArrayResource inputStreamResourcePDF = new ByteArrayResource(byteArrayOutputStreamPDF.toByteArray());
+        var inputStreamResourcePDF = new ByteArrayResource(byteArrayOutputStreamPDF.toByteArray());
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + fileName)
                 .contentType(MediaType.APPLICATION_PDF)
                 .contentLength(inputStreamResourcePDF.contentLength()).body(inputStreamResourcePDF);

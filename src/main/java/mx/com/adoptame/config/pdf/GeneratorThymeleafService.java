@@ -34,30 +34,27 @@ public class GeneratorThymeleafService {
     private String urlBase;
 
     public ByteArrayOutputStream createPdf(String templateName,
-            Map<String, Object> userPayload,
-            HttpServletRequest request,
-            HttpServletResponse response)
+                                           Map<String, Object> userPayload,
+                                           HttpServletRequest request,
+                                           HttpServletResponse response)
             throws DocumentException {
         IWebContext ctx = new WebContext(request, response, servletContext, LocaleContextHolder.getLocale(),
                 userPayload);
-        String processedHtml = templateEngine.process(templateName, ctx);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {
-            ITextRenderer renderer = new ITextRenderer();
+            String processedHtml = templateEngine.process(templateName, ctx);
+            var bos = new ByteArrayOutputStream();
+            var renderer = new ITextRenderer();
             renderer.setDocumentFromString(processedHtml, urlBase);
             renderer.layout();
             renderer.createPDF(bos, false);
             renderer.finishPDF();
+            bos.close();
+            return bos;
+        } catch (IOException e) {
+            logger.error("Error creando pdf", e);
         } catch (Exception e) {
             logger.error(e.getMessage());
-        } finally {
-            try {
-                bos.close();
-            } catch (IOException e) {
-                logger.error("Error creando pdf", e);
-            }
-
         }
-        return bos;
+        return null;
     }
 }

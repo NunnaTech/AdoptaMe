@@ -35,6 +35,14 @@ import java.util.Optional;
 @RequestMapping("/pets")
 public class PetController {
 
+    private static final String PETFORM = "views/pets/petsForm";
+    private static final String PETADMIN = "redirect:/pets/admin";
+    private static final String PETNOTFOUND = "Mascota no encontrada";
+    private static final String PETERRORFAVORITES = "Ocurrió un error al guardar en favoritos, intente nuevamente";
+    private static final String SMSERROR = "msg_error";
+    private static final String SMSSUCCESS = "msg_success";
+
+
     @Autowired
     private PetService petService;
 
@@ -73,11 +81,11 @@ public class PetController {
                 model.addAttribute("pet", pet.get());
                 return "views/pets/pet";
             } else {
-                redirectAttributes.addFlashAttribute("msg_error", "Mascota no encontrada");
+                redirectAttributes.addFlashAttribute(SMSERROR, PETNOTFOUND);
                 return "redirect:/pets/";
             }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("msg_error", "Mascota no encontrada");
+            redirectAttributes.addFlashAttribute(SMSERROR, PETNOTFOUND);
             logger.error(e.getMessage());
             return "redirect:/pets/";
         }
@@ -127,17 +135,17 @@ public class PetController {
             Optional<Pet> pet = petService.findOne(id);
             if (pet.isPresent() && user.isPresent() && Boolean.TRUE.equals(pet.get().getIsActive())) {
                 if (Boolean.TRUE.equals(petAdoptedService.checkIsPresentInAdoptions(pet.get(), user.get()))) {
-                    redirectAttributes.addFlashAttribute("msg_error", "Esta mascota ya la solicitaste");
+                    redirectAttributes.addFlashAttribute(SMSERROR, "Esta mascota ya la solicitaste");
                 } else {
-                    PetAdopted petAdopted = new PetAdopted(pet.get(), user.get());
+                    var petAdopted = new PetAdopted(pet.get(), user.get());
                     petAdoptedService.save(petAdopted, user.get());
-                    redirectAttributes.addFlashAttribute("msg_success", "Solicitud de adopción realizada");
+                    redirectAttributes.addFlashAttribute(SMSSUCCESS, "Solicitud de adopción realizada");
                 }
             } else {
-                redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al realizar la solicitud de adopción, intente nuevamente");
+                redirectAttributes.addFlashAttribute(SMSERROR, "Ocurrió un error al realizar la solicitud de adopción, intente nuevamente");
             }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("msg_error", "Necesitas iniciar sesión para realizar esta acción");
+            redirectAttributes.addFlashAttribute(SMSERROR, "Necesitas iniciar sesión para realizar esta acción");
             return "redirect:/login";
         }
         return "redirect:/pets/filter";
@@ -151,17 +159,17 @@ public class PetController {
             Optional<Pet> pet = petService.findOne(id);
             if (pet.isPresent() && user.isPresent() && Boolean.TRUE.equals(pet.get().getIsActive())) {
                 if (Boolean.TRUE.equals(petService.checkIsPresentInFavorites(pet.get(), user.get().getFavoitesPets()))) {
-                    redirectAttributes.addFlashAttribute("msg_error", "Esta mascota ya esta guardada en favoritos");
+                    redirectAttributes.addFlashAttribute(SMSERROR, "Esta mascota ya esta guardada en favoritos");
                 } else {
                     user.get().addToFavorite(pet.get());
                     userService.save(user.get());
-                    redirectAttributes.addFlashAttribute("msg_success", "Mascota guardada en favoritos");
+                    redirectAttributes.addFlashAttribute(SMSSUCCESS, "Mascota guardada en favoritos");
                 }
             } else {
-                redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al guardar en favoritos, intente nuevamente");
+                redirectAttributes.addFlashAttribute(SMSERROR, PETERRORFAVORITES);
             }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("msg_error", "Necesitas iniciar sesión para realizar esta acción");
+            redirectAttributes.addFlashAttribute(SMSERROR, "Necesitas iniciar sesión para realizar esta acción");
             return "redirect:/login";
         }
         return "redirect:/pets/filter";
@@ -176,12 +184,12 @@ public class PetController {
             if (pet.isPresent() && user.isPresent() && Boolean.TRUE.equals(pet.get().getIsActive())) {
                 user.get().removeFromFavorite(pet.get());
                 userService.save(user.get());
-                redirectAttributes.addFlashAttribute("msg_success", "Mascota removida de favoritos");
+                redirectAttributes.addFlashAttribute(SMSSUCCESS, "Mascota removida de favoritos");
             } else {
-                redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al guardar en favoritos, intente nuevamente");
+                redirectAttributes.addFlashAttribute(SMSERROR, PETERRORFAVORITES);
             }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al guardar en favoritos, intente nuevamente");
+            redirectAttributes.addFlashAttribute(SMSERROR, PETERRORFAVORITES);
             logger.error(e.getMessage());
         }
         return "redirect:/pets/favorites";
@@ -241,7 +249,7 @@ public class PetController {
         model.addAttribute("listColors", colorService.findAll());
         model.addAttribute("listSizes", sizeService.findAll());
         model.addAttribute("listTypes", typeService.findAll());
-        return "views/pets/petsForm";
+        return PETFORM;
     }
 
     @GetMapping("/admin/request")
@@ -255,9 +263,9 @@ public class PetController {
     @Secured({"ROLE_ADMINISTRATOR", "ROLE_VOLUNTEER"})
     public String acept(@PathVariable("id") Integer id, Model model, Pet pet, RedirectAttributes redirectAttributes) {
         if (Boolean.TRUE.equals(petService.accept(id))) {
-            redirectAttributes.addFlashAttribute("msg_success", "Mascota aceptada exitosamente");
+            redirectAttributes.addFlashAttribute(SMSSUCCESS, "Mascota aceptada exitosamente");
         } else {
-            redirectAttributes.addFlashAttribute("msg_error", "Mascota no aceptada");
+            redirectAttributes.addFlashAttribute(SMSERROR, "Mascota no aceptada");
         }
         return "redirect:/pets/admin/request";
     }
@@ -265,17 +273,17 @@ public class PetController {
     @GetMapping("/admin/edit/{id}")
     @Secured({"ROLE_ADMINISTRATOR", "ROLE_VOLUNTEER"})
     public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-        Pet pet = petService.findOne(id).orElse(null);
+        var pet = petService.findOne(id).orElse(null);
         if (pet == null) {
-            redirectAttributes.addFlashAttribute("msg_error", "Mascota no encontrada");
-            return "redirect:/pets/admin";
+            redirectAttributes.addFlashAttribute(SMSERROR, PETNOTFOUND);
+            return PETADMIN;
         }
         model.addAttribute("listCharacters", characterService.findAll());
         model.addAttribute("listColors", colorService.findAll());
         model.addAttribute("listSizes", sizeService.findAll());
         model.addAttribute("listTypes", typeService.findAll());
         model.addAttribute("pet", pet);
-        return "views/pets/petsForm";
+        return PETFORM;
     }
 
     @PostMapping("/admin/save")
@@ -284,17 +292,13 @@ public class PetController {
         try {
             String username = authentication.getName();
             boolean isAdmin = userService.isAdmin(username);
-            if (!isAdmin && pet.getId() == null) {
-                pet.setIsActive(false);
-            }else{
-                pet.setIsActive(true);
-            }
+            pet.setIsActive(isAdmin || pet.getId() != null);
             if (bindingResult.hasErrors()) {
                 model.addAttribute("listCharacters", characterService.findAll());
                 model.addAttribute("listColors", colorService.findAll());
                 model.addAttribute("listSizes", sizeService.findAll());
                 model.addAttribute("listTypes", typeService.findAll());
-                return "views/pets/petsForm";
+                return PETFORM;
             } else {
                 Optional<User> user = userService.findByEmail(username);
                 pet.setIsDropped(false);
@@ -302,13 +306,13 @@ public class PetController {
                 if (user.isPresent()) {
                     pet.setUser(user.get());
                     petService.save(pet, user.get());
-                    redirectAttributes.addFlashAttribute("msg_success", "Mascota guardado exitosamente");
+                    redirectAttributes.addFlashAttribute(SMSSUCCESS, "Mascota guardado exitosamente");
                 }
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-        return "redirect:/pets/admin";
+        return PETADMIN;
     }
 
     @GetMapping("/admin/delete/{id}")
@@ -318,11 +322,11 @@ public class PetController {
         Optional<User> user = userService.findByEmail(username);
         if (user.isPresent()) {
             if (Boolean.TRUE.equals(petService.delete(id, user.get()))) {
-                redirectAttributes.addFlashAttribute("msg_success", "Mascota eliminado exitosamente");
+                redirectAttributes.addFlashAttribute(SMSSUCCESS, "Mascota eliminado exitosamente");
             } else {
-                redirectAttributes.addFlashAttribute("msg_error", "Mascota no eliminado");
+                redirectAttributes.addFlashAttribute(SMSERROR, "Mascota no eliminado");
             }
         }
-        return "redirect:/pets/admin";
+        return PETADMIN;
     }
 }

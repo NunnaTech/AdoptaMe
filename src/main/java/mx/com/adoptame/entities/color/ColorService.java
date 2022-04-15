@@ -34,7 +34,7 @@ public class ColorService {
 
     @Transactional
     public Optional<Color> save(Color color, User user) {
-        String action = "Actualizar";
+        var action = "Actualizar";
         if (color.getId() == null) {
             action = "Crear";
         }

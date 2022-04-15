@@ -14,7 +14,6 @@ import mx.com.adoptame.entities.tag.Tag;
 import mx.com.adoptame.entities.type.Type;
 import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -91,7 +90,7 @@ public class LogService {
         logRepository.logColor(
                 action,
                 color.getId(),
-                color.getHex_code(),
+                color.getHexCode(),
                 color.getName(),
                 Boolean.TRUE.equals(color.getStatus())? 1 : 0,
                 madeBy.getId()

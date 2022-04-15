@@ -36,7 +36,7 @@ public class TypeService {
 
     @Transactional
     public Optional<Type> save(Type entity, User user) {
-        String action = "Actualizar";
+        var action = "Actualizar";
         if (entity.getId() == null) {
             action = "Crear";
         }

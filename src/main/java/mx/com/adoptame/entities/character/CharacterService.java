@@ -31,7 +31,7 @@ public class CharacterService {
 
     @Transactional
     public Optional<Character> save(Character character, User user) {
-        String action = "Actualizar";
+        var action = "Actualizar";
         if (character.getId() == null) {
             action = "Crear";
         }

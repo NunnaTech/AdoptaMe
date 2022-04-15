@@ -29,7 +29,7 @@ public class TagService {
 
     @Transactional
     public Optional<Tag> save(Tag entity, User user) {
-        String action = "Actualizar";
+        var action = "Actualizar";
         if (entity.getId() == null) {
             action = "Crear";
         }

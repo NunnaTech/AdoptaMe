@@ -1,11 +1,8 @@
 package mx.com.adoptame.entities.pet.controllers;
 
 import mx.com.adoptame.entities.pet.services.PetAdoptedService;
-import mx.com.adoptame.entities.user.User;
-import mx.com.adoptame.entities.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/petsAdopted")
@@ -21,9 +17,6 @@ public class PetAdoptedController {
 
     @Autowired
     private PetAdoptedService petAdoptedService;
-
-    @Autowired
-    private UserService userService;
 
     @GetMapping("/")
     @Secured({"ROLE_ADMINISTRATOR", "ROLE_VOLUNTEER"})
