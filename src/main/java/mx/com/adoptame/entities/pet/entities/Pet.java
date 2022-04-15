@@ -86,21 +86,19 @@ public class Pet implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-    @Valid
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "size_id")
     private Size size;
-    @Valid
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "character_id")
     private Character character;
 
-    @Valid
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")
     private Type type;
 
-    @Valid
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "color_id")
     private Color color;
@@ -113,15 +111,4 @@ public class Pet implements Serializable {
 
     @OneToMany(mappedBy = "pet", cascade = CascadeType.PERSIST)
     private List<PetImage> images;
-
-    public void addImages(PetImage petImage) {
-        images.add(petImage);
-        petImage.setPet(this);
-    }
-
-    public void deleteImages(PetImage petImage) {
-        images.remove(petImage);
-        petImage.setPet(null);
-    }
-
 }
