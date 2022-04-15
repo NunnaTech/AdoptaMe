@@ -119,7 +119,7 @@ public class PetController {
         return "views/pets/petsFavorite";
     }
 
-    @PostMapping("/adopted/{id}")
+    @GetMapping("/adopted/{id}")
     public String adopted(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
             String username = authentication.getName();
@@ -284,12 +284,10 @@ public class PetController {
         try {
             String username = authentication.getName();
             boolean isAdmin = userService.isAdmin(username);
-            if (isAdmin && pet.getId() == null) {
-                pet.setIsActive(true);
-                pet.setIsAdopted(false);
-            } else {
+            if (!isAdmin && pet.getId() == null) {
                 pet.setIsActive(false);
-                pet.setIsAdopted(false);
+            }else{
+                pet.setIsActive(true);
             }
             if (bindingResult.hasErrors()) {
                 model.addAttribute("listCharacters", characterService.findAll());
@@ -301,8 +299,8 @@ public class PetController {
                 Optional<User> user = userService.findByEmail(username);
                 pet.setIsDropped(false);
                 pet.setIsAdopted(false);
-                pet.setUser(user.get());
                 if (user.isPresent()) {
+                    pet.setUser(user.get());
                     petService.save(pet, user.get());
                     redirectAttributes.addFlashAttribute("msg_success", "Mascota guardado exitosamente");
                 }

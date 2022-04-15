@@ -121,15 +121,12 @@ public class UserController {
                 profile.setUser(userService.recoveryPassword(profile.getUser()));
                 String username = authentication.getName();
                 Optional<User> user = userService.findByEmail(username);
-                if(user.isPresent()){
-                    profileService.save(profile,user.get());
-
-                }
-
+                user.ifPresent(value -> profileService.save(profile, value));
                 redirectAttributes.addFlashAttribute("msg_success", "Usuario guardado exitosamente");
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
+            return "views/user/userForm";
         }
         return "redirect:/user/";
     }

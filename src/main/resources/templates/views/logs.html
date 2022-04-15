@@ -42,7 +42,7 @@
                         <span th:case="Actualizar" class="badge badge-primary">Modificación</span>
                         <span th:case="Eliminar" class="badge badge-danger">Eliminación</span>
                     </td>
-                    <td th:text="${#temporals.format(i.createdAt,'dd-MMM-yyyy')}"/>
+                    <td th:text="${#temporals.format(i.createdAt,'dd-MMM-yyyy HH:mm')}"/>
                     <td ><code th:text="${i.oldData}"></code></td>
                     <td ><code th:text="${i.newData}"></code></td>
                 </tr>

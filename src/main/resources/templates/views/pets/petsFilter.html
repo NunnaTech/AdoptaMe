@@ -154,7 +154,7 @@
                                                     <a th:href="@{/pets/{id} (id=${p.id})}" class="btn btn-info mb-2">Detalles
                                                         <i class="fa-solid fa-eye ml-2"></i>
                                                     </a>
-                                                    <form th:action="@{/pets/adopted/{id} (id=${p.id})}" method="post"  onsubmit="return false">
+                                                    <form th:action="@{/pets/adopted/{id} (id=${p.id})}"  onsubmit="return false">
                                                         <button class="btn btn-danger btn-block" type="submit" onclick="confirmSweetAlert(this.parentElement, '¿Estás seguro que quieres adoptar?', 'Un administrador debe aprobar tu solicitud primero', 'Sí, adoptar')">
                                                             ¡Adóptame!
                                                             <i class="fa-solid fa-paw ml-2"></i>
