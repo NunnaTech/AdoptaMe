@@ -509,7 +509,7 @@ CREATE PROCEDURE log_tbl_request(action_in VARCHAR(20),
                                  user_id_in INT)
 BEGIN
 
-    DECLARE table_in VARCHAR(50) DEFAULT 'requests';
+    DECLARE table_in VARCHAR(50) DEFAULT 'request';
     DECLARE data_from_db TEXT;
 
     IF (action_in = 'Crear' AND id_in IS NULL) THEN
@@ -604,14 +604,24 @@ END $$;
 
 DROP PROCEDURE IF EXISTS log_tbl_profile;
 DELIMITER $$;
-CREATE PROCEDURE log_tbl_profile(action_in VARCHAR(20),
-                                 id_in INT,
-                                 name_in VARCHAR(50),
-                                 last_name_in VARCHAR(50),
-                                 secondName_in VARCHAR(50),
-                                 phone_in VARCHAR(17),
-                                 image_in VARCHAR(250),
-                                 user_id_in INT)
+CREATE PROCEDURE log_tbl_profile(
+    action_in VARCHAR(20),
+    id_in INT,
+    username_in VARCHAR(50),
+    password_in VARCHAR(100),
+    enabled_in TINYINT(1),
+    name_in VARCHAR(50),
+    last_name_in VARCHAR(50),
+    second_name_in VARCHAR(50),
+    phone_in VARCHAR(17),
+    image_in VARCHAR(250),
+    external_number_in VARCHAR(5),
+    internal_number_in VARCHAR(5),
+    street_in VARCHAR(128),
+    zip_code_in VARCHAR(50),
+    reference_street_in VARCHAR(50),
+
+    user_id_in INT)
 BEGIN
 
     DECLARE table_in VARCHAR(50) DEFAULT 'profile';
@@ -621,35 +631,45 @@ BEGIN
         INSERT INTO tbl_logs(action, board, new_data, user_id)
         VALUES (action_in,
                 table_in,
-                CONCAT('{"name":', '"', name_in, '"', ',"last_name":', '"', last_name_in, '"', ',"second_name":', '"',
-                       secondName_in, '"', ',"phone":', '"', phone_in, '"', ',"image":', '"', image_in, '"', '}'),
+                CONCAT('{','"email":', '"', COALESCE(username_in, 'null'), '"',',"enabled":', COALESCE(enabled_in, 'null'),',"password":', '"', COALESCE(password_in, 'null'), '"',',"name":', '"', COALESCE(name_in, 'null'), '"', ',"last_name":', '"', COALESCE(last_name_in, 'null'),
+                       '"', ',"second_name":', '"', COALESCE(second_name_in, 'null'), '"', ',"phone":', '"',
+                       COALESCE(phone_in, 'null'), '"', ',"image":', '"', COALESCE(image_in, 'null'), '"',
+                       ',"address":{', '"internal_number":','"',COALESCE(internal_number_in, 'null'),'"', ',"external_number":', '"',COALESCE(external_number_in, 'null'),'"', ',"street":', '"', COALESCE(street_in, 'null'), '"', ',"zip_code":', '"', COALESCE(zip_code_in, 'null'), '"', ',"references_street":', '"', COALESCE(reference_street_in, 'null'),'"','}','}'),
                 user_id_in);
 
 
     ELSEIF (action_in = 'Actualizar' AND id_in IS NOT NULL) THEN
 
-        SELECT CONCAT('{"name":', '"', COALESCE(name, 'null'), '"', ',"last_name":', '"', COALESCE(last_name, 'null'),
+        SELECT CONCAT('{','"email":', '"', COALESCE(u.username, 'null'), '"',',"enabled":', COALESCE(u.enabled, 'null'),',"password":', '"', COALESCE(u.password, 'null'), '"',',"name":', '"', COALESCE(name, 'null'), '"', ',"last_name":', '"', COALESCE(last_name, 'null'),
                       '"', ',"second_name":', '"', COALESCE(second_name, 'null'), '"', ',"phone":', '"',
-                      COALESCE(phone, 'null'), '"', ',"image":', '"', COALESCE(image, 'null'), '"', '}')
+                      COALESCE(phone, 'null'), '"', ',"image":', '"', COALESCE(image, 'null'), '"',
+                      ',"address":{', '"internal_number":','"',COALESCE(a.internal_number, 'null'),'"', ',"external_number":', '"',COALESCE(a.external_number, 'null'), '"',',"street":', '"', COALESCE(a.street, 'null'), '"', ',"zip_code":', '"', COALESCE(a.zip_code, 'null'), '"', ',"references_street":', '"', COALESCE(a.references_street, 'null'), '"','}','}')
         INTO data_from_db
         FROM tbl_profiles p
+                 join users u on p.user_id = u.id_user
+                 join tbl_address a on p.address_id = a.id_address
         WHERE p.id_profile = id_in;
 
         INSERT INTO tbl_logs(action, board, new_data, old_data, user_id)
         VALUES (action_in,
                 table_in,
-                CONCAT('{"name":', '"', name_in, '"', ',"last_name":', '"', last_name_in, '"', ',"second_name":', '"',
-                       secondName_in, '"', ',"phone":', '"', phone_in, '"', ',"image":', '"', image_in, '"', '}'),
+                CONCAT('{','"email":', '"', COALESCE(username_in, 'null'), '"',',"enabled":', COALESCE(enabled_in, 'null'),',"password":', '"', COALESCE(password_in, 'null'), '"',',"name":', '"', COALESCE(name_in, 'null'), '"', ',"last_name":', '"', COALESCE(last_name_in, 'null'),
+                       '"', ',"second_name":', '"', COALESCE(second_name_in, 'null'), '"', ',"phone":', '"',
+                       COALESCE(phone_in, 'null'), '"', ',"image":', '"', COALESCE(image_in, 'null'), '"',
+                       ',"address":{', '"internal_number":','"',COALESCE(internal_number_in, 'null'),'"', ',"external_number":', '"',COALESCE(external_number_in,'"', 'null'), ',"street":', '"', COALESCE(street_in, 'null'), '"', ',"zip_code":', '"', COALESCE(zip_code_in, 'null'), '"', ',"references_street":', '"', COALESCE(reference_street_in, 'null'),'"','}','}'),
                 data_from_db,
                 user_id_in);
 
     ELSE
 
-        SELECT CONCAT('{"name":', '"', COALESCE(name, 'null'), '"', ',"last_name":', '"', COALESCE(last_name, 'null'),
+        SELECT CONCAT('{','"email":', '"', COALESCE(u.username, 'null'), '"',',"enabled":', COALESCE(u.enabled, 'null'),',"password":', '"', COALESCE(u.password, 'null'), '"',',"name":', '"', COALESCE(name, 'null'), '"', ',"last_name":', '"', COALESCE(last_name, 'null'),
                       '"', ',"second_name":', '"', COALESCE(second_name, 'null'), '"', ',"phone":', '"',
-                      COALESCE(phone, 'null'), '"', ',"image":', '"', COALESCE(image, 'null'), '"', '}')
+                      COALESCE(phone, 'null'), '"', ',"image":', '"', COALESCE(image, 'null'), '"',
+                      ',"address":{', '"internal_number":','"',COALESCE(a.internal_number, 'null'),'"', ',"external_number":', '"',COALESCE(a.external_number, 'null'), '"',',"street":', '"', COALESCE(a.street, 'null'), '"', ',"zip_code":', '"', COALESCE(a.zip_code, 'null'), '"', ',"references_street":', '"', COALESCE(a.references_street, 'null'), '"','}','}')
         INTO data_from_db
         FROM tbl_profiles p
+                 join users u on p.user_id = u.id_user
+                 join tbl_address a on p.address_id = a.id_address
         WHERE p.id_profile = id_in;
 
         INSERT INTO tbl_logs(action, board, old_data, new_data, user_id)
@@ -767,6 +787,6 @@ VALUES ('<p style="margin-bottom: 10px; color: rgb(51, 51, 51); font-family: san
         'https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/205/8c6622de-704f-4942-9af5-1efadca5647f.jpg',
         1, 1, 'Antes de adoptar', 1);
 
-INSERT INTO adoptame.tbl_tags_news (id_news, id_tag)
+INSERT INTO bl_tags_news (id_news, id_tag)
 VALUES (1, 1),
        (1, 3);

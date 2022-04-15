@@ -1,5 +1,9 @@
 package mx.com.adoptame.entities.profile;
 
+import mx.com.adoptame.entities.address.Address;
+import mx.com.adoptame.entities.address.AddressService;
+import mx.com.adoptame.entities.log.LogService;
+import mx.com.adoptame.entities.request.Request;
 import mx.com.adoptame.entities.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +26,12 @@ public class ProfileService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private LogService logService;
+
+    @Autowired
+    private AddressService addressService;
+
     private Logger logger = LoggerFactory.getLogger(ProfileService.class);
 
     @PersistenceContext
@@ -43,32 +53,36 @@ public class ProfileService {
     }
 
     @Transactional
-    public Optional<Profile> save(Profile entity) {
+    public Optional<Profile> save(Profile entity, User user) {
         if (entity.getUser().getId() == null) {
             entity.getUser().setPassword(passwordEncoder.encode(entity.getUser().getPassword()));
         }
+        String action = "Actualizar";
+        if (entity.getId() == null) {
+            action = "Crear";
+        }
+        logService.saveProfile(action,entity,user);
         return Optional.of(profileRepository.save(entity));
     }
 
     @Transactional
-    public Optional<Profile> addProfile(Profile profile) {
-        entityManager.createNativeQuery("INSERT INTO tbl_profiles (name,last_name,second_name,phone,address_id,user_id)VALUES (?,?,?,?,null,?);")
-                .setParameter(1, profile.getName())
-                .setParameter(2, profile.getLastName())
-                .setParameter(3, profile.getSecondName())
-                .setParameter(4, profile.getPhone())
-                .setParameter(5, profile.getUser().getId())
-                .executeUpdate();
-        return findByUser(profile.getUser());
-    }
-
-    @Transactional
-    public Optional<Profile> update(Profile entity) {
-        Optional<Profile> updatedEntity;
-        updatedEntity = profileRepository.findById(entity.getId());
-        if (!updatedEntity.isEmpty())
-            profileRepository.save(entity);
-        return updatedEntity;
+    public Optional<Profile> addProfile(Profile profile, User user) {
+        Optional<Address> address = addressService.addAddress();
+        if(address.isPresent()){
+            entityManager.createNativeQuery("INSERT INTO tbl_profiles (name,last_name,second_name,phone,address_id,user_id)VALUES (?,?,?,?,?,?);")
+                    .setParameter(1, profile.getName())
+                    .setParameter(2, profile.getLastName())
+                    .setParameter(3, profile.getSecondName())
+                    .setParameter(4, profile.getPhone())
+                    .setParameter(5, address.get().getId())
+                    .setParameter(6, profile.getUser().getId())
+                    .executeUpdate();
+            Optional<Profile> savedProfile = findByUser(user);
+            savedProfile.ifPresent(p ->
+                    logService.saveProfile("Crear",p, user));
+            return savedProfile;
+        }
+        return Optional.empty();
     }
 
     @Transactional
@@ -95,11 +109,14 @@ public class ProfileService {
     }
 
     @Transactional
-    public Boolean delete(Integer id) {
-        boolean entity = profileRepository.existsById(id);
-        if (entity) {
-            profileRepository.deleteById(id);
+    public Boolean delete(Integer id, User user) {
+        Optional<Profile> entity = findOne(id);
+        if (entity.isPresent()) {
+            entity.get().getUser().setEnabled(false);
+            logService.saveProfile("Eliminar",entity.get(),user);
+            profileRepository.save(entity.get());
+            return true;
         }
-        return entity;
+        return false;
     }
 }
