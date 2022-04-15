@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
+<div class="container py-3">
+    <div th:replace="components/titles::titles ('Solicitudes de nuevos usuarios', ${ {'Usuarios','Solicitudes nuevas'} })"/>
+    <table id="datatable" class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Correo electrónico</th>
+            <th scope="col">Para rol</th>
+            <th scope="col">Razón</th>
+            <th scope="col">Aceptar</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i,c: ${list}">
+            <td th:text="${c.count}"></td>
+            <td th:text="${i.user.profile.getFullName()}"></td>
+            <td th:text="${i.user.username}"></td>
+            <td>
+                <ul th:each="r:${i.user.roles}" th:switch="__${r.authority}__">
+                    <li th:case="ROLE_ADMINISTRATOR" th:text="Administrador"></li>
+                    <li th:case="ROLE_VOLUNTEER" th:text="Voluntario"></li>
+                    <li th:case="*" th:text="Adoptador"></li>
+                </ul>
+
+            </td>
+            <td th:text="${i.reason}"></td>
+            <td class="d-flex justify-content-around">
+                <form th:action="@{/user/acept/{id} (id=${i.id})}" onsubmit="return false" method="post">
+                    <button type="submit" class="btn btn-info"
+                            onclick="confirmSweetAlert(this.parentElement, '¿Aceptar usuario a ser voluntario?', 'Este usuario tendrá acciones sobre el sistema', 'Sí, aceptar!')">
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+                </form>
+                <form th:action="@{/user/delete/{id} (id=${i.id})}" onsubmit="return false" method="post">
+                    <button type="submit" class="btn btn-danger"
+                            onclick="confirmSweetAlert(this.parentElement, '¿Borrar solicitud de voluntario?', 'Se eliminará esta solicitud de voluntario', 'Sí, aceptar!')">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
+</html>

@@ -4,6 +4,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Sensitive Data ###
+src/main/resources/application-dev.properties
+/src/main/resources/application-dev.properties
+
 ### STS ###
 .apt_generated
 .classpath
@@ -31,3 +35,7 @@ build/
 
 ### VS Code ###
 .vscode/
+.sql
+
+### logs ###
+logs/

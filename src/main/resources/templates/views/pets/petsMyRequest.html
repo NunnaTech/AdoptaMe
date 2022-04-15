@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
+<div class="container py-3">
+    <div th:replace="components/titles::titles ('Mascotas', ${ {'Mascotas','Mis solicitudes de adopción'} })"/>
+    <table id="datatable" class="table table-striped" aria-describedby="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Mascota</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Edad</th>
+            <th scope="col">Género</th>
+            <th scope="col">Solicitud</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i,c: ${list}">
+            <td th:text="${c.count}"/>
+            <td th:text="${i.pet.name}"/>
+            <td th:text="${i.pet.type.name}"/>
+            <td th:text="${i.pet.age}"/>
+            <td><span th:text="${i.pet.gender ? 'Macho':'Hembra'}"/></td>
+            <td>
+                <span th:if="${i.isCanceled==false && i.isAccepted==false}" class="badge badge-warning">Pendiente</span>
+                <span th:if="${i.isCanceled==false && i.isAccepted==true}" class="badge badge-success">Aceptada</span>
+                <span th:if="${i.isCanceled==true && i.isAccepted==false}" class="badge badge-danger">Rechazada</span>
+            </td>
+            <td class="d-flex justify-content-around">
+                <a th:href="@{/pets/{id} (id=${i.pet.id})}" target="_blank" class="btn btn-warning">
+                    <i class="fa-solid fa-eye"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
+</html>

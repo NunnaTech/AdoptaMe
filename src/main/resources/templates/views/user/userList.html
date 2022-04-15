@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
+<div class="container py-3">
+    <div th:replace="components/titles::titles ('Usuarios', ${ {'Usuarios','Lista'} })"/>
+    <a type="button" class="btn btn-success my-2" th:href="@{/user/form}">
+        <em class="fa-solid fa-plus"></em> Agregar nueva
+    </a>
+    <table id="datatable" class="table table-striped" aria-describedby="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Correo electrónico</th>
+            <th scope="col">Rol</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i,c: ${list}">
+            <td th:text="${c.count}"></td>
+            <td th:text="${i.user.profile.getFullName()}"></td>
+            <td th:text="${i.user.username}"></td>
+            <td><ul th:each="r:${i.user.roles}" th:switch="__${r.authority}__">
+                <li th:case="ROLE_ADMINISTRATOR" th:text="Administrador"></li>
+                <li th:case="ROLE_VOLUNTEER" th:text="Voluntario"></li>
+                <li th:case="*" th:text="Adoptador"></li>
+            </ul></td>
+            <td class="d-flex justify-content-around">
+                <a th:href="@{/user/edit/{id} (id=${i.id})}" class="btn btn-warning">
+                    <em class="fa-solid fa-pen"></em>
+                </a>
+                <form th:action="@{/user/delete/{id} (id=${i.id})}" onsubmit="return false">
+                    <button type="submit" class="btn btn-danger" onclick="confirmSweetAlert(this.parentElement)">
+                        <em class="fa-solid fa-trash"></em>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
+</html>

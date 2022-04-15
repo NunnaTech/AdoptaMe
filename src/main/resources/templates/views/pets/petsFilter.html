@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body id="pets-filter" class="d-flex flex-column min-vh-100">
+<header th:replace="components/navbars:: navbar-all-aux"></header>
+
+<main class="my-4">
+    <div class="container mt-2 pt-2 pb-1 ">
+        <h1 class="h3 mb-3">Adoptar una mascota</h1>
+        <div class="row">
+            <div class=" col-md-4 col-xl-3 mb-4">
+                <div class="box-container px-4">
+                    <div class="card-header pl-0">
+                        <h5 class="card-title mb-0">Filtros</h5>
+                    </div>
+                    <div>
+                        <nav class="py-2">
+                            <form th:action="@{/pets/filter}" method="get">
+                                <div class="form-group">
+                                    <label for="search">Buscar por:</label>
+                                    <input type="text" class="form-control" th:name="search" id="search"
+                                           placeholder="Ej: Nombre o raza">
+                                </div>
+                                <div class="form-group">
+                                    <label for="types">Tipo de mascota:</label>
+                                    <select id="types" name="types" title="Seleccionar..." class="selectpicker col-12"
+                                            multiple>
+                                        <option th:each="i:${typeList}" th:value="${i.name}" th:text="${i.name}"/>
+                                    </select>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <label for="ages">Edad:</label>
+                                    <select id="ages" th:name="ages" title="Seleccionar..." class="selectpicker col-12"
+                                            multiple>
+                                        <option>Cachorro/Cria</option>
+                                        <option>Joven</option>
+                                        <option>Adulto</option>
+                                    </select>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label for="sizes">Tamaños:</label>
+                                        <select id="sizes" name="sizes" title="Seleccionar..."
+                                                class="selectpicker col-12" multiple>
+                                            <option th:each="i:${sizeList}" th:value="${i.name}" th:text="${i.name}"/>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label for="characters">Caracteres:</label>
+                                        <select id="characters" name="characters" title="Seleccionar..."
+                                                class="selectpicker col-12" multiple>
+                                            <option th:each="i:${characterList}" th:value="${i.name}"
+                                                    th:text="${i.name}"/>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label for="colors">Colores:</label>
+                                        <select id="colors" name="colors" title="Seleccionar..."
+                                                class="selectpicker col-12" multiple>
+                                            <option th:each="i:${colorList}" th:value="${i.name}" th:text="${i.name}"/>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary my-4 col-12">Buscar</button>
+                            </form>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-xl-9">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="account" role="tabpanel">
+                        <div class="box-container alert  alert-dismissible fade show mb-4">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Recuerda que antes de adoptar:</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="">A la hora de que comiences la búsqueda de tu adoptado soñado, es
+                                    importante saber cuáles son sus necesidades.</p>
+                                <p class="">Si necesitas más información, te invitamos a leer el siguiente blog:</p>
+                                <a th:href="@{/blog/1}" class="btn btn-primary  mt-0 mb-4">
+                                    <i class="fa-solid fa-book-open ml-2"></i>
+                                    Antes de adoptar</a>
+                                <h5 class="font-weight-bold">Elige la mascota correcta para ti y tu familia. <i
+                                        class="fa-solid fa-paw"></i></h5>
+                            </div>
+                        </div>
+                        <div class="box-container pb-4">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Mascotas en adopción</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div th:if="${petsList.isEmpty()}" class="col-12 text-center">
+                                        <div style="font-size: 20px">No hay mascotas para mostrar</div>
+                                    </div>
+                                    <div th:unless="${petsList.isEmpty()}" class="single-card col-12 col-md-12 col-lg-6 col-xl-4" th:each="p:${petsList}">
+                                        <div class="card">
+                                            <div class="image">
+                                                <img class="card-img-top"
+                                                     th:src="${p.images.isEmpty() ? 'https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/876/fb45d6e2-dd35-4312-b57a-ba37bf30e97d.png':p.images.get(0).image }"
+                                                     th:alt="${p.name}"/>
+                                            </div>
+                                            <div class="card-header mb-0 pb-0">
+                                                <div class="row d-flex justify-content-around">
+                                                    <h5 class="card-title" th:text="${p.name}"/>
+                                                    <p>
+                                                        <i class="fa-solid fa-calendar mr-1"></i>
+                                                        <span th:text="${#temporals.format(p.createdAt,'dd-MMM-yyyy')}"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="card-description my-2">
+                                                <h6 class="text-muted" th:text="|${p.type.name} - ${p.breed}|"/>
+                                                <span>
+                                                    <i class="fa-solid fa-cake-candles mx-1"></i>
+                                                    <span th:text="${p.age}"></span>
+                                                </span>
+                                                <span>
+                                                    <i class="fa-solid fa-bone mx-1"></i>
+                                                    <span th:text="${p.size.name}"></span>
+                                                </span>
+                                                <br>
+                                                <span>
+                                                    <i class="mx-1 fa-solid"
+                                                       th:classappend="${p.gender?'fa-mars':'fa-venus'}"></i>
+                                                    <span th:text="${p.gender ? 'Macho':'Hembra'}"></span>
+                                                </span>
+                                                <span>
+                                                   <i class="fa-solid fa-palette mx-2"></i>
+                                                    <span th:text="${p.color.name}"></span>
+                                                </span>
+
+                                                <div class="stars d-flex justify-content-center mx-3 mb-2">
+                                                    <span class="badge text-white"
+                                                          th:style="|background-color: ${p.color.hexCode}; -webkit-text-stroke: 0.1px white;|"
+                                                          th:text="${p.character.name}"></span>
+                                                </div>
+                                                <div class="list-group list-group-flush px-4 py-1">
+                                                    <a th:href="@{/pets/{id} (id=${p.id})}" class="btn btn-info mb-2">Detalles
+                                                        <i class="fa-solid fa-eye ml-2"></i>
+                                                    </a>
+                                                    <form th:action="@{/pets/adopted/{id} (id=${p.id})}"  onsubmit="return false">
+                                                        <button class="btn btn-danger btn-block" type="submit" onclick="confirmSweetAlert(this.parentElement, '¿Estás seguro que quieres adoptar?', 'Un administrador debe aprobar tu solicitud primero', 'Sí, adoptar')">
+                                                            ¡Adóptame!
+                                                            <i class="fa-solid fa-paw ml-2"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js">
+</script>
+</body>
+</html>

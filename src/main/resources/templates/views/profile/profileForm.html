@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
+<div class="container py-3">
+    <div th:replace="components/titles::titles ('Perfil', ${ {'Perfil'} })"></div>
+    <div class="row mt-2">
+        <div class="col-12 col-md-3">
+            <div class="list-group" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action active" id="list-profile-list" data-toggle="list"
+                   href="#list-profile" role="tab" aria-controls="profile">Pefil</a>
+                <a class="list-group-item list-group-item-action" id="list-password-list" data-toggle="list"
+                   href="#list-password" role="tab" aria-controls="password">Cambio de contraseña</a>
+            </div>
+        </div>
+        <div class="col-12 col-md-9 mt-3 mt-md-0">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="list-profile" role="tabpanel"
+                     aria-labelledby="list-profile-list">
+                    <form th:action="@{/profile/save}" method="post" th:object="${profile}"
+                          onsubmit="event.preventDefault(); uploadImageConfirm(event.target)">
+                        <input hidden type="text" th:field="*{id}" id="id">
+                        <input hidden type="text" th:field="*{user.id}" id="id-user">
+                        <input hidden type="text" th:field="*{address.id}" id="id-address">
+                        <input hidden type="text" th:field="*{user.username}">
+                        <input hidden type="text" th:field="*{user.password}">
+                        <h2>Rol(es):</h2>
+                        <ul th:each="r:${profile.user.roles}" th:switch="__${r.authority}__">
+                            <li class="badge badge-secondary" th:case="ROLE_ADMINISTRATOR" th:text="Administrador"></li>
+                            <li class="badge badge-secondary" th:case="ROLE_VOLUNTEER" th:text="Voluntario"></li>
+                            <li class="badge badge-secondary" th:case="*" th:text="Adoptador"></li>
+                        </ul>
+                        <div class="row">
+                            <div class="col-12 col-md-8">
+                                <div class="form-group">
+                                    <label for="name">Nombre:</label>
+                                    <input type="text" class="form-control"
+                                           id="name" name="name"
+                                           aria-describedby="nameHelp"
+                                           placeholder="Ej: Hector"
+                                           th:classappend="${#fields.hasErrors('name')?'is-invalid':''}"
+                                           th:field="*{name}"
+                                           autofocus
+                                           required
+                                           minlength="2"
+                                           maxlength="30"
+                                           pattern="[A-Za-zÀ-ÿ '-.]*"
+                                    />
+                                    <div id="nameHelp"
+                                         th:classappend="${#fields.hasErrors('name')?'invalid-feedback':''}"
+                                         th:errors="*{name}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Primer apellido:</label>
+                                    <input type="text" class="form-control"
+                                           id="lastName" name="lastName"
+                                           aria-describedby="lastNameHelp"
+                                           placeholder="Ej: Sandarti"
+                                           th:classappend="${#fields.hasErrors('lastName')?'is-invalid':''}"
+                                           th:field="*{lastName}"
+                                           required
+                                           minlength="2"
+                                           maxlength="30"
+                                           pattern="[A-Za-zÀ-ÿ '-.]*"
+                                    />
+                                    <div id="lastNameHelp"
+                                         th:classappend="${#fields.hasErrors('lastName')?'invalid-feedback':''}"
+                                         th:errors="*{lastName}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="secondName">Segundo apellido:</label>
+                                    <input type="text" class="form-control"
+                                           id="secondName" name="secondName"
+                                           aria-describedby="secondNameHelp"
+                                           placeholder="Ej: Saldaña"
+                                           th:classappend="${#fields.hasErrors('secondName')?'is-invalid':''}"
+                                           th:field="*{secondName}"
+                                           minlength="2"
+                                           maxlength="30"
+                                           pattern="[A-Za-zÀ-ÿ '-.]*"
+                                    />
+                                    <div id="secondNameHelp"
+                                         th:classappend="${#fields.hasErrors('secondName')?'invalid-feedback':''}"
+                                         th:errors="*{secondName}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Teléfono:</label>
+                                    <input type="tel" class="form-control"
+                                           id="phone" name="phone"
+                                           aria-describedby="phoneHelp"
+                                           placeholder="Ej: 7772003690"
+                                           th:classappend="${#fields.hasErrors('phone')?'is-invalid':''}"
+                                           th:field="*{phone}"
+                                           minlength="10"
+                                           maxlength="10"
+                                           pattern="^\d{10}(?:[-\s]\d{4})?$"
+                                    />
+                                    <div id="phoneNameHelp"
+                                         th:classappend="${#fields.hasErrors('phone')?'invalid-feedback':''}"
+                                         th:errors="*{phone}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="street">Calle:</label>
+                                    <input type="text" class="form-control"
+                                           id="street" name="street"
+                                           aria-describedby="streetHelp"
+                                           placeholder="Ej: Gumercindo Sanchez"
+                                           th:classappend="${#fields.hasErrors('address.street')?'is-invalid':''}"
+                                           th:field="*{address.street}"
+                                           autofocus
+                                           required
+                                           minlength="2"
+                                           maxlength="50"
+                                           pattern="[A-Za-zÀ-ÿ '-./#]*"
+                                    />
+                                    <div id="streetHelp"
+                                         th:classappend="${#fields.hasErrors('address.street')?'invalid-feedback':''}"
+                                         th:errors="*{address.street}">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-12 col-md-4">
+                                        <label for="externalNumber">Número externo:</label>
+                                        <input type="text" class="form-control"
+                                               id="externalNumber" name="externalNumber"
+                                               aria-describedby="externalNumberHelp"
+                                               placeholder="Ej: 84"
+                                               th:classappend="${#fields.hasErrors('address.externalNumber')?'is-invalid':''}"
+                                               th:field="*{address.externalNumber}"
+                                               required
+                                               minlength="1"
+                                               maxlength="5"
+                                               pattern="[0-9]*"
+                                        />
+                                        <div id="externalNumberHelp"
+                                             th:classappend="${#fields.hasErrors('address.externalNumber')?'invalid-feedback':''}"
+                                             th:errors="*{address.externalNumber}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 col-md-4">
+                                        <label for="internalNumber">Número interno:</label>
+                                        <input type="text" class="form-control"
+                                               id="internalNumber" name="internalNumber"
+                                               aria-describedby="internalNumberHelp"
+                                               placeholder="Ej: 2"
+                                               th:classappend="${#fields.hasErrors('address.internalNumber')?'is-invalid':''}"
+                                               th:field="*{address.internalNumber}"
+                                               required
+                                               minlength="1"
+                                               maxlength="5"
+                                               pattern="[0-9]*"
+                                        />
+                                        <div id="internalNumberHelp"
+                                             th:classappend="${#fields.hasErrors('address.internalNumber')?'invalid-feedback':''}"
+                                             th:errors="*{address.internalNumber}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 col-md-4">
+                                        <label for="zipCode">Código postal:</label>
+                                        <input type="text" class="form-control"
+                                               id="zipCode" name="zipCode"
+                                               aria-describedby="zipCodeHelp"
+                                               placeholder="Ej: 62588"
+                                               th:classappend="${#fields.hasErrors('address.zipCode')?'is-invalid':''}"
+                                               th:field="*{address.zipCode}"
+                                               required
+                                               minlength="1"
+                                               maxlength="5"
+                                               pattern="[0-9]*"
+                                        />
+                                        <div id="zipCodeHelp"
+                                             th:classappend="${#fields.hasErrors('address.zipCode')?'invalid-feedback':''}"
+                                             th:errors="*{address.zipCode}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="references">Referencias:</label>
+                                    <input type="text" class="form-control"
+                                           id="references" name="references"
+                                           aria-describedby="referencesHelp"
+                                           placeholder="Ej: Portón café y casa color rosa"
+                                           th:classappend="${#fields.hasErrors('address.references')?'is-invalid':''}"
+                                           th:field="*{address.references}"
+                                           minlength="1"
+                                           maxlength="128"
+                                           pattern="[A-Za-zÀ-ÿ '-./#]*"
+                                           multiple
+                                    />
+                                    <div id="referencesHelp"
+                                         th:classappend="${#fields.hasErrors('address.references')?'invalid-feedback':''}"
+                                         th:errors="*{address.references}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="text-center">
+                                    <input type="hidden" name="image" id="image" th:value="${profile.image}"/>
+                                    <img alt="Imagen profile" width="160" height="auto" id="previewImage"
+                                         th:src="${profile.image}"
+                                         class="img-responsive rounded">
+                                    <div class="mt-2">
+                                        <div class="form-group">
+                                            <label for="preImage">Imagen</label>
+                                            <input type="file" class="form-control-file" id="preImage" name="preImage"
+                                                   accept=".png, .jpg, .jpeg">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success mt-3">Guardar</button>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="list-password" role="tabpanel" aria-labelledby="list-password-list">
+                    <form th:action="@{/profile/change-password}" method="post"
+                          onsubmit="event.preventDefault(); checkPasswords(event.target)">
+                        <input hidden type="text" id="idUser" name="idUser" th:value="${profile.user.id}">
+                        <div class="form-group">
+                            <label for="currentPassword">Contraseña actual:</label>
+                            <div class="input-group mb-1">
+                                <input type="password" class="form-control"
+                                       id="currentPassword" name="currentPassword"
+                                       placeholder="Ej: ************"
+                                       required
+                                       minlength="5"
+                                       maxlength="30"
+                                />
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button"
+                                            id="seeCurrentPasswordButton"
+                                            onclick="bothPasswords('currentPassword','seeCurrentPasswordButton')">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <label for="newPassword">Nueva contraseña:</label>
+                            <div class="input-group mb-1">
+                                <input type="password" class="form-control"
+                                       id="newPassword" name="newPassword"
+                                       placeholder="Ej: ************"
+                                       required
+                                       minlength="5"
+                                       maxlength="30"/>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="seePasswordButton"
+                                            onclick="bothPasswords('newPassword','seePasswordButton')">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label for="repeatPassword">Repetir nueva contraseña:</label>
+                            <div class="input-group mb-1">
+                                <input type="password" class="form-control"
+                                       id="repeatPassword" name="repeatPassword"
+                                       placeholder="Ej: ************"
+                                       required
+                                       minlength="5"
+                                       maxlength="30"/>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="seeNewPasswordButton"
+                                            onclick="bothPasswords('repeatPassword','seeNewPasswordButton')">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-warning mt-3">Actualizar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+<script th:src="@{/js/uploadImages.js}"></script>
+</body>
+</html>

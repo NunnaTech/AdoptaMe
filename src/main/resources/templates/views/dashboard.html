@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100" id="admin-dashboard">
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
+
+<main>
+    <div class="container-fluid px-5 py-4">
+        <div th:replace="components/titles::titles ('Panel de control', ${ {'Panel de control'} })"></div>
+        <div sec:authorize="hasRole('ROLE_ADOPTER')" class="row">
+            <div class="col-xl-12 col-xxl-5 d-flex single-card">
+                <div class="w-100">
+                    <h1 class="h3 mb-3">Mascotas</h1>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Favoritas:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-heart first-card"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:text="${myPetsFavorites}"></h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Solicitudes aceptadas:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-check third-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:text="${myAcceptedRequests}"></h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Solicitudes pendientes:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-pause second-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:text="${myPendingRequests}"></h1>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Solicitudes rechazadas:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-ban four-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:text="${myCancelledRequests}"></h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-12 col-xxl-5 d-flex single-card">
+                <div class="w-100">
+                    <h1 class="h3 mb-3">Donaciones</h1>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Total dado:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-brands fa-paypal first-card"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:if="${myDonationQuantity==null}">$ 00.0</h1>
+                                    <h1 class="mt-1" th:unless="${myDonationQuantity==null}"
+                                        th:text="|$ ${myDonationQuantity}|"></h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div sec:authorize="hasRole('ROLE_ADMINISTRATOR')" class="col-12 d-flex justify-content-end">
+            <a th:href="@{/logs}" class="ml-2 btn btn-logs p-2">
+                <i class="ml-2 fa-solid fa-database"></i>
+                Ver monitoreo de actividades
+            </a>
+        </div>
+        <div sec:authorize="hasAnyRole('ROLE_ADMINISTRATOR','ROLE_VOLUNTEER')" class="row">
+            <div class="col-xl-12 col-xxl-5 d-flex single-card">
+                <div class="w-100">
+                    <h1 class="h3 mb-3">Mascotas</h1>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Total:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-paw first-card"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:text="${petsCount}"></h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Activas:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-check second-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:text="${petsActive}"></h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Adoptadas:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-house third-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:text="${petsAdopted}"></h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Desactivadas:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-ban four-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:text="${petsDeactivate}"></h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div sec:authorize="hasRole('ROLE_ADMINISTRATOR')" class="row">
+            <div class="col-xl-12 col-xxl-5 d-flex single-card">
+                <div class="w-100">
+                    <h1 class="h3 mb-3">Usuarios</h1>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Total:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-user first-card"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:text="${usersCount}"></h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Voluntarios:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-user-shield second-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:text="${usersVolunteer}"></h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Adoptadores:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-house-user third-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:text="${usersAdopter}"></h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-3 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Solicitudes pendientes:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-clipboard-list four-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:text="${usersRequest}"></h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div sec:authorize="hasRole('ROLE_ADMINISTRATOR')" class="row">
+            <div class="col-xl-12 col-xxl-5 d-flex single-card">
+                <div class="w-100">
+                    <h1 class="h3 mb-3">Blogs</h1>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-4 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Total:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-book-open first-card"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:text="${blogCount}"></h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-4 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Principales:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-star second-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:text="${blogMain}"></h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-4 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Publicados:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-solid fa-check third-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:text="${blogPublished}"></h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div sec:authorize="hasAnyRole('ROLE_ADMINISTRATOR','ROLE_VOLUNTEER')" class="row">
+            <div class="col-xl-12 col-xxl-5 d-flex single-card">
+                <div class="w-100">
+                    <h1 class="h3 mb-3">Donaciones</h1>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-4 card-container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Total:</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="fa-brands fa-paypal first-card"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1" th:if="${donationCuantity==null}">$ 00.0</h1>
+                                    <h1 class="mt-1" th:unless="${donationCuantity==null}"
+                                        th:text="|$ ${donationCuantity}|"></h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div sec:authorize="hasAnyRole('ROLE_ADMINISTRATOR','ROLE_VOLUNTEER')" class="row">
+            <div class="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-3 box"
+                 style="margin-bottom: 2rem; display: grid;">
+                <div class="card flex-fill w-100 box-container">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Últimos 5 donadores</h5>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <div class="w-100">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Aprobada</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="donation, c :${donationTop5}">
+                                    <th scope="row" th:text="${c.count}"></th>
+                                    <td th:text="${donation.user.profile.getPartialName()}"></td>
+                                    <td th:text="|$ ${donation.quantity}|"></td>
+                                    <td th:text="${#temporals.format(donation.createdAt,'dd-MMM-yyyy')}"></td>
+                                    <td>
+                                        <div th:if="${donation.isCompleted}">
+                                            <i style="color: #54d37a" class="fa-solid fa-check"></i>
+                                        </div>
+                                        <div th:unless="${donation.isCompleted}">
+                                            <i style="color: #ff5b5b" class="fa-solid fa-x"></i>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1 box"
+                 style="margin-bottom: 2rem; display: grid;">
+                <div class="card flex-fill box-container">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Últimas 5 mascotas registradas</h5>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <div class="w-100">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Edad</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Registrado por:</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="pet, c :${petsTop}">
+                                    <th scope="row" th:text="${(c.index+1)}"></th>
+                                    <td th:text="${pet.name}"></td>
+                                    <td th:text="${pet.age}"></td>
+                                    <td th:text="${#temporals.format(pet.createdAt,'dd-MMM-yyyy')}"></td>
+                                    <td th:text="${pet.user.profile.getPartialName()}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
+</html>

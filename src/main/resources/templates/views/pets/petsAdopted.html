@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
+<div class="container py-3">
+
+    <div th:replace="components/titles::titles ('Solicitudes de adopción', ${ {'Mascotas','Adopciones'} })"/>
+
+    <table id="datatable" class="table table-striped" aria-describedby="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Mascota</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i,c: ${list}">
+            <td th:text="${c.count}"></td>
+            <td th:text="${i.user.profile.getFullName()}"></td>
+            <td th:text="${i.pet.name}"></td>
+            <td th:text="${i.pet.type.name}"></td>
+            <td>
+                <div th:if="${i.isCanceled==false && i.isAccepted==false}" class="d-flex justify-content-around">
+                    <a th:href="@{/pets/{id} (id=${i.pet.id})}" target="_blank" class="btn bg-warning">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+                    <form th:action="@{/petsAdopted/acept/{id}/{idPet}/{idUser} (id=${i.id}, idPet=${i.pet.id}, idUser=${i.user.id})}"
+                          onsubmit="return false">
+                        <button type="submit" class="btn btn-success"
+                                onclick="confirmSweetAlert(this.parentElement, '¿Aceptar adopción a esta persona?', 'Esta mascota pertenecerá ahora a ella', 'Sí, aceptar!')">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                    </form>
+                    <form th:action="@{/petsAdopted/cancel/{id} (id=${i.id})}" onsubmit="return false">
+                        <button type="submit" class="btn btn-danger"
+                                onclick="confirmSweetAlert(this.parentElement, '¿Rechazar adopción a esta persona?', 'Esta mascota no pertenecerá a ella', 'Sí, rechazar!')">
+                            <i class="fa-solid fa-ban"></i>
+                        </button>
+                    </form>
+                </div>
+                <div th:if="${i.isCanceled==false && i.isAccepted==true}">Solicitud <span
+                        class="text-success">aceptada</span></div>
+                <div th:if="${i.isCanceled==true && i.isAccepted==false}">Solicitud <span
+                        class="text-danger">rechazada</span></div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
+</html>

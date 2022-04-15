@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
+
+<div class="container py-3">
+    <div th:replace="components/titles::titles ('Mascotas', ${ {'Mascotas','Formulario'} })"/>
+    <form th:action="@{/pets/admin/save}" method="post" th:object="${pet}">
+        <input type="hidden" id="id" name="id" th:field="*{id}"/>
+        <div class="form-row">
+            <div class="form-group col-12 col-md-4">
+                <label for="name">Nombre:</label>
+                <input type="text" class="form-control"
+                       id="name" name="name"
+                       aria-describedby="nameHelp"
+                       placeholder="Ej: Solovino"
+                       th:classappend="${#fields.hasErrors('name')?'is-invalid':''}"
+                       th:field="*{name}"
+                       autofocus
+                       required
+                       minlength="2"
+                       maxlength="30"
+                       pattern="[A-Za-zÀ-ÿ '-.]*"
+                />
+                <div id="nameHelp"
+                     th:classappend="${#fields.hasErrors('name')?'invalid-feedback':''}"
+                     th:errors="*{name}">
+                </div>
+            </div>
+            <div class="form-group col-12 col-md-4">
+                <label for="gender">Género</label>
+                <select class="form-control" id="gender" name="gender" th:field="*{gender}" required>
+                    <option value="1" text="Macho">Macho</option>
+                    <option value="0">Hembra</option>
+                </select>
+            </div>
+            <div class="form-group col-12 col-md-4">
+                <label for="age">Edad:</label>
+                <select class="form-control" id="age" name="age" th:field="*{age}">
+                    <option value="Cachorro/Cria">Cachorro/Cria</option>
+                    <option value="Joven">Joven</option>
+                    <option value="Adulto">Adulto</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12 col-md-6">
+                <label for="character">Carácter:</label>
+                <select class="form-control" id="character" name="character" th:field="*{character.id}">
+                    <option th:each="i: ${listCharacters}" th:value="${i.id}" th:text="${i.name}"/>
+                </select>
+            </div>
+            <div class="form-group col-12 col-md-6">
+                <label for="breed">Raza:</label>
+                <input type="text" class="form-control"
+                       id="breed" name="breed"
+                       aria-describedby="breedHelp"
+                       placeholder="Ej: Labrador, Persa, Pomerania"
+                       th:classappend="${#fields.hasErrors('breed')?'is-invalid':''}"
+                       th:field="*{breed}"
+                       minlength="2"
+                       maxlength="30"
+                       pattern="[A-Za-zÀ-ÿ '-.]*"
+                />
+                <div id="breedHelp"
+                     th:classappend="${#fields.hasErrors('breed')?'invalid-feedback':''}"
+                     th:errors="*{breed}">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Descripción:</label>
+            <input type="text" class="form-control"
+                   id="description" name="description"
+                   aria-describedby="descriptionHelp"
+                   placeholder="Ej: La mejor mascota del mundo mundial"
+                   th:classappend="${#fields.hasErrors('description')?'is-invalid':''}"
+                   th:field="*{description}"
+                   required
+                   pattern="[A-Za-zÀ-ÿ '-.]*"
+                   maxlength="50"
+            />
+            <div id="descriptionHelp"
+                 th:classappend="${#fields.hasErrors('description')?'invalid-feedback':''}"
+                 th:errors="*{description}">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-12 col-md-4">
+                <label for="color">Color:</label>
+                <select class="form-control" id="color" name="color" th:field="*{color.id}">
+                    <option th:each="i: ${listColors}" th:value="${i.id}" th:text="${i.name}"/>
+                </select>
+            </div>
+
+            <div class="form-group col-12 col-md-4">
+                <label for="size">Tamaño:</label>
+                <select class="form-control" id="size" name="size" th:field="*{size.id}">
+                    <option th:each="i: ${listSizes}" th:value="${i.id}" th:text="${i.name}"/>
+                </select>
+            </div>
+
+            <div class="form-group col-12 col-md-4">
+                <label for="type">Tipo:</label>
+                <select class="form-control" id="type" name="type" th:field="*{type.id}">
+                    <option th:each="i: ${listTypes}" th:value="${i.id}" th:text="${i.name}"/>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+    </form>
+</div>
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
+</html>

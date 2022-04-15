@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
+
+<div class="container py-3">
+    <div th:replace="components/titles::titles ('Caracteres', ${ {'Caracteres','Formulario'} })"/>
+    <form th:action="@{/character/save}" method="post" th:object="${character}">
+        <input type="hidden" id="id" name="id" th:field="*{id}"/>
+        <div class="form-group">
+            <label for="name">Nombre:</label>
+            <input type="text" class="form-control"
+                   id="name" name="name"
+                   aria-describedby="nameHelp"
+                   placeholder="Ej: Juguetón"
+                   th:classappend="${#fields.hasErrors('name')?'is-invalid':''}"
+                   th:field="*{name}"
+                   autofocus
+                   required
+                   minlength="2"
+                   maxlength="20"
+                   pattern="[A-Za-zÀ-ÿ '-.]*"
+            />
+            <div id="nameHelp"
+                 th:classappend="${#fields.hasErrors('name')?'invalid-feedback':''}"
+                 th:errors="*{name}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description">Descripción:</label>
+            <input type="text" class="form-control"
+                   id="description" name="description"
+                   aria-describedby="descriptionHelp"
+                   placeholder="Ej: Le gusta estár con las personas"
+                   th:classappend="${#fields.hasErrors('description')?'is-invalid':''}"
+                   th:field="*{description}"
+                   pattern="[A-Za-zÀ-ÿ '-.]*"
+                   maxlength="50"
+            />
+            <div id="descriptionHelp"
+                 th:classappend="${#fields.hasErrors('description')?'invalid-feedback':''}"
+                 th:errors="*{description}">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">Guardar</button>
+    </form>
+</div>
+
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
+</html>
