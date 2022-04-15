@@ -1,5 +1,7 @@
 package mx.com.adoptame.entities.donation;
 
+import mx.com.adoptame.entities.log.LogService;
+import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +12,8 @@ import java.util.Optional;
 public class DonationService {
     @Autowired
     private DonationRepository donationRepository;
+
+    @Autowired private LogService logService;
 
     @Transactional(readOnly = true)
     public List<Donation> findAll() {
@@ -22,7 +26,12 @@ public class DonationService {
     }
 
     @Transactional
-    public Optional<Donation> save(Donation entity) {
+    public Optional<Donation> save(Donation entity, User user) {
+        var action = "Actualizar";
+        if (entity.getId() == null) {
+            action = "Crear";
+        }
+        logService.saveDonationLog(action, entity, user);
         return Optional.of(donationRepository.save(entity));
     }
 
