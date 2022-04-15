@@ -83,6 +83,7 @@
                    placeholder="Ej: La mejor mascota del mundo mundial"
                    th:classappend="${#fields.hasErrors('description')?'is-invalid':''}"
                    th:field="*{description}"
+                   required
                    pattern="[A-Za-zÀ-ÿ '-.]*"
                    maxlength="50"
             />
