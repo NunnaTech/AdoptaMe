@@ -102,13 +102,13 @@ public class UserService {
     }
 
     @Transactional()
-    public User recoveryPassword(User user){
-        if (user.getPassword().isEmpty()){
+    public User recoveryPassword(User user) {
+        if (user.getPassword().isEmpty()) {
             Optional<User> oldUser = findOne(user.getId());
-            if(oldUser.isPresent()){
+            if (oldUser.isPresent()) {
                 user.setPassword(oldUser.get().getPassword());
             }
-        }else{
+        } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         return (user);
@@ -167,7 +167,7 @@ public class UserService {
             String resetPasswordLink = host + "/user/activate?token=" + token;
             emailService.sendRequestAcceptedTemplate(user, resetPasswordLink);
         } catch (Exception exception) {
-           logger.error(exception.getMessage());
+            logger.error(exception.getMessage());
         }
     }
 

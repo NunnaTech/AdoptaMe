@@ -19,7 +19,6 @@ import mx.com.adoptame.entities.profile.Profile;
 @Table(name = "TBL_ADDRESS")
 @Setter
 @Getter
-@NoArgsConstructor
 public class Address implements Serializable{
     private static final long serialVersionUID = 1L;
 
@@ -67,6 +66,9 @@ public class Address implements Serializable{
 
     @OneToOne(mappedBy = "address")
     private Profile profile;
+
+    public Address() {
+    }
 
     public Address(String street, String externalNumber, String internalNumber, String zipCode, String references) {
         this.street = street;
