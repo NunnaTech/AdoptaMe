@@ -48,7 +48,7 @@ function remove(value, inputName) {
         case 'references':
         case 'currentPassword':
         case 'repeatPassword':
-        case 'hex_code':
+        case 'hexCode':
         case 'user.password':
         case 'address.street':
         case 'address.references':

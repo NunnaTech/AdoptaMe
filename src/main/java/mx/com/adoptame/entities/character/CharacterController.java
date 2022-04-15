@@ -2,6 +2,8 @@ package mx.com.adoptame.entities.character;
 
 import mx.com.adoptame.entities.user.User;
 import mx.com.adoptame.entities.user.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -21,23 +23,29 @@ import java.util.Optional;
 @RequestMapping("/character")
 public class CharacterController {
 
+    private static final String CHARACTER = "redirect:/character/";
+    private static final String CHARACTERFORM = "views/resources/character/characterForm";
+    private static final String CHARACTERLIST = "views/resources/character/characterList";
+
     @Autowired
     private CharacterService characterService;
 
     @Autowired
     private UserService userService;
 
+    private Logger logger = LoggerFactory.getLogger(CharacterController.class);
+
     @GetMapping("/")
     @Secured("ROLE_ADMINISTRATOR")
     public String type(Model model) {
         model.addAttribute("list", characterService.findAll());
-        return "views/resources/character/characterList";
+        return CHARACTERLIST;
     }
 
     @GetMapping("/form")
     @Secured("ROLE_ADMINISTRATOR")
     public String form(Model model, Character character) {
-        return "views/resources/character/characterForm";
+        return CHARACTERFORM;
     }
 
     @PostMapping("/save")
@@ -45,7 +53,7 @@ public class CharacterController {
     public String save(Authentication authentication, @Valid Character character, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
-                return "views/resources/character/characterForm";
+                return CHARACTERFORM;
             } else {
                 String username = authentication.getName();
                 Optional<User> user = userService.findByEmail(username);
@@ -56,20 +64,21 @@ public class CharacterController {
                 }
             }
         } catch (Exception e) {
+            logger.error(e.getMessage());
         }
-        return "redirect:/character/";
+        return CHARACTER;
     }
 
     @GetMapping("/edit/{id}")
     @Secured("ROLE_ADMINISTRATOR")
     public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-        Character character = characterService.findOne(id).orElse(null);
+        var character = characterService.findOne(id).orElse(null);
         if (character == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Carácter no encontrado");
-            return "redirect:/character/";
+            return CHARACTER;
         }
         model.addAttribute("character", character);
-        return "views/resources/character/characterForm";
+        return CHARACTERFORM;
     }
 
     @GetMapping("/delete/{id}")
@@ -84,7 +93,7 @@ public class CharacterController {
                 redirectAttributes.addFlashAttribute("msg_error", "Carácter no eliminado");
             }
         }
-        return "redirect:/character/";
+        return CHARACTER;
     }
 
 }

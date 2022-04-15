@@ -1,9 +1,7 @@
 package mx.com.adoptame.entities.user;
 
-import mx.com.adoptame.entities.log.LogService;
 import mx.com.adoptame.entities.profile.Profile;
 import mx.com.adoptame.entities.profile.ProfileService;
-import mx.com.adoptame.entities.request.Request;
 import mx.com.adoptame.entities.request.RequestService;
 import mx.com.adoptame.entities.role.RoleService;
 import org.slf4j.Logger;
@@ -26,6 +24,12 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
 
+    private static final String USER = "redirect:/user/";
+    private static final String LOGIN = "redirect:/login";
+    private static final String USERFORM = "views/user/userForm";
+    private static final String SMSERROR = "msg_error";
+    private static final String SMSSUCCESS = "msg_success";
+
     @Autowired private RequestService requestService;
 
     @Autowired private ProfileService profileService;
@@ -33,8 +37,6 @@ public class UserController {
     @Autowired private RoleService roleService;
 
     @Autowired private UserService userService;
-
-    @Autowired private LogService logService;
 
     private Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -49,7 +51,7 @@ public class UserController {
     @Secured("ROLE_ADMINISTRATOR")
     public String form(Model model, Profile profile) {
         model.addAttribute("listRoles", roleService.findAll());
-        return "views/user/userForm";
+        return USERFORM;
     }
 
     @GetMapping("/request")
@@ -62,12 +64,12 @@ public class UserController {
     @PostMapping("/acept/{id}")
     @Secured("ROLE_ADMINISTRATOR")
     public String acept(Model model, @PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
-        Request  request =requestService.accept(id);
+        var  request =requestService.accept(id);
         if (request != null) {
-            redirectAttributes.addFlashAttribute("msg_success", "Usuario aceptado exitosamente");
+            redirectAttributes.addFlashAttribute(SMSSUCCESS, "Usuario aceptado exitosamente");
             userService.sendActivateEmail(request.getUser());
         } else {
-            redirectAttributes.addFlashAttribute("msg_error", "Usuario no aceptado");
+            redirectAttributes.addFlashAttribute(SMSERROR, "Usuario no aceptado");
         }
         return "redirect:/user/request/";
     }
@@ -76,9 +78,9 @@ public class UserController {
     @Secured("ROLE_ADMINISTRATOR")
     public String delete(Model model, @PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         if (Boolean.TRUE.equals(requestService.delete(id))) {
-            redirectAttributes.addFlashAttribute("msg_success", "Solicitud borrada exitosamente");
+            redirectAttributes.addFlashAttribute(SMSSUCCESS, "Solicitud borrada exitosamente");
         } else {
-            redirectAttributes.addFlashAttribute("msg_error", "Usuario no aceptado");
+            redirectAttributes.addFlashAttribute(SMSERROR, "Usuario no aceptado");
         }
         return "redirect:/user/request/";
     }
@@ -86,14 +88,14 @@ public class UserController {
     @GetMapping("/edit/{id}")
     @Secured("ROLE_ADMINISTRATOR")
     public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-        Profile profile = profileService.findOne(id).orElse(null);
+        var profile = profileService.findOne(id).orElse(null);
         if (profile == null) {
-            redirectAttributes.addFlashAttribute("msg_error", "Usuario no encontrado");
-            return "redirect:/user/";
+            redirectAttributes.addFlashAttribute(SMSERROR, "Usuario no encontrado");
+            return USER;
         }
         model.addAttribute("listRoles", roleService.findAll());
         model.addAttribute("profile", profile);
-        return "views/user/userForm";
+        return USERFORM;
     }
 
     @GetMapping("/delete/{id}")
@@ -103,12 +105,12 @@ public class UserController {
         Optional<User> user = userService.findByEmail(username);
         if(user.isPresent()){
             if (Boolean.TRUE.equals(profileService.delete(id, user.get()))) {
-                redirectAttributes.addFlashAttribute("msg_success", "Usuario eliminado exitosamente");
+                redirectAttributes.addFlashAttribute(SMSSUCCESS, "Usuario eliminado exitosamente");
             } else {
-                redirectAttributes.addFlashAttribute("msg_error", "Usuario no eliminado");
+                redirectAttributes.addFlashAttribute(SMSERROR, "Usuario no eliminado");
             }
         }
-        return "redirect:/user/";
+        return USER;
     }
 
     @PostMapping("/save")
@@ -116,32 +118,32 @@ public class UserController {
     public String save(@Valid Profile profile, BindingResult bindingResult, RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
             if (bindingResult.hasErrors()) {
-                return "views/user/userForm";
+                return USERFORM;
             } else {
                 profile.setUser(userService.recoveryPassword(profile.getUser()));
                 String username = authentication.getName();
                 Optional<User> user = userService.findByEmail(username);
                 user.ifPresent(value -> profileService.save(profile, value));
-                redirectAttributes.addFlashAttribute("msg_success", "Usuario guardado exitosamente");
+                redirectAttributes.addFlashAttribute(SMSSUCCESS, "Usuario guardado exitosamente");
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return "views/user/userForm";
+            return USERFORM;
         }
-        return "redirect:/user/";
+        return USER;
     }
     @PostMapping("/forgotPassword")
     public String sendEmail(@RequestParam String email){
         userService.sendForgotPasswordEmail(email);
-        return "redirect:/login";
+        return LOGIN;
     }
 
     @GetMapping("/link_restore_password")
     public String restorePassword(@Param(value = "token") String token, Model model, RedirectAttributes redirectAttributes){
         Optional<User> user = userService.findByLinkRestorePassword(token);
         if (!user.isPresent()) {
-            redirectAttributes.addFlashAttribute("msg_error", "Código no valido");
-            return "redirect:/login";
+            redirectAttributes.addFlashAttribute(SMSERROR, "Código no valido");
+            return LOGIN;
         }
         model.addAttribute("token", token);
         return "views/authentication/resetPassword";
@@ -150,12 +152,12 @@ public class UserController {
     public String activate(@Param(value = "token") String token, Model model, RedirectAttributes redirectAttributes){
         Optional<User> user = userService.findByLinkActivateUsername(token);
         if (user.isEmpty()) {
-            redirectAttributes.addFlashAttribute("msg_error", "Código no valido");
+            redirectAttributes.addFlashAttribute(SMSERROR, "Código no valido");
         }else {
-            redirectAttributes.addFlashAttribute("msg_success", "Correo confirmado");
+            redirectAttributes.addFlashAttribute(SMSSUCCESS, "Correo confirmado");
             userService.activateUser(user.get());
         }
-        return "redirect:/login";
+        return LOGIN;
     }
 
     @PostMapping("/reset_password_submit")
@@ -164,11 +166,11 @@ public class UserController {
         String newPassword = request.getParameter("newPassword");
         String repeatedPassword = request.getParameter("repeatedPassword");
         Boolean completed = userService.updatePassword(token, newPassword, repeatedPassword);
-        if (!completed) {
+        if (Boolean.FALSE.equals(completed)) {
             redirectAttributes.addFlashAttribute("msg_warning", "Token no valida");
             return "views/authentication/resetPassword";
         }
-        redirectAttributes.addFlashAttribute("msg_success", "cambio de contraseña exitoso");
-        return "redirect:/login";
+        redirectAttributes.addFlashAttribute(SMSSUCCESS, "cambio de contraseña exitoso");
+        return LOGIN;
     }
 }

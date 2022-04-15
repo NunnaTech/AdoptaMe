@@ -25,19 +25,26 @@ import java.util.Optional;
 @Controller()
 public class HomeController {
 
-    @Autowired private NewsService newsService;
+    @Autowired
+    private NewsService newsService;
 
-    @Autowired private DonationService donationService;
+    @Autowired
+    private DonationService donationService;
 
-    @Autowired private UserService userService;
+    @Autowired
+    private UserService userService;
 
-    @Autowired private RequestService requestService;
+    @Autowired
+    private RequestService requestService;
 
-    @Autowired private PetService petService;
+    @Autowired
+    private PetService petService;
 
-    @Autowired private PetAdoptedService petAdoptedService;
+    @Autowired
+    private PetAdoptedService petAdoptedService;
 
-    @Autowired private LogService logService;
+    @Autowired
+    private LogService logService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -76,9 +83,7 @@ public class HomeController {
     public String dashboard(Model model, Authentication authentication, HttpSession httpSession) {
         String username = authentication.getName();
         Optional<User> user = userService.findByEmail(username);
-        user.ifPresent(value -> {
-            httpSession.setAttribute("user", value);
-        });
+        user.ifPresent(value -> httpSession.setAttribute("user", value));
         if (user.isPresent()) {
             boolean isAdopted = userService.isAdopter(username);
             if (isAdopted) {

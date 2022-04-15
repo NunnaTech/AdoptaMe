@@ -3,7 +3,6 @@ package mx.com.adoptame.entities.profile;
 import mx.com.adoptame.entities.address.Address;
 import mx.com.adoptame.entities.address.AddressService;
 import mx.com.adoptame.entities.log.LogService;
-import mx.com.adoptame.entities.request.Request;
 import mx.com.adoptame.entities.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +56,7 @@ public class ProfileService {
         if (entity.getUser().getId() == null) {
             entity.getUser().setPassword(passwordEncoder.encode(entity.getUser().getPassword()));
         }
-        String action = "Actualizar";
+        var action = "Actualizar";
         if (entity.getId() == null) {
             action = "Crear";
         }

@@ -1,6 +1,5 @@
 package mx.com.adoptame.entities.news;
 
-import lombok.extern.slf4j.Slf4j;
 import mx.com.adoptame.entities.tag.TagService;
 import mx.com.adoptame.entities.user.User;
 import mx.com.adoptame.entities.user.UserService;
@@ -22,6 +21,13 @@ import java.util.Optional;
 @RequestMapping("/blog")
 public class NewsController {
 
+    private static final String NEWS = "redirect:/blog/";
+    private static final String NEWSADMIN = "redirect:/blog/admin";
+    private static final String NEWSFORM = "views/blog/blogForm";
+    private static final String NEWSLIST = "views/blog/blogList";
+    private static final String NEWSNOTFOUND = "Blog no encontrado";
+    private static final String SMSERROR = "msg_error";
+
     @Autowired
     private NewsService newsService;
     @Autowired
@@ -42,17 +48,17 @@ public class NewsController {
     public String view(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         try {
             Optional<News> news = newsService.findOne(id);
-            if (news.isPresent() && news.get().getIsMain()) {
+            if (news.isPresent() && Boolean.TRUE.equals(news.get().getIsMain())) {
                 model.addAttribute("news", news.get());
                 return "views/blog/blog";
             } else {
-                redirectAttributes.addFlashAttribute("msg_error", "Blog no encontrado");
-                return "redirect:/blog/";
+                redirectAttributes.addFlashAttribute(SMSERROR, NEWSNOTFOUND);
+                return NEWS;
             }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("msg_error", "Blog no encontrado");
+            redirectAttributes.addFlashAttribute(SMSERROR, NEWSNOTFOUND);
             logger.error(e.getMessage());
-            return "redirect:/blog/";
+            return NEWS;
         }
 
     }
@@ -61,7 +67,7 @@ public class NewsController {
     @Secured("ROLE_ADMINISTRATOR")
     public String management(Model model, News news) {
         model.addAttribute("list", newsService.findAll());
-        return "views/blog/blogList";
+        return NEWSLIST;
     }
 
     @GetMapping("/admin/form")
@@ -69,20 +75,20 @@ public class NewsController {
     public String save(Model model, News news) {
         model.addAttribute("news", news);
         model.addAttribute("tags", tagService.findAll());
-        return "views/blog/blogForm";
+        return NEWSFORM;
     }
 
     @GetMapping("/admin/edit/{id}")
     @Secured("ROLE_ADMINISTRATOR")
     public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-        News news = newsService.findOne(id).orElse(null);
+        var news = newsService.findOne(id).orElse(null);
         if (news == null) {
-            redirectAttributes.addFlashAttribute("msg_error", "Blog no encontrado");
-            return "redirect:/blog/admin";
+            redirectAttributes.addFlashAttribute(SMSERROR, NEWSNOTFOUND);
+            return NEWSADMIN;
         }
         model.addAttribute("tags", tagService.findAll());
         model.addAttribute("news", news);
-        return "views/blog/blogForm";
+        return NEWSFORM;
     }
 
     @GetMapping("/admin/delete/{id}")
@@ -94,10 +100,10 @@ public class NewsController {
             if (Boolean.TRUE.equals(newsService.delete(id, user.get()))) {
                 redirectAttributes.addFlashAttribute("msg_success", "Blog eliminado exitosamente");
             } else {
-                redirectAttributes.addFlashAttribute("msg_error", "Blog no eliminado");
+                redirectAttributes.addFlashAttribute(SMSERROR, "Blog no eliminado");
             }
         }
-        return "redirect:/blog/admin";
+        return NEWSADMIN;
     }
 
     @PostMapping("/admin/save")
@@ -106,7 +112,7 @@ public class NewsController {
         try {
             if (bindingResult.hasErrors()) {
                 model.addAttribute("tagsList", tagService.findAll());
-                return "views/blog/blogForm";
+                return NEWSFORM;
             } else {
                 String username = authentication.getName();
                 Optional<User> user = userService.findByEmail(username);
@@ -119,6 +125,6 @@ public class NewsController {
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-        return "redirect:/blog/admin";
+        return NEWSADMIN;
     }
 }

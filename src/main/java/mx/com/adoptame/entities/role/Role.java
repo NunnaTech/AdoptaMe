@@ -1,5 +1,6 @@
 package mx.com.adoptame.entities.role;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -18,7 +19,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Role{
+public class Role implements Serializable{
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_rol")

@@ -23,6 +23,9 @@ import java.util.Optional;
 @RequestMapping("/size")
 public class SizeController {
 
+    private static final String SIZE = "redirect:/size/";
+    private static final String SIZEFORM = "views/resources/size/sizeForm";
+    
     @Autowired
     private SizeService sizeService;
 
@@ -41,7 +44,7 @@ public class SizeController {
     @GetMapping("/form")
     @Secured("ROLE_ADMINISTRATOR")
     public String form(Model model, Size size) {
-        return "views/resources/size/sizeForm";
+        return SIZEFORM;
     }
 
     @PostMapping("/save")
@@ -49,7 +52,7 @@ public class SizeController {
     public String save(Authentication authentication, @Valid Size size, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
-                return "views/resources/size/sizeForm";
+                return SIZEFORM;
             } else {
                 String username = authentication.getName();
                 Optional<User> user = userService.findByEmail(username);
@@ -62,19 +65,19 @@ public class SizeController {
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-        return "redirect:/size/";
+        return SIZE;
     }
 
     @GetMapping("/edit/{id}")
     @Secured("ROLE_ADMINISTRATOR")
     public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-        Size size = sizeService.findOne(id).orElse(null);
+        var size = sizeService.findOne(id).orElse(null);
         if (size == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Tamaño no encontrado");
-            return "redirect:/size/";
+            return SIZE;
         }
         model.addAttribute("size", size);
-        return "views/resources/size/sizeForm";
+        return SIZEFORM;
     }
 
     @GetMapping("/delete/{id}")
@@ -89,6 +92,6 @@ public class SizeController {
                 redirectAttributes.addFlashAttribute("msg_error", "Tamaño no eliminado");
             }
         }
-        return "redirect:/size/";
+        return SIZE;
     }
 }

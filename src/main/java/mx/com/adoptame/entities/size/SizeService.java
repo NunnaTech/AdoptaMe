@@ -36,7 +36,7 @@ public class SizeService {
 
     @Transactional
     public Optional<Size> save(Size entity, User user) {
-        String action = "Actualizar";
+        var action = "Actualizar";
         if (entity.getId() == null) {
             action = "Crear";
         }

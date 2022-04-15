@@ -24,6 +24,9 @@ import java.util.*;
 
 @Service
 public class UserService {
+
+    private static final String TEMPPASS = "admin";
+
     @Autowired
     private UserRepository userRepository;
 
@@ -125,23 +128,23 @@ public class UserService {
         List<Profile> profiles = new ArrayList<>();
         Optional<Role> admin = roleService.findByType("ROLE_ADMINISTRATOR");
         if (admin.isPresent()) {
-            User superadmin = new User("super@adoptame.com", passwordEncoder.encode("admin"), Set.of(admin.get()));
-            Address address1 = new Address("Alvaró Obregon", "7", "1", "69855", "Casa del superadmin");
-            Profile profile1 = new Profile("Alexis", "Álvarez", "Saldaña", "7778523699", superadmin, address1);
+            var superadmin = new User("super@adoptame.com", passwordEncoder.encode(TEMPPASS), Set.of(admin.get()));
+            var address1 = new Address("Alvaró Obregon", "7", "1", "69855", "Casa del superadmin");
+            var profile1 = new Profile("Alexis", "Álvarez", "Saldaña", "7778523699", superadmin, address1);
             profiles.add(profile1);
         }
         Optional<Role> volun = roleService.findByType("ROLE_VOLUNTEER");
         if (volun.isPresent()) {
-            User volunter = new User("volun@adoptame.com", passwordEncoder.encode("admin"), Set.of(volun.get()));
-            Address address2 = new Address("Avenida benito", "8", "7", "69858", "Casa del voluntario");
-            Profile profile2 = new Profile("Luis", "Saldaña", "García", "7778523696", volunter, address2);
+            var volunter = new User("volun@adoptame.com", passwordEncoder.encode(TEMPPASS), Set.of(volun.get()));
+            var address2 = new Address("Avenida benito", "8", "7", "69858", "Casa del voluntario");
+            var profile2 = new Profile("Luis", "Saldaña", "García", "7778523696", volunter, address2);
             profiles.add(profile2);
         }
         Optional<Role> adop = roleService.findByType("ROLE_ADOPTER");
         if (adop.isPresent()) {
-            User adopter = new User("adopt@adoptame.com", passwordEncoder.encode("admin"), Set.of(adop.get()));
-            Address address3 = new Address("Calle fresno", "9", "1", "69874", "Casa del adoptador");
-            Profile profile3 = new Profile("Hector", "Ortiz", "Loya", "7778523698", adopter, address3);
+            var adopter = new User("adopt@adoptame.com", passwordEncoder.encode(TEMPPASS), Set.of(adop.get()));
+            var address3 = new Address("Calle fresno", "9", "1", "69874", "Casa del adoptador");
+            var profile3 = new Profile("Hector", "Ortiz", "Loya", "7778523698", adopter, address3);
             profiles.add(profile3);
         }
         profileRepository.saveAll(profiles);
@@ -149,14 +152,14 @@ public class UserService {
 
     @Transactional
     public void sendForgotPasswordEmail(String email) {
-        String token = RandomString.make(100);
+        var token = RandomString.make(100);
         token += LocalDateTime.now();
         updateResetPasswordToken(token, email);
     }
 
     @Transactional
     public void sendActivateEmail(User user) {
-        String token = RandomString.make(100);
+        var token = RandomString.make(100);
         token += LocalDateTime.now();
         try {
             user.setLinkActivateUsername(token);
@@ -188,7 +191,7 @@ public class UserService {
     public Boolean updatePassword(String token, String newPassword, String repeatedPassword) {
         Optional<User> user = findByLinkRestorePassword(token);
         if (user.isEmpty()) return false;
-        if (!checkTokenDate(token)) return false;
+        if (Boolean.FALSE.equals(checkTokenDate(token))) return false;
         if (!newPassword.equals(repeatedPassword)) return false;
         user.get().setPassword(passwordEncoder.encode(newPassword));
         user.get().setLinkRestorePassword(null);
@@ -205,7 +208,7 @@ public class UserService {
 
     public Boolean checkTokenDate(String token) {
         try {
-            LocalDateTime tokenDate = LocalDateTime.parse(token.substring(100, token.length()));
+            var tokenDate = LocalDateTime.parse(token.substring(100));
             long hours = ChronoUnit.HOURS.between(tokenDate, LocalDateTime.now());
             if (hours < 24) return true;
         } catch (Exception e) {
@@ -251,7 +254,7 @@ public class UserService {
 
     @Transactional
     public Boolean isAdmin(String username) {
-        boolean flag = false;
+        var flag = false;
         Optional<User> user = findByEmail(username);
         if (user.isPresent()) {
             for (Role r : user.get().getRoles()) {
@@ -266,7 +269,7 @@ public class UserService {
 
     @Transactional
     public Boolean isAdopter(String username) {
-        boolean flag = false;
+        var flag = false;
         Optional<User> user = findByEmail(username);
         if (user.isPresent()) {
             for (Role r : user.get().getRoles()) {

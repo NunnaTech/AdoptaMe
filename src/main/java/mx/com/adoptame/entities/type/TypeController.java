@@ -23,6 +23,9 @@ import java.util.Optional;
 @RequestMapping("/type")
 public class TypeController {
 
+    private static final String TYPE = "redirect:/type/";
+    private static final String TYPEFORM = "views/resources/type/typeForm";
+
     @Autowired
     private TypeService typeService;
 
@@ -41,7 +44,7 @@ public class TypeController {
     @GetMapping("/form")
     @Secured("ROLE_ADMINISTRATOR")
     public String form(Model model, Type type) {
-        return "views/resources/type/typeForm";
+        return TYPEFORM;
     }
 
     @PostMapping("/save")
@@ -49,7 +52,7 @@ public class TypeController {
     public String save(Authentication authentication, @Valid Type type, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
-                return "views/resources/type/typeForm";
+                return TYPEFORM;
             } else {
                 String username = authentication.getName();
                 Optional<User> user = userService.findByEmail(username);
@@ -62,19 +65,19 @@ public class TypeController {
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-        return "redirect:/type/";
+        return TYPE;
     }
 
     @GetMapping("/edit/{id}")
     @Secured("ROLE_ADMINISTRATOR")
     public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-        Type type = typeService.findOne(id).orElse(null);
+        var type = typeService.findOne(id).orElse(null);
         if (type == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Tipo no encontrado");
-            return "redirect:/type/";
+            return TYPE;
         }
         model.addAttribute("type", type);
-        return "views/resources/type/typeForm";
+        return TYPEFORM;
     }
 
     @GetMapping("/delete/{id}")
@@ -89,6 +92,6 @@ public class TypeController {
                 redirectAttributes.addFlashAttribute("msg_error", "Tipo no eliminado");
             }
         }
-        return "redirect:/type/";
+        return TYPE;
     }
 }

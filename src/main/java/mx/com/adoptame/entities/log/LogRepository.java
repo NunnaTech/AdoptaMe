@@ -63,7 +63,7 @@ public interface LogRepository extends CrudRepository<Log, Integer> {
     void logColor(
             @Param("action_in") String actionIn,
             @Param("id_in") Integer idIn,
-            @Param("hex_code_in") String hexCodeIn,
+            @Param("hexCode_in") String hexCodeIn,
             @Param("name_in") String nameIn,
             @Param("status_in") Integer statusIn,
             @Param("user_id_in") Integer userIdIn

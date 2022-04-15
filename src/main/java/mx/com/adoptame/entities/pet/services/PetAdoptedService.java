@@ -66,7 +66,7 @@ public class PetAdoptedService {
 
     @Transactional
     public Optional<PetAdopted> save(PetAdopted entity, User user) {
-        String action = "Actualizar";
+        var action = "Actualizar";
         if (entity.getId() == null) {
             action = "Crear";
         }
@@ -78,9 +78,8 @@ public class PetAdoptedService {
     public Boolean accept(Integer id, Integer idPet, Integer idUser) {
         Optional<PetAdopted> entity = petAdoptedRepository.findById(id);
         Optional<User> user = userService.findOne(idUser);
-
         if (entity.isPresent() && user.isPresent()) {
-            PetAdopted petAdopted = entity.get();
+            var petAdopted = entity.get();
             petAdopted.setIsAccepted(true);
             petAdopted.setIsCanceled(false);
             petAdopted.getPet().setIsAdopted(true);
@@ -115,7 +114,7 @@ public class PetAdoptedService {
 
     @Transactional()
     public Boolean checkIsPresentInAdoptions(Pet currentPet, User currentUser){
-        boolean flag = false;
+        var flag = false;
         List<PetAdopted> petUserAdopted = findUsername(currentUser.getId());
         for (PetAdopted p:petUserAdopted) {
             if(currentPet.getId().equals(p.getPet().getId())){

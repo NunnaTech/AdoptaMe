@@ -23,6 +23,9 @@ import java.util.Optional;
 @RequestMapping("/tag")
 public class TagController {
 
+    private static final String TAG = "redirect:/tag/";
+    private static final String TAGFORM = "views/resources/tag/tagForm";
+
     @Autowired
     private TagService tagService;
 
@@ -41,7 +44,7 @@ public class TagController {
     @GetMapping("/form")
     @Secured("ROLE_ADMINISTRATOR")
     public String form(Model model, Tag tag) {
-        return "views/resources/tag/tagForm";
+        return TAGFORM;
     }
 
     @PostMapping("/save")
@@ -49,7 +52,7 @@ public class TagController {
     public String save(Authentication authentication, @Valid Tag tag, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         try {
             if (bindingResult.hasErrors()) {
-                return "views/resources/tag/tagForm";
+                return TAGFORM;
             } else {
                 String username = authentication.getName();
                 Optional<User> user = userService.findByEmail(username);
@@ -61,19 +64,19 @@ public class TagController {
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-        return "redirect:/tag/";
+        return TAG;
     }
 
     @GetMapping("/edit/{id}")
     @Secured("ROLE_ADMINISTRATOR")
     public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-        Tag tag = tagService.findOne(id).orElse(null);
+        var tag = tagService.findOne(id).orElse(null);
         if (tag == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Etiqueta no encontrada");
-            return "redirect:/tag/";
+            return TAG;
         }
         model.addAttribute("tag", tag);
-        return "views/resources/tag/tagForm";
+        return TAGFORM;
     }
 
     @GetMapping("/delete/{id}")
@@ -88,6 +91,6 @@ public class TagController {
                 redirectAttributes.addFlashAttribute("msg_error", "Etiqueta no eliminado");
             }
         }
-        return "redirect:/tag/";
+        return TAG;
     }
 }
