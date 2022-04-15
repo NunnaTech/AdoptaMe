@@ -60,8 +60,7 @@ public class RequestController {
                 return "redirect:/login";
             }
             var success = false;
-            String phone = profile.getPhone().replaceAll("[\\s]", "").replaceAll("\\(", "").replaceAll("\\)", "")
-                    .replaceAll("-", "");
+            String phone = profile.getPhone().replaceAll("[\\s]", "").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("-", "");
             profile.setPhone(phone);
             if (role.equalsIgnoreCase("Voluntario")) {
                 profile.getUser().addRole();
