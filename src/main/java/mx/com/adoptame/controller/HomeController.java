@@ -114,7 +114,7 @@ public class HomeController {
 
     @GetMapping("/noscript")
     public String noscript() {
-        return "views/authentication/resetPassword";
+        return "views/errorpages/noscript";
     }
 
     @GetMapping("/logs")

@@ -21,6 +21,8 @@ public class MyErrorController implements ErrorController {
                 return "views/errorpages/error403";
             } else if (statusCode == HttpStatus.NOT_FOUND.value()) {
                 return "views/errorpages/error404";
+            } else if (statusCode == HttpStatus.METHOD_NOT_ALLOWED.value()) {
+                return "views/errorpages/error405";
             } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 return "views/errorpages/error500";
             }
