@@ -39,12 +39,12 @@ public class PetService {
 
     @Transactional(readOnly = true)
     public List<Pet> findAll() {
-        return petRepository.findAllByIsActiveAndIsDroppedFalse(true);
+        return petRepository.findAllByIsActiveAndIsDroppedFalseOrderByCreatedAtDesc(true);
     }
 
     @Transactional(readOnly = true)
     public List<Pet> findAllisActiveFalse() {
-        return petRepository.findAllByIsActiveAndIsDroppedFalse(false);
+        return petRepository.findAllByIsActiveAndIsDroppedFalseOrderByCreatedAtDesc(false);
     }
 
     @Transactional(readOnly = true)
