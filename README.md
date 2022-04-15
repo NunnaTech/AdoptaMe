@@ -102,6 +102,7 @@ Necesitas tener instalado y debidamente configurado las siguientes herramientas:
 
 - Álvarez Ortiz Luis Enrique
 - Castellanos Martínez Christopher Eduardo
+- Loya García Alexis
 - López Domitilo Rubén
 - Saldaña Espinoza Hector
 
