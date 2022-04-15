@@ -787,6 +787,6 @@ VALUES ('<p style="margin-bottom: 10px; color: rgb(51, 51, 51); font-family: san
         'https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/205/8c6622de-704f-4942-9af5-1efadca5647f.jpg',
         1, 1, 'Antes de adoptar', 1);
 
-INSERT INTO bl_tags_news (id_news, id_tag)
+INSERT INTO tbl_tags_news (id_news, id_tag)
 VALUES (1, 1),
        (1, 3);
