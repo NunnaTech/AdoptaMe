@@ -1,11 +1,13 @@
 package mx.com.adoptame.entities.pet.services;
 
 import mx.com.adoptame.config.email.EmailService;
+import mx.com.adoptame.entities.log.LogService;
 import mx.com.adoptame.entities.pet.entities.Pet;
 import mx.com.adoptame.entities.pet.entities.PetAdopted;
 import mx.com.adoptame.entities.pet.repositories.PetAdoptedRepository;
 
 import mx.com.adoptame.entities.user.User;
+import mx.com.adoptame.entities.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,12 @@ public class PetAdoptedService {
 
     @Autowired
     private PetAdoptedRepository petAdoptedRepository;
+
+    @Autowired
+    private LogService logService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private EmailService emailService;
@@ -57,28 +65,26 @@ public class PetAdoptedService {
     }
 
     @Transactional
-    public Optional<PetAdopted> save(PetAdopted entity) {
+    public Optional<PetAdopted> save(PetAdopted entity, User user) {
+        String action = "Actualizar";
+        if (entity.getId() == null) {
+            action = "Crear";
+        }
+        logService.savePetAdoptedLog(action,entity,user);
         return Optional.of(petAdoptedRepository.save(entity));
-    }
-
-    @Transactional
-    public Optional<PetAdopted> update(PetAdopted entity) {
-        Optional<PetAdopted> updatedEntity;
-        updatedEntity = petAdoptedRepository.findById(entity.getId());
-        if (!updatedEntity.isEmpty())
-            petAdoptedRepository.save(entity);
-        return updatedEntity;
     }
 
     @Transactional
     public Boolean accept(Integer id, Integer idPet, Integer idUser) {
         Optional<PetAdopted> entity = petAdoptedRepository.findById(id);
-        if (entity.isPresent()) {
+        Optional<User> user = userService.findOne(idUser);
+
+        if (entity.isPresent() && user.isPresent()) {
             PetAdopted petAdopted = entity.get();
             petAdopted.setIsAccepted(true);
             petAdopted.setIsCanceled(false);
             petAdopted.getPet().setIsAdopted(true);
-            petAdoptedRepository.save(petAdopted);
+            save(petAdopted, user.get());
             petAdoptedRepository.setAllPetCanceled(idPet, idUser);
             sendAdoptionConfirmation(petAdopted);
             return true;
@@ -92,7 +98,7 @@ public class PetAdoptedService {
         if (entity.isPresent()) {
             entity.get().setIsCanceled(true);
             entity.get().setIsAccepted(false);
-            petAdoptedRepository.save(entity.get());
+            save(entity.get(),entity.get().getUser());
             return true;
         }
         return false;

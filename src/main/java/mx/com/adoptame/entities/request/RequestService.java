@@ -1,5 +1,6 @@
 package mx.com.adoptame.entities.request;
 
+import mx.com.adoptame.entities.log.LogService;
 import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ public class RequestService {
 
     @Autowired
     private RequestRepository requestRepository;
+
+    @Autowired
+    private LogService logService;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -49,8 +53,12 @@ public class RequestService {
                 .setParameter(1, reason)
                 .setParameter(2, user)
                 .executeUpdate();
-        return findByUser(user);
+        Optional<Request> savedRequest = findByUser(user);
+        savedRequest.ifPresent(request ->
+                logService.saveRequestLog("Crear",request, user));
+        return savedRequest;
     }
+
     @Transactional
     public Optional<Request> update(Request entity) {
         Optional<Request> updatedEntity;

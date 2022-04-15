@@ -43,8 +43,8 @@
                         <span th:case="Eliminar" class="badge badge-danger">Eliminación</span>
                     </td>
                     <td th:text="${#temporals.format(i.createdAt,'dd-MMM-yyyy')}"/>
-                    <td th:text="${i.oldData}"/>
-                    <td th:text="${i.newData}"/>
+                    <td ><code th:text="${i.oldData}"></code></td>
+                    <td ><code th:text="${i.newData}"></code></td>
                 </tr>
                 </tbody>
             </table>

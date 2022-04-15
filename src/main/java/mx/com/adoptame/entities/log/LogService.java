@@ -6,11 +6,15 @@ import mx.com.adoptame.entities.color.Color;
 import mx.com.adoptame.entities.donation.Donation;
 import mx.com.adoptame.entities.news.News;
 import mx.com.adoptame.entities.pet.entities.Pet;
+import mx.com.adoptame.entities.pet.entities.PetAdopted;
+import mx.com.adoptame.entities.profile.Profile;
+import mx.com.adoptame.entities.request.Request;
 import mx.com.adoptame.entities.size.Size;
 import mx.com.adoptame.entities.tag.Tag;
 import mx.com.adoptame.entities.type.Type;
 import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +28,7 @@ public class LogService {
 
     @Transactional(readOnly = true)
     public List<Log> findAll() {
-        return (List<Log>) logRepository.findAll();
+        return logRepository.findByOrderByCreatedAtDesc();
     }
 
     @Transactional(readOnly = true)
@@ -38,13 +42,46 @@ public class LogService {
     }
 
     @Transactional
-    public void saveUserLog(String action, User user, User madeBy) {
-        logRepository.logUser(
+    public void saveRequestLog(String action, Request request, User madeBy) {
+        logRepository.logRequest(
                 action,
-                user.getId(),
-                user.getUsername(),
-                user.getPassword(),
-                user.getEnabled() == true ? 1 : 0,
+                request.getId(),
+                Boolean.TRUE.equals(request.getIsAccepted()) ? 1 : 0,
+                request.getReason(),
+                Boolean.TRUE.equals(request.getIsCanceled()) ? 1 : 0,
+                madeBy.getId()
+        );
+    }
+
+    @Transactional
+    public void saveProfile(String action, Profile profile, User madeBy) {
+        logRepository.logProfile(
+                action,
+                profile.getId(),
+                profile.getUser().getUsername(),
+                profile.getUser().getPassword(),
+                Boolean.TRUE.equals(profile.getUser().getEnabled()) ? 1 : 0,
+                profile.getName(),
+                profile.getLastName(),
+                profile.getSecondName(),
+                profile.getPhone(),
+                profile.getImage(),
+                profile.getAddress().getExternalNumber(),
+                profile.getAddress().getInternalNumber(),
+                profile.getAddress().getStreet(),
+                profile.getAddress().getZipCode(),
+                profile.getAddress().getReferences(),
+                madeBy.getId()
+        );
+    }
+
+    @Transactional
+    public void savePetAdoptedLog(String action, PetAdopted petAdopted, User madeBy) {
+        logRepository.logPetsAdopted(
+                action,
+                petAdopted.getId(),
+                Boolean.TRUE.equals(petAdopted.getIsAccepted()) ? 1 : 0,
+                Boolean.TRUE.equals(petAdopted.getIsCanceled()) ? 1 : 0,
                 madeBy.getId()
         );
     }
@@ -56,7 +93,7 @@ public class LogService {
                 color.getId(),
                 color.getHex_code(),
                 color.getName(),
-                color.getStatus() == true ? 1 : 0,
+                Boolean.TRUE.equals(color.getStatus())? 1 : 0,
                 madeBy.getId()
         );
     }
@@ -68,7 +105,7 @@ public class LogService {
                 type.getId(),
                 type.getName(),
                 type.getDescription(),
-                type.getStatus() == true ? 1 : 0,
+                Boolean.TRUE.equals(type.getStatus()) ? 1 : 0,
                 madeBy.getId()
         );
     }
@@ -79,7 +116,7 @@ public class LogService {
                 action,
                 donation.getId(),
                 donation.getAuthorization(),
-                donation.getIsCompleted() == true ? 1 : 0,
+                Boolean.TRUE.equals(donation.getIsCompleted())? 1 : 0,
                 donation.getQuantity(),
                 donation.getUser().getId(),
                 madeBy.getId()
@@ -93,7 +130,7 @@ public class LogService {
                 character.getId(),
                 character.getDescription(),
                 character.getName(),
-                character.getStatus() == true ? 1 : 0,
+                Boolean.TRUE.equals(character.getStatus()) ? 1 : 0,
                 madeBy.getId()
         );
     }
@@ -105,7 +142,7 @@ public class LogService {
                 size.getId(),
                 size.getName(),
                 size.getRange(),
-                size.getStatus() == true ? 1 : 0,
+                Boolean.TRUE.equals(size.getStatus()) ? 1 : 0,
                 madeBy.getId()
         );
     }
@@ -142,8 +179,8 @@ public class LogService {
                 news.getId(),
                 news.getContent(),
                 news.getImage(),
-                news.getIsMain() == true ? 1 : 0,
-                news.getIsPublished() == true ? 1 : 0,
+                Boolean.TRUE.equals(news.getIsMain()) ? 1 : 0,
+                Boolean.TRUE.equals(news.getIsPublished()) ? 1 : 0,
                 news.getTitle(),
                 news.getUser().getId(),
                 madeBy.getId()
@@ -159,10 +196,10 @@ public class LogService {
                 pet.getAge(),
                 pet.getBreed(),
                 pet.getDescription(),
-                pet.getGender() == true ? 1 : 0,
-                pet.getIsActive() == true ? 1 : 0,
-                pet.getIsAdopted() == true ? 1 : 0,
-                pet.getIsDropped() == true ? 1 : 0,
+                Boolean.TRUE.equals(pet.getGender()) ? 1 : 0,
+                Boolean.TRUE.equals(pet.getIsActive()) ? 1 : 0,
+                Boolean.TRUE.equals(pet.getIsAdopted()) ? 1 : 0,
+                Boolean.TRUE.equals(pet.getIsDropped()) ? 1 : 0,
                 pet.getCharacter().getId(),
                 pet.getColor().getId(),
                 pet.getSize().getId(),
