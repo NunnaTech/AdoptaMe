@@ -41,6 +41,10 @@ public class PetController {
     private static final String PETERRORFAVORITES = "Ocurrió un error al guardar en favoritos, intente nuevamente";
     private static final String SMSERROR = "msg_error";
     private static final String SMSSUCCESS = "msg_success";
+    private static final String LISTCHARACTERS = "listCharacters";
+    private static final String LISTCOLORS = "listColors";
+    private static final String LISTSIZES = "listSizes";
+    private static final String LISTTYPES = "listTypes";
 
 
     @Autowired
@@ -245,10 +249,10 @@ public class PetController {
     @GetMapping("/admin/form")
     @Secured({"ROLE_ADMINISTRATOR", "ROLE_VOLUNTEER"})
     public String save(Model model, Pet pet) {
-        model.addAttribute("listCharacters", characterService.findAll());
-        model.addAttribute("listColors", colorService.findAll());
-        model.addAttribute("listSizes", sizeService.findAll());
-        model.addAttribute("listTypes", typeService.findAll());
+        model.addAttribute(LISTCHARACTERS, characterService.findAll());
+        model.addAttribute(LISTCOLORS, colorService.findAll());
+        model.addAttribute(LISTSIZES, sizeService.findAll());
+        model.addAttribute(LISTTYPES, typeService.findAll());
         return PETFORM;
     }
 
@@ -278,10 +282,10 @@ public class PetController {
             redirectAttributes.addFlashAttribute(SMSERROR, PETNOTFOUND);
             return PETADMIN;
         }
-        model.addAttribute("listCharacters", characterService.findAll());
-        model.addAttribute("listColors", colorService.findAll());
-        model.addAttribute("listSizes", sizeService.findAll());
-        model.addAttribute("listTypes", typeService.findAll());
+        model.addAttribute(LISTCHARACTERS, characterService.findAll());
+        model.addAttribute(LISTCOLORS, colorService.findAll());
+        model.addAttribute(LISTSIZES, sizeService.findAll());
+        model.addAttribute(LISTTYPES, typeService.findAll());
         model.addAttribute("pet", pet);
         return PETFORM;
     }
@@ -294,10 +298,10 @@ public class PetController {
             boolean isAdmin = userService.isAdmin(username);
             pet.setIsActive(isAdmin || pet.getId() != null);
             if (bindingResult.hasErrors()) {
-                model.addAttribute("listCharacters", characterService.findAll());
-                model.addAttribute("listColors", colorService.findAll());
-                model.addAttribute("listSizes", sizeService.findAll());
-                model.addAttribute("listTypes", typeService.findAll());
+                model.addAttribute(LISTCHARACTERS, characterService.findAll());
+                model.addAttribute(LISTCOLORS, colorService.findAll());
+                model.addAttribute(LISTSIZES, sizeService.findAll());
+                model.addAttribute(LISTTYPES, typeService.findAll());
                 return PETFORM;
             } else {
                 Optional<User> user = userService.findByEmail(username);
