@@ -28,6 +28,8 @@
                         <input hidden type="text" th:field="*{id}" id="id">
                         <input hidden type="text" th:field="*{user.id}" id="id-user">
                         <input hidden type="text" th:field="*{address.id}" id="id-address">
+                        <input hidden type="text" th:field="*{user.username}">
+                        <input hidden type="text" th:field="*{user.password}">
                         <h2>Rol(es):</h2>
                         <ul th:each="r:${profile.user.roles}" th:switch="__${r.authority}__">
                             <li class="badge badge-secondary" th:case="ROLE_ADMINISTRATOR" th:text="Administrador"></li>

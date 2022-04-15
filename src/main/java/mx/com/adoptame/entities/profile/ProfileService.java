@@ -61,14 +61,14 @@ public class ProfileService {
         if (entity.getId() == null) {
             action = "Crear";
         }
-        logService.saveProfile(action,entity,user);
+        logService.saveProfile(action, entity, user);
         return Optional.of(profileRepository.save(entity));
     }
 
     @Transactional
     public Optional<Profile> addProfile(Profile profile, User user) {
         Optional<Address> address = addressService.addAddress();
-        if(address.isPresent()){
+        if (address.isPresent()) {
             entityManager.createNativeQuery("INSERT INTO tbl_profiles (name,last_name,second_name,phone,address_id,user_id)VALUES (?,?,?,?,?,?);")
                     .setParameter(1, profile.getName())
                     .setParameter(2, profile.getLastName())
@@ -79,7 +79,7 @@ public class ProfileService {
                     .executeUpdate();
             Optional<Profile> savedProfile = findByUser(user);
             savedProfile.ifPresent(p ->
-                    logService.saveProfile("Crear",p, user));
+                    logService.saveProfile("Crear", p, user));
             return savedProfile;
         }
         return Optional.empty();
@@ -113,7 +113,7 @@ public class ProfileService {
         Optional<Profile> entity = findOne(id);
         if (entity.isPresent()) {
             entity.get().getUser().setEnabled(false);
-            logService.saveProfile("Eliminar",entity.get(),user);
+            logService.saveProfile("Eliminar", entity.get(), user);
             profileRepository.save(entity.get());
             return true;
         }

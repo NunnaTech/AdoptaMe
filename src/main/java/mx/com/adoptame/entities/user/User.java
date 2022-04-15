@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -57,7 +58,6 @@ public class User implements Serializable {
 
     @Column(name = "link_restore_password",unique = true, columnDefinition = "varchar(150)")
     private String linkRestorePassword;
-
 
     @Column(name = "link_activate_username",unique = true, columnDefinition = "varchar(150)")
     private String linkActivateUsername;
