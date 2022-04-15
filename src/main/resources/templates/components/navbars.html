@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<header th:fragment="navbar-all" class="header" th:classappend="${fix=='fix'?'fixed-top':''}">
+    <div class="container">
+        <div class="row align-items-center d-flex justify-content-between">
+            <a th:href="@{/}" class="logo">
+                <img th:src="@{/img/logo.svg}" style="height: 50px; width: 50px" alt="logo"/>Adopta<span>Me.</span>
+            </a>
+            <nav class="nav">
+                <a th:href="@{/}">Inicio</a>
+                <a th:href="@{/blog/}">Blog</a>
+                <a th:href="@{/pets/}">Mascotas</a>
+                <a th:href="@{/pets/filter}">Adoptar</a>
+            </nav>
+            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="link-btn text-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/dashboard}" class="link-btn text-btn">Mi cuenta<i class="fa-solid fa-user ml-4"></i></a>
+            <div id="menu-btn" class="fas fa-bars"></div>
+        </div>
+    </div>
+</header>
+
+<header th:fragment="navbar-all-aux" class="header">
+    <div class="container">
+        <div class="row align-items-center d-flex justify-content-between">
+            <a th:href="@{/}" class="logo">
+                <img th:src="@{/img/logo.svg}" style="height: 50px; width: 50px" alt="logo"/>Adopta<span>Me.</span>
+            </a>
+            <nav class="nav aux">
+                <a th:href="@{/}">Inicio</a>
+                <a th:href="@{/blog/}">Blog</a>
+                <a th:href="@{/pets/}">Mascotas</a>
+                <a th:href="@{/pets/filter}">Adoptar</a>
+            </nav>
+            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="link-btn text-btn">Acceder<i class="fa-solid fa-user ml-4"></i></a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/dashboard}" class="link-btn text-btn">Mi cuenta<i class="fa-solid fa-user ml-4"></i></a>
+            <div id="menu-btn" class="fas fa-bars"></div>
+        </div>
+    </div>
+</header>
+
+<header th:fragment="navbar-admin" class="header p-0 py-2">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <a th:href="@{/}" class="logo mr-2">
+                <img th:src="@{/img/logo.svg}" style="height: 50px; width: 50px" alt="logo"/>Adopta<span>Me.</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}"><i class="fa fa-table-columns"></i><span>Dashboard</span></a></li>
+
+                    <li class="nav-item"><a class="nav-link" th:href="@{/blog/admin}"><i class="fa fa-newspaper"></i><span>Blog</span></a></li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown1" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-paw"></i>
+                            <span>Mascotas</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                            <a class="dropdown-item" th:href="@{/pets/admin/request}">Solicitudes de mascotas</a>
+                            <a class="dropdown-item" th:href="@{/petsAdopted/}">Solicitudes de adopción</a>
+                            <a class="dropdown-item" th:href="@{/pets/favorites}">Mascotas favoritas</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" th:href="@{/pets/admin}">Gestión</a>
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Usuarios</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                            <a class="dropdown-item" th:href="@{/user/request}">Solicitudes nuevos usuarios</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" th:href="@{/user/}">Gestión</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item"><a class="nav-link" th:href="@{/donation/admin}"><i class="fa-brands fa-cc-paypal"></i><span>Donativos</span></a></li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown3" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-wrench"></i>
+                            <span>Recursos</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                            <a class="dropdown-item" th:href="@{/type/}">
+                                <i class="fa-solid fa-dog"></i>
+                                <span>Tipos</span>
+                            </a>
+                            <a class="dropdown-item" th:href="@{/character/}">
+                                <i class="fa-solid fa-face-grin-stars"></i>
+                                <span>Caracteres</span>
+                            </a>
+                            <a class="dropdown-item" th:href="@{/size/}">
+                                <i class="fa-solid fa-chart-column"></i>
+                                <span>Tamaños</span>
+                            </a>
+                            <a class="dropdown-item" th:href="@{/tag/}">
+                                <i class="fa-solid fa-bookmark"></i>
+                                <span>Etiquetas</span>
+                            </a>
+                            <a class="dropdown-item" th:href="@{/color/}">
+                                <i class="fa-solid fa-paintbrush"></i>
+                                <span>Colores</span>
+                            </a>
+                            <a class="dropdown-item" th:href="@{/role/}">
+                                <i class="fa-solid fa-universal-access"></i>
+                                <span>Roles</span>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item"><a class="nav-link" th:href="@{/profile/}"><i class="fa-solid fa-address-card"></i><span>Perfil</span></a></li>
+
+                </ul>
+                <form th:action="@{/logout}" method="post"  onsubmit="return false">
+                    <button class="link-btn p-0 m-0 p-2" type="submit" onclick="confirmSweetAlert(this.parentElement, '¿Cerrar sesión?', 'Tendrás que volver a iniciar sesión para realizar acciones', 'Sí, cerrar')">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Salir
+                    </button>
+                </form>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<header th:fragment="navbar-voluntario" class="header p-0 py-2">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <a th:href="@{/}" class="logo mr-2">
+                <img th:src="@{/img/logo.svg}" style="height: 50px; width: 50px" alt="logo"/>Adopta<span>Me.</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}"><i class="fa fa-table-columns"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" th:href="@{/}" id="navbarDropdown1" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-paw"></i>
+                            <span>Mascotas</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                            <a class="dropdown-item" th:href="@{/petsAdopted/}">Solicitudes de adopción</a>
+                            <a class="dropdown-item" th:href="@{/pets/favorites}">Mascotas favoritas</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" th:href="@{/pets/admin}">Gestión</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/donation/}">
+                            <i class="fa-brands fa-cc-paypal"></i>
+                            <span>Donativos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/profile/}">
+                            <i class="fa-solid fa-address-card"></i>
+                            <span>Perfil</span>
+                        </a>
+                    </li>
+                </ul>
+                <form th:action="@{/logout}" method="post"  onsubmit="return false">
+                    <button class="link-btn p-0 m-0 p-2" type="submit" onclick="confirmSweetAlert(this.parentElement, '¿Cerrar sesión?', 'Tendrás que volver a iniciar sesión para realizar acciones', 'Sí, cerrar')">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Salir
+                    </button>
+                </form>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<header th:fragment="navbar-adoptador" class="header p-0 py-2">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <a th:href="@{/}" class="logo mr-2">
+                <img th:src="@{/img/logo.svg}" style="height: 50px; width: 50px" alt="logo"/>Adopta<span>Me.</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}"><i class="fa fa-table-columns"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"  id="navbarDropdown1" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-paw"></i>
+                            <span>Mascotas</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                            <a class="dropdown-item" th:href="@{/pets/adoptions}">Mis solicitudes de adopción</a>
+                            <a class="dropdown-item" th:href="@{/pets/favorites}">Mascotas favoritas</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/donation/}">
+                            <i class="fa-brands fa-cc-paypal"></i>
+                            <span>Mis donativos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/profile/}">
+                            <i class="fa-solid fa-address-card"></i>
+                            <span>Perfil</span>
+                        </a>
+                    </li>
+                </ul>
+                <form th:action="@{/logout}" method="post"  onsubmit="return false">
+                    <button class="link-btn p-0 m-0 p-2" type="submit" onclick="confirmSweetAlert(this.parentElement, '¿Cerrar sesión?', 'Tendrás que volver a iniciar sesión para realizar acciones', 'Sí, cerrar')">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Salir
+                    </button>
+                </form>
+            </div>
+        </nav>
+    </div>
+</header>
+
+</body>
+</html>

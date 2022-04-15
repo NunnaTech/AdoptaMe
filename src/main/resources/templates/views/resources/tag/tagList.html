@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
+<div class="container py-3">
+    <div th:replace="components/titles::titles ('Etiquetas', ${ {'Etiquetas','Lista'} })"/>
+    <a type="button" class="btn btn-success my-2" th:href="@{/tag/form}">
+        <i class="fa-solid fa-plus"></i> Agregar nueva
+    </a>
+    <table id="datatable" class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i,c: ${list}">
+            <td th:text="${c.count}"/>
+            <td th:text="${i.name}"/>
+            <td th:text="${i.description}"/>
+            <td class="d-flex justify-content-around">
+                <a th:href="@{/tag/edit/{id} (id=${i.id})}" class="btn btn-warning">
+                    <i class="fa-solid fa-pen"></i>
+                </a>
+                <form th:action="@{/tag/delete/{id} (id=${i.id})}" onsubmit="return false">
+                    <button type="submit" class="btn btn-danger" onclick="confirmSweetAlert(this.parentElement)">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
+</html>

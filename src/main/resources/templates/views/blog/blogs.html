@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body id="blog-list" class="d-flex flex-column min-vh-100">
+<header th:replace="components/navbars:: navbar-all-aux"></header>
+
+<main>
+    <div class="container mt-2 pt-2 pb-1">
+        <h1 class="h3 mb-4">Últimas entradas de Blog</h1>
+        <div class="row">
+            <div class="col-md-3 col-xl-3 mb-4">
+                <div class="card pb-4">
+                    <div class="card-header px-1">
+                        <h4 class="card-title mx-3 mt-3 mb-2">Blogs</h4>
+                    </div>
+                    <div class="border mb-4"></div>
+                    <div class="list-group list-group-flush" role="tablist">
+                        <a class="list-group-item list-group-item-action"
+                           data-toggle="list"
+                           role="tab"
+                           th:each="top,i: ${newsList}"
+                           th:classappend="${i.count==1?'active':''}"
+                           th:id="${top.id}"
+                           th:href="|#blog${top.id}|"
+                           th:aria-controls="|blog${top.id}|"
+                           th:text="${top.title}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 col-xl-9 p-0">
+                <div class="tab-content" id="nav-tabContent">
+                    <div th:if="${newsList.isEmpty()}" class="col-12" style="font-size: 20px">
+                        <div class="card p-5 d-flex justify-content-center align-content-center">
+                            <p class="text-center m-0">No hay blogs para mostrar</p>
+                        </div>
+                    </div>
+                    <div th:unless="${newsList.isEmpty()}" class="tab-pane fade show"
+                         role="tabpanel"
+                         th:each="news,i: ${newsList}"
+                         th:classappend="${i.count==1?'active':''}"
+                         th:id="|blog${news.id}|">
+                            <div class="col-12">
+                                <div class="row">
+                                    <a th:href="@{/blog/{id}(id=${news.id})}">
+                                        <div class="col-md-12 box-container mt-sm-4 mt-md-0">
+                                            <div class="card">
+                                                <div class="img-container">
+                                                    <img th:src="${news.image}"
+                                                         alt="banner" class="card-img-top main-image">
+                                                </div>
+                                                <div class="card-body">
+                                                    <h4 class="card-title blog-title" th:text="${news.title}"></h4>
+                                                    <div class="media">
+                                                        <div class="align-self-center">
+                                                            <div class="b-avatar badge-secondary rounded-circle">
+                                                                <span>
+                                                                    <img class="rounded-circle"
+                                                                         style="width: 24px; height: 24px;"
+                                                                         th:src="${news.user.profile.image}"
+                                                                         alt="avatar"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media-body pl-2 text-muted">
+                                                            <small class="mr-1">by</small>
+                                                            <small class="text-body"
+                                                                   th:text="${news.user.profile.getPartialName()}"> </small>
+                                                            <span class=" ml-1">|</span><small
+                                                                class="ml-2"
+                                                                th:text="${#temporals.format(news.createdAt,'dd-MMM-yyyy')}"></small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="my-3 d-flex justify-content-start">
+                                                        <div th:each="tag:${news.tags}">
+                                                        <span class="badge badge-success p-1 ml-2"
+                                                              th:text="${tag.name}">
+                                                        </span>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
+</html>

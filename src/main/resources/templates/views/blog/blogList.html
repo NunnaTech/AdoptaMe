@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
+<div class="container py-3">
+    <div th:replace="components/titles::titles ('Blog', ${ {'Blog','Lista'} })"></div>
+    <a type="button" class="btn btn-success my-2" th:href="@{/blog/admin/form}">
+        <i class="fa-solid fa-plus"></i> Agregar nueva
+    </a>
+    <table id="datatable" class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Título</th>
+            <th scope="col">Principal</th>
+            <th scope="col">Activa</th>
+            <th scope="col">Fecha de creación</th>
+            <th scope="col">Imagen</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="i,c: ${list}">
+            <td th:text="${c.count}"/>
+            <td th:text="${i.title}"/>
+            <td><span class="badge" th:classappend="${i.isMain ? 'badge-success':'badge-warning'}" th:text="${i.isMain ? 'Si':'No'}"/></td>
+            <td><span class="badge" th:classappend="${i.isPublished ? 'badge-success':'badge-warning'}" th:text="${i.isPublished ? 'Si':'No'}"/></td>
+            <td th:text="${#temporals.format(i.createdAt,'dd-MMM-yyyy')}"/>
+            <td class="text-center">
+                <img th:src="${i.image}" class="img-responsive" width="100" height="auto">
+            </td>
+            <td class="d-flex justify-content-around">
+                <form th:action="@{/blog/{id} (id=${i.id})}" method="get">
+                    <button type="submit" class="btn btn-info">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </form>
+                <a th:href="@{/blog/admin/edit/{id} (id=${i.id})}" class="btn btn-warning">
+                    <i class="fa-solid fa-pen"></i>
+                </a>
+                <form th:action="@{/blog/admin/delete/{id} (id=${i.id})}" onsubmit="return false">
+                    <button type="submit" class="btn btn-danger" onclick="confirmSweetAlert(this.parentElement)">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
+</html>
