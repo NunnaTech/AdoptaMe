@@ -34,6 +34,7 @@ import mx.com.adoptame.entities.user.User;
 @NoArgsConstructor
 @Table(name = "TBL_NEWS")
 public class News implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

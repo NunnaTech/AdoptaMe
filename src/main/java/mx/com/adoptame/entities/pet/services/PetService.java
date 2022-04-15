@@ -69,7 +69,7 @@ public class PetService {
 
     @Transactional
     public Optional<Pet> save(Pet entity, User user) {
-        String action = "Actualizar";
+        var action = "Actualizar";
         if (entity.getId() == null) {
             action = "Crear";
         }
@@ -187,7 +187,7 @@ public class PetService {
 
     @Transactional
     public Boolean checkIsPresentInFavorites(Pet currentPet, List<Pet> userPetsFavorites) {
-        boolean flag = false;
+        var flag = false;
         for (Pet p : userPetsFavorites) {
             if (p.getId().equals(currentPet.getId())) {
                 flag = true;

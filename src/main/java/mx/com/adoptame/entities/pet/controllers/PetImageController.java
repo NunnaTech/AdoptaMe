@@ -18,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/petsImages")
 public class PetImageController {
 
+    private static final String SMSERROR = "msg_error";
+
     @Autowired
     private PetService petService;
 
@@ -29,9 +31,9 @@ public class PetImageController {
     @GetMapping("/images/{id}")
     @Secured("ROLE_ADMINISTRATOR")
     public String images(@PathVariable("id") Integer id, Model model, PetImage petImage, RedirectAttributes redirectAttributes) {
-        Pet pet = petService.findOne(id).orElse(null);
+        var pet = petService.findOne(id).orElse(null);
         if (pet == null) {
-            redirectAttributes.addFlashAttribute("msg_error", "Mascota no encontrado");
+            redirectAttributes.addFlashAttribute(SMSERROR, "Mascota no encontrado");
             return "redirect:/pets/admin";
         }
         model.addAttribute("list", pet);
@@ -43,15 +45,15 @@ public class PetImageController {
     @Secured("ROLE_ADMINISTRATOR")
     public String save(@RequestParam("idPet") Integer idPet, @RequestParam("image") String image, RedirectAttributes redirectAttributes) {
         try {
-            PetImage petImage = new PetImage();
-            Pet pet = new Pet();
+            var petImage = new PetImage();
+            var pet = new Pet();
             pet.setId(idPet);
             petImage.setPet(pet);
             petImage.setImage(image);
             petImageService.save(petImage);
             redirectAttributes.addFlashAttribute("msg_success", "Imagen guardada exitosamente");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("msg_error", "Imagen no guardada");
+            redirectAttributes.addFlashAttribute(SMSERROR, "Imagen no guardada");
             logger.error(e.getMessage());
         }
         return "redirect:/petsImages/images/" + idPet;
@@ -63,7 +65,7 @@ public class PetImageController {
         if (Boolean.TRUE.equals(petImageService.delete(idImage))) {
             redirectAttributes.addFlashAttribute("msg_success", "Imagen eliminada exitosamente");
         } else {
-            redirectAttributes.addFlashAttribute("msg_error", "Imagen no eliminado");
+            redirectAttributes.addFlashAttribute(SMSERROR, "Imagen no eliminado");
         }
         return "redirect:/petsImages/images/" + idPet;
     }

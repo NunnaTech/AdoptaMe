@@ -2,7 +2,6 @@ package mx.com.adoptame.entities.news;
 
 import mx.com.adoptame.entities.log.LogService;
 import mx.com.adoptame.entities.tag.Tag;
-import mx.com.adoptame.entities.type.Type;
 import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +46,7 @@ public class NewsService {
 
     @Transactional
     public Optional<News> save(News entity, User user) {
-        String action = "Actualizar";
+        var action = "Actualizar";
         if (entity.getImage().isEmpty()) {
             entity.setImage("https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/592/89da8cb2-d1ea-4cfa-9e45-14725313b19e.png");
         }

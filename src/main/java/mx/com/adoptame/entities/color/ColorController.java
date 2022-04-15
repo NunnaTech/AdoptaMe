@@ -23,6 +23,10 @@ import java.util.Optional;
 @RequestMapping("/color")
 public class ColorController {
 
+    private static final String COLOR = "redirect:/color/";
+    private static final String COLORFORM = "views/resources/color/colorForm";
+    private static final String COLORLIST = "views/resources/color/colorList";
+
     @Autowired
     private ColorService colorService;
 
@@ -35,13 +39,13 @@ public class ColorController {
     @Secured("ROLE_ADMINISTRATOR")
     public String type(Model model) {
         model.addAttribute("list", colorService.findAll());
-        return "views/resources/color/colorList";
+        return COLORLIST;
     }
 
     @GetMapping("/form")
     @Secured("ROLE_ADMINISTRATOR")
     public String form(Model model, Color color) {
-        return "views/resources/color/colorForm";
+        return COLORFORM;
     }
 
     @PostMapping("/save")
@@ -49,7 +53,7 @@ public class ColorController {
     public String save(Model model, @Valid Color color, BindingResult bindingResult, RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
             if (bindingResult.hasErrors()) {
-                return "views/resources/color/colorForm";
+                return COLORFORM;
             } else {
                 String username = authentication.getName();
                 Optional<User> user = userService.findByEmail(username);
@@ -62,19 +66,19 @@ public class ColorController {
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-        return "redirect:/color/";
+        return COLOR;
     }
 
     @GetMapping("/edit/{id}")
     @Secured("ROLE_ADMINISTRATOR")
     public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-        Color color = colorService.findOne(id).orElse(null);
+        var color = colorService.findOne(id).orElse(null);
         if (color == null) {
             redirectAttributes.addFlashAttribute("msg_error", "Color no encontrado");
-            return "redirect:/color/";
+            return COLOR;
         }
         model.addAttribute("color", color);
-        return "views/resources/color/colorForm";
+        return COLORFORM;
     }
 
     @GetMapping("/delete/{id}")
@@ -90,6 +94,6 @@ public class ColorController {
             }
 
         }
-        return "redirect:/color/";
+        return COLOR;
     }
 }

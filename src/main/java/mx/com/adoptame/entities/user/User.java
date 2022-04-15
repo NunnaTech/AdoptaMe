@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -121,21 +120,13 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "rol_id"))
     private Set<Role> roles;
 
-    public void addRole(Role role) {
-        if (roles == null) {
-            roles = new HashSet<Role>();
-        }
-        roles.add(role);
-    }
+
     public void addRole() {
-        roles = new HashSet<Role>();
-    }
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+        roles = new HashSet<>();
     }
 
-    public void removeRole(Role role) {
-        roles.remove(role);
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public User(String username, String password, Set<Role> roles) {
