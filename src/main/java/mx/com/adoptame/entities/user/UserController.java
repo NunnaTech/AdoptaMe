@@ -75,7 +75,7 @@ public class UserController {
     @PostMapping("/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
     public String delete(Model model, @PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
-        if (requestService.delete(id)) {
+        if (Boolean.TRUE.equals(requestService.delete(id))) {
             redirectAttributes.addFlashAttribute("msg_success", "Solicitud borrada exitosamente");
         } else {
             redirectAttributes.addFlashAttribute("msg_error", "Usuario no aceptado");
@@ -98,11 +98,15 @@ public class UserController {
 
     @GetMapping("/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
-        if (Boolean.TRUE.equals(profileService.delete(id))) {
-            redirectAttributes.addFlashAttribute("msg_success", "Usuario eliminado exitosamente");
-        } else {
-            redirectAttributes.addFlashAttribute("msg_error", "Usuario no eliminado");
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes,Authentication authentication) {
+        String username = authentication.getName();
+        Optional<User> user = userService.findByEmail(username);
+        if(user.isPresent()){
+            if (Boolean.TRUE.equals(profileService.delete(id, user.get()))) {
+                redirectAttributes.addFlashAttribute("msg_success", "Usuario eliminado exitosamente");
+            } else {
+                redirectAttributes.addFlashAttribute("msg_error", "Usuario no eliminado");
+            }
         }
         return "redirect:/user/";
     }
@@ -118,8 +122,8 @@ public class UserController {
                 String username = authentication.getName();
                 Optional<User> user = userService.findByEmail(username);
                 if(user.isPresent()){
-                    profileService.save(profile);
-                    logService.saveUserLog("Actualizar",profile.getUser(),user.get());
+                    profileService.save(profile,user.get());
+
                 }
 
                 redirectAttributes.addFlashAttribute("msg_success", "Usuario guardado exitosamente");

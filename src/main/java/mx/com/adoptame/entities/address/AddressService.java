@@ -1,8 +1,13 @@
 package mx.com.adoptame.entities.address;
 
+import mx.com.adoptame.entities.profile.Profile;
+import mx.com.adoptame.entities.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +15,9 @@ import java.util.Optional;
 public class AddressService {
     @Autowired
     private AdressRepository addressRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Transactional(readOnly = true)
     public List<Address> findAll() {
@@ -42,5 +50,12 @@ public class AddressService {
             addressRepository.deleteById(id);
         }
         return entity;
+    }
+
+    @Transactional
+    public Optional<Address> addAddress() {
+        entityManager.createNativeQuery("INSERT INTO tbl_address (external_number,street,zip_code)VALUES ('','','');")
+                .executeUpdate();
+        return addressRepository.findLastAddressAdded();
     }
 }

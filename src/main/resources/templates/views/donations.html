@@ -29,22 +29,20 @@
         </thead>
         <tbody>
         <tr th:each="i,c: ${list}">
-            <td th:text="${c.count}"/>
-            <td th:text="${i.user.profile.name}"/>
-            <td th:text="${i.user.profile.lastName}"/>
-            <td th:text="${i.user.profile.secondName}"/>
-            <td th:text="${i.quantity}"/>
+            <td th:text="${c.count}"></td>
+            <td th:text="${i.user.profile.name}"></td>
+            <td th:text="${i.user.profile.lastName}"></td>
+            <td th:text="${i.user.profile.secondName}"></td>
+            <td th:text="${i.quantity}"></td>
             <td>
                 <span class="badge" th:classappend="${i.isCompleted ? 'badge-success':'badge-warning'}"
-                      th:text="${i.isCompleted ? 'Exitosa':'Pendiente'}"/>
+                      th:text="${i.isCompleted ? 'Exitosa':'Pendiente'}"></span>
             </td>
-            <td th:text="${#temporals.format(i.createdAt,'dd-MMM-yyyy')}"/>
+            <td th:text="${#temporals.format(i.createdAt,'dd-MMM-yyyy')}"></td>
             <td class="d-flex justify-content-around">
-
                 <a th:href="@{/donation/payment/{id} (id=${i.id})}" class="btn btn-success">
                     <i class="fa-solid fa-download"></i>
                 </a>
-
             </td>
         </tr>
         </tbody>

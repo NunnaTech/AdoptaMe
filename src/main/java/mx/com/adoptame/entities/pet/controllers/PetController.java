@@ -130,7 +130,7 @@ public class PetController {
                     redirectAttributes.addFlashAttribute("msg_error", "Esta mascota ya la solicitaste");
                 } else {
                     PetAdopted petAdopted = new PetAdopted(pet.get(), user.get());
-                    petAdoptedService.save(petAdopted);
+                    petAdoptedService.save(petAdopted, user.get());
                     redirectAttributes.addFlashAttribute("msg_success", "Solicitud de adopción realizada");
                 }
             } else {

@@ -60,19 +60,19 @@ public class RequestController {
                 return "redirect:/login";
             }
             boolean success = false;
+            String phone = profile.getPhone().replaceAll("[\\s]", "").replaceAll("\\(", "").replaceAll("\\)", "")
+                    .replaceAll("-", "");
+            profile.setPhone(phone);
             if(role.equalsIgnoreCase("Voluntario")){
                 profile.getUser().addRole();
                 profile.getUser().setEnabled(false);
-                String phone = profile.getPhone().replaceAll("[\\s]", "").replaceAll("\\(", "").replaceAll("\\)", "")
-                        .replaceAll("-", "");
-                profile.setPhone(phone);
 
                 Optional<User> optionalUser = userService.addUser(profile.getUser());
                 if (optionalUser.isPresent()){
                     Optional<Role> volunteer = roleService.findByType("ROLE_VOLUNTEER");
                     volunteer.ifPresent(value -> userService.addRole(optionalUser.get(), value));
                     profile.setUser(optionalUser.get());
-                    profileService.addProfile(profile);
+                    profileService.addProfile(profile,profile.getUser());
                     requestService.addRequest(reason, optionalUser.get());
                     success = true;
                 }
@@ -84,7 +84,7 @@ public class RequestController {
                     Optional<Role> volunteer = roleService.findByType("ROLE_ADOPTER");
                     volunteer.ifPresent(value -> userService.addRole(optionalUser.get(), value));
                     profile.setUser(optionalUser.get());
-                    profileService.addProfile(profile);
+                    profileService.addProfile(profile,profile.getUser());
                     success = true;
                 }
             }

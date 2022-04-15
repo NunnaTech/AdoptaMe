@@ -24,6 +24,6 @@ public interface PetAdoptedRepository extends JpaRepository<PetAdopted, Integer>
     Integer countByUserIdAndIsAcceptedIsFalseAndAndIsCanceledIsTrue(Integer username);
 
     @Modifying
-    @Query(value = "UPDATE adoptame.tbl_pets_adopted a SET a.is_canceled = 1, a.is_accepted = 0 WHERE a.pet_id = ?1 AND a.user_id <> ?2 ", nativeQuery = true)
+    @Query(value = "UPDATE tbl_pets_adopted a SET a.is_canceled = 1, a.is_accepted = 0 WHERE a.pet_id = ?1 AND a.user_id <> ?2 ", nativeQuery = true)
     void setAllPetCanceled(Integer idPet, Integer idUser);
 }

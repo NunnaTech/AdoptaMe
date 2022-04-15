@@ -44,13 +44,16 @@ public class ProfileController {
     }
 
     @PostMapping("/save")
-    public String save(Model model, @Valid Profile profile, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String save(Model model, @Valid Profile profile, BindingResult bindingResult, RedirectAttributes redirectAttributes,Authentication authentication) {
         try {
             profile = profileService.findAndSetPerfil(profile);
             if (bindingResult.hasErrors()) {
                 return "views/profile/profileForm";
-            } else {
-                profileService.save(profile);
+            }
+            String username = authentication.getName();
+            Optional<User> user = userService.findByEmail(username);
+            if(user.isPresent()) {
+                profileService.save(profile,user.get());
                 redirectAttributes.addFlashAttribute("msg_success", "Perfil guardado exitosamente");
             }
         } catch (Exception e) {
