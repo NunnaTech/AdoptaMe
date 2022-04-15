@@ -86,6 +86,7 @@ public class DonationController {
         if (user.isPresent()) {
             Field[] allFields = user.get().getClass().getDeclaredFields();
             for (Field field : allFields) {
+                field.setAccessible(true);
                 Object value = field.get(user.get());
                 userPayload.put(field.getName(), value);
             }

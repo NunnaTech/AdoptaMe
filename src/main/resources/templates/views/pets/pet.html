@@ -146,8 +146,10 @@
                                     Agregar como favorito
                                     <i class="fa-solid fa-heart ml-2"></i>
                                 </a>
-                                <form th:action="@{/pets/adopted/{id} (id=${pet.id})}" method="post"  onsubmit="return false">
-                                    <button class="mt-3 p-2 btn btn-block btn-primary-ad p-2" type="submit" onclick="confirmSweetAlert(this.parentElement, '¿Estás seguro que quieres adoptar?', 'Un administrador debe aprobar tu solicitud primero', 'Sí, adoptar')">
+                                <form th:action="@{/pets/adopted/{id} (id=${pet.id})}"
+                                      onsubmit="return false">
+                                    <button class="mt-3 p-2 btn btn-block btn-primary-ad p-2" type="submit"
+                                            onclick="confirmSweetAlert(this.parentElement, '¿Estás seguro que quieres adoptar?', 'Un administrador debe aprobar tu solicitud primero', 'Sí, adoptar')">
                                         ¡Adóptame!
                                         <i class="fa-solid fa-paw ml-2"></i>
                                     </button>
