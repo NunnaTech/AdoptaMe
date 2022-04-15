@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="titles (title, list)">
+    <small class="font-italic text-muted">
+        <span th:each="i : ${list}">[[${i}]] / </span>
+    </small>
+    <div class="d-flex justify-content-between align-content-center align-self-center mb-3 ">
+        <h3 class="h3 font-weight-bold m-0" th:text="${title}"/>
+    </div>
+    <hr/>
+</div>
+
+</body>
+</html>

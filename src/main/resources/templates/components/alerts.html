@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="alerts">
+    <script th:if="${msg_success != null}">
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: '[[${msg_success}]]',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+
+    <script th:if="${msg_error != null}">
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: '[[${msg_error}]]',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+    <script>
+        function confirmSweetAlert(
+            e,
+            title = '¿Estás seguro?',
+            text = 'Este elemento será removido para siempre',
+            confirmButtonText = 'Sí, eliminar!',
+        ) {
+            Swal.fire({
+                title,
+                text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#F47A1F',
+                cancelButtonColor: '#666',
+                confirmButtonText,
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    e.submit();
+                }
+            })
+        }
+    </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
+
+
+<div class="container py-3">
+
+    <div th:replace="components/titles::titles ('Donaciones', ${ {'Donaciones','Formulario'} })"/>
+
+    <form th:action="@{/donation/save}" method="post" th:object="${donation}">
+        <div class="form-group">
+            <label for="quantity">Cantidad a donar:</label>
+
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <input type="number" class="form-control"
+                       id="quantity" name="quantity"
+                       step="any"
+                       aria-describedby="quantityHelp"
+                       placeholder="Ej: 99999.9"
+                       th:classappend="${#fields.hasErrors('quantity')?'is-invalid':''}"
+                       th:field="*{quantity}"
+                       autofocus
+                       required
+                       min="0.1"
+                       max="99999.9"
+                       pattern="[A-Za-zÀ-ÿ '-.]*">
+                <div class="input-group-append">
+                    <span class="input-group-text">MXN</span>
+                </div>
+            </div>
+
+          <!--  <input type="number" class="form-control"
+                   id="quantity" name="quantity"
+                   step="any"
+                   aria-describedby="quantityHelp"
+                   placeholder="Ej: 99999.9"
+                   th:classappend="${#fields.hasErrors('quantity')?'is-invalid':''}"
+                   th:field="*{quantity}"
+                   autofocus
+                   required
+                   min="0.1"
+                   max="99999.9"
+                   pattern="[A-Za-zÀ-ÿ '-.]*"
+            />-->
+            <div id="quantityHelp"
+                 th:classappend="${#fields.hasErrors('quantity')?'invalid-feedback':''}"
+                 th:errors="*{quantity}">
+            </div>
+        </div>
+
+
+
+
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+    </form>
+</div>
+
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+</body>
+</html>

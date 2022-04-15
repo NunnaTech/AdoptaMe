@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+
+<body>
+<main class="error d-flex w-100 h-100">
+    <div class="container">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="mt-5 mt-lg-0  px-2 p-lg-5 col-lg-4">
+                <div class="pt-lg-5 p-lg-0 mx-auto col-sm-8 col-md-6 col-lg-12">
+                    <div class="text-center">
+                        <h3>
+                            ERROR<br/>
+                            <b>403</b>
+                        </h3>
+                        <p class="main-text">
+                            Acceso no autorizado
+                        </p>
+                        <p class="secondary-text">
+                            Lo siento gatito pero... <br> esta no es tu casa.
+                        </p>
+                        <a th:href="@{/}" class="link-btn-error my-3">Volver al Inicio</a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-0 mt-lg-5 d-lg-flex align-items-center col-10 col-sm-8 col-lg-8">
+                <div class="mt-0 mt-lg-5 w-100 d-lg-flex align-items-center justify-content-center">
+                    <img src="/img/error-403.svg" alt="error-403">
+                </div>
+                <div class="d-none d-lg-flex">
+                    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+                    <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_Zz37yH.json"
+                                   background="transparent" speed="1"
+                                   style="width: 150px; height: 150px; margin-top: 350px;" loop
+                                   autoplay></lottie-player>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

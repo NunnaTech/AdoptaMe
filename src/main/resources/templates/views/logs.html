@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body id="logs" class="d-flex flex-column min-vh-100">
+<header sec:authorize="hasRole('ROLE_ADMINISTRATOR')" th:replace="components/navbars::navbar-admin"/>
+<header sec:authorize="hasRole('ROLE_VOLUNTEER')" th:replace="components/navbars::navbar-voluntario"/>
+<header sec:authorize="hasRole('ROLE_ADOPTER')" th:replace="components/navbars::navbar-adoptador"/>
+
+<div class="container-fluid py-3">
+    <div th:replace="components/titles::titles ('Actividades', ${ {'Monitoreo de actividades'} })"></div>
+    <div class="card box-container">
+        <div class="card-body table-responsive py-3">
+            <table id="datatable" class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Tabla</th>
+                    <th scope="col">Acción</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Datos anteriores</th>
+                    <th scope="col">Datos nuevos</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="i,c:${list}">
+                    <td th:text="${c.count}"/>
+                    <td class="media">
+                        <img th:src="${i.user.profile.image}"
+                             alt="avatar" class="rounded-circle">
+                        <div class="ml-3">
+                            <p class="m-0" th:text="|${i.user.profile.getPartialName()}|"/>
+                            <small class="text-muted" th:text="${i.user.username}"/>
+                        </div>
+                    </td>
+                    <td th:text="${i.board}"/>
+                    <td th:switch="${i.action}">
+                        <span th:case="Crear" class="badge badge-success">Creación</span>
+                        <span th:case="Actualizar" class="badge badge-primary">Modificación</span>
+                        <span th:case="Eliminar" class="badge badge-danger">Eliminación</span>
+                    </td>
+                    <td th:text="${#temporals.format(i.createdAt,'dd-MMM-yyyy HH:mm')}"/>
+                    <td style="max-width: 500px"><code class="text-wrap" th:text="${i.newData}"></code></td>
+                    <td style="max-width: 500px"><code class="text-wrap" th:text="${i.oldData}" th:onload=""></code>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+
+</body>
+</html>

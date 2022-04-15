@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="components/htmlComponents::htmlHead"/>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="components/navbars:: navbar-all-aux"/>
+
+<div class="container mb-5">
+    <div class="row mt-5">
+        <div class="col-12 col-md-6">
+            <div class="box-container bg-danger text-white alert alert-dismissible fade show" th:if="${errorMessage}">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="">
+                        <small class="card-title mb-0" th:text="${errorMessage}"></small>
+                    </div>
+            </div>
+            <h2>Iniciar sesión</h2>
+            <form th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <label for="email">Correo electrónico:</label>
+                    <input type="email" class="form-control"
+                           id="email" name="email"
+                           aria-describedby="emailHelp"
+                           placeholder="Ej: hector@gmail.com"
+                           autofocus
+                           required
+                           minlength="5"
+                           maxlength="50"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña </label>
+                    <div class="input-group mb-1">
+                        <input type="password" class="form-control"
+                               id="password" name="password"
+                               placeholder="Ej: *************"
+                               required
+                               minlength="5"
+                               maxlength="70">
+                        <div class="input-group-append ">
+                            <button class="btn btn-outline-secondary" type="button" id="seePasswordButton"
+                                    onclick="mostrarContrasena()">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a th:href="@{/request/forgot-password}">¿Olvidate tu contraseña?</a>
+                </div>
+                <button type="submit" class="btn btn-dark">Iniciar sesión</button>
+            </form>
+            <img th:src="@{/img/pomerania.png}" class="d-none d-md-block w-75" alt="Pomerania"/>
+        </div>
+        <div class="col-12 col-md-6 mt-5 mt-md-0">
+            <h2>Crear una cuenta</h2>
+            <form th:action="@{/request/save}" method="post" th:object="${profile}">
+                <input hidden type="checkbox" id="enabled" name="enabled" th:field="*{user.enabled}">
+                <div class="form-group">
+                    <label for="name">Nombre:</label>
+                    <input type="text" class="form-control"
+                           id="name" name="name"
+                           aria-describedby="nameHelp"
+                           placeholder="Ej: Hector"
+                           th:classappend="${#fields.hasErrors('name')?'is-invalid':''}"
+                           th:field="*{name}"
+                           required
+                           minlength="2"
+                           maxlength="30"
+                           pattern="[A-Za-zÀ-ÿ '-.]*"
+                    />
+                    <div id="nameHelp"
+                         th:classappend="${#fields.hasErrors('name')?'invalid-feedback':''}"
+                         th:errors="*{name}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Primer apellido:</label>
+                    <input type="text" class="form-control"
+                           id="lastName" name="lastName"
+                           aria-describedby="lastNameHelp"
+                           placeholder="Ej: Sandarti"
+                           th:classappend="${#fields.hasErrors('lastName')?'is-invalid':''}"
+                           th:field="*{lastName}"
+                           required
+                           minlength="2"
+                           maxlength="30"
+                           pattern="[A-Za-zÀ-ÿ '-.]*"
+                    />
+                    <div id="lastNameHelp"
+                         th:classappend="${#fields.hasErrors('lastName')?'invalid-feedback':''}"
+                         th:errors="*{lastName}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="secondName">Segundo apellido:</label>
+                    <input type="text" class="form-control"
+                           id="secondName" name="secondName"
+                           aria-describedby="secondNameHelp"
+                           placeholder="Ej: Saldaña"
+                           th:classappend="${#fields.hasErrors('secondName')?'is-invalid':''}"
+                           th:field="*{secondName}"
+                           minlength="2"
+                           maxlength="30"
+                           pattern="[A-Za-zÀ-ÿ '-.]*"
+                    />
+                    <div id="secondNameHelp"
+                         th:classappend="${#fields.hasErrors('secondName')?'invalid-feedback':''}"
+                         th:errors="*{secondName}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="emailNew">Correo electrónico:</label>
+                    <input type="email" class="form-control"
+                           id="emailNew" name="email"
+                           aria-describedby="emailHelp"
+                           placeholder="Ej: hector@gmail.com"
+                           th:classappend="${#fields.hasErrors('user.username')?'is-invalid':''}"
+                           th:field="*{user.username}"
+                           required
+                           minlength="5"
+                           maxlength="50"
+                    />
+                    <div id="emailHelp"
+                         th:classappend="${#fields.hasErrors('user.username')?'invalid-feedback':''}"
+                         th:errors="*{user.username}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="passwordNew">Contraseña:</label>
+                    <input type="password" class="form-control"
+                           id="passwordNew" name="password"
+                           aria-describedby="passwordHelp"
+                           placeholder="Ej: ************"
+                           th:classappend="${#fields.hasErrors('user.password')?'is-invalid':''}"
+                           th:field="*{user.password}"
+                           required
+                           minlength="5"
+                           maxlength="50"
+                    />
+                    <div id="passwordHelp"
+                         th:classappend="${#fields.hasErrors('user.password')?'invalid-feedback':''}"
+                         th:errors="*{user.password}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Telefóno</label>
+                    <input type="text" th:name="phone" class="form-control phone-mask" maxlength="15"
+                           pattern="[0-9()-]*"
+                           minlength="14" placeholder="( ___ ) - ___ - __ - __" required th:field="*{phone}">
+                </div>
+                <div class="form-group">
+                    <label>¿Qué rol desempeñarias?</label> <br/>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio"
+                               th:name="role" id="voluntario"
+                               th:value="Voluntario">
+                        <label class="form-check-label" for="voluntario">Voluntario</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio"
+                               th:name="role" id="adoptador"
+                               th:value="Adoptador">
+                        <label class="form-check-label" for="adoptador">Adoptador</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="reason">Razón: (opcional)</label>
+                    <input type="text" class="form-control"
+                           id="reason" name="reason"
+                           aria-describedby="reasonHelp"
+                           placeholder="Ej: Me gustan las mascotas"
+
+                           th:name="reason"
+                           autofocus
+                           minlength="5"
+                           maxlength="50"
+                    />
+                </div>
+                <button type="submit" class="btn btn-success">Crear cuenta</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="components/htmlComponents::htmlFooter"/>
+<script th:src="@{/js/login.js}"></script>
+<!--Mask inputs-->
+<script th:src="@{/js/jquery.mask.min.js}"></script>
+<script>
+    $(document).ready(function () {
+        $('.phone-mask').mask('(000)000-00-00');
+    });
+</script>
+</body>
+</html>
