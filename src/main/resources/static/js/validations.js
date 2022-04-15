@@ -3,6 +3,7 @@ const ALPHANUMERIC = 'abcdefghijklmnopqrstuvwxyzáéíóúÁÉÍÓÚABCDEFGHIJKL
 const TEXT = '0123456789áéíóúÁÉÍÓÚabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ.,;()\'\'- #/ ';
 const DIGITS = '0123456789';
 const TEL = '0123456789-()';
+const NUMBERS = '0123456789.';
 
 setInputs();
 
@@ -66,6 +67,10 @@ function remove(value, inputName) {
 
         case 'phone':
             VALIDATE_TO = TEL;
+            break;
+
+        case 'quantity':
+            VALIDATE_TO = NUMBERS;
             break;
     }
 

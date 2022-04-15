@@ -4,6 +4,7 @@ import com.lowagie.text.DocumentException;
 import mx.com.adoptame.config.pdf.GeneratorThymeleafService;
 import mx.com.adoptame.entities.user.User;
 import mx.com.adoptame.entities.user.UserService;
+import net.bytebuddy.utility.RandomString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,16 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.util.*;
@@ -48,6 +52,35 @@ public class DonationController {
         return "views/donations";
     }
 
+    @GetMapping("/form")
+    @Secured({"ROLE_ADMINISTRATOR", "ROLE_VOLUNTEER", "ROLE_ADOPTER"})
+    public String form(Donation donation) {
+        return "views/donationsForm";
+    }
+
+    @PostMapping("/save")
+    @Secured({"ROLE_ADMINISTRATOR", "ROLE_VOLUNTEER", "ROLE_ADOPTER"})
+    public String save(@Valid Donation donation, BindingResult bindingResult, RedirectAttributes redirectAttributes, Authentication authentication) {
+        try {
+            if (bindingResult.hasErrors()) {
+                return "views/donationsForm";
+            }
+            String username = authentication.getName();
+            Optional<User> user = userService.findByEmail(username);
+            if (user.isPresent()) {
+                donation.setAuthorization(RandomString.make(10));
+                donation.setUser(user.get());
+                donation.setIsCompleted(true);
+                donationService.save(donation, user.get());
+                redirectAttributes.addFlashAttribute("msg_success", "Donación guardada exitosamente");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("msg_error", "Donación no guardada");
+        }
+        return "redirect:/donation/";
+    }
+
+
     @GetMapping("/")
     public String owns(Model model, Authentication authentication) {
         try {
@@ -68,7 +101,7 @@ public class DonationController {
     @GetMapping(value = {"/payment", "/payment/{id}"})
     public ResponseEntity<ByteArrayResource> generatePayment(@PathVariable(required = false, value = "id") Integer id,
                                                              final HttpServletRequest request,
-                                                             final HttpServletResponse response, RedirectAttributes redirectAttributes,
+                                                             final HttpServletResponse response,
                                                              Authentication authentication) throws DocumentException, IllegalAccessException {
         var fileName = "";
         var byteArrayOutputStreamPDF = new ByteArrayOutputStream();
