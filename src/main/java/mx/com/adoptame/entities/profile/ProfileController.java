@@ -25,36 +25,38 @@ public class ProfileController {
     @Autowired
     private ProfileService profileService;
 
-    @Autowired private UserService userService;
+    @Autowired
+    private UserService userService;
 
     private Logger logger = LoggerFactory.getLogger(ProfileController.class);
 
     @GetMapping("/")
-    public String type(Model model, Authentication authentication) {
+    public String profile(Model model, Authentication authentication) {
         try {
             String username = authentication.getName();
             Optional<User> user = userService.findByEmail(username);
-            if(user.isPresent()){
+            if (user.isPresent()) {
                 model.addAttribute("profile", user.get().getProfile());
             }
         } catch (Exception e) {
-           logger.error(e.getMessage());
+            logger.error(e.getMessage());
         }
         return "views/profile/profileForm";
     }
 
     @PostMapping("/save")
-    public String save(Model model, @Valid Profile profile, BindingResult bindingResult, RedirectAttributes redirectAttributes,Authentication authentication) {
+    public String save(Model model, @Valid Profile profile, BindingResult bindingResult, RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
             profile = profileService.findAndSetPerfil(profile);
             if (bindingResult.hasErrors()) {
                 return "views/profile/profileForm";
-            }
-            String username = authentication.getName();
-            Optional<User> user = userService.findByEmail(username);
-            if(user.isPresent()) {
-                profileService.save(profile,user.get());
-                redirectAttributes.addFlashAttribute("msg_success", "Perfil guardado exitosamente");
+            } else {
+                String username = authentication.getName();
+                Optional<User> user = userService.findByEmail(username);
+                if (user.isPresent()) {
+                    profileService.save(profile, user.get());
+                    redirectAttributes.addFlashAttribute("msg_success", "Perfil guardado exitosamente");
+                }
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -71,21 +73,21 @@ public class ProfileController {
             @RequestParam("repeatPassword") String repeatPassword,
             RedirectAttributes redirectAttributes
     ) {
-        try{
+        try {
             Optional<User> user = userService.findOne(id);
-            if(user.isPresent()){
-                if(userService.updatePassword(user.get(),currentPassword,newPassword,repeatPassword)){
+            if (user.isPresent()) {
+                if (userService.updatePassword(user.get(), currentPassword, newPassword, repeatPassword)) {
                     redirectAttributes.addFlashAttribute("msg_success", "Contraseña cambiada correctamente");
                     return "redirect:/login";
-                }else{
+                } else {
                     redirectAttributes.addFlashAttribute("msg_error", "La contraseña actual no es correcta");
                     return "redirect:/profile/";
                 }
-            }else{
+            } else {
                 redirectAttributes.addFlashAttribute("msg_error", "Usuario no encontrado");
                 return "redirect:/profile/";
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al actualizar la contraseña, intente nuevamente");
             logger.error(e.getMessage());
         }
