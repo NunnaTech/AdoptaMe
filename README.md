@@ -73,19 +73,19 @@ Necesitas tener instalado y debidamente configurado las siguientes herramientas:
    ```sh
    git clone https://github.com/ThePandaDevs/AdoptaMe.git
    ```
-2. Ir a la carpeta clonada
+2. Entrar a la carpeta
    ```sh
     cd AdoptaMe
    ```
 3. Activa el servicio de MySQL
-4. Asegurate que en el archivo de propiedad de la aplicación `application.properties` se tenga la siguiente línea para crear la base de datos junto con la opción de creado correcta.
+4. Asegurate que en el archivo de propiedad de la aplicación `application-dev.properties` se tenga una de las siguientes líneas para crear la base de datos junto con la opción de creado correcta.
    ```sh
    # create-drop
    # create
    # update
    spring.jpa.hibernate.ddl-auto=update
    ```
-5. Accede al archivo `application-dev.properties` y configura tu entorno para poder enviar correos desde tu propia cuenta de correos y asu vez puedes cambiar el puerto.
+   y configura tu entorno para poder enviar correos desde tu propia cuenta de correos (GMAIL) y asu vez puedes cambiar el puerto de ejecución.
 6. Encuentra el archivo `fillpets.sql` que se encuentra en la carpeta `src > main > java/mx/com/adoptame > util`
 7. Ejecuta el script .sql para inicializar con datos la aplicación
 8. Ejecuta la aplicación con Spring
