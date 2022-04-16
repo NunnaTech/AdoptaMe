@@ -20,6 +20,7 @@
             <th scope="col">Nombre</th>
             <th scope="col">Correo electrónico</th>
             <th scope="col">Rol</th>
+            <th scope="col">Estado</th>
             <th scope="col">Acciones</th>
         </tr>
         </thead>
@@ -33,6 +34,7 @@
                 <li th:case="ROLE_VOLUNTEER" th:text="Voluntario"></li>
                 <li th:case="*" th:text="Adoptador"></li>
             </ul></td>
+            <td><span class="badge" th:classappend="${i.user.enabled ? 'badge-success':'badge-danger'}" th:text="${i.user.enabled ? 'Activo':'Desactivado'}"/></td>
             <td class="d-flex justify-content-around">
                 <a th:href="@{/user/edit/{id} (id=${i.id})}" class="btn btn-warning">
                     <em class="fa-solid fa-pen"></em>

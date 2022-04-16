@@ -94,6 +94,7 @@
                     <div class="form-group col-4">
                         <input type="radio" name="roles"
                                value="1"
+
                                id="ROLE_ADMINISTRATOR"
                                th:field="*{user.roles}"
                         />
@@ -115,6 +116,10 @@
                                th:field="*{user.roles}"
                         />
                         <label for="ROLE_ADOPTER">Adoptador</label>
+                    </div>
+                    <div id="roleHelp"
+                         th:classappend="${#fields.hasErrors('user.roles')?'invalid-feedback':''}"
+                         th:errors="*{user.roles}">
                     </div>
                 </div>
             </div>
@@ -138,17 +143,30 @@
                 </div>
             </div>
             <div class="form-group col-12 col-md-4">
-                <label for="password">Contraseña:</label>
-                <div class="input-group mb-1">
+                <label th:if="${id == null}"for="password">Contraseña:</label>
+                <div th:if="${id != null}"class="input-group mb-1">
+                    <input  type="hidden" class="form-control"
+                           id="password" name="password"
+                           aria-describedby="passwordHelp"
+                           placeholder="Ej: ********"
+                           maxlength="30"
+                           th:value="${profile.user.password}"
+                           th:classappend="${#fields.hasErrors('user.password')?'is-invalid':''}"
+                           th:field="*{user.password}"
+                           minlength="5"
+                    />
+                </div>
+                <div th:unless="${id != null}"class="input-group mb-1">
                     <input type="password" class="form-control"
                            id="password" name="password"
                            aria-describedby="passwordHelp"
                            placeholder="Ej: ********"
+                           maxlength="30"
                            th:classappend="${#fields.hasErrors('user.password')?'is-invalid':''}"
                            th:field="*{user.password}"
                            minlength="5"
-                           maxlength="30"
                     />
+
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button"
                                 id="seePasswordButton"
