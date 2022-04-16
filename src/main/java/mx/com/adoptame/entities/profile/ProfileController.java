@@ -25,7 +25,6 @@ public class ProfileController {
     private static final String PROFILE = "redirect:/profile/";
     private static final String SMSERROR = "msg_error";
 
-
     @Autowired
     private ProfileService profileService;
 

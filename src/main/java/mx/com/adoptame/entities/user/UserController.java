@@ -121,10 +121,7 @@ public class UserController {
     @Secured("ROLE_ADMINISTRATOR")
     public String save(Model model, @Valid Profile profile, BindingResult bindingResult, RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
-            if (profile.getId() != null && profile.getUser().getPassword().isEmpty()) {
-                Optional<User> user = userService.findOne(profile.getUser().getId());
-                user.ifPresent(value -> profile.getUser().setPassword(value.getPassword()));
-            }
+            profile.getUser().setPassword(profileService.recoveryPassword(profile));
             if (bindingResult.hasErrors()) {
                 return USERFORM;
             }
@@ -136,7 +133,6 @@ public class UserController {
                 redirectAttributes.addFlashAttribute(SMSERROR, "Debes de asignar un rol al usuario");
                 return USER;
             }
-            profile.setUser(userService.recoveryPassword(profile.getUser()));
             String username = authentication.getName();
             Optional<User> user = userService.findByEmail(username);
             user.ifPresent(value -> profileService.save(profile, value));
