@@ -30,7 +30,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http
                 .authorizeRequests()
                 .antMatchers(urlAvailableForAll)
@@ -45,10 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login?logout")
-                .permitAll().and().headers()
-                .xssProtection()
-                .and()
-                .contentSecurityPolicy("script-src 'self'");
+                .permitAll();
     }
 
 
