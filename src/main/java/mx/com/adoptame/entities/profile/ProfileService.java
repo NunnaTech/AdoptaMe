@@ -53,11 +53,9 @@ public class ProfileService {
 
     @Transactional
     public Optional<Profile> save(Profile entity, User user) {
-        if (entity.getUser().getId() == null) {
-            entity.getUser().setPassword(passwordEncoder.encode(entity.getUser().getPassword()));
-        }
         var action = "Actualizar";
         if (entity.getId() == null) {
+            entity.setImage("https://s3.aws-k8s.generated.photos/ai-generated-photos/upscaler-uploads/662/3e95009c-7c93-4580-a764-5a32f1648a0d.jpg");
             action = "Crear";
         }
         logService.saveProfile(action, entity, user);
@@ -107,6 +105,8 @@ public class ProfileService {
         return null;
     }
 
+
+
     @Transactional
     public Boolean delete(Integer id, User user) {
         Optional<Profile> entity = findOne(id);
@@ -117,5 +117,18 @@ public class ProfileService {
             return true;
         }
         return false;
+    }
+
+    @Transactional
+    public String  recoveryPassword(Profile profile) {
+        if(profile.getId() == null){
+            return  passwordEncoder.encode(profile.getUser().getPassword());
+        }else{
+            Optional<Profile> tmpProfile = findOne(profile.getId());
+            if(tmpProfile.isPresent()){
+                return tmpProfile.get().getUser().getPassword();
+            }
+        }
+        return "";
     }
 }

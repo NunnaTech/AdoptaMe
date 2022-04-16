@@ -89,7 +89,6 @@ public class User implements Serializable {
     private List<Donation> donations;
 
 
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private Set<Log> logs;
 

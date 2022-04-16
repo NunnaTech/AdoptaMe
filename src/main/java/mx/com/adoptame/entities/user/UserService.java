@@ -101,19 +101,6 @@ public class UserService {
         return entity;
     }
 
-    @Transactional()
-    public User recoveryPassword(User user) {
-        if (user.getPassword().isEmpty()) {
-            Optional<User> oldUser = findOne(user.getId());
-            if (oldUser.isPresent()) {
-                user.setPassword(oldUser.get().getPassword());
-            }
-        } else {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
-        return (user);
-    }
-
     @Transactional
     public Boolean updatePassword(User user, String currentPassword, String newPassword, String repeatedPassword) {
         if (!passwordEncoder.matches(currentPassword, user.getPassword())) return false;
@@ -170,7 +157,6 @@ public class UserService {
             logger.error(exception.getMessage());
         }
     }
-
 
     @Transactional
     public Boolean updateResetPasswordToken(String token, String email) {
