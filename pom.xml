@@ -12,9 +12,10 @@
     <artifactId>AdoptaMe</artifactId>
     <version>0.1</version>
     <name>AdoptaMe</name>
-    <description>Proyecto AdoptaMe: Página web de adopción de mascotas</description>
+    <description>Proyecto AdoptaMe: Una aplicación web para la adopción de mascotas.</description>
     <properties>
         <java.version>11</java.version>
+        <sonar.java.libraries>target/classes</sonar.java.libraries>
     </properties>
     <dependencies>
         <dependency>
@@ -73,13 +74,11 @@
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.xhtmlrenderer</groupId>
             <artifactId>flying-saucer-pdf</artifactId>
             <version>9.1.20</version>
         </dependency>
-
     </dependencies>
     <build>
         <pluginManagement>

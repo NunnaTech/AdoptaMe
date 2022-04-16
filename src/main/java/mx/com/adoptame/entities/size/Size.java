@@ -26,7 +26,6 @@ import mx.com.adoptame.entities.pet.entities.Pet;
 @Getter
 @Setter
 @NoArgsConstructor
-
 public class Size implements Serializable{
    
     private static final long serialVersionUID = 1L;
