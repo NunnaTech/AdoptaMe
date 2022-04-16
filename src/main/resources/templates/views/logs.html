@@ -43,9 +43,8 @@
                         <span th:case="Eliminar" class="badge badge-danger">Eliminación</span>
                     </td>
                     <td th:text="${#temporals.format(i.createdAt,'dd-MMM-yyyy HH:mm')}"/>
+                    <td style="max-width: 500px"><code class="text-wrap" th:text="${i.oldData}"></code></td>
                     <td style="max-width: 500px"><code class="text-wrap" th:text="${i.newData}"></code></td>
-                    <td style="max-width: 500px"><code class="text-wrap" th:text="${i.oldData}" th:onload=""></code>
-                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -53,6 +52,5 @@
     </div>
 </div>
 <footer th:replace="components/htmlComponents::htmlFooter"/>
-
 </body>
 </html>
