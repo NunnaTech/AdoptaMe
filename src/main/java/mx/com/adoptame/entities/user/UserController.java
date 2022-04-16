@@ -119,17 +119,28 @@ public class UserController {
 
     @PostMapping("/save")
     @Secured("ROLE_ADMINISTRATOR")
-    public String save(@Valid Profile profile, BindingResult bindingResult, RedirectAttributes redirectAttributes, Authentication authentication) {
+    public String save(Model model, @Valid Profile profile, BindingResult bindingResult, RedirectAttributes redirectAttributes, Authentication authentication) {
         try {
+            if (profile.getId() != null && profile.getUser().getPassword().isEmpty()) {
+                Optional<User> user = userService.findOne(profile.getUser().getId());
+                user.ifPresent(value -> profile.getUser().setPassword(value.getPassword()));
+            }
             if (bindingResult.hasErrors()) {
                 return USERFORM;
-            } else {
-                profile.setUser(userService.recoveryPassword(profile.getUser()));
-                String username = authentication.getName();
-                Optional<User> user = userService.findByEmail(username);
-                user.ifPresent(value -> profileService.save(profile, value));
-                redirectAttributes.addFlashAttribute(SMSSUCCESS, "Usuario guardado exitosamente");
             }
+            if (Boolean.TRUE.equals(userService.emailExist(profile.getUser().getUsername())) && profile.getId() == null) {
+                redirectAttributes.addFlashAttribute(SMSERROR, "Ese correo ya existe");
+                return USER;
+            }
+            if (profile.getUser().getRoles() == null) {
+                redirectAttributes.addFlashAttribute(SMSERROR, "Debes de asignar un rol al usuario");
+                return USER;
+            }
+            profile.setUser(userService.recoveryPassword(profile.getUser()));
+            String username = authentication.getName();
+            Optional<User> user = userService.findByEmail(username);
+            user.ifPresent(value -> profileService.save(profile, value));
+            redirectAttributes.addFlashAttribute(SMSSUCCESS, "Usuario guardado exitosamente");
         } catch (Exception e) {
             logger.error(e.getMessage());
             return USERFORM;
@@ -140,9 +151,9 @@ public class UserController {
     @PostMapping("/forgotPassword")
     public String sendEmail(@RequestParam String email, RedirectAttributes redirectAttributes) {
         try {
-            if(Boolean.TRUE.equals(userService.sendForgotPasswordEmail(email))){
+            if (Boolean.TRUE.equals(userService.sendForgotPasswordEmail(email))) {
                 redirectAttributes.addFlashAttribute(SMSSUCCESS, "Correo enviado, revisa tu bandeja de entrada");
-            }else{
+            } else {
                 redirectAttributes.addFlashAttribute(SMSERROR, "Correo inexistente");
             }
         } catch (Exception e) {

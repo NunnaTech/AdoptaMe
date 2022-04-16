@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -87,10 +88,6 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Donation> donations;
 
-    public void addDonation(Donation donation) {
-        donations.add(donation);
-        donation.setUser(this);
-    }
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private Set<Log> logs;
@@ -113,7 +110,7 @@ public class User implements Serializable {
         favoitesPets.remove(pet);
         pet.getUsers().remove(this);
     }
-
+    @Valid
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "authorities",
             joinColumns = @JoinColumn(name = "user_id"),
