@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface ProfileRepository extends JpaRepository<Profile, Integer> {
     Optional<Profile> findByUser(User user);
     Optional<Profile> findByAddress(Address address);
-    List<Profile> findAllByUser_Enabled(Boolean enabled);
+    List<Profile> findAllByUser_Enabled(Boolean enabled); //NOSONAR
 }

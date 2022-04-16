@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@SuppressWarnings("java:S107")
 @Repository
 public interface LogRepository extends CrudRepository<Log, Integer> {
     List<Log> findAllByOrderByCreatedAtDesc();

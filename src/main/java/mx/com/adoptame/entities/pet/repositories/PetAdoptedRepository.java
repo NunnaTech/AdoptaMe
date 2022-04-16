@@ -15,7 +15,7 @@ public interface PetAdoptedRepository extends JpaRepository<PetAdopted, Integer>
 
     List<PetAdopted> findByUserId(Integer username);
 
-    Optional<PetAdopted> findByPet_Id(Integer pet);
+    Optional<PetAdopted> findByPet_Id(Integer pet); //NOSONAR
 
     Integer countByUserIdAndIsAcceptedIsTrueAndAndIsCanceledIsFalse(Integer username);
 
