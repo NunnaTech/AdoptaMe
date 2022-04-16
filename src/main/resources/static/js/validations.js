@@ -81,9 +81,9 @@ function remove(value, inputName) {
 }
 
 
-function checkPasswords(e) {
-    let newPassword = document.querySelector("#newPassword").value;
-    let repeatPassword = document.querySelector("#repeatPassword").value;
+function checkPasswords(e, newP = '#newPassword', repeatP = '#repeatPassword') {
+    let newPassword = document.querySelector(newP).value;
+    let repeatPassword = document.querySelector(repeatP).value;
     if (newPassword === repeatPassword) {
         e.submit();
     } else {
