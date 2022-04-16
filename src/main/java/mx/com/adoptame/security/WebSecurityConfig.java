@@ -25,11 +25,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
 
-    private final String[] urlAvailableForAll = { "/", "/blog/**", "/pets/**", "/pets/filter", "/noscript",
-            "/request/**", "/user/**", "/about" };
+    private final String[] urlAvailableForAll = {"/", "/blog/**", "/pets/**", "/pets/filter", "/noscript",
+            "/request/**", "/user/**", "/about"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
                 .authorizeRequests()
                 .antMatchers(urlAvailableForAll)
@@ -44,8 +45,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login?logout")
-                .permitAll();
+                .permitAll().and().headers()
+                .xssProtection()
+                .and()
+                .contentSecurityPolicy("script-src 'self'");
     }
+
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -63,6 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authoritiesByUsernameQuery(
                         "SELECT u.username, r.authority FROM authorities a INNER JOIN users u ON u.id_user = a.user_id INNER JOIN roles r ON r.id_rol = a.rol_id WHERE u.username = ?");
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
