@@ -151,10 +151,10 @@ public class UserService {
     }
 
     @Transactional
-    public void sendForgotPasswordEmail(String email) {
+    public Boolean sendForgotPasswordEmail(String email) {
         var token = RandomString.make(100);
         token += LocalDateTime.now();
-        updateResetPasswordToken(token, email);
+        return updateResetPasswordToken(token, email);
     }
 
     @Transactional
@@ -173,7 +173,7 @@ public class UserService {
 
 
     @Transactional
-    public void updateResetPasswordToken(String token, String email) {
+    public Boolean updateResetPasswordToken(String token, String email) {
         Optional<User> user = findByEmail(email);
         if (user.isPresent()) {
             try {
@@ -181,10 +181,12 @@ public class UserService {
                 save(user.get());
                 String resetPasswordLink = host + "/user/link_restore_password?token=" + token;
                 emailService.sendRecoverPasswordTemplate(email, resetPasswordLink);
+                return true;
             } catch (MessagingException e) {
                 logger.error(e.getMessage());
             }
         }
+        return false;
     }
 
     @Transactional

@@ -30,13 +30,17 @@ public class UserController {
     private static final String SMSERROR = "msg_error";
     private static final String SMSSUCCESS = "msg_success";
 
-    @Autowired private RequestService requestService;
+    @Autowired
+    private RequestService requestService;
 
-    @Autowired private ProfileService profileService;
+    @Autowired
+    private ProfileService profileService;
 
-    @Autowired private RoleService roleService;
+    @Autowired
+    private RoleService roleService;
 
-    @Autowired private UserService userService;
+    @Autowired
+    private UserService userService;
 
     private Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -64,7 +68,7 @@ public class UserController {
     @PostMapping("/acept/{id}")
     @Secured("ROLE_ADMINISTRATOR")
     public String acept(Model model, @PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
-        var  request =requestService.accept(id);
+        var request = requestService.accept(id);
         if (request != null) {
             redirectAttributes.addFlashAttribute(SMSSUCCESS, "Usuario aceptado exitosamente");
             userService.sendActivateEmail(request.getUser());
@@ -100,10 +104,10 @@ public class UserController {
 
     @GetMapping("/delete/{id}")
     @Secured("ROLE_ADMINISTRATOR")
-    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes,Authentication authentication) {
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes, Authentication authentication) {
         String username = authentication.getName();
         Optional<User> user = userService.findByEmail(username);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             if (Boolean.TRUE.equals(profileService.delete(id, user.get()))) {
                 redirectAttributes.addFlashAttribute(SMSSUCCESS, "Usuario eliminado exitosamente");
             } else {
@@ -132,14 +136,24 @@ public class UserController {
         }
         return USER;
     }
+
     @PostMapping("/forgotPassword")
-    public String sendEmail(@RequestParam String email){
-        userService.sendForgotPasswordEmail(email);
+    public String sendEmail(@RequestParam String email, RedirectAttributes redirectAttributes) {
+        try {
+            if(Boolean.TRUE.equals(userService.sendForgotPasswordEmail(email))){
+                redirectAttributes.addFlashAttribute(SMSSUCCESS, "Correo enviado, revisa tu bandeja de entrada");
+            }else{
+                redirectAttributes.addFlashAttribute(SMSERROR, "Correo inexistente");
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            redirectAttributes.addFlashAttribute(SMSSUCCESS, "Error con el servidor de correos");
+        }
         return LOGIN;
     }
 
     @GetMapping("/link_restore_password")
-    public String restorePassword(@Param(value = "token") String token, Model model, RedirectAttributes redirectAttributes){
+    public String restorePassword(@Param(value = "token") String token, Model model, RedirectAttributes redirectAttributes) {
         Optional<User> user = userService.findByLinkRestorePassword(token);
         if (!user.isPresent()) {
             redirectAttributes.addFlashAttribute(SMSERROR, "Código no valido");
@@ -148,12 +162,13 @@ public class UserController {
         model.addAttribute("token", token);
         return "views/authentication/resetPassword";
     }
+
     @GetMapping("/activate")
-    public String activate(@Param(value = "token") String token, Model model, RedirectAttributes redirectAttributes){
+    public String activate(@Param(value = "token") String token, Model model, RedirectAttributes redirectAttributes) {
         Optional<User> user = userService.findByLinkActivateUsername(token);
         if (user.isEmpty()) {
             redirectAttributes.addFlashAttribute(SMSERROR, "Código no valido");
-        }else {
+        } else {
             redirectAttributes.addFlashAttribute(SMSSUCCESS, "Correo confirmado");
             userService.activateUser(user.get());
         }
@@ -161,7 +176,7 @@ public class UserController {
     }
 
     @PostMapping("/reset_password_submit")
-    public String processResetPassword(HttpServletRequest request, Model model,RedirectAttributes redirectAttributes) {
+    public String processResetPassword(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
         String token = request.getParameter("token");
         String newPassword = request.getParameter("newPassword");
         String repeatedPassword = request.getParameter("repeatedPassword");
@@ -170,7 +185,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("msg_warning", "Token no valida");
             return "views/authentication/resetPassword";
         }
-        redirectAttributes.addFlashAttribute(SMSSUCCESS, "cambio de contraseña exitoso");
+        redirectAttributes.addFlashAttribute(SMSSUCCESS, "Cambio de contraseña exitoso");
         return LOGIN;
     }
 }
