@@ -86,16 +86,16 @@ Necesitas tener instalado y debidamente configurado las siguientes herramientas:
    spring.jpa.hibernate.ddl-auto=update
    ```
    y configura tu entorno para poder enviar correos desde tu propia cuenta de correos (GMAIL) y asu vez puedes cambiar el puerto de ejecución.
+5. Ejecuta la aplicación con Spring y esta debería crearte las tablas con algunos datos.
 6. Encuentra el archivo `fillpets.sql` que se encuentra en la carpeta `src > main > java/mx/com/adoptame > util`
-7. Ejecuta el script .sql para inicializar con datos la aplicación
-8. Ejecuta la aplicación con Spring
-9. Los datos por defecto para iniciar sesión dentro son:
+7. Ejecuta el script .sql para inicializar con datos generales de la aplicación
+8. Los datos por defecto para iniciar sesión dentro son:
    ```sh
    # super@adoptame.com:admin  ADMINISTRADOR
    # volun@adoptame.com:admin  VOLUNTARIO
    # adopt@adoptame.com:admin  ADOPTADOR
    ```
-10. Listo, podrás usar la aplicación.
+9.  Listo, podrás usar la aplicación.
 
 <p align="right">(<a href="#top">regresar al inicio</a>)</p>
 
