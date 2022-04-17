@@ -29,7 +29,7 @@ public class PetImageController {
     private Logger logger = LoggerFactory.getLogger(PetImageController.class);
 
     @GetMapping("/images/{id}")
-    @Secured("ROLE_ADMINISTRATOR")
+    @Secured({"ROLE_ADMINISTRATOR", "ROLE_VOLUNTEER"})
     public String images(@PathVariable("id") Integer id, Model model, PetImage petImage, RedirectAttributes redirectAttributes) {
         var pet = petService.findOne(id).orElse(null);
         if (pet == null) {
@@ -40,9 +40,8 @@ public class PetImageController {
         return "views/pets/petsImagesList";
     }
 
-
     @PostMapping("/images/save")
-    @Secured("ROLE_ADMINISTRATOR")
+    @Secured({"ROLE_ADMINISTRATOR", "ROLE_VOLUNTEER"})
     public String save(@RequestParam("idPet") Integer idPet, @RequestParam("image") String image, RedirectAttributes redirectAttributes) {
         try {
             var petImage = new PetImage();
@@ -60,7 +59,7 @@ public class PetImageController {
     }
 
     @GetMapping("/delete/{idPet}/{idImage}")
-    @Secured("ROLE_ADMINISTRATOR")
+    @Secured({"ROLE_ADMINISTRATOR", "ROLE_VOLUNTEER"})
     public String delete(@PathVariable("idPet") Integer idPet, @PathVariable("idImage") Integer idImage, RedirectAttributes redirectAttributes) {
         if (Boolean.TRUE.equals(petImageService.delete(idImage))) {
             redirectAttributes.addFlashAttribute("msg_success", "Imagen eliminada exitosamente");

@@ -84,7 +84,7 @@
                    th:classappend="${#fields.hasErrors('description')?'is-invalid':''}"
                    th:field="*{description}"
                    required
-                   pattern="[A-Za-zÀ-ÿ '-.]*"
+                   pattern="[A-Za-zÀ-ÿ '-.0-9]*"
                    maxlength="50"
             />
             <div id="descriptionHelp"
