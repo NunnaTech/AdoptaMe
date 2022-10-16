@@ -9,7 +9,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/ThePandaDevs/AdoptaMe">
-    <img src="https://i.imgur.com/uMAVgsf.png" alt="Logo" width="auto" height="150">
+    <img src="src/main/resources/static/img/logo.png" alt="Logo" width="auto" height="150">
   </a>
 
 <h1 style="font-weight:bold" align="center">AdoptaMe</h1>
@@ -124,4 +124,4 @@ Distributed under the MIT License. Mirar `LICENSE.txt` para más información.
 [issues-url]: https://github.com/ThePandaDevs/AdoptaMe/issues
 [license-shield]: https://img.shields.io/github/license/ThePandaDevs/AdoptaMe.svg?style=for-the-badge
 [license-url]: https://github.com/ThePandaDevs/AdoptaMe/blob/master/LICENSE.txt
-[product-screenshot]: https://i.imgur.com/Jp67nbG.png
+[product-screenshot]: ./src/main/resources/static/img/Cover.png
